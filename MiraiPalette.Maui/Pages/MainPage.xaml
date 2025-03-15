@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MiraiPalette.Maui.Pages.Controls;assembly=MiraiPalette.Maui"
+             xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
+             xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:selectors="clr-namespace:MiraiPalette.Maui.Pages.TemplateSelectors"
+             x:DataType="pages:MainPageModel"             
+             x:Name="_page"
+             x:Class="MiraiPalette.Maui.Pages.MainPage"
+             Title="{Binding Title}" >
+    <ContentPage.Resources>
+        <DataTemplate x:Key="SelectedPaletteTemplate" x:DataType="models:Palette">
+            <controls:PaletteView Padding="5" BackgroundColor="{AppThemeBinding Dark={StaticResource Primary}}">
+                <controls:PaletteView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" CommandParameter="{Binding .}"/>
+                </controls:PaletteView.GestureRecognizers>
+                <controls:PaletteView.Behaviors>
+                    <toolkit:TouchBehavior HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDark}}"/>
+                </controls:PaletteView.Behaviors>
+            </controls:PaletteView>
+        </DataTemplate>
+        <DataTemplate x:Key="DefaultPaletteTemplate" x:DataType="models:Palette">
+            <controls:PaletteView Padding="5" BackgroundColor="Transparent">
+                <controls:PaletteView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" CommandParameter="{Binding .}"/>
+                </controls:PaletteView.GestureRecognizers>
+                <controls:PaletteView.Behaviors>
+                    <toolkit:TouchBehavior HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}"/>
+                </controls:PaletteView.Behaviors>
+            </controls:PaletteView>
+        </DataTemplate>
+        <selectors:PaletteDataTemplateSelector x:Key="PaletteDataTemplateSelector" Default="{StaticResource DefaultPaletteTemplate}" Selected="{StaticResource SelectedPaletteTemplate}"/>
+    </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.AppearingCommand,Source={x:Reference _page}}"/>
+    </ContentPage.Behaviors>
+    <Grid Padding="15">
+        
+        <ScrollView>
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Palettes}" Margin="10,5" BindableLayout.ItemTemplateSelector="{StaticResource PaletteDataTemplateSelector}">
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border BackgroundColor="#55111111" Stroke="Transparent"  VerticalOptions="End" HorizontalOptions="Center" Margin="30" Padding="20,10">
+            <HorizontalStackLayout>
+                <Switch VerticalOptions="Start" HorizontalOptions="End" IsToggled="{Binding IsSelectionEnabled}"/>
+                <Button HeightRequest="40" WidthRequest="40" Margin="10,5" Text="+" FontSize="Header" TextColor="{AppThemeBinding Dark={StaticResource White}}" Padding="0" Command="{Binding AddNewPaletteCommand}">
+                </Button>
+                <Button  HeightRequest="40" WidthRequest="40" Margin="10,5" Text="×" FontSize="Header" TextColor="{AppThemeBinding Dark={StaticResource White}}" Padding="0" Command="{Binding DeletePalettesCommand}">
+                </Button>
+            </HorizontalStackLayout>
+         
+        </Border>
+    </Grid>
+    
+
+</ContentPage>

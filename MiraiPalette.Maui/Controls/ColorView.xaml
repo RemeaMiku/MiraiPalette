@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
+             x:DataType="models:MiraiColor"
+             x:Class="MiraiPalette.Maui.Pages.Controls.ColorView"             
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"             
+             >
+    <ContentView.Resources>
+        <Style x:Key="ColorModelLabelStyle" TargetType="Label">
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="LineHeight" Value="1"/>
+            <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource Gray200}}"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="ColorModelButtonStyle" TargetType="Button">
+            <!--<Setter Property="CornerRadius" Value="0"/>-->
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="HorizontalOptions" Value="Fill"/>
+            <Setter Property="VerticalOptions" Value="Fill"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource Gray100}}"/>
+            <Setter Property="ToolTipProperties.Text" Value="Click to copy to clipboard"/>
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal"/>
+                        <VisualState x:Name="PointerOver" >
+                            <VisualState.Setters>
+                                <Setter Property="TextColor"
+                        Value="{Binding Color}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentView.Resources>
+    <Border StrokeThickness="0" Padding="0,5" StrokeShape="RoundRectangle 0,0,5,5">
+        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="5">
+            <Label HorizontalTextAlignment="Center" Text="{Binding Name}" FontSize="Small" LineBreakMode="MiddleTruncation" ToolTipProperties.Text="{Binding Name}" Padding="10"/>
+            <Rectangle Grid.Row="1" BackgroundColor="{Binding Color}"/>
+            <Button x:Name="_hexButton" Style="{StaticResource ColorModelButtonStyle}" Grid.Row="2" Text="{Binding Hex}" Clicked="CopyButton_Clicked">
+            </Button>
+        </Grid>
+    </Border>
+    
+    <!--<Grid ColumnDefinitions="64,*" ColumnSpacing="5">
+        <Rectangle BackgroundColor="{Binding Color}"/>
+        <VerticalStackLayout Padding="5" Grid.Column="1">
+            <Label HorizontalTextAlignment="Center" Margin="5" Text="{Binding Name}" FontSize="Small" LineBreakMode="MiddleTruncation" ToolTipProperties.Text="{Binding Name}"/>
+            <Grid ColumnDefinitions="Auto,*">
+                <Label Style="{StaticResource ColorModelLabelStyle}" Text="HEX" />
+                <Button Style="{StaticResource ColorModelButtonStyle}" Grid.Column="1" Text="{Binding Hex}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <Label Style="{StaticResource ColorModelLabelStyle}" Text="RGB" />
+                <Button Style="{StaticResource ColorModelButtonStyle}" Grid.Column="1" Text="{Binding Rgb}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <Label Style="{StaticResource ColorModelLabelStyle}" Text="HSL" />
+                <Button Style="{StaticResource ColorModelButtonStyle}" Grid.Column="1" Text="{Binding Hsl}" />
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>-->
+</ContentView>

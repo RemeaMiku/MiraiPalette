@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
+             x:DataType="models:Palette"            
+             x:Class="MiraiPalette.Maui.Pages.Controls.PaletteView">
+    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="5">
+        <Label Margin="0" VerticalOptions="Center" Text="{Binding Name}" FontSize="Large" LineBreakMode="CharacterWrap"/>
+        <Label Margin="0" VerticalOptions="Center" Grid.Row="1" Text="{Binding Description}" FontSize="Body" LineBreakMode="CharacterWrap" MaxLines="3"/>
+        <FlexLayout Grid.Row="2" Direction="Row" Wrap="Wrap" BindableLayout.ItemsSource="{Binding Colors}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="models:MiraiColor">
+                    <Rectangle HeightRequest="100" WidthRequest="100" Fill="{Binding Color}"/>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
+    </Grid>
+</ContentView>

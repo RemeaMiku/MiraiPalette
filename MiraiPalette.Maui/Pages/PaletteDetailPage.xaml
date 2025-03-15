@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MiraiPalette.Maui.Pages.PaletteDetailPage"
+             xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
+             xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
+             xmlns:controls="clr-namespace:MiraiPalette.Maui.Pages.Controls;assembly=MiraiPalette.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="pages:PaletteDetailPageModel"
+             xmlns:behaviors="clr-namespace:MiraiPalette.Maui.Behaviors;assembly=MiraiPalette.Maui"
+             Title="Name" Shell.NavBarIsVisible="False" >
+    <ContentPage.Resources>
+        <Style TargetType="Entry" x:Key="NameDescriptionEntryStyle">
+            <Setter Property="Keyboard" Value="Text"/>
+            <Setter Property="IsSpellCheckEnabled" Value="False"/>
+            <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
+            <Setter Property="ReturnType" Value="Done"/>
+            <Setter Property="HorizontalOptions" Value="Start"/>
+        </Style>
+        <Style TargetType="Button" x:Key="NameDescriptionButtonStyle">
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="LineBreakMode" Value="TailTruncation"/>
+            <Setter Property="ToolTipProperties.Text" Value="Click to edit"/>
+            <Setter Property="HorizontalOptions" Value="Start"/>
+        </Style>
+        <toolkit:IsNotNullConverter x:Key="IsNotNullConverter"/>
+    </ContentPage.Resources>
+    <Grid ColumnDefinitions="*,Auto">
+        <Grid RowDefinitions="Auto,*" Padding="10">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout>
+                    <Button x:Name="_nameButton" FontAttributes="Bold" Text="{Binding Name}" TextColor="{StaticResource PrimaryDark}" FontSize="Title" Style="{StaticResource NameDescriptionButtonStyle}" >
+                        <Button.Behaviors>
+                            <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _nameEntry}"/>
+                        </Button.Behaviors>
+                    </Button>
+                    <Entry Placeholder="Name" x:Name="_nameEntry" Style="{StaticResource NameDescriptionEntryStyle}" Text="{Binding Name}" FontSize="Title"  Margin="0,5" TextColor="{StaticResource PrimaryDark}"/>
+                    <Button x:Name="_descriptionButton" Text="{Binding Description}" Style="{StaticResource NameDescriptionButtonStyle}" TextColor="{AppThemeBinding Dark={StaticResource Gray300}}" FontSize="Body">
+                        <Button.Behaviors>
+                            <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _descriptionEntry}"/>
+                        </Button.Behaviors>
+                    </Button>
+                    <Entry x:Name="_descriptionEntry" Style="{StaticResource NameDescriptionEntryStyle}" Text="{Binding Description}" Placeholder="Description" FontSize="Body" />
+                </VerticalStackLayout>
+                <HorizontalStackLayout Grid.Column="1" Padding="10" Spacing="10">
+                    <Button Text="+" WidthRequest="32" Padding="5" HeightRequest="32" FontSize="Medium" Command="{Binding AddNewColorCommand}"/>
+                    <Button Text="×" WidthRequest="32" Padding="5" HeightRequest="32" FontSize="Medium" Command="{Binding DeletePaletteCommand}"/>
+                </HorizontalStackLayout>
+            </Grid>
+            <ScrollView Grid.Row="1">
+                <FlexLayout AlignItems="Center" AlignContent="Start" Wrap="Wrap" BindableLayout.ItemsSource="{Binding Colors}" >
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:MiraiColor">
+                            <Border Stroke="{AppThemeBinding Dark={StaticResource PrimaryDark}}" StrokeShape="RoundRectangle 5" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" StrokeThickness="0" Margin="1" Padding="1">
+                                <controls:ColorView WidthRequest="200" HeightRequest="200"/>
+                                <Border.Behaviors>
+                                    <toolkit:TouchBehavior HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}}" />
+                                </Border.Behaviors>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ColorItemTapped" Buttons="Primary" Command="{Binding OpenColorDetailCommand,Source={RelativeSource AncestorType={x:Type pages:PaletteDetailPageModel}}}" CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </ScrollView>
+        </Grid>
+        <VerticalStackLayout Padding="10" WidthRequest="250" Grid.Column="1" Spacing="10" IsVisible="{Binding IsColorDetailOpen}" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}">
+            <Button Text="×" Clicked="CloseColorDetailButtonClicked" Command="{Binding CloseColorDetailCommand}" HorizontalOptions="End"/>
+            <Button x:Name="_colorNameButton" HorizontalOptions="Start" BackgroundColor="Transparent" Text="{Binding CurrentColorName}" FontSize="Medium">
+                <Button.Behaviors>
+                    <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _colorNameEntry}"/>
+                </Button.Behaviors>
+            </Button>
+            <Entry x:Name="_colorNameEntry" Style="{StaticResource NameDescriptionEntryStyle}" FontSize="Medium" Text="{Binding CurrentColorName}"/>
+            <controls:ColorPicker Color="{Binding CurrentColorValue}"/>
+            <Button Text="Save" Command="{Binding SaveColorDetailCommand}"/>
+            <Button Text="Delete" IsVisible="{Binding SelectedExistColor,Converter={StaticResource IsNotNullConverter}}" Command="{Binding DeleteSelectedColorCommand}"/>
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MiraiPalette.Maui.Pages.Controls;assembly=MiraiPalette.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:attachments="clr-namespace:MiraiPalette.Maui.AttachedProperties"
+             x:Class="MiraiPalette.Maui.Pages.Controls.ColorPicker">
+    <ContentView.Resources>
+        <Style TargetType="Grid" x:Key="ComponentGridStyle">
+                <Setter Property="ColumnDefinitions">
+                    <Setter.Value>
+                        <ColumnDefinitionCollection>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </ColumnDefinitionCollection>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ColumnSpacing" Value="10"/>
+            </Style>
+        <Style TargetType="Label" x:Key="CenterLabelStyle">
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Entry" x:Key="ComponentEntryStyle">
+            <Setter Property="Keyboard" Value="Numeric"/>
+            <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
+            <Setter Property="ReturnType" Value="Done"/>
+            <Setter Property="attachments:InputViewSelectAllBehavior.Enabled" Value="True"/>
+        </Style>
+    </ContentView.Resources>
+    <VerticalStackLayout Spacing="10">
+        <Rectangle x:Name="_colorRect" WidthRequest="100" HeightRequest="100"/>
+        <Entry attachments:InputViewSelectAllBehavior.Enabled="True"  x:Name="_hexEntry" Keyboard="Plain" ClearButtonVisibility="WhileEditing" ReturnType="Done" TextTransform="Uppercase" Unfocused="HexEntry_Unfocused"/>
+        <Picker x:Name="_modelPicker" SelectedIndexChanged="Picker_SelectedIndexChanged"/>
+        <Grid>
+            <VerticalStackLayout Spacing="5" x:Name="_rgbComponents">
+                    <Grid Style="{StaticResource ComponentGridStyle}">
+                        <Label Text="R" Style="{StaticResource CenterLabelStyle}"/>
+                    <Entry x:Name="_redEntry" Style="{StaticResource ComponentEntryStyle}" Grid.Column="1" Unfocused="ComponentEntry_Unfocused" >
+                    </Entry>
+                    </Grid>
+                    <Grid Style="{StaticResource ComponentGridStyle}">
+                        <Label Text="G" Style="{StaticResource CenterLabelStyle}"/>
+                        <Entry x:Name="_greenEntry" Style="{StaticResource ComponentEntryStyle}" Grid.Column="1" Unfocused="ComponentEntry_Unfocused"/>
+                    </Grid>
+                    <Grid Style="{StaticResource ComponentGridStyle}">
+                        <Label Text="B" Style="{StaticResource CenterLabelStyle}"/>
+                        <Entry x:Name="_blueEntry" Style="{StaticResource ComponentEntryStyle}" Grid.Column="1" Unfocused="ComponentEntry_Unfocused"/>
+                </Grid>
+                </VerticalStackLayout>
+            <VerticalStackLayout Spacing="5" x:Name="_hslComponents">
+                <Grid Style="{StaticResource ComponentGridStyle}">
+                    <Label Text="H(°)" Style="{StaticResource CenterLabelStyle}"/>
+                    <Entry x:Name="_hueEntry" Grid.Column="1" Style="{StaticResource ComponentEntryStyle}" Unfocused="ComponentEntry_Unfocused"/>
+                </Grid>
+                <Grid Style="{StaticResource ComponentGridStyle}">
+                    <Label Text="S(%)" Style="{StaticResource CenterLabelStyle}"/>
+                    <Entry x:Name="_saturationEntry" Grid.Column="1" Style="{StaticResource ComponentEntryStyle}" Unfocused="ComponentEntry_Unfocused"/>
+                </Grid>
+                <Grid Style="{StaticResource ComponentGridStyle}">
+                    <Label Text="L(%)" Style="{StaticResource CenterLabelStyle}"/>
+                    <Entry x:Name="_lightnessEntry" Grid.Column="1" Style="{StaticResource ComponentEntryStyle}" Unfocused="ComponentEntry_Unfocused"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+</ContentView>

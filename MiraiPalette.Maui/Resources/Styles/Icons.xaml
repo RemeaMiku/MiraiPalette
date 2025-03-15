@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fonts="clr-namespace:MiraiPalette.Maui.Resources.Fonts"
+    >
+
+    <FontImageSource x:Key="IconAdd" Glyph="{x:Static fonts:FluentUI.add_12_regular}" FontFamily="{x:Static fonts:FluentUI.FontFamily}" Color="White" Size="{OnPlatform WinUI=32,Default=24}"/>
+
+</ResourceDictionary>
