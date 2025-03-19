@@ -4,13 +4,19 @@ namespace MiraiPalette.Maui.Services;
 
 public interface IPaletteRepositoryService
 {
-    public Task InitAsync();
+    public Task<List<MiraiPaletteModel>> ListPalettesAsync();
 
-    public Task<List<Palette>> ListAsync();
+    public Task<MiraiPaletteModel?> SelectPaletteAsync(int paletteId);
 
-    public Task<Palette?> GetAsync(int id);
+    public Task<int> InsertPaletteAsync(MiraiPaletteModel paletteModel);
 
-    public Task<int> SaveAsync(Palette palette);
+    public Task UpdatePaletteAsync(MiraiPaletteModel paletteModel);
 
-    public Task DeleteAsync(int id);
+    public Task<int> InsertColorAsync(int paletteId, MiraiColorModel colorModel);
+
+    public Task UpdateColorAsync(int paletteId, MiraiColorModel colorModel);
+
+    public Task DeleteColorAsync(int colorId);
+
+    public Task DeletePaletteAsync(int paletteId);
 }

@@ -1,474 +1,268 @@
-﻿using MiraiPalette.Maui.Models;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using MiraiPalette.Data.Entities;
+using MiraiPalette.Maui.Models;
 
 namespace MiraiPalette.Maui.Services.Local;
 
+#pragma warning disable CsWinRT1030
+
 public class TestPaletteRepositoryService : IPaletteRepositoryService
 {
-    private readonly Dictionary<int, Palette> _palettes = new()
-    {
+    private readonly List<Palette> _palettes =
+    [
+        new Palette
         {
-            1,
-            new Palette
-            {
-                Id = 1,
-                Name = "Hatsune Miku",
-                Description="Hatsune Miku's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Green",
-                        Color = Color.FromArgb("#39c5bb"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Blue",
-                        Color = Color.FromArgb("#01b0f0"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Yellow",
-                        Color = Color.FromArgb("#f7e000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Pink",
-                        Color = Color.FromArgb("#f7a9e6"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku White",
-                        Color = Color.FromArgb("#ffffff"),
-                    },
-                ]
-            }
+            Id = 1,
+            Name = "Hatsune Miku",
+            Description="Hatsune Miku's color palette",
         },
+        new Palette
         {
-            2,
-            new Palette
-            {
-                Id = 2,
-                Name = "Kagamine Rin",
-                Description="Kagamine Rin's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Yellow",
-                        Color = Color.FromArgb("#f7e000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Orange",
-                        Color = Color.FromArgb("#f39800"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Red",
-                        Color = Color.FromArgb("#e60033"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin White",
-                        Color = Color.FromArgb("#ffffff"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Black",
-                        Color = Color.FromArgb("#000000"),
-                    },
-                ]
-            }
+            Id = 2,
+            Name = "Kagamine Rin",
+            Description="Kagamine Rin's color palette",
         },
+        new Palette
         {
-            3,
-            new Palette
-            {
-                Id = 3,
-                Name = "Kagamine Len",
-                Description="Kagamine Len's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Yellow",
-                        Color = Color.FromArgb("#f7e000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Orange",
-                        Color = Color.FromArgb("#f39800"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Red",
-                        Color = Color.FromArgb("#e60033"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len White",
-                        Color = Color.FromArgb("#ffffff"),
-                        },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Black",
-                        Color = Color.FromArgb("#000000"),
-                    },
-                ]
-            }
+            Id = 3,
+            Name = "Kagamine Len",
+            Description="Kagamine Len's color palette",
         },
+        new Palette
         {
-            4,
-            new Palette
-            {
-                Id = 4,
-                Name = "Megurine Luka",
-                Description="Megurine Luka's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka Pink",
-                        Color = Color.FromArgb("#f7a9e6"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka Red",
-                        Color = Color.FromArgb("#e60033"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka Black",
-                        Color = Color.FromArgb("#000000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka White",
-                        Color = Color.FromArgb("#ffffff"),
-                    },
-                ]
-            }
+            Id = 4,
+            Name = "Megurine Luka",
+            Description="Megurine Luka's color palette",
         },
-         {
-            5,
-            new Palette
-            {
-                Id = 5,
-                Name = "Hatsune Miku",
-                Description="Hatsune Miku's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Green",
-                        Color = Color.FromArgb("#39c5bb"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Blue",
-                        Color = Color.FromArgb("#01b0f0"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Yellow",
-                        Color = Color.FromArgb("#f7e000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Pink",
-                        Color = Color.FromArgb("#f7a9e6"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku White",
-                        Color = Color.FromArgb("#ffffff"),
-                    },
-                ]
-            }
-        },
-        {
-            6,
-            new Palette
-            {
-                Id = 6,
-                Name = "Kagamine Rin",
-                Description="Kagamine Rin's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Yellow",
-                        Color = Color.FromArgb("#f7e000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Orange",
-                        Color = Color.FromArgb("#f39800"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Red",
-                        Color = Color.FromArgb("#e60033"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin White",
-                        Color = Color.FromArgb("#ffffff"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Black",
-                        Color = Color.FromArgb("#000000"),
-                    },
-                ]
-            }
-        },
-        {
-            7,
-            new Palette
-            {
-                Id = 7,
-                Name = "Kagamine Len",
-                Description="Kagamine Len's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Yellow",
-                        Color = Color.FromArgb("#f7e000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Orange",
-                        Color = Color.FromArgb("#f39800"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Red",
-                        Color = Color.FromArgb("#e60033"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len White",
-                        Color = Color.FromArgb("#ffffff"),
-                        },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Black",
-                        Color = Color.FromArgb("#000000"),
-                    },
-                ]
-            }
-        },
-        {
-            8,
-            new Palette
-            {
-                Id = 8,
-                Name = "Megurine Luka",
-                Description="Megurine Luka's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka Pink",
-                        Color = Color.FromArgb("#f7a9e6"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka Red",
-                        Color = Color.FromArgb("#e60033"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka Black",
-                        Color = Color.FromArgb("#000000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka White",
-                        Color = Color.FromArgb("#ffffff"),
-                    },
-                ]
-            }
-        },
-         {
-            9,
-            new Palette
-            {
-                Id = 9,
-                Name = "Hatsune Miku",
-                Description="Hatsune Miku's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Green",
-                        Color = Color.FromArgb("#39c5bb"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Blue",
-                        Color = Color.FromArgb("#01b0f0"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Yellow",
-                        Color = Color.FromArgb("#f7e000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku Pink",
-                        Color = Color.FromArgb("#f7a9e6"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Hatsune Miku White",
-                        Color = Color.FromArgb("#ffffff"),
-                    },
-                ]
-            }
-        },
-        {
-            10,
-            new Palette
-            {
-                Id = 10,
-                Name = "Kagamine Rin",
-                Description="Kagamine Rin's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Yellow",
-                        Color = Color.FromArgb("#f7e000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Orange",
-                        Color = Color.FromArgb("#f39800"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Red",
-                        Color = Color.FromArgb("#e60033"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin White",
-                        Color = Color.FromArgb("#ffffff"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Rin Black",
-                        Color = Color.FromArgb("#000000"),
-                    },
-                ]
-            }
-        },
-        {
-            11,
-            new Palette
-            {
-                Id = 11,
-                Name = "Kagamine Len",
-                Description="Kagamine Len's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Yellow",
-                        Color = Color.FromArgb("#f7e000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Orange",
-                        Color = Color.FromArgb("#f39800"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Red",
-                        Color = Color.FromArgb("#e60033"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len White",
-                        Color = Color.FromArgb("#ffffff"),
-                        },
-                    new MiraiColor
-                    {
-                        Name = "Kagamine Len Black",
-                        Color = Color.FromArgb("#000000"),
-                    },
-                ]
-            }
-        },
-        {
-            12,
-            new Palette
-            {
-                Id = 12,
-                Name = "Megurine Luka",
-                Description="Megurine Luka's color palette",
-                Colors =
-                [
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka Pink",
-                        Color = Color.FromArgb("#f7a9e6"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka Red",
-                        Color = Color.FromArgb("#e60033"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka Black",
-                        Color = Color.FromArgb("#000000"),
-                    },
-                    new MiraiColor
-                    {
-                        Name = "Megurine Luka White",
-                        Color = Color.FromArgb("#ffffff"),
-                    },
-                ]
-            }
-        },
-    };
+    ];
 
-    public Task DeleteAsync(int id)
+    private readonly List<MiraiColor> _colors =
+    [
+        new MiraiColor
+        {
+            Id = 1,
+            Name = "Main",
+            Hex = "#39c5bb",
+            PaletteId=1,
+        },
+        new MiraiColor
+        {
+            Id = 2,
+            Name = "Accent",
+            Hex = "#f9a8d4",
+            PaletteId=1,
+        },
+        new MiraiColor
+        {
+            Id = 3,
+            Name = "Dark",
+            Hex = "#1e1e1e",
+            PaletteId=1,
+        },
+        new MiraiColor
+        {
+            Id = 4,
+            Name = "Light",
+            Hex = "#f5f5f5",
+            PaletteId=1,
+        },
+        new MiraiColor
+        {
+            Id = 5,
+            Name = "Main",
+            Hex = "#f9a8d4",
+            PaletteId=2,
+        },
+        new MiraiColor
+        {
+            Id = 6,
+            Name = "Accent",
+            Hex = "#39c5bb",
+            PaletteId=2,
+        },
+        new MiraiColor
+        {
+            Id = 7,
+            Name = "Dark",
+            Hex = "#1e1e1e",
+            PaletteId=2,
+        },
+        new MiraiColor
+        {
+            Id = 8,
+            Name = "Light",
+            Hex = "#f5f5f5",
+            PaletteId=2,
+        },
+        new MiraiColor
+        {
+            Id = 9,
+            Name = "Main",
+            Hex = "#f9a8d4",
+            PaletteId=3,
+        },
+        new MiraiColor
+        {
+            Id = 10,
+            Name = "Accent",
+            Hex = "#39c5bb",
+            PaletteId=3,
+        },
+        new MiraiColor
+        {
+            Id = 11,
+            Name = "Dark",
+            Hex = "#1e1e1e",
+            PaletteId=3,
+        },
+        new MiraiColor
+        {
+            Id = 12,
+            Name = "Light",
+            Hex = "#f5f5f5",
+            PaletteId=3,
+        },
+        new MiraiColor
+        {
+            Id = 13,
+            Name = "Main",
+            Hex = "#f9a8d4",
+            PaletteId=4,
+        },
+        new MiraiColor
+        {
+            Id = 14,
+            Name = "Accent",
+            Hex = "#39c5bb",
+            PaletteId=4,
+        },
+        new MiraiColor
+        {
+            Id = 15,
+            Name = "Dark",
+            Hex = "#1e1e1e",
+            PaletteId=4,
+        },
+        new MiraiColor
+        {
+            Id = 16,
+            Name = "Light",
+            Hex = "#f5f5f5",
+            PaletteId=4,
+        },
+    ];
+
+    public async Task<int> InsertColorAsync(int paletteId, MiraiColorModel colorModel)
     {
-        return Task.FromResult(_palettes.Remove(id));
+        return await Task.Run(() =>
+        {
+            var palette = _palettes.FirstOrDefault(p => p.Id == paletteId) ?? throw new ArgumentException("Palette not found", nameof(paletteId));
+            var colorId = _colors.Count > 0 ? _colors.Max(c => c.Id) + 1 : 1;
+            _colors.Add(new MiraiColor
+            {
+                Id = colorId,
+                Name = colorModel.Name,
+                Hex = colorModel.Color.ToHex(),
+                PaletteId = paletteId,
+            });
+            return colorId;
+        });
     }
 
-    public Task<Palette?> GetAsync(int id)
+    public async Task DeleteColorAsync(int colorId)
     {
-        return Task.FromResult(_palettes.TryGetValue(id, out var palette) ? palette : null);
-    }
-
-    public Task InitAsync()
-    {
-        return Task.CompletedTask;
-    }
-
-    public Task<List<Palette>> ListAsync()
-    {
-        return Task.FromResult(_palettes.Values.ToList());
-    }
-
-    public Task<int> SaveAsync(Palette palette)
-    {
-        ArgumentNullException.ThrowIfNull(palette);
-        if(palette.Id == 0)
+        await Task.Run(() =>
         {
-            palette.Id = _palettes.Keys.Max() + 1;
-            _palettes.Add(palette.Id, palette);
-        }
-        else
+            var color = _colors.FirstOrDefault(c => c.Id == colorId) ?? throw new ArgumentException("Color not found", nameof(colorId));
+            _colors.Remove(color);
+        });
+    }
+
+    public async Task DeletePaletteAsync(int paletteId)
+    {
+        await Task.Run(() =>
         {
-            _palettes[palette.Id] = palette;
-        }
-        return Task.FromResult(palette.Id);
+            _palettes.RemoveAt(_palettes.FindIndex(p => p.Id == paletteId));
+            _colors.RemoveAll(c => c.PaletteId == paletteId);
+        });
+    }
+
+    public async Task<int> InsertPaletteAsync(MiraiPaletteModel paletteModel)
+    {
+        return await Task.Run(() =>
+        {
+            var paletteId = _palettes.Count > 0 ? _palettes.Max(p => p.Id) + 1 : 1;
+            _palettes.Add(new Palette
+            {
+                Id = paletteId,
+                Name = paletteModel.Name,
+                Description = paletteModel.Description,
+            });
+            foreach(var color in paletteModel.Colors)
+            {
+                _colors.Add(new MiraiColor
+                {
+                    Id = color.Id,
+                    Name = color.Name,
+                    Hex = color.Color.ToHex(),
+                    PaletteId = paletteId,
+                });
+            }
+            return paletteId;
+        });
+    }
+
+    public async Task<List<MiraiPaletteModel>> ListPalettesAsync()
+    {
+        return await Task.Run(() => _palettes.Select(p => new MiraiPaletteModel(p)
+        {
+            Colors = _colors.Where(c => c.PaletteId == p.Id).Select(c => new MiraiColorModel(c)).ToObservableCollection(),
+        }).ToList());
+    }
+
+    public async Task<MiraiPaletteModel?> SelectPaletteAsync(int paletteId)
+    {
+        return await Task.Run(() =>
+        {
+            var palette = _palettes.FirstOrDefault(p => p.Id == paletteId);
+            if(palette is not null)
+            {
+                var colors = _colors.Where(c => c.PaletteId == paletteId);
+                return new MiraiPaletteModel(palette)
+                {
+                    Colors = colors.Select(c => new MiraiColorModel(c)).ToObservableCollection(),
+                };
+            }
+            else
+                return null;
+        });
+    }
+
+    public async Task UpdateColorAsync(int paletteId, MiraiColorModel colorModel)
+    {
+        ArgumentNullException.ThrowIfNull(colorModel);
+        await Task.Run(() =>
+        {
+            var color = _colors.FirstOrDefault(c => c.Id == colorModel.Id);
+            if(color is not null)
+            {
+                color.Name = colorModel.Name;
+                color.Hex = colorModel.Color.ToHex();
+            }
+        });
+    }
+
+    public async Task UpdatePaletteAsync(MiraiPaletteModel paletteModel)
+    {
+        ArgumentNullException.ThrowIfNull(paletteModel);
+        await Task.Run(() =>
+        {
+            var palette = _palettes.FirstOrDefault(p => p.Id == paletteModel.Id);
+            if(palette is not null)
+            {
+                palette.Name = paletteModel.Name;
+                palette.Description = paletteModel.Description;
+            }
+        });
     }
 }

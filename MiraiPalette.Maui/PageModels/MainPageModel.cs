@@ -3,29 +3,23 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.Maui.Models;
 using MiraiPalette.Maui.Services;
+using MiraiPalette.Maui.Utilities;
 
 namespace MiraiPalette.Maui.PageModels;
 
-#pragma warning disable MVVMTK0045
-
-public partial class MainPageModel : ObservableObject
+public partial class MainPageModel(IPaletteRepositoryService paletteRepositoryService) : ObservableObject
 {
-    public MainPageModel(IPaletteRepositoryService paletteRepositoryService)
-    {
-        _paletteRepositoryService = paletteRepositoryService;
-    }
-
-    private readonly IPaletteRepositoryService _paletteRepositoryService;
+    private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
 
     [ObservableProperty]
-    private string _title = "Mirai Palette";
+    public partial string Title { get; set; } = "Mirai Palette";
 
     [ObservableProperty]
-    private List<Palette> _palettes = [];
+    public partial List<MiraiPaletteModel>? Palettes { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(PaletteItemTapCommand))]
-    private bool _isSelectionEnabled = false;
+    public partial bool IsSelectionEnabled { get; set; } = false;
 
     partial void OnIsSelectionEnabledChanged(bool value)
     {
@@ -36,11 +30,8 @@ public partial class MainPageModel : ObservableObject
     private void ClearSelection()
     {
         foreach(var palette in SelectedPalettes)
-        {
             palette.IsSelected = false;
-        }
         SelectedPalettes.Clear();
-        Palettes = [.. Palettes];
     }
 
     [RelayCommand]
@@ -51,54 +42,43 @@ public partial class MainPageModel : ObservableObject
 
     public IRelayCommand PaletteItemTapCommand => IsSelectionEnabled ? SelectPaletteCommand : NavigateToPaletteCommand;
 
-    public ObservableCollection<Palette> SelectedPalettes { get; set; } = [];
+    public ObservableCollection<MiraiPaletteModel> SelectedPalettes { get; set; } = [];
 
-    private async Task LoadAsync()
+    [RelayCommand]
+    private async Task Load()
     {
-        Palettes = default!;
-        Palettes = await _paletteRepositoryService.ListAsync();
+        Palettes = default;
+        Palettes = await _paletteRepositoryService.ListPalettesAsync();
     }
 
     [RelayCommand]
-    private async Task Appearing()
-    {
-        await LoadAsync();
-    }
-
-    [RelayCommand]
-    private void SelectPalette(Palette palette)
+    private void SelectPalette(MiraiPaletteModel palette)
     {
         palette.IsSelected = !palette.IsSelected;
         if(palette.IsSelected)
             SelectedPalettes.Add(palette);
         else
             SelectedPalettes.Remove(palette);
-        Palettes = [.. Palettes];
     }
 
     [RelayCommand]
-    private static async Task NavigateToPalette(Palette palette)
+    private static async Task NavigateToPalette(MiraiPaletteModel palette)
     {
         var args = new ShellNavigationQueryParameters
         {
-            { nameof(Palette.Id), palette.Id }
+            { nameof(MiraiPaletteModel.Id), palette.Id }
         };
-        try
-        {
-            await Shell.Current.GoToAsync(ShellRoutes.PaletteDetailPage, args);
-        }
-        catch(Exception e)
-        {
-            await Shell.Current.DisplayAlert("", e.Message + Environment.NewLine + e.StackTrace, "OK");
-        }
-
+        await Shell.Current.GoToAsync(ShellRoutes.PaletteDetailPage, args);
     }
 
     [RelayCommand]
     private async Task AddNewPalette()
     {
         IsSelectionEnabled = false;
-        await Shell.Current.GoToAsync(ShellRoutes.PaletteDetailPage);
+        var palette = new MiraiPaletteModel { Name = Constants.DefaultPaletteName };
+        palette.Id = await _paletteRepositoryService.InsertPaletteAsync(palette);
+        await Load();
+        await NavigateToPalette(palette);
     }
 
     [RelayCommand]
@@ -107,17 +87,12 @@ public partial class MainPageModel : ObservableObject
         if(SelectedPalettes.Count == 0)
             return;
         var message = SelectedPalettes.Count == 1 ? $"Are you sure you want to delete \"{SelectedPalettes.First().Name}\"?" : $"Are you sure you want to delete these {SelectedPalettes.Count} palettes?{Environment.NewLine}{string.Join(Environment.NewLine, SelectedPalettes.Select(p => p.Name))}";
-        await Shell.Current.DisplayAlert("Delete Palette", message, "Yes", "No").ContinueWith(async task =>
-        {
-            if(task.Result)
-            {
-                foreach(var palette in SelectedPalettes)
-                {
-                    await _paletteRepositoryService.DeleteAsync(palette.Id);
-                }
-                await LoadAsync();
-                IsSelectionEnabled = false;
-            }
-        });
+        var isYes = await Shell.Current.DisplayAlert("Delete Palette", message, "Yes", "No");
+        if(!isYes)
+            return;
+        foreach(var palette in SelectedPalettes)
+            await _paletteRepositoryService.DeletePaletteAsync(palette.Id);
+        IsSelectionEnabled = false;
+        await Load();
     }
 }

@@ -5,44 +5,43 @@ using MiraiPalette.Maui.Models;
 using MiraiPalette.Maui.Services;
 using MiraiPalette.Maui.Utilities;
 
-#pragma warning disable MVVMTK0045
-
 namespace MiraiPalette.Maui.PageModels;
 
-public partial class PaletteDetailPageModel : ObservableObject, IQueryAttributable
+public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRepositoryService) : ObservableObject, IQueryAttributable
 {
-    public PaletteDetailPageModel(IPaletteRepositoryService paletteRepositoryService)
+    private void OnPalettePropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        _paletteRepositoryService = paletteRepositoryService;
+        _paletteRepositoryService.UpdatePaletteAsync(Palette);
     }
 
-    private readonly IPaletteRepositoryService _paletteRepositoryService;
+    private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
 
     [ObservableProperty]
-    private string _name = Constans.DefaultColorName;
+    public partial MiraiPaletteModel Palette { get; set; } = new()
+    {
+        Name = Constants.DefaultPaletteName,
+    };
+
+    partial void OnPaletteChanged(MiraiPaletteModel oldValue, MiraiPaletteModel newValue)
+    {
+        if(oldValue != null)
+            oldValue.PropertyChanged -= OnPalettePropertyChanged;
+        if(newValue != null)
+            newValue.PropertyChanged += OnPalettePropertyChanged;
+    }
 
     [ObservableProperty]
-    private string _description = string.Empty;
+    public partial MiraiColorModel? SelectedExistColor { get; set; }
 
     [ObservableProperty]
-    private List<MiraiColor> _colors = [];
-
-    private int _id = 0;
+    public partial bool IsColorDetailOpen { get; set; } = false;
 
     [ObservableProperty]
-    private bool _isBusy = false;
-
-    [ObservableProperty]
-    private MiraiColor? _selectedExistColor;
-
-    [ObservableProperty]
-    private bool _isColorDetailOpen = false;
-
-    [ObservableProperty]
-    private string _currentColorName = Constans.DefaultColorName;
-
-    [ObservableProperty]
-    private Color _currentColorValue = Color.FromArgb(Constans.DefaultColorAsHex);
+    public partial MiraiColorModel CurrentColor { get; set; } = new()
+    {
+        Name = Constants.DefaultColorName,
+        Color = Color.FromArgb(Constants.DefaultColorAsHex),
+    };
 
     [RelayCommand]
     private void AddNewColor()
@@ -53,10 +52,10 @@ public partial class PaletteDetailPageModel : ObservableObject, IQueryAttributab
     [RelayCommand]
     private async Task DeletePalette()
     {
-        var deleteConfirmed = await Shell.Current.DisplayAlert("Delete Palette", "Are you sure you want to delete this palette?", "Yes", "No");
-        if(!deleteConfirmed)
+        var isYes = await Shell.Current.DisplayAlert("Delete Palette", "Are you sure you want to delete this palette?", "Yes", "No");
+        if(!isYes)
             return;
-        await _paletteRepositoryService.DeleteAsync(_id);
+        await _paletteRepositoryService.DeletePaletteAsync(Palette.Id);
         await Shell.Current.GoToAsync(ShellRoutes.GoBack);
     }
 
@@ -65,31 +64,47 @@ public partial class PaletteDetailPageModel : ObservableObject, IQueryAttributab
     {
         if(SelectedExistColor is null)
             throw new InvalidOperationException("Selected color is null");
-        var deleteConfirmed = await Shell.Current.DisplayAlert("Delete Color", "Are you sure you want to delete this color?", "Yes", "No");
-        if(!deleteConfirmed)
+        var isYes = await Shell.Current.DisplayAlert("Delete Color", "Are you sure you want to delete this color?", "Yes", "No");
+        if(!isYes)
             return;
-        Colors.Remove(SelectedExistColor);
-        await SaveAsync();
+        await _paletteRepositoryService.DeleteColorAsync(SelectedExistColor.Id);
+        await Load();
         CloseColorDetail();
-        Load(_id);
     }
 
     private void ClearColorDetail()
     {
-        CurrentColorName = Constans.DefaultColorName;
-        CurrentColorValue = Color.FromArgb(Constans.DefaultColorAsHex);
+        CurrentColor = new()
+        {
+            Name = Constants.DefaultColorName,
+            Color = Color.FromArgb(Constants.DefaultColorAsHex),
+        };
+    }
+
+    private void ClearSelection()
+    {
+        if(SelectedExistColor is not null)
+        {
+            SelectedExistColor.IsSelected = false;
+            SelectedExistColor = default;
+        }
     }
 
     [RelayCommand]
-    private void OpenColorDetail(MiraiColor? color)
+    private void OpenColorDetail(MiraiColorModel? color)
     {
+        ClearSelection();
         SelectedExistColor = color;
-        if(color is null)
+        if(SelectedExistColor is null)
             ClearColorDetail();
         else
         {
-            CurrentColorName = color.Name;
-            CurrentColorValue = color.Color;
+            SelectedExistColor.IsSelected = true;
+            CurrentColor = new()
+            {
+                Name = SelectedExistColor.Name,
+                Color = SelectedExistColor.Color,
+            };
         }
         IsColorDetailOpen = true;
     }
@@ -99,79 +114,54 @@ public partial class PaletteDetailPageModel : ObservableObject, IQueryAttributab
     {
         IsColorDetailOpen = false;
         ClearColorDetail();
-        SelectedExistColor = default;
+        ClearSelection();
     }
 
     [RelayCommand]
     private async Task SaveColorDetail()
     {
-        if(IsBusy)
-            return;
-        IsBusy = true;
         if(SelectedExistColor is null)
         {
-            Colors.Add(new MiraiColor
+            await _paletteRepositoryService.InsertColorAsync(Palette.Id, new MiraiColorModel
             {
-                Name = CurrentColorName,
-                Color = CurrentColorValue
+                Name = CurrentColor.Name,
+                Color = CurrentColor.Color,
             });
         }
         else
         {
-            SelectedExistColor.Name = CurrentColorName;
-            SelectedExistColor.Color = CurrentColorValue;
+            await _paletteRepositoryService.UpdateColorAsync(Palette.Id, new MiraiColorModel
+            {
+                Id = SelectedExistColor.Id,
+                Name = CurrentColor.Name,
+                Color = CurrentColor.Color,
+            });
         }
         CloseColorDetail();
-        await SaveAsync();
-        IsBusy = false;
-        Load(_id);
+        await Load();
     }
+
+    private int _paletteId;
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        if(query.TryGetValue(nameof(Palette.Id), out var idObj) && idObj is int id)
-        {
-            Load(id);
-        }
-        else
-        {
-            Name = Constans.DefaultPaletteName;
-        }
+        _paletteId = query.TryGetValue(nameof(MiraiPaletteModel.Id), out var idObj) && idObj is int id
+            ? id
+            : throw new ArgumentException("Palette Id not found in query parameters", nameof(query));
     }
 
-    public void Load(int id)
+    [RelayCommand]
+    private async Task Load()
     {
-        if(IsBusy)
-            return;
-        IsBusy = true;
-        var palette = _paletteRepositoryService.GetAsync(id).Result;
+        ClearColorDetail();
+        ClearSelection();
+        var palette = await _paletteRepositoryService.SelectPaletteAsync(_paletteId);
         if(palette is null)
+        {
+            await Shell.Current.DisplayAlert("Error", "Palette not found", "OK");
+            await Shell.Current.GoToAsync(ShellRoutes.GoBack);
             return;
-        _id = palette.Id;
-        Name = palette.Name;
-        Description = palette.Description;
-        Colors = default!;
-        Colors = palette.Colors;
-        IsBusy = false;
-    }
-
-    private async Task SaveAsync()
-    {
-        _id = await _paletteRepositoryService.SaveAsync(new Palette
-        {
-            Id = _id,
-            Name = Name,
-            Description = Description,
-            Colors = Colors
-        });
-    }
-
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-        if(!IsBusy && (e.PropertyName is nameof(Name) or nameof(Description)))
-        {
-            SaveAsync();
         }
-        base.OnPropertyChanged(e);
+        Palette = palette;
     }
 }

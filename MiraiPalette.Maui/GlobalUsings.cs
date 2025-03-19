@@ -1,0 +1,1 @@
+﻿global using Palette = MiraiPalette.Data.Entities.MiraiPalette;

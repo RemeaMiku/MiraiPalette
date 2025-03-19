@@ -42,55 +42,44 @@
             <Setter Property="VerticalOptions" Value="Center"/>
             <Setter Property="IconSuffixFontSize" Value="16"/>
         </Style>
-
-        <toolkit:MultiConverter x:Key="IsSelectedColorToStorkeConverter">
-            <toolkit:IsEqualConverter/>
-            <toolkit:BoolToObjectConverter TrueObject="{StaticResource PrimaryDarkBrush}}" FalseObject="{StaticResource TransparentBrush}"/>
-        </toolkit:MultiConverter>
-        <x:Array x:Key="IsSelectedColorToStorkeConverterParameters" Type="{x:Type toolkit:MultiConverterParameter}">
-            <toolkit:MultiConverterParameter ConverterType="{x:Type toolkit:IsEqualConverter}" Value="{Binding SelectedExistColor}"/>
-            <toolkit:MultiConverterParameter ConverterType="{x:Type toolkit:BoolToObjectConverter}" />
-        </x:Array>
         <toolkit:IsNotNullConverter x:Key="IsNotNullConverter"/>
+        <toolkit:BoolToObjectConverter x:Key="IsSelectedToStorkeConverter" TrueObject="{StaticResource PrimaryDarkBrush}" FalseObject="{StaticResource TransparentBrush}"/>
     </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.LoadCommand,Source={x:Reference _page}}"/>
+    </ContentPage.Behaviors>
     <Grid ColumnDefinitions="*,Auto">
         <Grid RowDefinitions="Auto,*" Padding="10" RowSpacing="10">
             <Grid ColumnDefinitions="*,Auto">
                 <VerticalStackLayout>
-                    <Button x:Name="_nameButton" FontAttributes="Bold" Text="{Binding Name}" TextColor="{StaticResource PrimaryDark}" FontSize="Title" Style="{StaticResource NameDescriptionButtonStyle}" >
+                    <Button FontAttributes="Bold" Text="{Binding Palette.Name}" TextColor="{StaticResource PrimaryDark}" FontSize="Title" Style="{StaticResource NameDescriptionButtonStyle}" >
                         <Button.Behaviors>
                             <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _nameEntry}"/>
                         </Button.Behaviors>
                     </Button>
-                    <Entry Placeholder="Name" x:Name="_nameEntry" Style="{StaticResource NameDescriptionEntryStyle}" Text="{Binding Name}" FontSize="Title"  Margin="0,5" TextColor="{StaticResource PrimaryDark}"/>
-                    <Button x:Name="_descriptionButton" Text="{Binding Description}" Style="{StaticResource NameDescriptionButtonStyle}" TextColor="{AppThemeBinding Dark={StaticResource Gray300}}" FontSize="Body">
+                    <Entry Placeholder="Name" x:Name="_nameEntry" Style="{StaticResource NameDescriptionEntryStyle}" Text="{Binding Palette.Name}" FontSize="Title"  Margin="0,5" TextColor="{StaticResource PrimaryDark}"/>
+                    <Button Text="{Binding Palette.Description}" Style="{StaticResource NameDescriptionButtonStyle}" TextColor="{AppThemeBinding Dark={StaticResource Gray300}}" FontSize="Body">
                         <Button.Behaviors>
                             <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _descriptionEntry}"/>
                         </Button.Behaviors>
                     </Button>
-                    <Entry x:Name="_descriptionEntry" Style="{StaticResource NameDescriptionEntryStyle}" Text="{Binding Description}" Placeholder="Description" FontSize="Body" />
+                    <Entry x:Name="_descriptionEntry" Style="{StaticResource NameDescriptionEntryStyle}" Text="{Binding Palette.Description}" Placeholder="Description" FontSize="Body" />
                 </VerticalStackLayout>
                 <HorizontalStackLayout Grid.Column="1" Padding="10" Spacing="10">
                     <Border Style="{StaticResource IconButtonBorderStyle}">
-                        <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Add28}" attached:TapGesture.Command="{Binding AddNewColorCommand}" IconSuffix="Add new color"/>
+                        <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Add28}" attached:TapGesture.Command="{Binding AddNewColorCommand}" IconSuffix="Add a new color"/>
                     </Border>
                     <Border Style="{StaticResource IconButtonBorderStyle}" >
-                        <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Delete28}" attached:TapGesture.Command="{Binding DeletePaletteCommand}" IconColor="{StaticResource Error}" IconSuffixTextColor="{StaticResource Error}" IconSuffix="Delete Palette"/>
+                        <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Delete28}" attached:TapGesture.Command="{Binding DeletePaletteCommand}" IconColor="{StaticResource Error}" IconSuffixTextColor="{StaticResource Error}" IconSuffix="Delete the palette"/>
                     </Border>
                 </HorizontalStackLayout>
             </Grid>
             <ScrollView Grid.Row="1">
-                <FlexLayout AlignItems="Center" AlignContent="Start" Wrap="Wrap" BindableLayout.ItemsSource="{Binding Colors}" >
+                <FlexLayout AlignItems="Center" AlignContent="Start" Wrap="Wrap" BindableLayout.ItemsSource="{Binding Palette.Colors}">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate x:DataType="models:MiraiColor">
-                            <Border Stroke="{AppThemeBinding Dark={StaticResource PrimaryDarkBrush}}" StrokeShape="RoundRectangle 5" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" StrokeThickness="0" Margin="1" Padding="1">
+                        <DataTemplate x:DataType="models:MiraiColorModel">
+                            <Border Stroke="{Binding IsSelected,Converter={StaticResource IsSelectedToStorkeConverter}}" StrokeShape="RoundRectangle 5" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" StrokeThickness="2" Margin="1" Padding="1" attached:Touch.HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}}" attached:TapGesture.Command="{Binding OpenColorDetailCommand,Source={RelativeSource AncestorType={x:Type pages:PaletteDetailPageModel}}}" attached:TapGesture.CommandParameter="{Binding .}">
                                 <controls:ColorView WidthRequest="200" HeightRequest="200"/>
-                                <Border.Behaviors>
-                                    <toolkit:TouchBehavior HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}}" />
-                                </Border.Behaviors>
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="ColorItemTapped" Buttons="Primary" Command="{Binding OpenColorDetailCommand,Source={RelativeSource AncestorType={x:Type pages:PaletteDetailPageModel}}}" CommandParameter="{Binding .}"/>
-                                </Border.GestureRecognizers>
                             </Border>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
@@ -104,20 +93,20 @@
                 </Border>
                 <ScrollView Grid.Row="1">
                     <VerticalStackLayout Spacing="10">
-                        <Button x:Name="_colorNameButton" HorizontalOptions="Start" BackgroundColor="Transparent" TextColor="{AppThemeBinding Dark={StaticResource White}}" Text="{Binding CurrentColorName}" FontSize="Medium">
+                        <Button HorizontalOptions="Start" BackgroundColor="Transparent" TextColor="{AppThemeBinding Dark={StaticResource White}}" Text="{Binding CurrentColor.Name}" FontSize="Medium">
                             <Button.Behaviors>
                                 <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _colorNameEntry}"/>
                             </Button.Behaviors>
                         </Button>
-                        <Entry x:Name="_colorNameEntry" Style="{StaticResource NameDescriptionEntryStyle}" FontSize="Medium" Text="{Binding CurrentColorName}"/>
-                        <controls:ColorPicker Color="{Binding CurrentColorValue}"/>
+                        <Entry x:Name="_colorNameEntry" Style="{StaticResource NameDescriptionEntryStyle}" FontSize="Medium" Text="{Binding CurrentColor.Name}"/>
+                        <controls:ColorPicker Color="{Binding CurrentColor.Color}"/>
                     </VerticalStackLayout>
                 </ScrollView>
                 <VerticalStackLayout Grid.Row="2" Spacing="10">
                     <Border Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding SaveColorDetailCommand}" BackgroundColor="{AppThemeBinding Dark={StaticResource Success}}" >
                         <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Save24}"  IconSuffix="Save"/>
                     </Border>
-                    <Border Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding DeleteSelectedColorCommand}" BackgroundColor="{AppThemeBinding Dark={StaticResource Error}}" >
+                    <Border Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding DeleteSelectedColorCommand}" BackgroundColor="{AppThemeBinding Dark={StaticResource Error}}" IsVisible="{Binding SelectedExistColor,Converter={StaticResource IsNotNullConverter}}">
                         <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Delete24}" IconSuffix="Delete"/>
                     </Border>
                 </VerticalStackLayout>

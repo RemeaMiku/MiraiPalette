@@ -13,7 +13,7 @@ public class JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> 
 
     private readonly string _filePath = Path.Combine(FileSystem.AppDataDirectory, "palettes.json");
 
-    private List<Palette> _palettes = [];
+    private List<MiraiPaletteModel> _palettes = [];
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new()
     {
@@ -38,7 +38,7 @@ public class JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> 
         }
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeletePaletteAsync(int id)
     {
         await InitAsync();
         var palette = _palettes.FirstOrDefault(p => p.Id == id);
@@ -51,7 +51,7 @@ public class JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> 
         await SaveToJsonAsync();
     }
 
-    public async Task<Palette?> GetAsync(int id)
+    public async Task<MiraiPaletteModel?> SelectPaletteAsync(int id)
     {
         await InitAsync();
         var palette = _palettes.FirstOrDefault(p => p.Id == id);
@@ -74,7 +74,7 @@ public class JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> 
         try
         {
             var json = await File.ReadAllTextAsync(_filePath);
-            var palettes = JsonSerializer.Deserialize<List<Palette>>(json, _jsonSerializerOptions);
+            var palettes = JsonSerializer.Deserialize<List<MiraiPaletteModel>>(json, _jsonSerializerOptions);
             if(palettes is null)
             {
                 _logger.LogWarning("Failed to deserialize palettes.json file at {FilePath}", _filePath);
@@ -93,18 +93,18 @@ public class JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> 
         _isInitialized = true;
     }
 
-    public async Task<List<Palette>> ListAsync()
+    public async Task<List<MiraiPaletteModel>> ListPalettesAsync()
     {
         await InitAsync();
         return _palettes;
     }
 
-    public async Task<int> SaveAsync(Palette palette)
+    public async Task<int> UpdatePaletteAsync(MiraiPaletteModel palette)
     {
         await InitAsync();
         if(palette.Id == 0)
         {
-            palette.Id = GetNextId();
+            //palette.Id = GetNextId();
             _palettes.Add(palette);
             _logger.LogInformation("Added new palette with ID {Id}", palette.Id);
         }
@@ -127,4 +127,10 @@ public class JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> 
     {
         return _palettes.Count == 0 ? 1 : _palettes.Max(p => p.Id) + 1;
     }
+
+    public Task<int> InsertPaletteAsync(MiraiPaletteModel paletteModel) => throw new NotImplementedException();
+    Task IPaletteRepositoryService.UpdatePaletteAsync(MiraiPaletteModel paletteModel) => UpdatePaletteAsync(paletteModel);
+    public Task<int> InsertColorAsync(int paletteId, MiraiColorModel colorModel) => throw new NotImplementedException();
+    public Task UpdateColorAsync(int paletteId, MiraiColorModel colorModel) => throw new NotImplementedException();
+    public Task DeleteColorAsync(int colorId) => throw new NotImplementedException();
 }

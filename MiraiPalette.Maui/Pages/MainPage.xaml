@@ -4,8 +4,7 @@
              xmlns:controls="clr-namespace:MiraiPalette.Maui.Pages.Controls;assembly=MiraiPalette.Maui"
              xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
              xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:selectors="clr-namespace:MiraiPalette.Maui.Pages.TemplateSelectors"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"             
              xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              xmlns:attached="clr-namespace:MiraiPalette.Maui.AttachedProperties"
              x:DataType="pages:MainPageModel"             
@@ -14,35 +13,27 @@
              x:Class="MiraiPalette.Maui.Pages.MainPage"
              Title="{Binding Title}" >
     <ContentPage.Resources>
-        <DataTemplate x:Key="SelectedPaletteTemplate" x:DataType="models:Palette">
-            <Border StrokeThickness="3" Stroke="{StaticResource PrimaryDarkBrush}" StrokeShape="RoundRectangle 5" Padding="10" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" attached:TapGesture.Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" attached:TapGesture.CommandParameter="{Binding .}" attached:Touch.HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}}">
-                <controls:PaletteView />
-            </Border>
-        </DataTemplate>
-        <DataTemplate x:Key="DefaultPaletteTemplate" x:DataType="models:Palette">
-            <Border StrokeThickness="3" Stroke="Transparent" StrokeShape="RoundRectangle 5" Padding="10" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" attached:TapGesture.Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" attached:TapGesture.CommandParameter="{Binding .}" attached:Touch.HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}}">
-                <controls:PaletteView />
-            </Border>
-        </DataTemplate>
-        <selectors:PaletteDataTemplateSelector x:Key="PaletteDataTemplateSelector" Default="{StaticResource DefaultPaletteTemplate}" Selected="{StaticResource SelectedPaletteTemplate}"/>
         <Style TargetType="Border" x:Key="IconButtonBorderStyle">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource Gray600}}"/>
             <Setter Property="StrokeThickness" Value="0"/>
             <Setter Property="StrokeShape" Value="RoundRectangle 5"/>
             <Setter Property="Padding" Value="5"/>
+            <Setter Property="attached:Touch.HoveredBackgroundColor" Value="{AppThemeBinding Dark={StaticResource Gray500}}"/>
         </Style>
         <Style TargetType="icons:MauiIcon" x:Key="IconButtonMauiIconStyle">
             <Setter Property="BackgroundColor" Value="Transparent"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
             <Setter Property="VerticalOptions" Value="Center"/>
         </Style>
-        <toolkit:BoolToObjectConverter x:Key="IsSelectionEnabledConverter" TrueObject="{StaticResource PrimaryDarkBrush}" FalseObject="{StaticResource TransparentBrush}"/>
+        <toolkit:BoolToObjectConverter x:Key="IsSelectionEnabledToBackgroundColorConverter" TrueObject="{StaticResource PrimaryDark}" FalseObject="{StaticResource Gray600}"/>
+        <toolkit:BoolToObjectConverter x:Key="IsSelectedToStorkeConverter" TrueObject="{StaticResource PrimaryDarkBrush}" FalseObject="{StaticResource TransparentBrush}"/>
     </ContentPage.Resources>
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.AppearingCommand,Source={x:Reference _page}}"/>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.LoadCommand,Source={x:Reference _page}}"/>
     </ContentPage.Behaviors>
     <Grid Padding="10" RowDefinitions="Auto,*" RowSpacing="5">
         <HorizontalStackLayout Padding="10" HorizontalOptions="Start" Spacing="10">
-            <Border Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}" Background="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledConverter}}">
+            <Border Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}" Background="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledToBackgroundColorConverter}}" ToolTipProperties.Text="Click to toggle selection mode">
                 <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}"/>
             </Border>
             <!--<Border Style="{StaticResource IconButtonBorderStyle}" >
@@ -58,7 +49,14 @@
             </Border>
         </HorizontalStackLayout>
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Palettes}" Margin="10,5" BindableLayout.ItemTemplateSelector="{StaticResource PaletteDataTemplateSelector}" Spacing="5">
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Palettes}" Margin="10,5" Spacing="5">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:MiraiPaletteModel">
+                        <Border StrokeThickness="3" Stroke="{Binding IsSelected,Converter={StaticResource IsSelectedToStorkeConverter}}" StrokeShape="RoundRectangle 5" Padding="10" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" attached:TapGesture.Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" attached:TapGesture.CommandParameter="{Binding .}" attached:Touch.HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}}">
+                            <controls:PaletteView />
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
