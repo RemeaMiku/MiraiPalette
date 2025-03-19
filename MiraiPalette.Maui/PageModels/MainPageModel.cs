@@ -30,9 +30,7 @@ public partial class MainPageModel : ObservableObject
     partial void OnIsSelectionEnabledChanged(bool value)
     {
         if(!value)
-        {
             ClearSelection();
-        }
     }
 
     private void ClearSelection()
@@ -45,13 +43,11 @@ public partial class MainPageModel : ObservableObject
         Palettes = [.. Palettes];
     }
 
-    //[RelayCommand]
-    //private void ToggleSelectionMode()
-    //{
-    //    IsSelectionEnabled = !IsSelectionEnabled;
-    //    if(!IsSelectionEnabled)
-    //        SelectedPalettes.Clear();
-    //}
+    [RelayCommand]
+    private void ToggleSelectionMode()
+    {
+        IsSelectionEnabled = !IsSelectionEnabled;
+    }
 
     public IRelayCommand PaletteItemTapCommand => IsSelectionEnabled ? SelectPaletteCommand : NavigateToPaletteCommand;
 
@@ -106,12 +102,12 @@ public partial class MainPageModel : ObservableObject
     }
 
     [RelayCommand]
-    private Task DeletePalettes()
+    private async Task DeletePalettes()
     {
         if(SelectedPalettes.Count == 0)
-            return Task.CompletedTask;
+            return;
         var message = SelectedPalettes.Count == 1 ? $"Are you sure you want to delete \"{SelectedPalettes.First().Name}\"?" : $"Are you sure you want to delete these {SelectedPalettes.Count} palettes?{Environment.NewLine}{string.Join(Environment.NewLine, SelectedPalettes.Select(p => p.Name))}";
-        return Shell.Current.DisplayAlert("Delete Palette", message, "Yes", "No").ContinueWith(async task =>
+        await Shell.Current.DisplayAlert("Delete Palette", message, "Yes", "No").ContinueWith(async task =>
         {
             if(task.Result)
             {
@@ -120,6 +116,7 @@ public partial class MainPageModel : ObservableObject
                     await _paletteRepositoryService.DeleteAsync(palette.Id);
                 }
                 await LoadAsync();
+                IsSelectionEnabled = false;
             }
         });
     }

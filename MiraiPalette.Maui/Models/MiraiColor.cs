@@ -22,6 +22,4 @@ public class MiraiColor
 
     [JsonConverter(typeof(ColorJsonConverter))]
     public Color Color { get; set; } = Color.FromArgb(Constans.DefaultColorAsHex);
-
-
 }

@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Maui;
+using MauiIcons.Core;
+using MauiIcons.Fluent;
 using Microsoft.Extensions.Logging;
 using MiraiPalette.Maui.PageModels;
 using MiraiPalette.Maui.Pages;
-using MiraiPalette.Maui.Resources.Fonts;
 using MiraiPalette.Maui.Services;
 using MiraiPalette.Maui.Services.Local;
 
@@ -14,19 +15,27 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiCommunityToolkit()
+            .UseFluentMauiIcons()
+            .UseMauiIconsCore(x =>
+            {
+                x.SetDefaultIconSize(24);
+                x.SetDefaultFontOverride(true);
+                x.SetDefaultIconAutoScaling(true);
+            })
             .UseMauiApp<App>().ConfigureFonts(fonts =>
         {
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             fonts.AddFont("SegoeUI-Semibold.ttf", "SegoeSemibold");
-            fonts.AddFont("FluentSystemIcons-Regular.ttf", FluentUI.FontFamily);
+            //fonts.AddFont("SEGOEICONS.TTF", "SegoeIcons");
+            //fonts.AddFont("FluentSystemIcons-Regular.ttf", FluentUI.FontFamily);
         });
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
 
         builder.Services
-            .AddSingleton<IPaletteRepositoryService, JsonPaletteRepositoryService>()
+            .AddSingleton<IPaletteRepositoryService, TestPaletteRepositoryService>()
             .AddSingleton<MainPageModel>()
             .AddTransientWithShellRoute<PaletteDetailPage, PaletteDetailPageModel>(ShellRoutes.PaletteDetailPage);
         return builder.Build();

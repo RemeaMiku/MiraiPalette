@@ -6,53 +6,60 @@
              xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:selectors="clr-namespace:MiraiPalette.Maui.Pages.TemplateSelectors"
+             xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+             xmlns:attached="clr-namespace:MiraiPalette.Maui.AttachedProperties"
              x:DataType="pages:MainPageModel"             
              x:Name="_page"
+             Shell.NavBarIsVisible="False"
              x:Class="MiraiPalette.Maui.Pages.MainPage"
              Title="{Binding Title}" >
     <ContentPage.Resources>
         <DataTemplate x:Key="SelectedPaletteTemplate" x:DataType="models:Palette">
-            <controls:PaletteView Padding="5" BackgroundColor="{AppThemeBinding Dark={StaticResource Primary}}">
-                <controls:PaletteView.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" CommandParameter="{Binding .}"/>
-                </controls:PaletteView.GestureRecognizers>
-                <controls:PaletteView.Behaviors>
-                    <toolkit:TouchBehavior HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource PrimaryDark}}"/>
-                </controls:PaletteView.Behaviors>
-            </controls:PaletteView>
+            <Border StrokeThickness="3" Stroke="{StaticResource PrimaryDarkBrush}" StrokeShape="RoundRectangle 5" Padding="10" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" attached:TapGesture.Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" attached:TapGesture.CommandParameter="{Binding .}" attached:Touch.HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}}">
+                <controls:PaletteView />
+            </Border>
         </DataTemplate>
         <DataTemplate x:Key="DefaultPaletteTemplate" x:DataType="models:Palette">
-            <controls:PaletteView Padding="5" BackgroundColor="Transparent">
-                <controls:PaletteView.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" CommandParameter="{Binding .}"/>
-                </controls:PaletteView.GestureRecognizers>
-                <controls:PaletteView.Behaviors>
-                    <toolkit:TouchBehavior HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}"/>
-                </controls:PaletteView.Behaviors>
-            </controls:PaletteView>
+            <Border StrokeThickness="3" Stroke="Transparent" StrokeShape="RoundRectangle 5" Padding="10" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" attached:TapGesture.Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" attached:TapGesture.CommandParameter="{Binding .}" attached:Touch.HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}}">
+                <controls:PaletteView />
+            </Border>
         </DataTemplate>
         <selectors:PaletteDataTemplateSelector x:Key="PaletteDataTemplateSelector" Default="{StaticResource DefaultPaletteTemplate}" Selected="{StaticResource SelectedPaletteTemplate}"/>
+        <Style TargetType="Border" x:Key="IconButtonBorderStyle">
+            <Setter Property="StrokeThickness" Value="0"/>
+            <Setter Property="StrokeShape" Value="RoundRectangle 5"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="icons:MauiIcon" x:Key="IconButtonMauiIconStyle">
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+        </Style>
+        <toolkit:BoolToObjectConverter x:Key="IsSelectionEnabledConverter" TrueObject="{StaticResource PrimaryDarkBrush}" FalseObject="{StaticResource TransparentBrush}"/>
     </ContentPage.Resources>
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.AppearingCommand,Source={x:Reference _page}}"/>
     </ContentPage.Behaviors>
-    <Grid Padding="15">
-        
-        <ScrollView>
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Palettes}" Margin="10,5" BindableLayout.ItemTemplateSelector="{StaticResource PaletteDataTemplateSelector}">
+    <Grid Padding="10" RowDefinitions="Auto,*" RowSpacing="5">
+        <HorizontalStackLayout Padding="10" HorizontalOptions="Start" Spacing="10">
+            <Border Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}" Background="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledConverter}}">
+                <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}"/>
+            </Border>
+            <!--<Border Style="{StaticResource IconButtonBorderStyle}" >
+                <icons:MauiIcon Icon="{icons:Fluent Icon=SelectAllOn24}"/>
+            </Border>-->
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Padding="10" HorizontalOptions="End" Spacing="10">
+            <Border Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding AddNewPaletteCommand}" >
+                <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Add28}"/>
+            </Border>
+            <Border IsVisible="{Binding IsSelectionEnabled}" Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding DeletePalettesCommand}" >
+                <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Delete28}" IconColor="{StaticResource Error}"/>
+            </Border>
+        </HorizontalStackLayout>
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Palettes}" Margin="10,5" BindableLayout.ItemTemplateSelector="{StaticResource PaletteDataTemplateSelector}" Spacing="5">
             </VerticalStackLayout>
         </ScrollView>
-        <Border BackgroundColor="#55111111" Stroke="Transparent"  VerticalOptions="End" HorizontalOptions="Center" Margin="30" Padding="20,10">
-            <HorizontalStackLayout>
-                <Switch VerticalOptions="Start" HorizontalOptions="End" IsToggled="{Binding IsSelectionEnabled}"/>
-                <Button HeightRequest="40" WidthRequest="40" Margin="10,5" Text="+" FontSize="Header" TextColor="{AppThemeBinding Dark={StaticResource White}}" Padding="0" Command="{Binding AddNewPaletteCommand}">
-                </Button>
-                <Button  HeightRequest="40" WidthRequest="40" Margin="10,5" Text="×" FontSize="Header" TextColor="{AppThemeBinding Dark={StaticResource White}}" Padding="0" Command="{Binding DeletePalettesCommand}">
-                </Button>
-            </HorizontalStackLayout>
-         
-        </Border>
     </Grid>
-    
-
 </ContentPage>

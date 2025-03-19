@@ -23,9 +23,11 @@ public partial class PaletteDetailPage : ContentPage
 
     private void ColorItemTapped(object sender, TappedEventArgs e)
     {
-        ClearBorderStroke();
         var border = (Border)sender;
-        border.StrokeThickness = 1;
+        if(border == _lastBorder)
+            return;
+        ClearBorderStroke();
+        border.StrokeThickness = 2;
         border.Padding = 0;
         _lastBorder = border;
     }

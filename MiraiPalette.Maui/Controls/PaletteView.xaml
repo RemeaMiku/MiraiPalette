@@ -10,7 +10,7 @@
         <FlexLayout Grid.Row="2" Direction="Row" Wrap="Wrap" BindableLayout.ItemsSource="{Binding Colors}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="models:MiraiColor">
-                    <Rectangle HeightRequest="100" WidthRequest="100" Fill="{Binding Color}"/>
+                    <Rectangle HeightRequest="50" WidthRequest="50" Fill="{Binding Color}"/>
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </FlexLayout>
