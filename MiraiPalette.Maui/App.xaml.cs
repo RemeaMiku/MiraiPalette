@@ -12,7 +12,7 @@
             var appShell = new AppShell();
             var window = new Window(appShell)
             {
-                MinimumWidth = 400,
+                MinimumWidth = 350,
                 MinimumHeight = 600
             };
             return window;

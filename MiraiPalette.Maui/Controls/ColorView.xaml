@@ -36,15 +36,13 @@
             </Setter>
         </Style>
     </ContentView.Resources>
-    <Border StrokeThickness="0" Padding="0,5" StrokeShape="RoundRectangle 0,0,5,5">
-        <Grid RowDefinitions="Auto,*,Auto" RowSpacing="5">
-            <Label HorizontalTextAlignment="Center" Text="{Binding Name}" FontSize="Small" LineBreakMode="MiddleTruncation" ToolTipProperties.Text="{Binding Name}" Padding="10"/>
-            <Rectangle Grid.Row="1" BackgroundColor="{Binding Color}"/>
-            <Button x:Name="_hexButton" Style="{StaticResource ColorModelButtonStyle}" Grid.Row="2" Text="{Binding Hex}" Clicked="CopyButton_Clicked">
-            </Button>
-        </Grid>
-    </Border>
-    
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
+        <Label HorizontalTextAlignment="Center" Text="{Binding Name}" FontSize="Micro" LineBreakMode="MiddleTruncation" ToolTipProperties.Text="{Binding Name}" Padding="10"/>
+        <Rectangle Grid.Row="1" BackgroundColor="{Binding Color}"/>
+        <Button x:Name="_hexButton" Style="{StaticResource ColorModelButtonStyle}" Grid.Row="2" Text="{Binding Hex}" Clicked="CopyButton_Clicked">
+        </Button>
+    </Grid>
+
     <!--<Grid ColumnDefinitions="64,*" ColumnSpacing="5">
         <Rectangle BackgroundColor="{Binding Color}"/>
         <VerticalStackLayout Padding="5" Grid.Column="1">
