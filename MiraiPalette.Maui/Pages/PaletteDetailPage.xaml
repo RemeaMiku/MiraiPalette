@@ -86,10 +86,10 @@
                 </FlexLayout>
             </ScrollView>
         </Grid>
-        <Border Grid.Column="1" WidthRequest="300" StrokeThickness="0" Padding="10"  IsVisible="{Binding IsColorDetailOpen}" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}">
+        <Border Grid.Column="1" WidthRequest="300" StrokeThickness="0" Padding="15"  IsVisible="{Binding IsColorDetailOpen}" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" >
             <Grid RowDefinitions="Auto,*,Auto">
                 <Border Padding="5" Style="{StaticResource IconButtonBorderStyle}" HorizontalOptions="End" attached:TapGesture.Command="{Binding CloseColorDetailCommand}">
-                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Dismiss24}"/>
+                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Dismiss24}" IconSize="Small"/>
                 </Border>
                 <ScrollView Grid.Row="1">
                     <VerticalStackLayout Spacing="10">
@@ -99,7 +99,7 @@
                             </Button.Behaviors>
                         </Button>
                         <Entry x:Name="_colorNameEntry" Style="{StaticResource NameDescriptionEntryStyle}" FontSize="Medium" Text="{Binding CurrentColor.Name}"/>
-                        <controls:ColorPicker Color="{Binding CurrentColor.Color}"/>
+                        <controls:ColorPicker Color="{Binding CurrentColor.Color,Mode=TwoWay}"/>
                     </VerticalStackLayout>
                 </ScrollView>
                 <VerticalStackLayout Grid.Row="2" Spacing="10">

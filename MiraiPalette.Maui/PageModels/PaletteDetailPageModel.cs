@@ -7,14 +7,20 @@ using MiraiPalette.Maui.Utilities;
 
 namespace MiraiPalette.Maui.PageModels;
 
-public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRepositoryService) : ObservableObject, IQueryAttributable
+public partial class PaletteDetailPageModel : ObservableObject, IQueryAttributable
 {
+    public PaletteDetailPageModel(IPaletteRepositoryService paletteRepositoryService)
+    {
+        _paletteRepositoryService = paletteRepositoryService;
+        //CurrentColor.PropertyChanged += (_, _) => Debugger.Break();
+    }
+
     private void OnPalettePropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         _paletteRepositoryService.UpdatePaletteAsync(Palette);
     }
 
-    private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
+    private readonly IPaletteRepositoryService _paletteRepositoryService;
 
     [ObservableProperty]
     public partial MiraiPaletteModel Palette { get; set; } = new()
@@ -36,8 +42,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     [ObservableProperty]
     public partial bool IsColorDetailOpen { get; set; } = false;
 
-    [ObservableProperty]
-    public partial MiraiColorModel CurrentColor { get; set; } = new()
+    public MiraiColorModel CurrentColor { get; } = new()
     {
         Name = Constants.DefaultColorName,
         Color = Color.FromArgb(Constants.DefaultColorAsHex),
@@ -74,11 +79,8 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
 
     private void ClearColorDetail()
     {
-        CurrentColor = new()
-        {
-            Name = Constants.DefaultColorName,
-            Color = Color.FromArgb(Constants.DefaultColorAsHex),
-        };
+        CurrentColor.Name = Constants.DefaultColorName;
+        CurrentColor.Color = Color.FromArgb(Constants.DefaultColorAsHex);
     }
 
     private void ClearSelection()
@@ -100,11 +102,8 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         else
         {
             SelectedExistColor.IsSelected = true;
-            CurrentColor = new()
-            {
-                Name = SelectedExistColor.Name,
-                Color = SelectedExistColor.Color,
-            };
+            CurrentColor.Name = SelectedExistColor.Name;
+            CurrentColor.Color = SelectedExistColor.Color;
         }
         IsColorDetailOpen = true;
     }
@@ -130,7 +129,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         }
         else
         {
-            await _paletteRepositoryService.UpdateColorAsync(Palette.Id, new MiraiColorModel
+            await _paletteRepositoryService.UpdateColorAsync(new MiraiColorModel
             {
                 Id = SelectedExistColor.Id,
                 Name = CurrentColor.Name,

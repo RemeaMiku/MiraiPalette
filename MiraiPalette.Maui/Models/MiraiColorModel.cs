@@ -38,6 +38,7 @@ public partial class MiraiColorModel : ObservableObject
     [JsonConverter(typeof(ColorJsonConverter))]
     public partial Color Color { get; set; } = Color.FromArgb(Constants.DefaultColorAsHex);
 
+    [JsonIgnore]
     [ObservableProperty]
     public partial bool IsSelected { get; set; } = false;
 }

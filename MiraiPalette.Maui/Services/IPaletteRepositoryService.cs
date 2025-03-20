@@ -14,7 +14,7 @@ public interface IPaletteRepositoryService
 
     public Task<int> InsertColorAsync(int paletteId, MiraiColorModel colorModel);
 
-    public Task UpdateColorAsync(int paletteId, MiraiColorModel colorModel);
+    public Task UpdateColorAsync(MiraiColorModel colorModel);
 
     public Task DeleteColorAsync(int colorId);
 

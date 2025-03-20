@@ -42,14 +42,14 @@ public partial class ColorPicker : ContentView
     {
         if(Color == default)
         {
-            _colorRect.Fill = Colors.Transparent;
+            _colorRect.BackgroundColor = Colors.Transparent;
             _hexEntry.Text = string.Empty;
             ClearRgbComponents();
             ClearHslComponents();
         }
         else
         {
-            _colorRect.Fill = Color;
+            _colorRect.BackgroundColor = Color;
             _hexEntry.Text = Color.ToHex();
             SetRgbComponents();
             SetHslComponents();

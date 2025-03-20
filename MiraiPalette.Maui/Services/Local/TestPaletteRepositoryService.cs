@@ -238,7 +238,7 @@ public class TestPaletteRepositoryService : IPaletteRepositoryService
         });
     }
 
-    public async Task UpdateColorAsync(int paletteId, MiraiColorModel colorModel)
+    public async Task UpdateColorAsync(MiraiColorModel colorModel)
     {
         ArgumentNullException.ThrowIfNull(colorModel);
         await Task.Run(() =>

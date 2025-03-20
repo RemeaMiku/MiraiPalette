@@ -27,15 +27,13 @@ public static class MauiProgram
             fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             fonts.AddFont("SegoeUI-Semibold.ttf", "SegoeSemibold");
-            //fonts.AddFont("SEGOEICONS.TTF", "SegoeIcons");
-            //fonts.AddFont("FluentSystemIcons-Regular.ttf", FluentUI.FontFamily);
         });
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
 
         builder.Services
-            .AddSingleton<IPaletteRepositoryService, TestPaletteRepositoryService>()
+            .AddSingleton<IPaletteRepositoryService, JsonPaletteRepositoryService>()
             .AddSingleton<MainPageModel>()
             .AddTransientWithShellRoute<PaletteDetailPage, PaletteDetailPageModel>(ShellRoutes.PaletteDetailPage);
         return builder.Build();
