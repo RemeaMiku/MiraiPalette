@@ -12,12 +12,12 @@ public partial class PaletteDetailPageModel : ObservableObject, IQueryAttributab
     public PaletteDetailPageModel(IPaletteRepositoryService paletteRepositoryService)
     {
         _paletteRepositoryService = paletteRepositoryService;
-        //CurrentColor.PropertyChanged += (_, _) => Debugger.Break();
     }
 
     private void OnPalettePropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        _paletteRepositoryService.UpdatePaletteAsync(Palette);
+        if(e.PropertyName is nameof(MiraiPaletteModel.Name) or nameof(MiraiPaletteModel.Description))
+            _paletteRepositoryService.UpdatePaletteAsync(Palette);
     }
 
     private readonly IPaletteRepositoryService _paletteRepositoryService;

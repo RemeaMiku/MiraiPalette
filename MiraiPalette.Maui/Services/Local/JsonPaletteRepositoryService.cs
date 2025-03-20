@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using MiraiPalette.Maui.Models;
 using MiraiPalette.Maui.Utilities;
@@ -158,9 +159,18 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
         return palette is null ? throw new ArgumentException("Palette not found", nameof(paletteId)) : palette;
     }
 
-    private Task SaveToJsonAsync()
+    private async Task SaveToJsonAsync()
     {
         _fileStream.Seek(0, SeekOrigin.Begin);
-        return JsonSerializer.SerializeAsync(_fileStream, _palettes, _jsonSerializerOptions);
+        _fileStream.SetLength(0);
+        if(_palettes.Count == 0)
+        {
+            _fileStream.Write(Encoding.UTF8.GetBytes("[]"));
+        }
+        else
+        {
+            await JsonSerializer.SerializeAsync(_fileStream, _palettes, _jsonSerializerOptions);
+        }
+        _fileStream.Flush();
     }
 }
