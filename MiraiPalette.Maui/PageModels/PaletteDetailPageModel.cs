@@ -7,20 +7,17 @@ using MiraiPalette.Maui.Utilities;
 
 namespace MiraiPalette.Maui.PageModels;
 
-public partial class PaletteDetailPageModel : ObservableObject, IQueryAttributable
+public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRepositoryService) : ObservableObject, IQueryAttributable
 {
-    public PaletteDetailPageModel(IPaletteRepositoryService paletteRepositoryService)
-    {
-        _paletteRepositoryService = paletteRepositoryService;
-    }
-
     private void OnPalettePropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if(e.PropertyName is nameof(MiraiPaletteModel.Name) or nameof(MiraiPaletteModel.Description))
+        {
             _paletteRepositoryService.UpdatePaletteAsync(Palette);
+        }
     }
 
-    private readonly IPaletteRepositoryService _paletteRepositoryService;
+    private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
 
     [ObservableProperty]
     public partial MiraiPaletteModel Palette { get; set; } = new()

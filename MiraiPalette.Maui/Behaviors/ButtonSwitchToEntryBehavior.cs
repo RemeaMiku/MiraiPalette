@@ -87,6 +87,7 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
             return;
         if(!_buttonEntryPairs.TryGetValue(button, out var entry))
             return;
+        entry.Text = button.Text;
         button.IsVisible = false;
         entry.IsVisible = true;
         entry.Focus();

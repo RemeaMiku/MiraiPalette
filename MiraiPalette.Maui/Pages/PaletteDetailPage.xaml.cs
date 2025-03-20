@@ -9,5 +9,10 @@ public partial class PaletteDetailPage : ContentPage
         InitializeComponent();
         BindingContext = model;
     }
+
+    private void OnAddDescriptionButtonClicked(object sender, EventArgs e)
+    {
+
+    }
 }
 

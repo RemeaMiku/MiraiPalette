@@ -22,8 +22,16 @@ public partial class MiraiColorModel : ObservableObject
 
     public int Id { get; set; } = 0;
 
-    [ObservableProperty]
-    public partial string Name { get; set; } = string.Empty;
+    public string Name
+    {
+        get => field;
+        set
+        {
+            if(string.IsNullOrWhiteSpace(value))
+                return;
+            SetProperty(ref field, value);
+        }
+    } = string.Empty;
 
     [JsonIgnore]
     public string Hex => Color.ToHex();

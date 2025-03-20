@@ -20,8 +20,16 @@ public partial class MiraiPaletteModel : ObservableObject
 
     public int Id { get; set; } = 0;
 
-    [ObservableProperty]
-    public partial string Name { get; set; } = string.Empty;
+    public string Name
+    {
+        get => field;
+        set
+        {
+            if(string.IsNullOrWhiteSpace(value))
+                return;
+            SetProperty(ref field, value);
+        }
+    } = string.Empty;
 
     [ObservableProperty]
     public partial string Description { get; set; } = string.Empty;

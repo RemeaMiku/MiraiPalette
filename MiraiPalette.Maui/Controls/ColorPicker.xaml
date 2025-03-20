@@ -29,8 +29,7 @@
         </Style>
     </ContentView.Resources>
     <VerticalStackLayout Spacing="10">
-        <Border x:Name="_colorRect"  HorizontalOptions="Fill" MinimumHeightRequest="100" MinimumWidthRequest="100"/>
-        <!--<Rectangle x:Name="_colorRect" WidthRequest="200" HorizontalOptions="Center" HeightRequest="100"/>-->
+        <Border x:Name="_colorRect" StrokeThickness="0" HorizontalOptions="Fill" MinimumHeightRequest="100" MinimumWidthRequest="100"/>
         <Entry attachments:InputViewSelectAllBehavior.Enabled="True"  x:Name="_hexEntry" Keyboard="Plain" ClearButtonVisibility="WhileEditing" ReturnType="Done" TextTransform="Uppercase" Unfocused="HexEntry_Unfocused"/>
         <Picker x:Name="_modelPicker" SelectedIndexChanged="Picker_SelectedIndexChanged"/>
         <Grid>
