@@ -4,6 +4,7 @@ namespace MiraiPalette.Maui.Utilities;
 
 public static class ColorUtilities
 {
+
     private static bool TryParseInt(ReadOnlySpan<char> span, out int value)
     {
         return int.TryParse(span, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out value);

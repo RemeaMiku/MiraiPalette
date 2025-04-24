@@ -149,8 +149,6 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     [RelayCommand]
     private async Task Load()
     {
-        ClearColorDetail();
-        ClearSelection();
         var palette = await _paletteRepositoryService.SelectPaletteAsync(_paletteId);
         if (palette is null)
         {
@@ -164,8 +162,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     [RelayCommand]
     private void Unload()
     {
-        ClearColorDetail();
-        ClearSelection();
+        CloseColorDetail();
         Palette = new MiraiPaletteModel
         {
             Name = Constants.DefaultPaletteName,
