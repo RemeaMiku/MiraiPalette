@@ -25,7 +25,7 @@
 		<ApplicationTitle>MiraiPalette.Maui</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.miraipalette.maui</ApplicationId>
+		<ApplicationId>com.miraisoft.miraipalette.maui</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
