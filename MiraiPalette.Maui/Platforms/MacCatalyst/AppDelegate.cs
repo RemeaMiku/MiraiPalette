@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace MiraiPalette.Maui;
+namespace MiraiPalette.Maui.Platforms.MacCatalyst;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

@@ -5,15 +5,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MiraiPalette.Maui"
     xmlns:pages="clr-namespace:MiraiPalette.Maui.Pages"
-    
-    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutWidth="200"
+    Shell.FlyoutBehavior="Flyout"    
     Title="">
 
     <ShellContent
         Title="Palettes"
         ContentTemplate="{DataTemplate pages:MainPage}"
         Route="{x:Static local:ShellRoutes.MainPage}" />
-
-    <!--<ShellContent Title="PaletteDetail" ContentTemplate="{DataTemplate pages:PaletteDetailPage}"/>-->
 
 </Shell>

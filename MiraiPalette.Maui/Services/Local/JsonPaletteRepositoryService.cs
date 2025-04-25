@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
-using MiraiPalette.Maui.Utilities;
 
 namespace MiraiPalette.Maui.Services.Local;
 
@@ -11,18 +11,13 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
 
     private readonly ILogger _logger;
 
-    private readonly string _filePath = Path.Combine("data", "palettes.json");
+    private readonly string _filePath = Path.Combine(FileSystem.AppDataDirectory, "palettes.json");
 
     private readonly FileStream _fileStream;
 
     public JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> logger)
     {
         _logger = logger;
-        if(!Directory.Exists("data"))
-        {
-            Directory.CreateDirectory("data");
-            _logger.LogInformation("Created new data directory");
-        }
         if(!File.Exists(_filePath))
         {
             File.WriteAllText(_filePath, "[]");

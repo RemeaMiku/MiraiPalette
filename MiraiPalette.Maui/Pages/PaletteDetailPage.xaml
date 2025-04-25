@@ -10,7 +10,7 @@
              xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
              xmlns:attached="clr-namespace:MiraiPalette.Maui.AttachedProperties"
              xmlns:behaviors="clr-namespace:MiraiPalette.Maui.Behaviors;assembly=MiraiPalette.Maui"
-             x:Name="_page"
+             x:Name="_page"             
              Title="" Shell.NavBarIsVisible="False" >
     <ContentPage.Resources>
         <Style TargetType="Entry" x:Key="NameDescriptionEntryStyle">
@@ -48,6 +48,9 @@
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.LoadCommand,Source={x:Reference _page}}"/>
     </ContentPage.Behaviors>
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding GoBackCommand}" TextOverride="Back to palettes"/>
+    </Shell.BackButtonBehavior>
     <Grid ColumnDefinitions="*,Auto">
         <Grid RowDefinitions="Auto,*,Auto" Padding="10" RowSpacing="10">
             <VerticalStackLayout Spacing="10">
