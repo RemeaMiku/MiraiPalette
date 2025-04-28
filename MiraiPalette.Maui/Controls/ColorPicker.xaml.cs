@@ -1,4 +1,4 @@
-using MiraiPalette.Maui.Utilities;
+using MiraiPalette.Maui.Essentials;
 
 namespace MiraiPalette.Maui.Pages.Controls;
 

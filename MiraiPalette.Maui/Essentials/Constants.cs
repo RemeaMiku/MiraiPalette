@@ -1,4 +1,4 @@
-﻿namespace MiraiPalette.Maui.Utilities;
+﻿namespace MiraiPalette.Maui.Essentials;
 
 public static class Constants
 {

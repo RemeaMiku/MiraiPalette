@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
 using MiraiPalette.Maui.Services;
-using MiraiPalette.Maui.Utilities;
 
 namespace MiraiPalette.Maui.PageModels;
 
@@ -15,6 +15,13 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         {
             _paletteRepositoryService.UpdatePaletteAsync(Palette);
         }
+    }
+
+    [RelayCommand]
+    private async Task GoBack()
+    {
+        CloseColorDetail();
+        await Shell.Current.GoToAsync(ShellRoutes.GoBack);
     }
 
     private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;

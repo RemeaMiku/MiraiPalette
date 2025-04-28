@@ -2,7 +2,7 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MiraiPalette.Data.Entities;
-using MiraiPalette.Maui.Utilities;
+using MiraiPalette.Maui.Essentials;
 
 namespace MiraiPalette.Maui.Models;
 

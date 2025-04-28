@@ -1,15 +1,26 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
 using MiraiPalette.Maui.Services;
-using MiraiPalette.Maui.Utilities;
 
 namespace MiraiPalette.Maui.PageModels;
 
-public partial class MainPageModel(IPaletteRepositoryService paletteRepositoryService) : ObservableObject
+public partial class MainPageModel : ObservableObject
 {
-    private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
+    public MainPageModel(IPaletteRepositoryService paletteRepositoryService)
+    {
+        _paletteRepositoryService = paletteRepositoryService;
+        ThemeTrigger.Register(AppTheme.Dark, OnThemeChangedToDark);
+    }
+
+    private void OnThemeChangedToDark()
+    {
+
+    }
+
+    private readonly IPaletteRepositoryService _paletteRepositoryService;
 
     [ObservableProperty]
     public partial string Title { get; set; } = "Mirai Palette";

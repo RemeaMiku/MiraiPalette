@@ -14,26 +14,26 @@
              Title="{Binding Title}" >
     <ContentPage.Resources>
         <Style TargetType="Border" x:Key="IconButtonBorderStyle">
-            <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource Gray600}}"/>
+            <Setter Property="BackgroundColor" Value="{toolkit:AppThemeResource SecondaryColor}"/>
             <Setter Property="StrokeThickness" Value="0"/>
             <Setter Property="StrokeShape" Value="RoundRectangle 5"/>
             <Setter Property="Padding" Value="5"/>
-            <Setter Property="attached:Touch.HoveredBackgroundColor" Value="{AppThemeBinding Dark={StaticResource Gray500}}"/>
+            <Setter Property="attached:Touch.HoveredBackgroundColor" Value="{toolkit:AppThemeResource HoveredBackgroundColor}"/>
         </Style>
         <Style TargetType="icons:MauiIcon" x:Key="IconButtonMauiIconStyle">
             <Setter Property="BackgroundColor" Value="Transparent"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
             <Setter Property="VerticalOptions" Value="Center"/>
         </Style>
-        <toolkit:BoolToObjectConverter x:Key="IsSelectionEnabledToBackgroundColorConverter" TrueObject="{StaticResource PrimaryDark}" FalseObject="{StaticResource Gray600}"/>
-        <toolkit:BoolToObjectConverter x:Key="IsSelectedToStorkeConverter" TrueObject="{StaticResource PrimaryDarkBrush}" FalseObject="{StaticResource TransparentBrush}"/>
+        <toolkit:BoolToObjectConverter x:Key="IsSelectionEnabledToBackgroundColorConverter" TrueObject="{StaticResource Primary}" FalseObject="{toolkit:AppThemeResource SecondaryColor}"/>
+        <toolkit:BoolToObjectConverter x:Key="IsSelectedToStorkeConverter" TrueObject="{toolkit:AppThemeResource PrimaryColor}" FalseObject="{StaticResource TransparentBrush}"/>
     </ContentPage.Resources>
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.LoadCommand,Source={x:Reference _page}}"/>
     </ContentPage.Behaviors>
     <Grid Padding="10" RowDefinitions="Auto,*" RowSpacing="5">
         <HorizontalStackLayout Padding="10" HorizontalOptions="Start" Spacing="10">
-            <Border Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}" Background="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledToBackgroundColorConverter}}" ToolTipProperties.Text="Click to toggle selection mode">
+            <Border x:Name="_seletionModeToggleBorder" Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}" BackgroundColor="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledToBackgroundColorConverter}}" ToolTipProperties.Text="Click to toggle selection mode">
                 <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}"/>
             </Border>
             <!--<Border Style="{StaticResource IconButtonBorderStyle}" >
@@ -52,7 +52,7 @@
             <VerticalStackLayout BindableLayout.ItemsSource="{Binding Palettes}" Margin="10,5" Spacing="5">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:MiraiPaletteModel">
-                        <Border StrokeThickness="3" Stroke="{Binding IsSelected,Converter={StaticResource IsSelectedToStorkeConverter}}" StrokeShape="RoundRectangle 5" Padding="10" BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600}}" attached:TapGesture.Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" attached:TapGesture.CommandParameter="{Binding .}" attached:Touch.HoveredBackgroundColor="{AppThemeBinding Dark={StaticResource Gray500}}">
+                        <Border StrokeThickness="3" Stroke="{Binding IsSelected,Converter={StaticResource IsSelectedToStorkeConverter}}" StrokeShape="RoundRectangle 5" Padding="10" BackgroundColor="{toolkit:AppThemeResource SecondaryColor}" attached:TapGesture.Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" attached:TapGesture.CommandParameter="{Binding .}" attached:Touch.HoveredBackgroundColor="{toolkit:AppThemeResource HoveredBackgroundColor}">
                             <controls:PaletteView />
                         </Border>
                     </DataTemplate>

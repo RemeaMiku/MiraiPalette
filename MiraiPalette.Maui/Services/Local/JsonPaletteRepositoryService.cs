@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
-using MiraiPalette.Maui.Utilities;
 
 namespace MiraiPalette.Maui.Services.Local;
 
@@ -18,12 +18,12 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
     public JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> logger)
     {
         _logger = logger;
-        // if (!Directory.Exists("data"))
-        // {
-        //     Directory.CreateDirectory("data");
-        //     _logger.LogInformation("Created new data directory");
-        // }
-        if (!File.Exists(_filePath))
+        if(!Directory.Exists("data"))
+        {
+            Directory.CreateDirectory("data");
+            _logger.LogInformation("Created new data directory");
+        }
+        if(!File.Exists(_filePath))
         {
             File.WriteAllText(_filePath, "[]");
             _logger.LogInformation("Created new palettes.json file at {FilePath}", _filePath);
@@ -32,7 +32,7 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
         try
         {
             var palettes = JsonSerializer.Deserialize<List<MiraiPaletteModel>>(_fileStream, _jsonSerializerOptions);
-            if (palettes is null)
+            if(palettes is null)
             {
                 _logger.LogError("Failed to deserialize palettes.json file at {FilePath}", _filePath);
                 throw new Exception("Failed to deserialize palettes.json file");
@@ -43,7 +43,7 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
                 _logger.LogInformation("Read {Count} palettes from palettes.json file at {FilePath}", _palettes.Count, _filePath);
             }
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             _logger.LogError("Failed to read palettes.json file at {FilePath}:{Message}", _filePath, e.Message);
             throw new Exception("Failed to read palettes.json file", e);
@@ -96,7 +96,7 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
 
     private int GetNextColorId()
     {
-        if (_palettes.Count == 0)
+        if(_palettes.Count == 0)
             return 1;
         var allColors = _palettes.SelectMany(p => p.Colors);
         return !allColors.Any() ? 1 : allColors.Max(c => c.Id) + 1;
@@ -112,10 +112,10 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
 
     private void GetPaletteAndColorOfColorId(int colorId, out MiraiPaletteModel paletteModel, out MiraiColorModel colorModel)
     {
-        foreach (var palette in _palettes)
+        foreach(var palette in _palettes)
         {
             var color = palette.Colors.FirstOrDefault(c => c.Id == colorId);
-            if (color is not null)
+            if(color is not null)
             {
                 paletteModel = palette;
                 colorModel = color;
@@ -163,7 +163,7 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
     {
         _fileStream.Seek(0, SeekOrigin.Begin);
         _fileStream.SetLength(0);
-        if (_palettes.Count == 0)
+        if(_palettes.Count == 0)
         {
             _fileStream.Write(Encoding.UTF8.GetBytes("[]"));
         }

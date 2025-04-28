@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace MiraiPalette.Maui;
+namespace MiraiPalette.Maui.Platforms.MacCatalyst;
 
 public class Program
 {
