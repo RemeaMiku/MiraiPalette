@@ -148,7 +148,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
                 Color = CurrentColor.Color,
             });
         }
-        CloseColorDetail();
+        Unload();
         await Load();
     }
 

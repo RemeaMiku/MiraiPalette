@@ -25,6 +25,8 @@
             <Setter Property="LineBreakMode" Value="TailTruncation"/>
             <Setter Property="MinimumWidthRequest" Value="10"/>
             <Setter Property="HorizontalOptions"
+                    Value="Fill" />
+            <Setter Property="attached:ButtonTextAlign.TextAlign"
                     Value="Start" />
         </Style>
         <Style TargetType="Border" x:Key="IconButtonBorderStyle">
@@ -65,14 +67,11 @@
         <BackButtonBehavior Command="{Binding GoBackCommand}" TextOverride="Back to palettes"/>
     </Shell.BackButtonBehavior>
     <Grid ColumnDefinitions="*,Auto">
-        <Grid RowDefinitions="Auto,*,Auto" Padding="10" RowSpacing="10">
-            <Label x:Name="ThemeColorRef"
-                   BackgroundColor="{DynamicResource HoveredBackground}"
-                   TextColor="{DynamicResource Secondary}"
-                   IsEnabled="False"
-                   IsVisible="False" />
+        <Grid RowDefinitions="Auto,*,Auto"
+              Padding="10"
+              RowSpacing="10">
             <VerticalStackLayout Spacing="10">
-                <Button Style="{StaticResource NameDescriptionButtonStyle}" FontAttributes="Bold" Text="{Binding Palette.Name}" TextColor="{DynamicResource Primary}" FontSize="Title"  ToolTipProperties.Text="Click to edit name">
+                <Button Style="{StaticResource NameDescriptionButtonStyle}" FontAttributes="Bold" Text="{Binding Palette.Name}" TextColor="{DynamicResource Primary}" FontSize="Title" ToolTipProperties.Text="Click to edit name" >
                     <Button.Behaviors>
                         <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _nameEntry}" />
                     </Button.Behaviors>
@@ -111,7 +110,7 @@
                 <Border WidthRequest="200"
                         Margin="5"
                         Style="{StaticResource SecondaryIconButtonBorderStyle}">
-                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Add28}" attached:TapGesture.Command="{Binding AddNewColorCommand}" IconColor="{DynamicResource PrimaryText}" IconSuffix="Add a new color"/>
+                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Add28}" attached:TapGesture.Command="{Binding AddNewColorCommand}" IconColor="{DynamicResource PrimaryText}"/>
                 </Border>
                 <Border WidthRequest="200"
                         Margin="5"
