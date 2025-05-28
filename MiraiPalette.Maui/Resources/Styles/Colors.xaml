@@ -7,13 +7,16 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <!--#region Basic colors -->
-    <Color x:Key="Primary">#39C5BB</Color>
-    <Color x:Key="PrimaryDark">#39C5BB</Color>
+    <Color x:Key="Miku">#39C5BB</Color>
+    <Color x:Key="MikuRed">#e72984</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <!--<Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>-->
+    <Color x:Key="SecondaryLight">#EAEAEA</Color>
+    <Color x:Key="SecondaryDark">#2B2B2B</Color>
+
+    <Color x:Key="Success">#39c5bb</Color>
+    <Color x:Key="Error">#e72984</Color>
+    <Color x:Key="Warning">#f6c23e</Color>
+    <Color x:Key="Info">SkyBlue</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
@@ -29,29 +32,12 @@
     <Color x:Key="Gray600">#404040</Color>
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
-
-    <Color x:Key="Success">#39c5bb</Color>
-    <Color x:Key="Error">#e72984</Color>
     <Color x:Key="Transparent">Transparent</Color>
 
-    <Color x:Key="PageBackground">#f2f2f2</Color>
-    <Color x:Key="PageBackgroundDark">#202020</Color>
-    <!--#endregion-->
-
-    <!--#region Theme colors -->
-    <toolkit:AppThemeColor x:Key="PrimaryColor" Dark="{StaticResource PrimaryDark}" Light="{StaticResource Primary}" />
-    <toolkit:AppThemeColor x:Key="PrimaryTextColor" Dark="{StaticResource White}" Light="{StaticResource Black}"/>
-    <toolkit:AppThemeColor x:Key="SecondaryColor" Dark="{StaticResource Gray600}" Light="{StaticResource White}"/>
-    <toolkit:AppThemeColor x:Key="SecondaryTextColor" Dark="{StaticResource Gray600}" Light="{StaticResource Gray300}"/>
-    <toolkit:AppThemeColor x:Key="PageBackgroundColor" Dark="{StaticResource PageBackgroundDark}" Light="{StaticResource PageBackground}"/>
-    <toolkit:AppThemeColor x:Key="HoveredBackgroundColor" Dark="{StaticResource Gray500}" Light="{StaticResource Gray100}"/>
-    <!--#endregion-->
-
-    <!--#region Basic brushes -->
-    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
-    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDark}"/>
-    <!--<SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
-<SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>-->
+    <SolidColorBrush x:Key="MikuBrush"
+                     Color="{StaticResource Miku}" />
+    <SolidColorBrush x:Key="MikuRedBrush"
+                     Color="{StaticResource MikuRed}" />
     <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
     <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
 

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                    x:Class="MiraiPalette.Maui.Resources.Styles.Themes.LightTheme">
+    <Color x:Key="Primary">#39c5bb</Color>
+    <Color x:Key="Secondary">#FAFAFA</Color>
+    <Color x:Key="PrimaryText">#1A1A1A</Color>
+    <Color x:Key="SecondaryText">#393939</Color>
+
+    <Color x:Key="HoveredBackground">#E5E5E5</Color>
+    <Color x:Key="PageBackground">#EEEEEE</Color>
+
+    <SolidColorBrush x:Key="PrimaryBrush"
+                     Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="SecondaryBrush"
+                     Color="{StaticResource Secondary}" />
+    <SolidColorBrush x:Key="PrimaryTextBrush"
+                     Color="{StaticResource PrimaryText}" />
+    <SolidColorBrush x:Key="SecondaryTextBrush"
+                     Color="{StaticResource SecondaryText}" />
+    <SolidColorBrush x:Key="SuccessBrush"
+                     Color="{StaticResource Success}" />
+    <SolidColorBrush x:Key="ErrorBrush"
+                     Color="{StaticResource Error}" />
+    <SolidColorBrush x:Key="WarningBrush"
+                     Color="{StaticResource Warning}" />
+    <SolidColorBrush x:Key="InfoBrush"
+                     Color="{StaticResource Info}" />
+    <SolidColorBrush x:Key="HoveredBackgroundBrush"
+                     Color="{StaticResource HoveredBackground}" />
+    <SolidColorBrush x:Key="PageBackgroundBrush"
+                     Color="{StaticResource PageBackground}" />
+
+</ResourceDictionary>

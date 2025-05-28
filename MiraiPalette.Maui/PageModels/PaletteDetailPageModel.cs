@@ -14,6 +14,8 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         if (e.PropertyName is nameof(MiraiPaletteModel.Name) or nameof(MiraiPaletteModel.Description))
         {
             _paletteRepositoryService.UpdatePaletteAsync(Palette);
+            if(e.PropertyName == nameof(MiraiPaletteModel.Description))            
+                OnPropertyChanged(nameof(DescriptionButtonText));            
         }
     }
 
@@ -32,12 +34,18 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         Name = Constants.DefaultPaletteName,
     };
 
+    public const string DescriptionPlaceholder = "(Add a description for this palette)";
+
+    public string DescriptionButtonText => string.IsNullOrWhiteSpace(Palette.Description) ? DescriptionPlaceholder : Palette.Description;                
+    
+
     partial void OnPaletteChanged(MiraiPaletteModel oldValue, MiraiPaletteModel newValue)
     {
         if (oldValue != null)
             oldValue.PropertyChanged -= OnPalettePropertyChanged;
         if (newValue != null)
             newValue.PropertyChanged += OnPalettePropertyChanged;
+        OnPropertyChanged(nameof(DescriptionButtonText));
     }
 
     [ObservableProperty]
@@ -73,7 +81,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     {
         if (SelectedExistColor is null)
             throw new InvalidOperationException("Selected color is null");
-        var isYes = await Shell.Current.DisplayAlert("Delete Color", "Are you sure you want to delete this color?", "Yes", "No");
+        var isYes = await Shell.Current.DisplayAlert("Delete Color", $"Are you sure you want to delete \"{CurrentColor.Name}\"?", "Yes", "No");
         if (!isYes)
             return;
         await _paletteRepositoryService.DeleteColorAsync(SelectedExistColor.Id);

@@ -77,8 +77,11 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
             return;
         if(button is null)
             return;
-        button.IsVisible = true;
+        entry.IsEnabled = false;
         entry.IsVisible = false;
+        button.IsVisible = true;
+        button.IsEnabled = true;
+        button.Focus();        
     }
 
     private static void OnButtonClicked(object? sender, EventArgs e)
@@ -87,9 +90,10 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
             return;
         if(!_buttonEntryPairs.TryGetValue(button, out var entry))
             return;
-        entry.Text = button.Text;
+        button.IsEnabled = false;
         button.IsVisible = false;
         entry.IsVisible = true;
+        entry.IsEnabled = true;
         entry.Focus();
     }
 }

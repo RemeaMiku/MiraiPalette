@@ -14,13 +14,10 @@ public partial class MainPage : ContentPage
 
     private void Current_RequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
     {
-        if(!_model.IsSelectionEnabled)
-        {
-
-        }
+        _model.LoadCommand.Execute(null);
     }
 
-    private MainPageModel _model;
+    private readonly MainPageModel _model;
 
 
 }

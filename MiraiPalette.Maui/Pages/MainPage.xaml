@@ -13,50 +13,79 @@
              x:Class="MiraiPalette.Maui.Pages.MainPage"
              Title="{Binding Title}" >
     <ContentPage.Resources>
-        <Style TargetType="Border" x:Key="IconButtonBorderStyle">
-            <Setter Property="BackgroundColor" Value="{toolkit:AppThemeResource SecondaryColor}"/>
-            <Setter Property="StrokeThickness" Value="0"/>
-            <Setter Property="StrokeShape" Value="RoundRectangle 5"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="attached:Touch.HoveredBackgroundColor" Value="{toolkit:AppThemeResource HoveredBackgroundColor}"/>
+        <Style TargetType="Border"
+               x:Key="ToolButtonBorderStyle"
+               BasedOn="{StaticResource TransparentIconButtonBorderStyle}">
+            <Setter Property="Padding"
+                    Value="5" />
+            <Setter Property="WidthRequest"
+                    Value="40" />
+            <Setter Property="HeightRequest"
+                    Value="40" />
         </Style>
-        <Style TargetType="icons:MauiIcon" x:Key="IconButtonMauiIconStyle">
-            <Setter Property="BackgroundColor" Value="Transparent"/>
-            <Setter Property="HorizontalOptions" Value="Center"/>
-            <Setter Property="VerticalOptions" Value="Center"/>
+        <toolkit:BoolToObjectConverter x:Key="IsSelectionEnabledToStrokeConverter"
+                                       TrueObject="{StaticResource MikuBrush}" FalseObject="{StaticResource TransparentBrush}"/>
+        <toolkit:BoolToObjectConverter x:Key="IsSelectedToStorkeConverter"
+                                       TrueObject="{StaticResource MikuBrush}"
+                                       FalseObject="{StaticResource TransparentBrush}" />
+        <Style x:Key="PaletteBorderStyle"
+               BasedOn="{StaticResource SecondaryIconButtonBorderStyle}"
+               TargetType="Border">
+            <Setter Property="StrokeThickness"
+                    Value="3" />
+            <Setter Property="Padding"
+                    Value="0" />
         </Style>
-        <toolkit:BoolToObjectConverter x:Key="IsSelectionEnabledToBackgroundColorConverter" TrueObject="{StaticResource Primary}" FalseObject="{toolkit:AppThemeResource SecondaryColor}"/>
-        <toolkit:BoolToObjectConverter x:Key="IsSelectedToStorkeConverter" TrueObject="{toolkit:AppThemeResource PrimaryColor}" FalseObject="{StaticResource TransparentBrush}"/>
+        <DataTemplate x:Key="PaletteTemplate"
+                      x:DataType="models:MiraiPaletteModel">
+            <Border Style="{StaticResource PaletteBorderStyle}"
+                    Stroke="{Binding IsSelected, Converter={StaticResource IsSelectedToStorkeConverter}}"
+                    attached:TapGesture.Command="{Binding PaletteItemTapCommand, Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}"
+                    attached:TapGesture.CommandParameter="{Binding .}">
+                <controls:PaletteView Padding="10"
+                                      BackgroundColor="{StaticResource Transparent}" />
+            </Border>
+        </DataTemplate>
     </ContentPage.Resources>
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.LoadCommand,Source={x:Reference _page}}"/>
     </ContentPage.Behaviors>
-    <Grid Padding="10" RowDefinitions="Auto,*" RowSpacing="5">
-        <HorizontalStackLayout Padding="10" HorizontalOptions="Start" Spacing="10">
-            <Border x:Name="_seletionModeToggleBorder" Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}" BackgroundColor="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledToBackgroundColorConverter}}" ToolTipProperties.Text="Click to toggle selection mode">
-                <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}"/>
+    <Grid Padding="10"
+          RowDefinitions="Auto,*"
+          RowSpacing="5">
+        <HorizontalStackLayout Padding="10"
+                               HorizontalOptions="Start"
+                               Spacing="10">
+            <Border Style="{StaticResource ToolButtonBorderStyle}"
+                    StrokeThickness="2"
+                    Stroke="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledToStrokeConverter}}"
+                    attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}"
+                    ToolTipProperties.Text="Toggle selection mode">
+                <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}"
+                                IconColor="{DynamicResource SecondaryText}" />
             </Border>
-            <!--<Border Style="{StaticResource IconButtonBorderStyle}" >
-                <icons:MauiIcon Icon="{icons:Fluent Icon=SelectAllOn24}"/>
-            </Border>-->
+            <Label Margin="20,0,0,0" Text="Select All"
+                   VerticalTextAlignment="Center"
+                   IsVisible="{Binding IsSelectionEnabled}" />
+            <CheckBox IsChecked="{Binding IsAllSelected}"
+                      IsVisible="{Binding IsSelectionEnabled}" />
         </HorizontalStackLayout>
         <HorizontalStackLayout Padding="10" HorizontalOptions="End" Spacing="10">
-            <Border Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding AddNewPaletteCommand}" >
-                <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Add28}"/>
+            <Border Style="{StaticResource ToolButtonBorderStyle}"
+                    attached:TapGesture.Command="{Binding AddNewPaletteCommand}">
+                <icons:MauiIcon Icon="{icons:Fluent Icon=Add24}" IconColor="{DynamicResource SecondaryText}"/>
             </Border>
-            <Border IsVisible="{Binding IsSelectionEnabled}" Style="{StaticResource IconButtonBorderStyle}" attached:TapGesture.Command="{Binding DeletePalettesCommand}" >
-                <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Delete28}" IconColor="{StaticResource Error}"/>
+            <Border IsVisible="{Binding IsSelectionEnabled}"
+                    Style="{StaticResource ToolButtonBorderStyle}"
+                    attached:TapGesture.Command="{Binding DeletePalettesCommand}">
+                <icons:MauiIcon Icon="{icons:Fluent Icon=Delete24}" IconColor="{StaticResource Error}"/>
             </Border>
         </HorizontalStackLayout>
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Palettes}" Margin="10,5" Spacing="5">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="models:MiraiPaletteModel">
-                        <Border StrokeThickness="3" Stroke="{Binding IsSelected,Converter={StaticResource IsSelectedToStorkeConverter}}" StrokeShape="RoundRectangle 5" Padding="10" BackgroundColor="{toolkit:AppThemeResource SecondaryColor}" attached:TapGesture.Command="{Binding PaletteItemTapCommand,Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}" attached:TapGesture.CommandParameter="{Binding .}" attached:Touch.HoveredBackgroundColor="{toolkit:AppThemeResource HoveredBackgroundColor}">
-                            <controls:PaletteView />
-                        </Border>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Palettes}"
+                                 Margin="10,5"
+                                 Spacing="5"
+                                 BindableLayout.ItemTemplate="{StaticResource PaletteTemplate}">
             </VerticalStackLayout>
         </ScrollView>
     </Grid>

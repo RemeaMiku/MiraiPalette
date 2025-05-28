@@ -7,20 +7,9 @@ using MiraiPalette.Maui.Services;
 
 namespace MiraiPalette.Maui.PageModels;
 
-public partial class MainPageModel : ObservableObject
+public partial class MainPageModel(IPaletteRepositoryService paletteRepositoryService) : ObservableObject
 {
-    public MainPageModel(IPaletteRepositoryService paletteRepositoryService)
-    {
-        _paletteRepositoryService = paletteRepositoryService;
-        ThemeTrigger.Register(AppTheme.Dark, OnThemeChangedToDark);
-    }
-
-    private void OnThemeChangedToDark()
-    {
-
-    }
-
-    private readonly IPaletteRepositoryService _paletteRepositoryService;
+    private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
 
     [ObservableProperty]
     public partial string Title { get; set; } = "Mirai Palette";
@@ -32,10 +21,22 @@ public partial class MainPageModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(PaletteItemTapCommand))]
     public partial bool IsSelectionEnabled { get; set; } = false;
 
+    public bool IsAllSelected
+    {
+        get => SelectedPalettes.Count == Palettes?.Count;
+        set
+        {
+            if(value)
+                SelectAllPalettes();
+            else
+                ClearSelection();
+        }
+    }
+
     partial void OnIsSelectionEnabledChanged(bool value)
     {
         if(!value)
-            ClearSelection();
+            ClearSelection();        
     }
 
     private void ClearSelection()
@@ -43,12 +44,21 @@ public partial class MainPageModel : ObservableObject
         foreach(var palette in SelectedPalettes)
             palette.IsSelected = false;
         SelectedPalettes.Clear();
+        OnPropertyChanged(nameof(IsAllSelected));
     }
 
     [RelayCommand]
     private void ToggleSelectionMode()
     {
         IsSelectionEnabled = !IsSelectionEnabled;
+    }
+
+    [RelayCommand]
+    private void ToggleAllSelection()
+    {
+        if(Palettes is null)
+            return;
+        IsAllSelected = !IsAllSelected;
     }
 
     public IRelayCommand PaletteItemTapCommand => IsSelectionEnabled ? SelectPaletteCommand : NavigateToPaletteCommand;
@@ -62,7 +72,7 @@ public partial class MainPageModel : ObservableObject
         Palettes = await _paletteRepositoryService.ListPalettesAsync();
     }
 
-    [RelayCommand]
+    [RelayCommand]    
     private void SelectPalette(MiraiPaletteModel palette)
     {
         palette.IsSelected = !palette.IsSelected;
@@ -70,6 +80,21 @@ public partial class MainPageModel : ObservableObject
             SelectedPalettes.Add(palette);
         else
             SelectedPalettes.Remove(palette);
+        OnPropertyChanged(nameof(IsAllSelected));
+    }
+    
+    private void SelectAllPalettes()
+    {
+        if(Palettes is null)
+            return;
+        foreach(var palette in Palettes)
+        {
+            if(!palette.IsSelected)
+            {
+                palette.IsSelected = true;
+                SelectedPalettes.Add(palette);
+            }
+        }
     }
 
     [RelayCommand]
@@ -97,7 +122,7 @@ public partial class MainPageModel : ObservableObject
     {
         if(SelectedPalettes.Count == 0)
             return;
-        var message = SelectedPalettes.Count == 1 ? $"Are you sure you want to delete \"{SelectedPalettes.First().Name}\"?" : $"Are you sure you want to delete these {SelectedPalettes.Count} palettes?{Environment.NewLine}{string.Join(Environment.NewLine, SelectedPalettes.Select(p => p.Name))}";
+        var message = SelectedPalettes.Count == 1 ? $"Are you sure you want to delete \"{SelectedPalettes.First().Name}\"?" : $"Are you sure you want to delete these {SelectedPalettes.Count} palettes?{Environment.NewLine}{string.Join("; ", SelectedPalettes.Select(p => p.Name))}";
         var isYes = await Shell.Current.DisplayAlert("Delete Palette", message, "Yes", "No");
         if(!isYes)
             return;
