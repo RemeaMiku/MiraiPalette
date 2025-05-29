@@ -65,6 +65,12 @@
                             <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
                         </VisualState.Setters>
                     </VisualState>
+                    <VisualState x:Name="IsChecked">
+                        <VisualState.Setters>
+                            <Setter Property="Color"
+                                    Value="{DynamicResource Primary}" />
+                        </VisualState.Setters>
+                    </VisualState>
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
@@ -454,8 +460,8 @@
 
     <Style TargetType="Border"
            x:Key="TransparentIconButtonBorderStyle">
-        <Setter Property="BackgroundColor"
-                Value="{StaticResource Transparent}" />
+        <Setter Property="Background"
+                Value="{StaticResource TransparentBrush}" />
         <Setter Property="VerticalOptions"
                 Value="Center" />
         <Setter Property="StrokeThickness"
@@ -463,7 +469,7 @@
         <Setter Property="StrokeShape"
                 Value="RoundRectangle 5" />
         <Setter Property="Padding"
-                Value="10,5" />
+                Value="10" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <Setter.Value>
                 <VisualStateGroupList>
@@ -471,14 +477,14 @@
                         <VisualState x:Name="Normal" />
                         <VisualState x:Name="Disabled">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="{StaticResource Transparent}" />
+                                <Setter Property="Background"
+                                        Value="{DynamicResource HoveredBackgroundBrush}" />
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState x:Name="PointerOver">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="{DynamicResource HoveredBackground}" />
+                                <Setter Property="Background"
+                                        Value="{DynamicResource HoveredBackgroundBrush}" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -489,8 +495,8 @@
 
     <Style TargetType="Border"
            x:Key="SecondaryIconButtonBorderStyle">
-        <Setter Property="BackgroundColor"
-                Value="{DynamicResource Secondary}" />
+        <Setter Property="Background"
+                Value="{DynamicResource SecondaryBrush}" />
         <Setter Property="VerticalOptions"
                 Value="Center" />
         <Setter Property="StrokeThickness"
@@ -498,7 +504,7 @@
         <Setter Property="StrokeShape"
                 Value="RoundRectangle 5" />
         <Setter Property="Padding"
-                Value="10,5" />
+                Value="10" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <Setter.Value>
                 <VisualStateGroupList>
@@ -506,14 +512,14 @@
                         <VisualState x:Name="Normal" />
                         <VisualState x:Name="Disabled">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="{StaticResource Transparent}" />
+                                <Setter Property="Background"
+                                        Value="{DynamicResource HoveredBackgroundBrush}" />
                             </VisualState.Setters>
                         </VisualState>
                         <VisualState x:Name="PointerOver">
                             <VisualState.Setters>
-                                <Setter Property="BackgroundColor"
-                                        Value="{DynamicResource HoveredBackground}" />
+                                <Setter Property="Background"
+                                        Value="{DynamicResource HoveredBackgroundBrush}" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -524,7 +530,7 @@
 
     <Style TargetType="icons:MauiIcon">
         <Setter Property="IconColor"
-                Value="{DynamicResource SecondaryText}" />
+                Value="{DynamicResource PrimaryText}" />
         <Setter Property="BackgroundColor"
                 Value="{StaticResource Transparent}" />
         <Setter Property="HorizontalOptions"

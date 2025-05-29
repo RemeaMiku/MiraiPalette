@@ -46,7 +46,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         if (newValue != null)
             newValue.PropertyChanged += OnPalettePropertyChanged;
         OnPropertyChanged(nameof(DescriptionButtonText));
-    }
+    }    
 
     [ObservableProperty]
     public partial MiraiColorModel? SelectedExistColor { get; set; }
@@ -117,8 +117,8 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
             CurrentColor.Name = SelectedExistColor.Name;
             CurrentColor.Color = SelectedExistColor.Color;
         }
-        IsColorDetailOpen = true;
-    }
+        IsColorDetailOpen = true;     
+    }  
 
     [RelayCommand]
     private void CloseColorDetail()

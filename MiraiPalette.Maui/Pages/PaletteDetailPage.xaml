@@ -80,10 +80,14 @@
                        Placeholder="Name"
                        x:Name="_nameEntry"
                        Style="{StaticResource NameDescriptionEntryStyle}"
-                       Text="{Binding Palette.Name,UpdateSourceEventName=Unfocused}"
+                       Text="{Binding Palette.Name,Mode=TwoWay}"
                        FontSize="Title"
                        Margin="0,5"
-                       TextColor="{DynamicResource Primary}" />
+                       TextColor="{DynamicResource Primary}">
+                    <Entry.Behaviors>
+                        <behaviors:EntryRestoreBehavior />
+                    </Entry.Behaviors>
+                </Entry>
                 <Button Text="{Binding DescriptionButtonText}"
                             Style="{StaticResource NameDescriptionButtonStyle}"
                             TextColor="{DynamicResource SecondaryText}"
@@ -106,21 +110,26 @@
                             Wrap="Wrap"
                             BindableLayout.ItemsSource="{Binding Palette.Colors}" BindableLayout.ItemTemplate="{StaticResource ColorTemplate}"/>
             </ScrollView>
-            <FlexLayout Grid.Row="2" HorizontalOptions="Center" Padding="0" Direction="Row" Wrap="Wrap" AlignContent="Center" AlignItems="Center">
-                <Border WidthRequest="200"
-                        Margin="5"
+            <FlexLayout Grid.Row="2" HorizontalOptions="Fill" Padding="10" Direction="Row" Wrap="Wrap" AlignContent="Stretch" AlignItems="Stretch" JustifyContent="Center">
+                <Border Margin="5"
+                        MinimumWidthRequest="200"
                         Style="{StaticResource SecondaryIconButtonBorderStyle}">
-                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Add28}" attached:TapGesture.Command="{Binding AddNewColorCommand}" IconColor="{DynamicResource PrimaryText}"/>
+                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Add28}" IconColor="{DynamicResource PrimaryText}" IconSuffix="Add new color" 
+                                    IconSuffixTextColor="{DynamicResource PrimaryText}" attached:TapGesture.Command="{Binding AddNewColorCommand}" />
                 </Border>
-                <Border WidthRequest="200"
-                        Margin="5"
+                <Border Margin="5"                                                
+                        MinimumWidthRequest="200"
                         Style="{StaticResource SecondaryIconButtonBorderStyle}">
-                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Delete28}" attached:TapGesture.Command="{Binding DeletePaletteCommand}" IconColor="{StaticResource Error}" IconSuffixTextColor="{StaticResource Error}" IconSuffix="Delete the palette"/>
+                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}"
+                                    Icon="{icons:Fluent Icon=Delete28}"
+                                    IconSuffix="Delete the palette"
+                                    IconSuffixTextColor="{StaticResource Error}"
+                                    attached:TapGesture.Command="{Binding DeletePaletteCommand}" IconColor="{StaticResource Error}" />
                 </Border>
             </FlexLayout>
         </Grid>
         <Border Grid.Column="1" WidthRequest="300" StrokeThickness="0" Padding="15"  IsVisible="{Binding IsColorDetailOpen}" BackgroundColor="{DynamicResource Secondary}" >
-            <Grid RowDefinitions="Auto,*,Auto">
+            <Grid RowDefinitions="Auto,*,Auto" RowSpacing="15">
                 <Border Padding="5" Style="{StaticResource TransparentIconButtonBorderStyle}" HorizontalOptions="End" attached:TapGesture.Command="{Binding CloseColorDetailCommand}">
                     <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Dismiss24}" IconSize="Small" IconColor="{DynamicResource PrimaryText}"/>
                 </Border>
@@ -134,7 +143,14 @@
                                 <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Binding Source={x:Reference _colorNameEntry}}" />
                             </Button.Behaviors>
                         </Button>
-                        <Entry x:Name="_colorNameEntry" Style="{StaticResource NameDescriptionEntryStyle}" FontSize="Medium" Text="{Binding CurrentColor.Name,UpdateSourceEventName=Unfocused}"/>
+                        <Entry x:Name="_colorNameEntry"
+                               Style="{StaticResource NameDescriptionEntryStyle}"
+                               FontSize="Medium"
+                               Text="{Binding CurrentColor.Name,Mode=TwoWay}">
+                            <Entry.Behaviors>
+                                <behaviors:EntryRestoreBehavior />
+                            </Entry.Behaviors>
+                        </Entry>
                         <controls:ColorPicker Color="{Binding CurrentColor.Color,Mode=TwoWay}"/>
                     </VerticalStackLayout>
                 </ScrollView>
