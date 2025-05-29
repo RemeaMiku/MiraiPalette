@@ -36,7 +36,7 @@ public partial class MainPageModel(IPaletteRepositoryService paletteRepositorySe
     partial void OnIsSelectionEnabledChanged(bool value)
     {
         if(!value)
-            ClearSelection();        
+            ClearSelection();
     }
 
     private void ClearSelection()
@@ -69,10 +69,11 @@ public partial class MainPageModel(IPaletteRepositoryService paletteRepositorySe
     private async Task Load()
     {
         Palettes = default;
+        ClearSelection();
         Palettes = await _paletteRepositoryService.ListPalettesAsync();
     }
 
-    [RelayCommand]    
+    [RelayCommand]
     private void SelectPalette(MiraiPaletteModel palette)
     {
         palette.IsSelected = !palette.IsSelected;
@@ -82,7 +83,7 @@ public partial class MainPageModel(IPaletteRepositoryService paletteRepositorySe
             SelectedPalettes.Remove(palette);
         OnPropertyChanged(nameof(IsAllSelected));
     }
-    
+
     private void SelectAllPalettes()
     {
         if(Palettes is null)

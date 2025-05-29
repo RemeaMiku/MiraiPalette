@@ -3,9 +3,9 @@
 public class ButtonTextAlign
 {
     public static readonly BindableProperty TextAlignProperty =
-        BindableProperty.CreateAttached("TextAlign", typeof(TextAlignment), typeof(ButtonTextAlign), TextAlignment.Center,propertyChanged:OnTextAlignChanged);
+        BindableProperty.CreateAttached("TextAlign", typeof(TextAlignment), typeof(ButtonTextAlign), TextAlignment.Center, propertyChanged: OnTextAlignChanged);
 
-    
+
 
     private static void OnTextAlignChanged(BindableObject bindable, object oldValue, object newValue)
     {
@@ -36,6 +36,15 @@ public class ButtonTextAlign
             TextAlignment.Center => Microsoft.UI.Xaml.HorizontalAlignment.Center,
             TextAlignment.End => Microsoft.UI.Xaml.HorizontalAlignment.Right,
             _ => mauiButton.HorizontalContentAlignment,
+        };
+#elif ANDROID
+        var mauiButton = platformView as Android.Widget.Button ?? throw new InvalidOperationException("Button handler is not set or does not support Android Button.");
+        mauiButton.Gravity = textAlign switch
+        {
+            TextAlignment.Start => Android.Views.GravityFlags.Start,
+            TextAlignment.Center => Android.Views.GravityFlags.Center,
+            TextAlignment.End => Android.Views.GravityFlags.End,
+            _ => mauiButton.Gravity,
         };
 #endif
     }

@@ -541,8 +541,8 @@
 
     <Style TargetType="Button"
            x:Key="TransparentButtonStyle">
-        <Setter Property="BackgroundColor"
-                Value="{StaticResource Transparent}" />
+        <Setter Property="Background"
+                Value="{StaticResource TransparentBrush}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup Name="CommonStates">
@@ -557,8 +557,8 @@
                     </VisualState>
                     <VisualState x:Name="PointerOver">
                         <VisualState.Setters>
-                            <Setter Property="BackgroundColor"
-                                    Value="{DynamicResource HoveredBackground}" />
+                            <Setter Property="Background"
+                                    Value="{DynamicResource HoveredBackgroundBrush}" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
