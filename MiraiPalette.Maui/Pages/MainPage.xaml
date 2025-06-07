@@ -1,92 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:MiraiPalette.Maui.Pages.Controls;assembly=MiraiPalette.Maui"
-             xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
-             xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"             
-             xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
-             xmlns:attached="clr-namespace:MiraiPalette.Maui.AttachedProperties"
-             x:DataType="pages:MainPageModel"             
-             x:Name="_page"
-             Shell.NavBarIsVisible="False"
-             x:Class="MiraiPalette.Maui.Pages.MainPage"
-             Title="{Binding Title}" >
+<ContentPage
+    x:Class="MiraiPalette.Maui.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:attached="clr-namespace:MiraiPalette.Maui.AttachedProperties"
+    xmlns:controls="clr-namespace:MiraiPalette.Maui.Pages.Controls;assembly=MiraiPalette.Maui"
+    xmlns:globalization="clr-namespace:MiraiPalette.Maui.Resources.Globalization;assembly=MiraiPalette.Maui"
+    xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+    xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
+    xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="_page"
+    Title="{Binding Title}"
+    x:DataType="pages:MainPageModel"
+    Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
-        <Style TargetType="Border"
-               x:Key="ToolButtonBorderStyle"
-               BasedOn="{StaticResource TransparentIconButtonBorderStyle}">
-            <Setter Property="Padding"
-                    Value="5" />
-            <Setter Property="WidthRequest"
-                    Value="40" />
-            <Setter Property="HeightRequest"
-                    Value="40" />
+        <Style
+            x:Key="ToolButtonBorderStyle"
+            BasedOn="{StaticResource TransparentIconButtonBorderStyle}"
+            TargetType="Border">
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="WidthRequest" Value="40" />
+            <Setter Property="HeightRequest" Value="40" />
         </Style>
-        <toolkit:BoolToObjectConverter x:Key="IsSelectionEnabledToStrokeConverter"
-                                       TrueObject="{StaticResource MikuBrush}" FalseObject="{StaticResource TransparentBrush}"/>
-        <toolkit:BoolToObjectConverter x:Key="IsSelectedToStorkeConverter"
-                                       TrueObject="{StaticResource MikuBrush}"
-                                       FalseObject="{StaticResource TransparentBrush}" />
-        <Style x:Key="PaletteBorderStyle"
-               BasedOn="{StaticResource SecondaryIconButtonBorderStyle}"
-               TargetType="Border">
-            <Setter Property="StrokeThickness"
-                    Value="3" />
-            <Setter Property="Padding"
-                    Value="0" />
+        <toolkit:BoolToObjectConverter
+            x:Key="IsSelectionEnabledToStrokeConverter"
+            FalseObject="{StaticResource TransparentBrush}"
+            TrueObject="{StaticResource MikuBrush}" />
+        <toolkit:BoolToObjectConverter
+            x:Key="IsSelectedToStorkeConverter"
+            FalseObject="{StaticResource TransparentBrush}"
+            TrueObject="{StaticResource MikuBrush}" />
+        <Style
+            x:Key="PaletteBorderStyle"
+            BasedOn="{StaticResource SecondaryIconButtonBorderStyle}"
+            TargetType="Border">
+            <Setter Property="StrokeThickness" Value="3" />
+            <Setter Property="Padding" Value="0" />
         </Style>
-        <DataTemplate x:Key="PaletteTemplate"
-                      x:DataType="models:MiraiPaletteModel">
-            <Border Style="{StaticResource PaletteBorderStyle}"
-                    Stroke="{Binding IsSelected, Converter={StaticResource IsSelectedToStorkeConverter}}"
-                    attached:TapGesture.Command="{Binding PaletteItemTapCommand, Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}"
-                    attached:TapGesture.CommandParameter="{Binding .}">
-                <controls:PaletteView Padding="10"
-                                      BackgroundColor="{StaticResource Transparent}" />
+        <DataTemplate x:Key="PaletteTemplate" x:DataType="models:MiraiPaletteModel">
+            <Border
+                attached:TapGesture.Command="{Binding PaletteItemTapCommand, Source={RelativeSource AncestorType={x:Type pages:MainPageModel}}}"
+                attached:TapGesture.CommandParameter="{Binding .}"
+                Stroke="{Binding IsSelected, Converter={StaticResource IsSelectedToStorkeConverter}}"
+                Style="{StaticResource PaletteBorderStyle}">
+                <controls:PaletteView Padding="10" BackgroundColor="{StaticResource Transparent}" />
             </Border>
         </DataTemplate>
     </ContentPage.Resources>
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.LoadCommand,Source={x:Reference _page}}"/>
+        <toolkit:EventToCommandBehavior Command="{Binding BindingContext.LoadCommand, Source={x:Reference _page}}" EventName="Appearing" />
     </ContentPage.Behaviors>
-    <Grid Padding="10"
-          RowDefinitions="Auto,*"
-          RowSpacing="5">
-        <HorizontalStackLayout Padding="10"
-                               HorizontalOptions="Start"
-                               Spacing="10">
-            <Border Style="{StaticResource ToolButtonBorderStyle}"
-                    StrokeThickness="2"
-                    Stroke="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledToStrokeConverter}}"
-                    attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}"
-                    ToolTipProperties.Text="Toggle selection mode">
-                <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}"
-                                IconColor="{DynamicResource SecondaryText}" />
+    <Grid
+        Padding="10"
+        RowDefinitions="Auto,*"
+        RowSpacing="5">
+        <HorizontalStackLayout
+            Padding="10"
+            HorizontalOptions="Start"
+            Spacing="10">
+            <Border
+                attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}"
+                Stroke="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledToStrokeConverter}}"
+                StrokeThickness="2"
+                Style="{StaticResource ToolButtonBorderStyle}"
+                ToolTipProperties.Text="{Binding ToggleSelectionModeText}">
+                <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}" IconColor="{DynamicResource SecondaryText}" />
             </Border>
-            <Label Margin="20,0,0,0" Text="Select All"
-                   VerticalTextAlignment="Center"
-                   IsVisible="{Binding IsSelectionEnabled}" />
-            <CheckBox IsChecked="{Binding IsAllSelected}"
-                      IsVisible="{Binding IsSelectionEnabled}" />
+            <Label
+                Margin="20,0,0,0"
+                IsVisible="{Binding IsSelectionEnabled}"
+                Text="{Binding SelectAllText}"
+                VerticalTextAlignment="Center" />
+            <CheckBox IsChecked="{Binding IsAllSelected}" IsVisible="{Binding IsSelectionEnabled}" />
         </HorizontalStackLayout>
-        <HorizontalStackLayout Padding="10" HorizontalOptions="End" Spacing="10">
-            <Border Style="{StaticResource ToolButtonBorderStyle}"
-                    attached:TapGesture.Command="{Binding AddNewPaletteCommand}">
-                <icons:MauiIcon Icon="{icons:Fluent Icon=Add24}" IconColor="{DynamicResource SecondaryText}"/>
+        <HorizontalStackLayout
+            Padding="10"
+            HorizontalOptions="End"
+            Spacing="10"
+            ToolTipProperties.Text="{Binding AddNewPaletteText}">
+            <Border attached:TapGesture.Command="{Binding AddNewPaletteCommand}" Style="{StaticResource ToolButtonBorderStyle}">
+                <icons:MauiIcon Icon="{icons:Fluent Icon=Add24}" IconColor="{DynamicResource SecondaryText}" />
             </Border>
-            <Border IsVisible="{Binding IsSelectionEnabled}"
-                    Style="{StaticResource ToolButtonBorderStyle}"
-                    attached:TapGesture.Command="{Binding DeletePalettesCommand}">
-                <icons:MauiIcon Icon="{icons:Fluent Icon=Delete24}" IconColor="{StaticResource Error}"/>
+            <Border
+                attached:TapGesture.Command="{Binding DeletePalettesCommand}"
+                IsVisible="{Binding IsSelectionEnabled}"
+                Style="{StaticResource ToolButtonBorderStyle}"
+                ToolTipProperties.Text="{Binding DeletePalettesText}">
+                <icons:MauiIcon Icon="{icons:Fluent Icon=Delete24}" IconColor="{StaticResource Error}" />
             </Border>
         </HorizontalStackLayout>
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Palettes}"
-                                 Margin="10,5"
-                                 Spacing="5"
-                                 BindableLayout.ItemTemplate="{StaticResource PaletteTemplate}">
-            </VerticalStackLayout>
+            <VerticalStackLayout
+                Margin="10,5"
+                BindableLayout.ItemTemplate="{StaticResource PaletteTemplate}"
+                BindableLayout.ItemsSource="{Binding Palettes}"
+                Spacing="5" />
         </ScrollView>
     </Grid>
 </ContentPage>

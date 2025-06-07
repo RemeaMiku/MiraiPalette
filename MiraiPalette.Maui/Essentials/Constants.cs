@@ -1,8 +1,12 @@
-﻿namespace MiraiPalette.Maui.Essentials;
+﻿using MiraiPalette.Maui.Resources.Globalization;
+
+namespace MiraiPalette.Maui.Essentials;
 
 public static class Constants
 {
     public const string DefaultColorAsHex = "#FFF";
-    public const string DefaultColorName = "New Color";
-    public const string DefaultPaletteName = "New Palette";
+
+    public static string DefaultColorName { get; } = StringResource.NewColor;
+
+    public static string DefaultPaletteName { get; } = StringResource.NewPalette;
 }

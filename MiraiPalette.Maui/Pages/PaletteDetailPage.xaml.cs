@@ -10,6 +10,10 @@ public partial class PaletteDetailPage : ContentPage
         BindingContext = model;
         _model = model;
         Application.Current!.RequestedThemeChanged += Current_RequestedThemeChanged;
+        SizeChanged += (s, e) =>
+        {
+
+        };
     }
 
     private readonly PaletteDetailPageModel _model;
@@ -17,7 +21,7 @@ public partial class PaletteDetailPage : ContentPage
     private void Current_RequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
     {
         _model.UnloadCommand.Execute(null);
-        _model.LoadCommand.Execute(null);        
+        _model.LoadCommand.Execute(null);
     }
 }
 

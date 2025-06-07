@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
+using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Services;
 
 namespace MiraiPalette.Maui.PageModels;
@@ -11,8 +12,16 @@ public partial class MainPageModel(IPaletteRepositoryService paletteRepositorySe
 {
     private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
 
+    public string ToggleSelectionModeText { get; } = StringResource.ToggleSelectionMode;
+
+    public string SelectAllText { get; } = StringResource.SelectAll;
+
+    public string AddNewPaletteText { get; } = StringResource.AddNewPalette;
+
+    public string DeletePalettesText { get; } = StringResource.DeletePalettes;
+
     [ObservableProperty]
-    public partial string Title { get; set; } = "Mirai Palette";
+    public partial string Title { get; set; } = StringResource.MainWindowTitle;
 
     [ObservableProperty]
     public partial List<MiraiPaletteModel>? Palettes { get; set; }
@@ -26,6 +35,8 @@ public partial class MainPageModel(IPaletteRepositoryService paletteRepositorySe
         get => SelectedPalettes.Count == Palettes?.Count;
         set
         {
+            if(value == IsAllSelected)
+                return;
             if(value)
                 SelectAllPalettes();
             else
@@ -51,14 +62,6 @@ public partial class MainPageModel(IPaletteRepositoryService paletteRepositorySe
     private void ToggleSelectionMode()
     {
         IsSelectionEnabled = !IsSelectionEnabled;
-    }
-
-    [RelayCommand]
-    private void ToggleAllSelection()
-    {
-        if(Palettes is null)
-            return;
-        IsAllSelected = !IsAllSelected;
     }
 
     public IRelayCommand PaletteItemTapCommand => IsSelectionEnabled ? SelectPaletteCommand : NavigateToPaletteCommand;
@@ -123,8 +126,8 @@ public partial class MainPageModel(IPaletteRepositoryService paletteRepositorySe
     {
         if(SelectedPalettes.Count == 0)
             return;
-        var message = SelectedPalettes.Count == 1 ? $"Are you sure you want to delete \"{SelectedPalettes.First().Name}\"?" : $"Are you sure you want to delete these {SelectedPalettes.Count} palettes?{Environment.NewLine}{string.Join("; ", SelectedPalettes.Select(p => p.Name))}";
-        var isYes = await Shell.Current.DisplayAlert("Delete Palette", message, "Yes", "No");
+        var message = SelectedPalettes.Count == 1 ? string.Format(StringResource.DeletePaletteDialogMessage, SelectedPalettes[0].Name) : $"{string.Format(StringResource.DeletePalettesDialogMessage, SelectedPalettes.Count)}{Environment.NewLine}{string.Join("; ", SelectedPalettes.Select(p => p.Name))}";
+        var isYes = await Shell.Current.DisplayAlert(StringResource.DeletePalettes, message, StringResource.Confirm, StringResource.Cancel);
         if(!isYes)
             return;
         foreach(var palette in SelectedPalettes)

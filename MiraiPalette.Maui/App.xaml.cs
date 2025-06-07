@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Extensions;
-using MiraiPalette.Maui.Resources.Styles.Themes;
+﻿using MiraiPalette.Maui.Resources.Styles.Themes;
 
 namespace MiraiPalette.Maui
 {
@@ -7,20 +6,20 @@ namespace MiraiPalette.Maui
     {
         public App()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void OnCurrentRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
         {
-            if(e.RequestedTheme == AppTheme.Unspecified)            
-                return;            
+            if(e.RequestedTheme == AppTheme.Unspecified)
+                return;
             var dictionaries = Current!.Resources.MergedDictionaries;
             var currentThemeDictionary = dictionaries.FirstOrDefault(d => d is not null && d.Source?.OriginalString.Contains("Themes") == true);
             dictionaries.Remove(currentThemeDictionary);
             ResourceDictionary newThemeDictionary = e.RequestedTheme switch
             {
                 AppTheme.Light => new LightTheme(),
-                AppTheme.Dark => new DarkTheme(),               
+                AppTheme.Dark => new DarkTheme(),
                 _ => new DarkTheme()
             };
             dictionaries.Add(newThemeDictionary);

@@ -1,12 +1,16 @@
 ﻿using CommunityToolkit.Maui;
 using MauiIcons.Core;
 using MauiIcons.Fluent;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MiraiPalette.Maui.PageModels;
 using MiraiPalette.Maui.Pages;
+using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Services;
 using MiraiPalette.Maui.Services.Local;
 
+
+[assembly: RootNamespace("MiraiPalette.Maui")]
 namespace MiraiPalette.Maui;
 public static class MauiProgram
 {
@@ -14,10 +18,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiCommunityToolkit(options =>
-            {
-                options.SetShouldEnableSnackbarOnWindows(true);
-            })
+            .UseMauiCommunityToolkit(options => options.SetShouldEnableSnackbarOnWindows(true))
             .UseFluentMauiIcons()
             .UseMauiIconsCore(x =>
             {
@@ -36,9 +37,14 @@ public static class MauiProgram
 #endif
 
         builder.Services
+            .AddLocalization(options =>
+            options.ResourcesPath = "Resources\\Globalization")
+            .AddSingleton<StringResource>()
+            .AddSingleton<IStringLocalizer, StringLocalizer<StringResource>>()
             .AddSingleton<IPaletteRepositoryService, JsonPaletteRepositoryService>()
             .AddSingleton<MainPageModel>()
             .AddTransientWithShellRoute<PaletteDetailPage, PaletteDetailPageModel>(ShellRoutes.PaletteDetailPage);
+        StringResource.Culture = new("ja");
         return builder.Build();
     }
 }

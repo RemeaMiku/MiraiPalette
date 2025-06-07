@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
-             x:DataType="models:MiraiColorModel"
-             x:Class="MiraiPalette.Maui.Pages.Controls.ColorView"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+<ContentView
+    x:Class="MiraiPalette.Maui.Pages.Controls.ColorView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="models:MiraiColorModel">
     <ContentView.Resources>
         <!--<Style x:Key="ColorModelLabelStyle"
                TargetType="Label">
@@ -17,29 +18,21 @@
             <Setter Property="VerticalTextAlignment"
                     Value="Center"/>
         </Style>-->
-        <Style x:Key="ColorModelButtonStyle"
-               TargetType="Button">
+        <Style x:Key="ColorModelButtonStyle" TargetType="Button">
             <!--<Setter Property="CornerRadius" Value="0"/>-->
-            <Setter Property="Padding"
-                    Value="15,10"/>
-            <Setter Property="HorizontalOptions"
-                    Value="Fill"/>
-            <Setter Property="VerticalOptions"
-                    Value="Fill"/>
-            <Setter Property="BackgroundColor"
-                    Value="Transparent"/>
-            <Setter Property="TextColor"
-                    Value="{DynamicResource SecondaryText}"/>
-            <Setter Property="ToolTipProperties.Text"
-                    Value="Click to copy to clipboard"/>
+            <Setter Property="Padding" Value="15,10" />
+            <Setter Property="HorizontalOptions" Value="Fill" />
+            <Setter Property="VerticalOptions" Value="Fill" />
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="TextColor" Value="{DynamicResource SecondaryText}" />
+            <Setter Property="ToolTipProperties.Text" Value="Click to copy to clipboard" />
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal"/>
+                        <VisualState x:Name="Normal" />
                         <VisualState x:Name="PointerOver">
                             <VisualState.Setters>
-                                <Setter Property="TextColor"
-                                        Value="{Binding Color}"/>
+                                <Setter Property="TextColor" Value="{Binding Color}" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -47,31 +40,31 @@
             </Setter>
         </Style>
     </ContentView.Resources>
-    <Grid RowDefinitions="Auto,*,Auto"
-          RowSpacing="0">
-        <Label HorizontalTextAlignment="Center"
-               Text="{Binding Name}"
-               FontSize="Micro"
-               LineBreakMode="MiddleTruncation"
-               ToolTipProperties.Text="{Binding Name}"
-               Padding="10"/>
-        <Rectangle Grid.Row="1"
-                   BackgroundColor="{Binding Color}"/>
-        <Grid  Grid.Row="2">
-            <Button x:Name="_hexButton"
-                    Style="{StaticResource ColorModelButtonStyle}"
-                    Text="{Binding Hex}"
-                    Clicked="CopyButton_Clicked"/>
-            <Label x:Name="_copiedLabel"
-                   BackgroundColor="{StaticResource Success}"
-                   Text="Copied!"
-                   TextColor="{StaticResource White}"
-                   IsVisible="False"
-                   Opacity="0"
-                   Padding="20,5"
-                   Margin="1"
-                   HorizontalTextAlignment="Center"
-                   VerticalTextAlignment="Center"/>
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
+        <Label
+            Padding="10"
+            FontSize="Micro"
+            HorizontalTextAlignment="Center"
+            LineBreakMode="MiddleTruncation"
+            Text="{Binding Name}"
+            ToolTipProperties.Text="{Binding Name}" />
+        <Rectangle Grid.Row="1" BackgroundColor="{Binding Color}" />
+        <Grid Grid.Row="2">
+            <Button
+                x:Name="_hexButton"
+                Clicked="CopyButton_Clicked"
+                Style="{StaticResource ColorModelButtonStyle}"
+                Text="{Binding Hex}" />
+            <Label
+                x:Name="_copiedLabel"
+                Margin="1"
+                Padding="20,5"
+                BackgroundColor="{StaticResource Success}"
+                HorizontalTextAlignment="Center"
+                IsVisible="False"
+                Opacity="0"
+                TextColor="{StaticResource White}"
+                VerticalTextAlignment="Center" />
         </Grid>
     </Grid>
 

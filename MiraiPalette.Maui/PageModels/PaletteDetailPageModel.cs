@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
+using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Services;
 
 namespace MiraiPalette.Maui.PageModels;
@@ -11,11 +12,11 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
 {
     private void OnPalettePropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is nameof(MiraiPaletteModel.Name) or nameof(MiraiPaletteModel.Description))
+        if(e.PropertyName is nameof(MiraiPaletteModel.Name) or nameof(MiraiPaletteModel.Description))
         {
             _paletteRepositoryService.UpdatePaletteAsync(Palette);
-            if(e.PropertyName == nameof(MiraiPaletteModel.Description))            
-                OnPropertyChanged(nameof(DescriptionButtonText));            
+            if(e.PropertyName == nameof(MiraiPaletteModel.Description))
+                OnPropertyChanged(nameof(DescriptionButtonText));
         }
     }
 
@@ -29,24 +30,42 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(DescriptionButtonText), nameof(PaletteNameButtonTooltip))]
     public partial MiraiPaletteModel Palette { get; set; } = new()
     {
         Name = Constants.DefaultPaletteName,
     };
 
-    public const string DescriptionPlaceholder = "(Add a description for this palette)";
+    private static readonly string _descriptionPlaceholder = $"({StringResource.AddDescriptionsForPalette})";
 
-    public string DescriptionButtonText => string.IsNullOrWhiteSpace(Palette.Description) ? DescriptionPlaceholder : Palette.Description;                
-    
+    public string DescriptionButtonText => string.IsNullOrWhiteSpace(Palette.Description) ? _descriptionPlaceholder : Palette.Description;
+
+    public string PaletteNameButtonTooltip => $"{Palette.Name} ({StringResource.ClickToRename})";
+
+    public string PaletteDescriptionButtonTooltip { get; } = StringResource.ClickToEditDescription;
+
+    public string AddNewColorText { get; } = StringResource.AddNewColor;
+
+    public string DeletePaletteText { get; } = StringResource.DeletePalette;
+
+    public string CurrentColorNameButtonTooltip => $"{CurrentColor.Name} ({StringResource.ClickToRename})";
+
+    public string SaveColorText { get; } = StringResource.Save;
+
+    public string RemoveColorText { get; } = StringResource.Remove;
+
+    public string CloseColorDetailText { get; } = StringResource.CloseColorDetailPanel;
+
+    public string CopyToClipboardText { get; } = StringResource.CopyToClipboard;
 
     partial void OnPaletteChanged(MiraiPaletteModel oldValue, MiraiPaletteModel newValue)
     {
-        if (oldValue != null)
+        if(oldValue != null)
             oldValue.PropertyChanged -= OnPalettePropertyChanged;
-        if (newValue != null)
+        if(newValue != null)
             newValue.PropertyChanged += OnPalettePropertyChanged;
         OnPropertyChanged(nameof(DescriptionButtonText));
-    }    
+    }
 
     [ObservableProperty]
     public partial MiraiColorModel? SelectedExistColor { get; set; }
@@ -69,8 +88,8 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     [RelayCommand]
     private async Task DeletePalette()
     {
-        var isYes = await Shell.Current.DisplayAlert("Delete Palette", "Are you sure you want to delete this palette?", "Yes", "No");
-        if (!isYes)
+        var isYes = await Shell.Current.DisplayAlert(StringResource.DeletePalette, string.Format(StringResource.DeletePaletteDialogMessage, Palette.Name), StringResource.Confirm, StringResource.Cancel);
+        if(!isYes)
             return;
         await _paletteRepositoryService.DeletePaletteAsync(Palette.Id);
         await Shell.Current.GoToAsync(ShellRoutes.GoBack);
@@ -79,10 +98,10 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     [RelayCommand]
     private async Task DeleteSelectedColor()
     {
-        if (SelectedExistColor is null)
+        if(SelectedExistColor is null)
             throw new InvalidOperationException("Selected color is null");
-        var isYes = await Shell.Current.DisplayAlert("Delete Color", $"Are you sure you want to delete \"{CurrentColor.Name}\"?", "Yes", "No");
-        if (!isYes)
+        var isYes = await Shell.Current.DisplayAlert(StringResource.DeleteColor, string.Format(StringResource.RemoveColorDialogMessage, CurrentColor.Name), StringResource.Confirm, StringResource.Cancel);
+        if(!isYes)
             return;
         await _paletteRepositoryService.DeleteColorAsync(SelectedExistColor.Id);
         await Load();
@@ -97,7 +116,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
 
     private void ClearSelection()
     {
-        if (SelectedExistColor is not null)
+        if(SelectedExistColor is not null)
         {
             SelectedExistColor.IsSelected = false;
             SelectedExistColor = default;
@@ -109,7 +128,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     {
         ClearSelection();
         SelectedExistColor = color;
-        if (SelectedExistColor is null)
+        if(SelectedExistColor is null)
             ClearColorDetail();
         else
         {
@@ -117,8 +136,8 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
             CurrentColor.Name = SelectedExistColor.Name;
             CurrentColor.Color = SelectedExistColor.Color;
         }
-        IsColorDetailOpen = true;     
-    }  
+        IsColorDetailOpen = true;
+    }
 
     [RelayCommand]
     private void CloseColorDetail()
@@ -131,7 +150,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     [RelayCommand]
     private async Task SaveColorDetail()
     {
-        if (SelectedExistColor is null)
+        if(SelectedExistColor is null)
         {
             await _paletteRepositoryService.InsertColorAsync(Palette.Id, new MiraiColorModel
             {
@@ -165,7 +184,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     private async Task Load()
     {
         var palette = await _paletteRepositoryService.SelectPaletteAsync(_paletteId);
-        if (palette is null)
+        if(palette is null)
         {
             await Shell.Current.DisplayAlert("Error", "Palette not found", "OK");
             await Shell.Current.GoToAsync(ShellRoutes.GoBack);

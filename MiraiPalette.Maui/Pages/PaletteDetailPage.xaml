@@ -1,189 +1,273 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MiraiPalette.Maui.Pages.PaletteDetailPage"
-             xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
-             xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
-             xmlns:controls="clr-namespace:MiraiPalette.Maui.Pages.Controls;assembly=MiraiPalette.Maui"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:DataType="pages:PaletteDetailPageModel"
-             xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
-             xmlns:attached="clr-namespace:MiraiPalette.Maui.AttachedProperties"
-             xmlns:behaviors="clr-namespace:MiraiPalette.Maui.Behaviors;assembly=MiraiPalette.Maui"
-             x:Name="_page"             
-             Title="" Shell.NavBarIsVisible="False" >
+<ContentPage
+    x:Class="MiraiPalette.Maui.Pages.PaletteDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:attached="clr-namespace:MiraiPalette.Maui.AttachedProperties"
+    xmlns:behaviors="clr-namespace:MiraiPalette.Maui.Behaviors;assembly=MiraiPalette.Maui"
+    xmlns:controls="clr-namespace:MiraiPalette.Maui.Pages.Controls;assembly=MiraiPalette.Maui"
+    xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+    xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
+    xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="_page"
+    Title=""
+    x:DataType="pages:PaletteDetailPageModel"
+    Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
-        <Style TargetType="Entry" x:Key="NameDescriptionEntryStyle">
-            <Setter Property="Keyboard" Value="Text"/>
-            <Setter Property="IsSpellCheckEnabled" Value="False"/>
-            <Setter Property="ClearButtonVisibility" Value="WhileEditing"/>
-            <Setter Property="ReturnType" Value="Done"/>
-            <Setter Property="HorizontalOptions" Value="Start"/>
+        <Style x:Key="NameDescriptionEntryStyle" TargetType="Entry">
+            <Setter Property="Keyboard" Value="Text" />
+            <Setter Property="IsSpellCheckEnabled" Value="False" />
+            <Setter Property="ClearButtonVisibility" Value="WhileEditing" />
+            <Setter Property="ReturnType" Value="Done" />
+            <Setter Property="HorizontalOptions" Value="Start" />
         </Style>
-        <Style TargetType="Button" x:Key="NameDescriptionButtonStyle" BasedOn="{StaticResource TransparentButtonStyle}">
-            <Setter Property="BackgroundColor" Value="{StaticResource Transparent}"/>
-            <Setter Property="LineBreakMode" Value="TailTruncation"/>
-            <Setter Property="MinimumWidthRequest" Value="10"/>
-            <Setter Property="HorizontalOptions"
-                    Value="Fill" />
-            <Setter Property="attached:ButtonTextAlign.TextAlign"
-                    Value="Start" />
+        <Style
+            x:Key="NameDescriptionButtonStyle"
+            BasedOn="{StaticResource TransparentButtonStyle}"
+            TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+            <Setter Property="LineBreakMode" Value="TailTruncation" />
+            <Setter Property="MinimumWidthRequest" Value="10" />
+            <Setter Property="HorizontalOptions" Value="Fill" />
+            <Setter Property="attached:ButtonTextAlign.TextAlign" Value="Start" />
         </Style>
-        <Style TargetType="Border" x:Key="IconButtonBorderStyle">
-            <Setter Property="VerticalOptions" Value="Center"/>
-            <Setter Property="StrokeThickness" Value="0"/>
-            <Setter Property="StrokeShape" Value="RoundRectangle 5"/>
-            <Setter Property="Padding"
-                    Value="10,5" />
+        <Style x:Key="IconButtonBorderStyle" TargetType="Border">
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+            <Setter Property="Padding" Value="10,5" />
         </Style>
-        <Style TargetType="icons:MauiIcon" x:Key="IconButtonMauiIconStyle">
-            <Setter Property="BackgroundColor" Value="Transparent"/>
-            <Setter Property="HorizontalOptions"
-                    Value="Start" />
-            <Setter Property="VerticalOptions" Value="Center"/>
-            <Setter Property="IconSuffixFontSize" Value="16"/>
+        <Style x:Key="IconButtonMauiIconStyle" TargetType="icons:MauiIcon">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+            <Setter Property="HorizontalOptions" Value="Start" />
+            <Setter Property="VerticalOptions" Value="Center" />
+            <Setter Property="IconSuffixFontSize" Value="16" />
         </Style>
-        <toolkit:IsNotNullConverter x:Key="IsNotNullConverter"/>
-        <toolkit:BoolToObjectConverter x:Key="IsSelectedToStorkeConverter" TrueObject="{StaticResource MikuBrush}" FalseObject="{StaticResource TransparentBrush}"/>
-        <DataTemplate x:Key="ColorTemplate"
-                      x:DataType="models:MiraiColorModel">
-            <Border Stroke="{Binding IsSelected,Converter={StaticResource IsSelectedToStorkeConverter}}"
-                    StrokeShape="RoundRectangle 5"
-                    Style="{StaticResource SecondaryIconButtonBorderStyle}"
-                    StrokeThickness="2"
-                    Margin="1"
-                    Padding="1"
-                    attached:TapGesture.Command="{Binding OpenColorDetailCommand,Source={RelativeSource AncestorType={x:Type pages:PaletteDetailPageModel}}}"
-                    attached:TapGesture.CommandParameter="{Binding .}">
-                <controls:ColorView WidthRequest="300"
-                                    HeightRequest="150" />
+        <toolkit:IsNotNullConverter x:Key="IsNotNullConverter" />
+        <toolkit:BoolToObjectConverter
+            x:Key="IsSelectedToStorkeConverter"
+            FalseObject="{StaticResource TransparentBrush}"
+            TrueObject="{StaticResource MikuBrush}" />
+        <DataTemplate x:Key="ColorTemplate" x:DataType="models:MiraiColorModel">
+            <Border
+                Margin="0"
+                Padding="0"
+                attached:TapGesture.Command="{Binding OpenColorDetailCommand, Source={RelativeSource AncestorType={x:Type pages:PaletteDetailPageModel}}}"
+                attached:TapGesture.CommandParameter="{Binding .}"
+                Stroke="{Binding IsSelected, Converter={StaticResource IsSelectedToStorkeConverter}}"
+                StrokeThickness="2"
+                Style="{StaticResource SecondaryIconButtonBorderStyle}">
+                <controls:ColorView HeightRequest="200" WidthRequest="150" />
             </Border>
         </DataTemplate>
     </ContentPage.Resources>
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding BindingContext.LoadCommand,Source={x:Reference _page}}"/>
+        <toolkit:EventToCommandBehavior Command="{Binding BindingContext.LoadCommand, Source={x:Reference _page}}" EventName="Appearing" />
     </ContentPage.Behaviors>
     <Shell.BackButtonBehavior>
-        <BackButtonBehavior Command="{Binding GoBackCommand}" TextOverride="Back to palettes"/>
+        <BackButtonBehavior Command="{Binding GoBackCommand}" TextOverride="Back to palettes" />
     </Shell.BackButtonBehavior>
     <Grid ColumnDefinitions="*,Auto">
-        <Grid RowDefinitions="Auto,*,Auto"
-              Padding="10"
-              RowSpacing="10">
+        <Grid
+            Padding="10"
+            RowDefinitions="Auto,*,Auto"
+            RowSpacing="10">
             <VerticalStackLayout Spacing="10">
-                <Button Style="{StaticResource NameDescriptionButtonStyle}" FontAttributes="Bold" Text="{Binding Palette.Name}" TextColor="{DynamicResource Primary}" FontSize="Title" ToolTipProperties.Text="Click to edit name" >
+                <Button
+                    FontAttributes="Bold"
+                    FontSize="Title"
+                    Style="{StaticResource NameDescriptionButtonStyle}"
+                    Text="{Binding Palette.Name}"
+                    TextColor="{DynamicResource Primary}"
+                    ToolTipProperties.Text="{Binding PaletteNameButtonTooltip}">
                     <Button.Behaviors>
                         <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _nameEntry}" />
                     </Button.Behaviors>
                 </Button>
-                <Entry FontAttributes="Bold"
-                       Placeholder="Name"
-                       x:Name="_nameEntry"
-                       Style="{StaticResource NameDescriptionEntryStyle}"
-                       Text="{Binding Palette.Name,Mode=TwoWay}"
-                       FontSize="Title"
-                       Margin="0,5"
-                       TextColor="{DynamicResource Primary}">
+                <Entry
+                    x:Name="_nameEntry"
+                    Margin="0,5"
+                    FontAttributes="Bold"
+                    FontSize="Title"
+                    Style="{StaticResource NameDescriptionEntryStyle}"
+                    Text="{Binding Palette.Name, Mode=TwoWay}"
+                    TextColor="{DynamicResource Primary}">
                     <Entry.Behaviors>
                         <behaviors:EntryRestoreBehavior />
                     </Entry.Behaviors>
                 </Entry>
-                <Button Text="{Binding DescriptionButtonText}"
-                            Style="{StaticResource NameDescriptionButtonStyle}"
-                            TextColor="{DynamicResource SecondaryText}"
-                            FontSize="Body"
-                            ToolTipProperties.Text="Click to edit description">
-                        <Button.Behaviors>
-                            <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _descriptionEntry}" />
-                        </Button.Behaviors>
-                    </Button>
-                <Entry x:Name="_descriptionEntry"
-                       Style="{StaticResource NameDescriptionEntryStyle}"
-                       Text="{Binding Palette.Description,UpdateSourceEventName=Unfocused}"
-                       TextColor="{DynamicResource SecondaryText}"
-                       Placeholder="Text description here..."
-                       FontSize="Body" />
+                <Button
+                    FontSize="Body"
+                    Style="{StaticResource NameDescriptionButtonStyle}"
+                    Text="{Binding DescriptionButtonText}"
+                    TextColor="{DynamicResource SecondaryText}"
+                    ToolTipProperties.Text="{Binding PaletteDescriptionButtonTooltip}">
+                    <Button.Behaviors>
+                        <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Reference _descriptionEntry}" />
+                    </Button.Behaviors>
+                </Button>
+                <Entry
+                    x:Name="_descriptionEntry"
+                    FontSize="Body"
+                    Style="{StaticResource NameDescriptionEntryStyle}"
+                    Text="{Binding Palette.Description, UpdateSourceEventName=Unfocused}"
+                    TextColor="{DynamicResource SecondaryText}" />
             </VerticalStackLayout>
             <ScrollView Grid.Row="1">
-                <FlexLayout AlignItems="Center"
-                            AlignContent="Start"
-                            Wrap="Wrap"
-                            BindableLayout.ItemsSource="{Binding Palette.Colors}" BindableLayout.ItemTemplate="{StaticResource ColorTemplate}"/>
+                <FlexLayout
+                    AlignContent="Start"
+                    AlignItems="Center"
+                    BindableLayout.ItemTemplate="{StaticResource ColorTemplate}"
+                    BindableLayout.ItemsSource="{Binding Palette.Colors}"
+                    Wrap="Wrap" />
             </ScrollView>
-            <FlexLayout Grid.Row="2" HorizontalOptions="Fill" Padding="10" Direction="Row" Wrap="Wrap" AlignContent="Stretch" AlignItems="Stretch" JustifyContent="Center">
-                <Border Margin="5"
-                        MinimumWidthRequest="200"
-                        Style="{StaticResource SecondaryIconButtonBorderStyle}">
-                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Add28}" IconColor="{DynamicResource PrimaryText}" IconSuffix="Add new color" 
-                                    IconSuffixTextColor="{DynamicResource PrimaryText}" attached:TapGesture.Command="{Binding AddNewColorCommand}" />
+            <StackLayout
+                Grid.Row="2"
+                Margin="5"
+                Padding="5"
+                HorizontalOptions="Center"
+                Orientation="Horizontal"
+                VerticalOptions="Center">
+                <Border
+                    Margin="5"
+                    attached:TapGesture.Command="{Binding AddNewColorCommand}"
+                    Style="{StaticResource SecondaryIconButtonBorderStyle}"
+                    ToolTipProperties.Text="{Binding AddNewColorText}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=Add28}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        Style="{StaticResource IconButtonMauiIconStyle}" />
                 </Border>
-                <Border Margin="5"                                                
-                        MinimumWidthRequest="200"
-                        Style="{StaticResource SecondaryIconButtonBorderStyle}">
-                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}"
-                                    Icon="{icons:Fluent Icon=Delete28}"
-                                    IconSuffix="Delete the palette"
-                                    IconSuffixTextColor="{StaticResource Error}"
-                                    attached:TapGesture.Command="{Binding DeletePaletteCommand}" IconColor="{StaticResource Error}" />
+                <Border
+                    Margin="5"
+                    Style="{StaticResource SecondaryIconButtonBorderStyle}"
+                    ToolTipProperties.Text="{Binding DeletePaletteText}">
+                    <icons:MauiIcon
+                        attached:TapGesture.Command="{Binding DeletePaletteCommand}"
+                        Icon="{icons:Fluent Icon=Delete28}"
+                        IconColor="{StaticResource Error}"
+                        Style="{StaticResource IconButtonMauiIconStyle}" />
                 </Border>
-            </FlexLayout>
+            </StackLayout>
+            <!--<FlexLayout
+                Grid.Row="2"
+                Padding="10"
+                AlignContent="Stretch"
+                AlignItems="Stretch"
+                Direction="Row"
+                HorizontalOptions="Center"
+                JustifyContent="Center"
+                Wrap="NoWrap">
+                <Border
+                    Margin="5"
+                    attached:TapGesture.Command="{Binding AddNewColorCommand}"
+                    FlexLayout.Basis="50%"
+                    Style="{StaticResource SecondaryIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=Add28}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSuffix="{Binding AddNewColorText}"
+                        IconSuffixTextColor="{DynamicResource PrimaryText}"
+                        Style="{StaticResource IconButtonMauiIconStyle}" />
+                </Border>
+                <Border
+                    Margin="5"
+                    FlexLayout.Basis="50%"
+                    Style="{StaticResource SecondaryIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        attached:TapGesture.Command="{Binding DeletePaletteCommand}"
+                        Icon="{icons:Fluent Icon=Delete28}"
+                        IconColor="{StaticResource Error}"
+                        IconSuffix="{Binding DeletePaletteText}"
+                        IconSuffixTextColor="{StaticResource Error}"
+                        Style="{StaticResource IconButtonMauiIconStyle}" />
+                </Border>
+            </FlexLayout>-->
         </Grid>
-        <Border Grid.Column="1" WidthRequest="300" StrokeThickness="0" Padding="15"  IsVisible="{Binding IsColorDetailOpen}" BackgroundColor="{DynamicResource Secondary}" >
+        <Border
+            x:Name="_colorDetialPanel"
+            Grid.Column="1"
+            Padding="15"
+            BackgroundColor="{DynamicResource Secondary}"
+            IsVisible="{Binding IsColorDetailOpen}"
+            StrokeThickness="0"
+            WidthRequest="340">
             <Grid RowDefinitions="Auto,*,Auto" RowSpacing="15">
-                <Border Padding="5" Style="{StaticResource TransparentIconButtonBorderStyle}" HorizontalOptions="End" attached:TapGesture.Command="{Binding CloseColorDetailCommand}">
-                    <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}" Icon="{icons:Fluent Icon=Dismiss24}" IconSize="Small" IconColor="{DynamicResource PrimaryText}"/>
+                <Border
+                    Padding="5"
+                    attached:TapGesture.Command="{Binding CloseColorDetailCommand}"
+                    HorizontalOptions="End"
+                    Style="{StaticResource TransparentIconButtonBorderStyle}"
+                    ToolTipProperties.Text="{Binding CloseColorDetailText}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=Dismiss24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="Small"
+                        Style="{StaticResource IconButtonMauiIconStyle}" />
                 </Border>
                 <ScrollView Grid.Row="1">
                     <VerticalStackLayout Spacing="10">
-                        <Button Style="{StaticResource NameDescriptionButtonStyle}"
-                                Text="{Binding CurrentColor.Name}"
-                                FontSize="Medium"
-                                ToolTipProperties.Text="Click to edit name">
+                        <Button
+                            FontSize="Medium"
+                            Style="{StaticResource NameDescriptionButtonStyle}"
+                            Text="{Binding CurrentColor.Name}"
+                            ToolTipProperties.Text="{Binding CurrentColorNameButtonTooltip}">
                             <Button.Behaviors>
                                 <behaviors:ButtonSwitchToEntryBehavior SwitchTo="{x:Binding Source={x:Reference _colorNameEntry}}" />
                             </Button.Behaviors>
                         </Button>
-                        <Entry x:Name="_colorNameEntry"
-                               Style="{StaticResource NameDescriptionEntryStyle}"
-                               FontSize="Medium"
-                               Text="{Binding CurrentColor.Name,Mode=TwoWay}">
+                        <Entry
+                            x:Name="_colorNameEntry"
+                            FontSize="Medium"
+                            Style="{StaticResource NameDescriptionEntryStyle}"
+                            Text="{Binding CurrentColor.Name, Mode=TwoWay}">
                             <Entry.Behaviors>
                                 <behaviors:EntryRestoreBehavior />
                             </Entry.Behaviors>
                         </Entry>
-                        <controls:ColorPicker Color="{Binding CurrentColor.Color,Mode=TwoWay}"/>
+                        <controls:ColorPicker Color="{Binding CurrentColor.Color, Mode=TwoWay}" />
                     </VerticalStackLayout>
                 </ScrollView>
-               <VerticalStackLayout Grid.Row="2" HorizontalOptions="Fill" Spacing="10">
-                    <Border Style="{StaticResource TransparentIconButtonBorderStyle}" 
-                            Stroke="{StaticResource SuccessBrush}"
-                            StrokeThickness="1.5"
-                            attached:TapGesture.Command="{Binding SaveColorDetailCommand}"
-                           HorizontalOptions="Fill">
-                        <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}"
-                                        Icon="{icons:Fluent Icon=Save24}"
-                                        IconColor="{StaticResource Success}"
-                                        IconSuffix="Save"
-                                        HorizontalOptions="Start"
-                                        Margin="70,0,0,0"
-                                        IconSuffixTextColor="{StaticResource Success}"/>
+                <VerticalStackLayout
+                    Grid.Row="2"
+                    HorizontalOptions="Fill"
+                    Spacing="10">
+                    <Border
+                        attached:TapGesture.Command="{Binding SaveColorDetailCommand}"
+                        HorizontalOptions="Fill"
+                        Stroke="{StaticResource SuccessBrush}"
+                        StrokeThickness="1.5"
+                        Style="{StaticResource TransparentIconButtonBorderStyle}">
+                        <icons:MauiIcon
+                            Margin="70,0,0,0"
+                            HorizontalOptions="Start"
+                            Icon="{icons:Fluent Icon=Save24}"
+                            IconColor="{StaticResource Success}"
+                            IconSuffix="{Binding SaveColorText}"
+                            IconSuffixTextColor="{StaticResource Success}"
+                            Style="{StaticResource IconButtonMauiIconStyle}" />
                     </Border>
-                    <Border HorizontalOptions="Fill"
-                            Stroke="{StaticResource ErrorBrush}"
-                            StrokeThickness="1.5"
-                            Style="{StaticResource TransparentIconButtonBorderStyle}" attached:TapGesture.Command="{Binding DeleteSelectedColorCommand}" IsVisible="{Binding SelectedExistColor,Converter={StaticResource IsNotNullConverter}}">
-                        <icons:MauiIcon Style="{StaticResource IconButtonMauiIconStyle}"
-                                        Icon="{icons:Fluent Icon=Delete24}"
-                                        IconColor="{StaticResource Error}"
-                                        IconSuffix="Remove"
-                                        HorizontalOptions="Start"
-                                        Margin="70,0,0,0"
-                                        IconSuffixTextColor="{StaticResource Error}"/>
+                    <Border
+                        attached:TapGesture.Command="{Binding DeleteSelectedColorCommand}"
+                        HorizontalOptions="Fill"
+                        IsVisible="{Binding SelectedExistColor, Converter={StaticResource IsNotNullConverter}}"
+                        Stroke="{StaticResource ErrorBrush}"
+                        StrokeThickness="1.5"
+                        Style="{StaticResource TransparentIconButtonBorderStyle}">
+                        <icons:MauiIcon
+                            Margin="70,0,0,0"
+                            HorizontalOptions="Start"
+                            Icon="{icons:Fluent Icon=Delete24}"
+                            IconColor="{StaticResource Error}"
+                            IconSuffix="{Binding RemoveColorText}"
+                            IconSuffixTextColor="{StaticResource Error}"
+                            Style="{StaticResource IconButtonMauiIconStyle}" />
                     </Border>
                 </VerticalStackLayout>
             </Grid>
         </Border>
-        
+
     </Grid>
 
 </ContentPage>
