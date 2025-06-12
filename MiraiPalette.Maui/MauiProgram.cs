@@ -44,7 +44,6 @@ public static class MauiProgram
             .AddSingleton<IPaletteRepositoryService, JsonPaletteRepositoryService>()
             .AddSingleton<MainPageModel>()
             .AddTransientWithShellRoute<PaletteDetailPage, PaletteDetailPageModel>(ShellRoutes.PaletteDetailPage);
-        StringResource.Culture = new("ja");
         return builder.Build();
     }
 }
