@@ -118,19 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddNewPalette" xml:space="preserve">
-    <value>カラーパレットを新規作成する</value>
+    <value>カラーパレットを新規作成</value>
   </data>
   <data name="ClickToRename" xml:space="preserve">
-    <value>クリックして名前を変更する</value>
+    <value>クリックして名前を変更</value>
   </data>
   <data name="ClickToEditDescription" xml:space="preserve">
-    <value>クリックして説明を編集する</value>
+    <value>クリックして説明を編集</value>
   </data>
   <data name="Color" xml:space="preserve">
     <value>カラー</value>
   </data>
   <data name="DeletePalettes" xml:space="preserve">
-    <value>カラーパレットを削除する</value>
+    <value>カラーパレットを削除</value>
   </data>
   <data name="Palette" xml:space="preserve">
     <value>カラーパレット</value>
@@ -145,22 +145,22 @@
     <value>選択モードを切り替える</value>
   </data>
   <data name="AddNewColor" xml:space="preserve">
-    <value>カラーを追加する</value>
+    <value>カラーを追加</value>
   </data>
   <data name="DeleteColor" xml:space="preserve">
-    <value>カラーを削除する</value>
+    <value>カラーを削除</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>保存する</value>
+    <value>保存</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>削除する</value>
+    <value>削除</value>
   </data>
   <data name="CloseColorDetailPanel" xml:space="preserve">
     <value>カラー詳細パネルを閉じる</value>
   </data>
   <data name="CopyToClipboard" xml:space="preserve">
-    <value>クリップボードにコピーする</value>
+    <value>クリップボードにコピー</value>
   </data>
   <data name="NewPalette" xml:space="preserve">
     <value>新しいカラーパレット</value>
@@ -169,10 +169,10 @@
     <value>新しいカラー</value>
   </data>
   <data name="AddDescriptionsForPalette" xml:space="preserve">
-    <value>カラーパレットに説明を追加する</value>
+    <value>カラーパレットに説明を追加</value>
   </data>
   <data name="DeletePalette" xml:space="preserve">
-    <value>このカラーパレットを削除する</value>
+    <value>このカラーパレットを削除</value>
   </data>
   <data name="MainWindowTitle" xml:space="preserve">
     <value>Mirai Palette</value>
@@ -187,7 +187,7 @@
     <value>カラー “{0}” を削除してもよろしいですか？</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>確認する</value>
+    <value>確認</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
