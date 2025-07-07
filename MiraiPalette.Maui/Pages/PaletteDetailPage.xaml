@@ -70,6 +70,7 @@
     </Shell.BackButtonBehavior>
     <Grid ColumnDefinitions="*,Auto">
         <Grid
+            Margin="5"
             Padding="10"
             RowDefinitions="Auto,*,Auto"
             RowSpacing="10">

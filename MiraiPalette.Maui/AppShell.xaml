@@ -12,7 +12,7 @@
     FlyoutBackground="Transparent"
     FlyoutBehavior="Locked"
     FlyoutIsPresented="False"
-    FlyoutWidth="200">
+    FlyoutWidth="55">
     <Shell.FlyoutHeader>
         <Grid
             Margin="4,2"
@@ -52,19 +52,15 @@
         </DataTemplate>
     </Shell.ItemTemplate>
     <ShellContent
-        Title="{x:Static globalization:StringResource.Home}"
+        Title="{x:Static globalization:StringResource.Palette}"
         ContentTemplate="{DataTemplate pages:MainPage}"
         Route="{x:Static local:ShellRoutes.MainPage}">
-        <ShellContent.Content>
-            <icons:MauiIcon Icon="{icons:Fluent Icon=Home48}" />
-        </ShellContent.Content>
+        <icons:MauiIcon Icon="{icons:Fluent Icon=Color24}" />
     </ShellContent>
     <ShellContent
         Title="{x:Static globalization:StringResource.Options}"
         ContentTemplate="{DataTemplate pages:OptionsPage}"
         Route="{x:Static local:ShellRoutes.OptionsPage}">
-        <ShellContent.Content>
-            <icons:MauiIcon Icon="{icons:Fluent Icon=Options48}" />
-        </ShellContent.Content>
+        <icons:MauiIcon Icon="{icons:Fluent Icon=Options48}" />
     </ShellContent>
 </Shell>
