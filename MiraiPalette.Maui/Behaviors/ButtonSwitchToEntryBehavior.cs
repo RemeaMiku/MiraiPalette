@@ -48,11 +48,12 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
     private static void Register(Button button, Entry entry)
     {
         if(button is null || entry is null)
-            return;
+            return;        
         _buttonEntryPairs.Add(button, entry);
         _entryButtonPairs.Add(entry, button);
         button.Clicked += OnButtonClicked;
         entry.Unfocused += OnEntryUnfocused;
+        entry.Completed += OnEntryCompleted;
         entry.Behaviors.Add(new SelectAllTextBehavior());
         entry.IsVisible = false;
     }
@@ -67,6 +68,7 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
             _entryButtonPairs.Remove(entry);
         button.Clicked -= OnButtonClicked;
         entry.Unfocused -= OnEntryUnfocused;
+        entry.Completed -= OnEntryCompleted; 
     }
 
     private static void OnEntryUnfocused(object? sender, FocusEventArgs e)
@@ -95,5 +97,20 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
         entry.IsVisible = true;
         entry.IsEnabled = true;
         entry.Focus();
+    }
+
+    // EntryのCompletedイベントハンドラ
+    private static void OnEntryCompleted(object? sender, EventArgs e)
+    {
+        if(sender is not Entry entry)
+            return;
+        if(!_entryButtonPairs.TryGetValue(entry, out var button))
+            return;
+        // EntryのUnfocusedと同じ処理
+        entry.IsEnabled = false;
+        entry.IsVisible = false;
+        button.IsVisible = true;
+        button.IsEnabled = true;
+        button.Focus();
     }
 }
