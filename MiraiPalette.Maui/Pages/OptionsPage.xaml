@@ -3,9 +3,29 @@
     x:Class="MiraiPalette.Maui.Pages.OptionsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:glogalization="clr-namespace:MiraiPalette.Maui.Resources.Globalization"
     Padding="10"
     Shell.NavBarIsVisible="False">
-    <VerticalStackLayout Margin="5" Padding="10">
-        <Label FontSize="Title" Text="Options" />
-    </VerticalStackLayout>
+    <Grid
+        Margin="5"
+        Padding="10"
+        RowDefinitions="Auto,*"
+        RowSpacing="10">
+        <Label FontSize="Large" Text="{x:Static glogalization:StringResource.Options}" />
+        <VerticalStackLayout Grid.Row="1" Spacing="10">
+            <Grid
+                Margin="5"
+                Padding="5"
+                RowDefinitions="Auto,*"
+                RowSpacing="5">
+                <Label FontSize="Title" Text="{x:Static glogalization:StringResource.Language}" />
+                <Picker
+                    Grid.Row="1"
+                    HorizontalOptions="Start"
+                    WidthRequest="200" />
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>
+
+
 </ContentPage>

@@ -223,6 +223,15 @@ namespace MiraiPalette.Maui.Resources.Globalization {
         }
         
         /// <summary>
+        ///   语言 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Mirai Palette に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MainWindowTitle {
