@@ -250,6 +250,15 @@ namespace MiraiPalette.Maui.Resources.Globalization {
         }
         
         /// <summary>
+        ///   选项 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   调色板 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string Palette {

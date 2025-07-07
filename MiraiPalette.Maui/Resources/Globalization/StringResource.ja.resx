@@ -201,4 +201,7 @@
   <data name="Description" xml:space="preserve">
     <value>説明</value>
   </data>
+  <data name="Options" xml:space="preserve">
+    <value>設定</value>
+  </data>
 </root>

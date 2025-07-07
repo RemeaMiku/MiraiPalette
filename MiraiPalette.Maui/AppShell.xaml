@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="MiraiPalette.Maui.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MiraiPalette.Maui"
-    xmlns:pages="clr-namespace:MiraiPalette.Maui.Pages"
-    Shell.FlyoutWidth="200"
-    Shell.FlyoutBehavior="Flyout"    
-    Title="">
-
-    <ShellContent
-        Title="Palettes"
-        ContentTemplate="{DataTemplate pages:MainPage}"
-        Route="{x:Static local:ShellRoutes.MainPage}" />
-
+<Shell x:Class="MiraiPalette.Maui.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:MiraiPalette.Maui"
+       xmlns:pages="clr-namespace:MiraiPalette.Maui.Pages"
+       xmlns:globalization="clr-namespace:MiraiPalette.Maui.Resources.Globalization;assembly=MiraiPalette.Maui"
+       Shell.BackgroundColor="Transparent"
+       Shell.FlyoutWidth="200"
+       Shell.FlyoutBehavior="Flyout"
+       FlyoutBackground="Transparent"
+       Title="">
+    <ShellContent Title="{x:Static globalization:StringResource.Palettes}"
+                  ContentTemplate="{DataTemplate pages:MainPage}"
+                  Route="{x:Static local:ShellRoutes.MainPage}" />
+    <ShellContent Title="{x:Static globalization:StringResource.Options}"/>
+      
 </Shell>
