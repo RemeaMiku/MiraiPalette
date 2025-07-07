@@ -204,4 +204,7 @@
   <data name="Options" xml:space="preserve">
     <value>設定</value>
   </data>
+  <data name="Home" xml:space="preserve">
+    <value>ホーム</value>
+  </data>
 </root>

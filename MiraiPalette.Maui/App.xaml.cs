@@ -1,4 +1,5 @@
-﻿using MiraiPalette.Maui.Resources.Styles.Themes;
+﻿using MiraiPalette.Maui.Resources.Globalization;
+using MiraiPalette.Maui.Resources.Styles.Themes;
 
 namespace MiraiPalette.Maui
 {
@@ -32,6 +33,7 @@ namespace MiraiPalette.Maui
             {
                 MinimumWidth = 350,
                 MinimumHeight = 400,
+                Title=StringResource.MainWindowTitle
             };
             return window;
         }

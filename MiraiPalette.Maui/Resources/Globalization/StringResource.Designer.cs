@@ -214,6 +214,15 @@ namespace MiraiPalette.Maui.Resources.Globalization {
         }
         
         /// <summary>
+        ///   首页 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Mirai Palette に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MainWindowTitle {
