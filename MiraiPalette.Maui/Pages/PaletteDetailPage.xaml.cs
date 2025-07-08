@@ -9,11 +9,7 @@ public partial class PaletteDetailPage : ContentPage
         InitializeComponent();
         BindingContext = model;
         _model = model;
-        Application.Current!.RequestedThemeChanged += Current_RequestedThemeChanged;
-        SizeChanged += (s, e) =>
-        {
-
-        };
+        Application.Current!.RequestedThemeChanged += Current_RequestedThemeChanged;        
     }
 
     private readonly PaletteDetailPageModel _model;
