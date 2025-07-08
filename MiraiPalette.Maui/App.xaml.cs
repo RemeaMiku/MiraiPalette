@@ -39,8 +39,8 @@ namespace MiraiPalette.Maui
         }
 
         protected override void OnStart()
-        {
-            base.OnStart();
+        {            
+            base.OnStart();            
             OnCurrentRequestedThemeChanged(this, new AppThemeChangedEventArgs(Current!.RequestedTheme));
             Current!.RequestedThemeChanged += OnCurrentRequestedThemeChanged;
         }

@@ -38,11 +38,10 @@ public static class MauiProgram
 
         builder.Services
             .AddLocalization(options =>
-            options.ResourcesPath = "Resources\\Globalization")
-            .AddSingleton<StringResource>()
-            .AddSingleton<IStringLocalizer, StringLocalizer<StringResource>>()
+            options.ResourcesPath = "Resources\\Globalization")            
             .AddSingleton<IPaletteRepositoryService, JsonPaletteRepositoryService>()
-            .AddSingleton<MainPageModel>()
+            .AddSingletonWithShellRoute<MainPage, MainPageModel>(ShellRoutes.MainPage)
+            .AddSingletonWithShellRoute<OptionsPage, OptionsPageModel>(ShellRoutes.OptionsPage)
             .AddTransientWithShellRoute<PaletteDetailPage, PaletteDetailPageModel>(ShellRoutes.PaletteDetailPage);
         return builder.Build();
     }

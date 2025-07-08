@@ -194,7 +194,10 @@
             IsVisible="{Binding IsColorDetailOpen}"
             StrokeThickness="0"
             WidthRequest="340">
-            <Grid RowDefinitions="Auto,*,Auto" RowSpacing="15">
+            <Grid
+                Padding="5"
+                RowDefinitions="Auto,*,Auto"
+                RowSpacing="10">
                 <Border
                     Padding="5"
                     attached:TapGesture.Command="{Binding CloseColorDetailCommand}"
@@ -207,7 +210,7 @@
                         IconSize="Small"
                         Style="{StaticResource IconButtonMauiIconStyle}" />
                 </Border>
-                <ScrollView Grid.Row="1">
+                <ScrollView Grid.Row="1" Padding="5">
                     <VerticalStackLayout Spacing="10">
                         <Button
                             FontSize="Medium"
@@ -232,6 +235,7 @@
                 </ScrollView>
                 <VerticalStackLayout
                     Grid.Row="2"
+                    Padding="5"
                     HorizontalOptions="Fill"
                     Spacing="10">
                     <Border
