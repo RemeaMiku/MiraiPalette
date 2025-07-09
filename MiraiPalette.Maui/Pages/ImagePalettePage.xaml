@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MiraiPalette.Maui.Pages.ImagePalettePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:attached="clr-namespace:MiraiPalette.Maui.AttachedProperties"
+    xmlns:controls="clr-namespace:MiraiPalette.Maui.Pages.Controls"
+    xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
+    xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
+    xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="pages:ImagePalettePageModel"
+    Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
+        <Style x:Key="ToolButtonStyle" TargetType="Button">
+            <Setter Property="BorderWidth" Value="1.5" />
+            <Setter Property="BorderColor" Value="{Binding TextColor, Source={RelativeSource Mode=Self}}" />
+            <Setter Property="MinimumWidthRequest" Value="150" />
+            <Setter Property="FontSize" Value="Micro" />
+            <Setter Property="BackgroundColor" Value="{StaticResource Transparent}" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <toolkit:BoolToObjectConverter
+            x:Key="IsSelectedToStorkeConverter"
+            FalseObject="{StaticResource TransparentBrush}"
+            TrueObject="{StaticResource MikuBrush}" />
+        <DataTemplate x:Key="ColorTemplate" x:DataType="models:MiraiColorModel">
+            <Border
+                Margin="0"
+                Padding="0"
+                attached:TapGesture.Command="{Binding SelectColorCommand, Source={RelativeSource AncestorType={x:Type pages:ImagePalettePageModel}}}"
+                attached:TapGesture.CommandParameter="{Binding .}"
+                Stroke="{Binding IsSelected, Converter={StaticResource IsSelectedToStorkeConverter}}"
+                StrokeThickness="2"
+                Style="{StaticResource SecondaryIconButtonBorderStyle}">
+                <controls:ColorView HeightRequest="200" WidthRequest="150" />
+            </Border>
+        </DataTemplate>
+    </ContentPage.Resources>
+    <Grid
+        Padding="10"
+        RowDefinitions="2*,3*,Auto"
+        RowSpacing="10">
+        <Border
+            x:Name="ImageBorder"
+            Margin="5"
+            Padding="3"
+            BackgroundColor="{DynamicResource Secondary}"
+            StrokeShape="RoundRectangle 5"
+            StrokeThickness="0">
+            <Grid>
+                <Image
+                    x:Name="ZoomableImage"
+                    Source="{Binding ImageSource}"
+                    Aspect="AspectFit"
+                    InputTransparent="False">
+                    <Image.GestureRecognizers>
+                        <PinchGestureRecognizer PinchUpdated="OnPinchUpdated"/>
+                        <PanGestureRecognizer PanUpdated="OnPanUpdated"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
+        </Border>
+        <ScrollView Grid.Row="1" Padding="5">
+            <FlexLayout
+                AlignContent="Start"
+                AlignItems="Center"
+                BindableLayout.ItemTemplate="{StaticResource ColorTemplate}"
+                BindableLayout.ItemsSource="{Binding Colors}"
+                Wrap="Wrap" />
+        </ScrollView>
+        <Border
+            Grid.Row="2"
+            Padding="10"
+            StrokeThickness="0">
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                <Border attached:TapGesture.Command="{Binding PickImageCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=ImageEdit24}"
+                        IconColor="{DynamicResource SecondaryText}"
+                        IconSize="28" />
+                </Border>
+                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=Color24}"
+                        IconColor="{DynamicResource Primary}"
+                        IconSize="28" />
+                </Border>
+                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=Eyedropper24}"
+                        IconColor="{StaticResource Warning}"
+                        IconSize="28" />
+                </Border>
+                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=Delete24}"
+                        IconColor="{StaticResource Error}"
+                        IconSize="28" />
+                </Border>
+                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=SaveArrowRight24}"
+                        IconColor="{StaticResource Info}"
+                        IconSize="28" />
+                </Border>
+                <!--<Button
+                    Style="{StaticResource ToolButtonStyle}"
+                    Text="选取图片"
+                    TextColor="{DynamicResource SecondaryText}" />
+                <Button
+                    Style="{StaticResource ToolButtonStyle}"
+                    Text="提取颜色"
+                    TextColor="{StaticResource Warning}" />
+                <Button
+                    Style="{StaticResource ToolButtonStyle}"
+                    Text="保存"
+                    TextColor="{DynamicResource Primary}" />-->
+            </HorizontalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

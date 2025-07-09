@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MiraiPalette.Maui.Essentials;
-using MiraiPalette.Maui.Resources.Globalization;
 
 namespace MiraiPalette.Maui.PageModels;
 

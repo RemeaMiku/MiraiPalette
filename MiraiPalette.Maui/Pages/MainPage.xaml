@@ -36,7 +36,7 @@
             BasedOn="{StaticResource SecondaryIconButtonBorderStyle}"
             TargetType="Border">
             <Setter Property="StrokeThickness" Value="3" />
-            <Setter Property="Padding" Value="0" />
+            <Setter Property="Padding" Value="10,5" />
         </Style>
         <DataTemplate x:Key="PaletteTemplate" x:DataType="models:MiraiPaletteModel">
             <Border

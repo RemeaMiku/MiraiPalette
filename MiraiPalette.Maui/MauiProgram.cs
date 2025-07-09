@@ -5,7 +5,6 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using MiraiPalette.Maui.PageModels;
 using MiraiPalette.Maui.Pages;
-using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Services;
 using MiraiPalette.Maui.Services.Local;
 
@@ -41,6 +40,7 @@ public static class MauiProgram
             options.ResourcesPath = "Resources\\Globalization")            
             .AddSingleton<IPaletteRepositoryService, JsonPaletteRepositoryService>()
             .AddSingletonWithShellRoute<MainPage, MainPageModel>(ShellRoutes.MainPage)
+            .AddSingletonWithShellRoute<ImagePalettePage, ImagePalettePageModel>(ShellRoutes.ImagePalettePage)
             .AddSingletonWithShellRoute<OptionsPage, OptionsPageModel>(ShellRoutes.OptionsPage)
             .AddTransientWithShellRoute<PaletteDetailPage, PaletteDetailPageModel>(ShellRoutes.PaletteDetailPage);
         return builder.Build();

@@ -148,13 +148,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Controls\ColorPicker.xaml">
+	  <MauiXaml Update="Pages\Controls\ColorPicker.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\ColorView.xaml">
+	  <MauiXaml Update="Pages\Controls\ColorView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\PaletteView.xaml">
+	  <MauiXaml Update="Pages\Controls\PaletteView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ImagePalettePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\OptionsPage.xaml">

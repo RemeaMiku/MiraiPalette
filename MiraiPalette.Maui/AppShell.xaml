@@ -51,10 +51,13 @@
             </Grid>
         </DataTemplate>
     </Shell.ItemTemplate>
-    <ShellContent Title="{x:Static globalization:StringResource.Palette}" ContentTemplate="{DataTemplate pages:MainPage}">
+    <ShellContent Title="{x:Static globalization:StringResource.Palettes}" ContentTemplate="{DataTemplate pages:MainPage}">
         <icons:MauiIcon Icon="{icons:Fluent Icon=Color24}" />
     </ShellContent>
+    <ShellContent Title="{x:Static globalization:StringResource.ImagePalette}" ContentTemplate="{DataTemplate pages:ImagePalettePage}">
+        <icons:MauiIcon Icon="{icons:Fluent Icon=Image24}" />
+    </ShellContent>
     <ShellContent Title="{x:Static globalization:StringResource.Options}" ContentTemplate="{DataTemplate pages:OptionsPage}">
-        <icons:MauiIcon Icon="{icons:Fluent Icon=Options48}" />
+        <icons:MauiIcon Icon="{icons:Fluent Icon=Options24}" />
     </ShellContent>
 </Shell>

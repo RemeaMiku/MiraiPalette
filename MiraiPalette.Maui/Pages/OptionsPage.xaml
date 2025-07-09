@@ -15,7 +15,7 @@
         RowSpacing="10">
         <Label FontSize="Large" Text="{x:Static glogalization:StringResource.Options}" />
         <VerticalStackLayout Grid.Row="1" Spacing="10">
-            <Grid
+            <!--<Grid
                 Margin="5"
                 Padding="5"
                 RowDefinitions="Auto,*"
@@ -27,7 +27,7 @@
                     ItemsSource="{Binding LanguageOptions}"
                     SelectedItem="{Binding SelectedLanguageOption}"
                     WidthRequest="200" />
-            </Grid>
+            </Grid>-->
         </VerticalStackLayout>
     </Grid>
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MiraiPalette.Maui.Resources.Globalization;
+﻿using MiraiPalette.Maui.Resources.Globalization;
 
 namespace MiraiPalette.Maui.Essentials;
 public class LanguageOption(string language, string code)

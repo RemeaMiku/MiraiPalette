@@ -210,4 +210,7 @@
   <data name="Language" xml:space="preserve">
     <value>言語</value>
   </data>
+  <data name="ImagePalette" xml:space="preserve">
+    <value>画像カラーパレット</value>
+  </data>
 </root>
