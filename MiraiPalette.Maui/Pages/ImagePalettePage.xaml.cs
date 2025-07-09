@@ -4,10 +4,10 @@ namespace MiraiPalette.Maui.Pages;
 
 public partial class ImagePalettePage : ContentPage
 {
-    double currentScale = 1;
-    double startScale = 1;
-    double xOffset = 0;
-    double yOffset = 0;
+    double _currentScale = 1;
+    double _startScale = 1;
+    double _xOffset = 0;
+    double _yOffset = 0;
 
     public ImagePalettePage(ImagePalettePageModel model)
     {
@@ -39,14 +39,14 @@ public partial class ImagePalettePage : ContentPage
     {
         if(e.Status == GestureStatus.Started)
         {
-            startScale = ZoomableImage.Scale;
+            _startScale = ZoomableImage.Scale;
             ZoomableImage.AnchorX = 0.5;
             ZoomableImage.AnchorY = 0.5;
         }
         else if(e.Status == GestureStatus.Running)
         {
-            currentScale = Math.Max(1, startScale * e.Scale);
-            ZoomableImage.Scale = currentScale;
+            _currentScale = Math.Max(1, _startScale * e.Scale);
+            ZoomableImage.Scale = _currentScale;
         }
     }
 
@@ -56,8 +56,8 @@ public partial class ImagePalettePage : ContentPage
         {
             case GestureStatus.Running:
                 // 计算拖动偏移
-                double newX = xOffset + e.TotalX;
-                double newY = yOffset + e.TotalY;
+                double newX = _xOffset + e.TotalX;
+                double newY = _yOffset + e.TotalY;
 
                 // 限制图片在Border范围内
                 var borderWidth = ImageBorder.Width;
@@ -76,8 +76,8 @@ public partial class ImagePalettePage : ContentPage
                 break;
             case GestureStatus.Completed:
                 // 记录最终偏移
-                xOffset = ZoomableImage.TranslationX;
-                yOffset = ZoomableImage.TranslationY;
+                _xOffset = ZoomableImage.TranslationX;
+                _yOffset = ZoomableImage.TranslationY;
                 break;
         }
     }
@@ -88,7 +88,7 @@ public partial class ImagePalettePage : ContentPage
         var oldScale = ZoomableImage.Scale;
         var newScale = Math.Max(1, oldScale * scaleDelta);
         ZoomableImage.Scale = newScale;
-        currentScale = newScale;
+        _currentScale = newScale;
         // 可根据需要调整锚点和偏移
     }
 }
