@@ -33,7 +33,7 @@ public partial class ColorPicker : ContentView
 
     private static void OnColorChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is not ColorPicker colorPicker)
+        if(bindable is not ColorPicker colorPicker)
             return;
         colorPicker.UpdateView();
     }
@@ -41,7 +41,7 @@ public partial class ColorPicker : ContentView
     private void UpdateView()
     {
         UnRegisterEntryTextChangedEvents();
-        if (Color == default)
+        if(Color == default)
         {
             _colorRect.BackgroundColor = Colors.Transparent;
             _hexEntry.Text = string.Empty;
@@ -110,7 +110,7 @@ public partial class ColorPicker : ContentView
 
     private void SetColorFromComponents()
     {
-        switch (_colorModel)
+        switch(_colorModel)
         {
             case ColorModel.RGB:
                 SetColorFromRgbComponents();
@@ -123,9 +123,9 @@ public partial class ColorPicker : ContentView
 
     private void SetColorFromRgbComponents(bool rollback = true)
     {
-        if (!int.TryParse(_redEntry.Text, out var r) || !int.TryParse(_greenEntry.Text, out var g) || !int.TryParse(_blueEntry.Text, out var b))
+        if(!int.TryParse(_redEntry.Text, out var r) || !int.TryParse(_greenEntry.Text, out var g) || !int.TryParse(_blueEntry.Text, out var b))
         {
-            if (rollback)
+            if(rollback)
                 SetRgbComponents();
             return;
         }
@@ -134,9 +134,9 @@ public partial class ColorPicker : ContentView
 
     private void SetColorFromHslComponents(bool rollback = true)
     {
-        if (!float.TryParse(_hueEntry.Text, out var h) || !float.TryParse(_saturationEntry.Text, out var s) || !float.TryParse(_lightnessEntry.Text, out var l))
+        if(!float.TryParse(_hueEntry.Text, out var h) || !float.TryParse(_saturationEntry.Text, out var s) || !float.TryParse(_lightnessEntry.Text, out var l))
         {
-            if (rollback)
+            if(rollback)
                 SetHslComponents();
             return;
         }
@@ -151,7 +151,7 @@ public partial class ColorPicker : ContentView
 
     private void UpdateComponentsVisibility()
     {
-        foreach (var componets in _modelComponents.Values)
+        foreach(var componets in _modelComponents.Values)
         {
             componets.IsVisible = false;
         }
@@ -160,7 +160,7 @@ public partial class ColorPicker : ContentView
 
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (sender is not Picker picker)
+        if(sender is not Picker picker)
             return;
         _colorModel = (ColorModel)picker.SelectedItem;
         UpdateComponentsVisibility();
@@ -173,9 +173,9 @@ public partial class ColorPicker : ContentView
 
     private void SetColorFromHexEntry(bool rollback = true)
     {
-        if (!ColorUtilities.TryParseRgb(_hexEntry.Text, out var color))
+        if(!ColorUtilities.TryParseRgb(_hexEntry.Text, out var color))
         {
-            if (rollback)
+            if(rollback)
                 _hexEntry.Text = Color.ToHex();
             return;
         }

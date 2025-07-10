@@ -39,27 +39,21 @@
     </ContentPage.Resources>
     <Grid
         Padding="10"
-        RowDefinitions="2*,3*,Auto"
+        RowDefinitions="3*,2*,Auto"
         RowSpacing="10">
         <Border
-            x:Name="ImageBorder"
             Margin="5"
-            Padding="3"
             BackgroundColor="{DynamicResource Secondary}"
             StrokeShape="RoundRectangle 5"
             StrokeThickness="0">
-            <Grid>
+            <controls:PanContainer>
                 <Image
-                    x:Name="ZoomableImage"
-                    Source="{Binding ImageSource}"
                     Aspect="AspectFit"
-                    InputTransparent="False">
-                    <Image.GestureRecognizers>
-                        <PinchGestureRecognizer PinchUpdated="OnPinchUpdated"/>
-                        <PanGestureRecognizer PanUpdated="OnPanUpdated"/>
-                    </Image.GestureRecognizers>
-                </Image>
-            </Grid>
+                    HorizontalOptions="Center"
+                    InputTransparent="False"
+                    Source="{Binding ImageSource}"
+                    VerticalOptions="Center" />
+            </controls:PanContainer>
         </Border>
         <ScrollView Grid.Row="1" Padding="5">
             <FlexLayout
@@ -104,18 +98,6 @@
                         IconColor="{StaticResource Info}"
                         IconSize="28" />
                 </Border>
-                <!--<Button
-                    Style="{StaticResource ToolButtonStyle}"
-                    Text="选取图片"
-                    TextColor="{DynamicResource SecondaryText}" />
-                <Button
-                    Style="{StaticResource ToolButtonStyle}"
-                    Text="提取颜色"
-                    TextColor="{StaticResource Warning}" />
-                <Button
-                    Style="{StaticResource ToolButtonStyle}"
-                    Text="保存"
-                    TextColor="{DynamicResource Primary}" />-->
             </HorizontalStackLayout>
         </Border>
     </Grid>
