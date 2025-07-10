@@ -5,7 +5,7 @@ public class ImagePaletteExtractor
 {
     public class ImagePaletteColor
     {
-        public int Percentage { get; set; }
+        public float Percentage { get; set; }
         public Color Color { get; set; } = Colors.White;
     }
 
@@ -65,10 +65,10 @@ public class ImagePaletteExtractor
             int r = (int)cluster.Pixels.Average(p => p.R);
             int g = (int)cluster.Pixels.Average(p => p.G);
             int b = (int)cluster.Pixels.Average(p => p.B);
-            double percent = cluster.Pixels.Count * 100.0 / total;
+            float percent = cluster.Pixels.Count * 100f / total;
             yield return new ImagePaletteColor
             {
-                Percentage = (int)Math.Round(percent),
+                Percentage = percent,
                 Color = Color.FromRgb(r, g, b)
             };
         }

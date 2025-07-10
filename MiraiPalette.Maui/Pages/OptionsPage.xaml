@@ -8,6 +8,22 @@
     Padding="10"
     x:DataType="pages:OptionsPageModel"
     Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
+        <Style x:Key="SectionGridStyle" TargetType="Grid">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="RowDefinitions" Value="Auto,*" />
+            <Setter Property="RowSpacing" Value="5" />
+        </Style>
+        <Style x:Key="SectionTitleStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="Title" />
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
+        </Style>
+        <Style x:Key="OptionLableStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="Small" />
+            <Setter Property="TextColor" Value="{DynamicResource SecondaryText}" />
+        </Style>
+    </ContentPage.Resources>
     <Grid
         Margin="5"
         Padding="10"

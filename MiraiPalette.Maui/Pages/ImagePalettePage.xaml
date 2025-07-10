@@ -85,9 +85,17 @@
                 BindableLayout.ItemsSource="{Binding Colors}"
                 Wrap="Wrap" />
         </ScrollView>
+        <ActivityIndicator
+            Grid.Row="1"
+            HeightRequest="100"
+            IsRunning="True"
+            IsVisible="{Binding IsBusy}"
+            WidthRequest="100"
+            Color="{DynamicResource Primary}" />
         <Border
             Grid.Row="2"
             Padding="10"
+            IsEnabled="{Binding IsBusy, Converter={toolkit:InvertedBoolConverter}}"
             StrokeThickness="0">
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
                 <Border attached:TapGesture.Command="{Binding PickImageCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
@@ -96,6 +104,11 @@
                         IconColor="{DynamicResource SecondaryText}"
                         IconSize="28" />
                 </Border>
+                <Picker
+                    FontSize="Small"
+                    IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"
+                    ItemsSource="{Binding ColorCountOptions, Mode=OneTime}"
+                    SelectedItem="{Binding ColorCount}" />
                 <Border
                     attached:TapGesture.Command="{Binding ExtractColorsCommand}"
                     IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"

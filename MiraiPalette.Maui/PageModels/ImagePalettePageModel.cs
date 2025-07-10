@@ -38,6 +38,14 @@ public partial class ImagePalettePageModel : ObservableObject
     [ObservableProperty]
     public partial bool IsColorPickerEnabled { get; set; }
 
+    public List<int> ColorCountOptions { get; } = Enumerable.Range(1, 16).ToList();
+
+    [ObservableProperty]
+    public partial int ColorCount { get; set; } = Constants.DefaultColorCount;
+
+    [ObservableProperty]
+    public partial bool IsBusy { get; set; } = false;
+
     [RelayCommand]
     void ResetImageTransform()
     {
@@ -49,24 +57,25 @@ public partial class ImagePalettePageModel : ObservableObject
     [RelayCommand]
     async Task PickImage()
     {
+        if(IsBusy)
+            return;
         var result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
         {
             Title = "Select an image to extract colors"
         });
-        if(result is not null)
-        {
-            ResetImageTransform();
-            ImagePath = string.Empty;
-            GC.Collect(); // Clear memory to avoid issues with large images
-            ImagePath = result.FullPath;
-            Colors.Clear();
-        }
+        if(result is null)
+            return;
+        ResetImageTransform();
+        ImagePath = string.Empty;
+        GC.Collect(); // Clear memory to avoid issues with large images
+        ImagePath = result.FullPath;
+        Colors.Clear();
     }
 
     [RelayCommand]
     void ImageZoomIn()
     {
-        if(ImageSource is null)
+        if(string.IsNullOrWhiteSpace(ImagePath))
             return;
         ImageScale = Math.Min(ImageScale * 1.1, 5);
     }
@@ -74,7 +83,7 @@ public partial class ImagePalettePageModel : ObservableObject
     [RelayCommand]
     void ImageZoomOut()
     {
-        if(ImageSource is null)
+        if(string.IsNullOrWhiteSpace(ImagePath))
             return;
         ImageScale = Math.Max(ImageScale * 0.9, 1);
     }
@@ -82,11 +91,13 @@ public partial class ImagePalettePageModel : ObservableObject
     [RelayCommand]
     async Task ExtractColors()
     {
-        if(string.IsNullOrWhiteSpace(ImagePath))
+        if(IsBusy || string.IsNullOrWhiteSpace(ImagePath))
             return;
         Colors.Clear();
-        foreach(var color in await ImagePaletteExtractor.ExtractAsync(ImagePath))
-            Colors.Add(new MiraiColorModel() { Name = $"{color.Percentage}%", Color = color.Color });
+        IsBusy = true;
+        foreach(var color in await ImagePaletteExtractor.ExtractAsync(ImagePath, ColorCount))
+            Colors.Add(new MiraiColorModel() { Name = $"{color.Percentage:0.0}%", Color = color.Color });
+        IsBusy = false;
     }
 
     [RelayCommand]
@@ -115,7 +126,7 @@ public partial class ImagePalettePageModel : ObservableObject
     [RelayCommand]
     async Task SaveColorsToPalette()
     {
-        if(ImageSource is null || Colors.Count == 0)
+        if(IsBusy || Colors.Count == 0)
             return;
         var palette = new MiraiPaletteModel()
         {
@@ -123,7 +134,9 @@ public partial class ImagePalettePageModel : ObservableObject
             Description = $"Extracted from {ImagePath}",
             Colors = new(Colors)
         };
+        IsBusy = true;
         var paletteId = await _paletteRepositoryService.InsertPaletteAsync(palette);
+        IsBusy = false;
         var args = new ShellNavigationQueryParameters
         {
             { nameof(MiraiPaletteModel.Id), paletteId }
