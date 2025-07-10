@@ -53,13 +53,22 @@
             </Grid>
         </DataTemplate>
     </Shell.ItemTemplate>
-    <ShellContent Title="{x:Static globalization:StringResource.Palettes}" ContentTemplate="{DataTemplate pages:MainPage}">
+    <ShellContent
+        Title="{x:Static globalization:StringResource.Palettes}"
+        ContentTemplate="{DataTemplate pages:MainPage}"
+        Route="{x:Static local:ShellRoutes.MainPage}">
         <icons:MauiIcon Icon="{icons:Fluent Icon=Color24}" IconColor="{DynamicResource PrimaryText}" />
     </ShellContent>
-    <ShellContent Title="{x:Static globalization:StringResource.ImagePalette}" ContentTemplate="{DataTemplate pages:ImagePalettePage}">
+    <ShellContent
+        Title="{x:Static globalization:StringResource.ImagePalette}"
+        ContentTemplate="{DataTemplate pages:ImagePalettePage}"
+        Route="{x:Static local:ShellRoutes.ImagePalettePage}">
         <icons:MauiIcon Icon="{icons:Fluent Icon=Image24}" IconColor="{DynamicResource PrimaryText}" />
     </ShellContent>
-    <ShellContent Title="{x:Static globalization:StringResource.Options}" ContentTemplate="{DataTemplate pages:OptionsPage}">
+    <ShellContent
+        Title="{x:Static globalization:StringResource.Options}"
+        ContentTemplate="{DataTemplate pages:OptionsPage}"
+        Route="{x:Static local:ShellRoutes.OptionsPage}">
         <icons:MauiIcon Icon="{icons:Fluent Icon=Options24}" IconColor="{DynamicResource PrimaryText}" />
     </ShellContent>
 </Shell>

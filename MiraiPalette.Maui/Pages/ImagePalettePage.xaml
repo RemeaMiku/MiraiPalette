@@ -111,13 +111,19 @@
                         IconColor="{StaticResource Warning}"
                         IconSize="28" />
                 </Border>
-                <Border IsVisible="{Binding Colors, Converter={toolkit:IsListNotNullOrEmptyConverter}}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border
+                    attached:TapGesture.Command="{Binding DeleteSelectedColorsCommand}"
+                    IsVisible="{Binding Colors, Converter={toolkit:IsListNotNullOrEmptyConverter}}"
+                    Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=Delete24}"
                         IconColor="{StaticResource Error}"
                         IconSize="28" />
                 </Border>
-                <Border IsVisible="{Binding Colors, Converter={toolkit:IsListNotNullOrEmptyConverter}}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border
+                    attached:TapGesture.Command="{Binding SaveColorsToPaletteCommand}"
+                    IsVisible="{Binding Colors, Converter={toolkit:IsListNotNullOrEmptyConverter}}"
+                    Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=SaveArrowRight24}"
                         IconColor="{StaticResource Info}"

@@ -69,6 +69,17 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
             Description = paletteModel.Description,
             Colors = []
         };
+        foreach(var colorModel in paletteModel.Colors)
+        {
+            var colorId = GetNextColorId();
+            var color = new MiraiColorModel
+            {
+                Id = colorId,
+                Name = colorModel.Name,
+                Color = colorModel.Color
+            };
+            palette.Colors.Add(color);
+        }
         _palettes.Add(palette);
         await SaveToJsonAsync();
         return paletteId;

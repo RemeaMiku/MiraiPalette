@@ -4,15 +4,19 @@ using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
 using MiraiPalette.Maui.Resources.Globalization;
+using MiraiPalette.Maui.Services;
 
 namespace MiraiPalette.Maui.PageModels;
 
 public partial class ImagePalettePageModel : ObservableObject
 {
-    public ImagePalettePageModel()
+    public ImagePalettePageModel(IPaletteRepositoryService paletteRepositoryService)
     {
         Colors.CollectionChanged += (_, _) => OnPropertyChanged(nameof(Colors));
+        _paletteRepositoryService = paletteRepositoryService;
     }
+
+    readonly IPaletteRepositoryService _paletteRepositoryService;
 
     public ObservableCollection<MiraiColorModel> Colors { get; } = [];
 
@@ -62,12 +66,16 @@ public partial class ImagePalettePageModel : ObservableObject
     [RelayCommand]
     void ImageZoomIn()
     {
+        if(ImageSource is null)
+            return;
         ImageScale = Math.Min(ImageScale * 1.1, 5);
     }
 
     [RelayCommand]
     void ImageZoomOut()
     {
+        if(ImageSource is null)
+            return;
         ImageScale = Math.Max(ImageScale * 0.9, 1);
     }
 
@@ -95,12 +103,33 @@ public partial class ImagePalettePageModel : ObservableObject
         if(Colors.Count == 0)
             return;
         var selectedColors = Colors.Where(c => c.IsSelected);
-        var isConfirm = await Shell.Current.DisplayAlert(StringResource.DeleteColor, string.Format(StringResource.RemoveColorDialogMessage, string.Join(";", selectedColors.Select(c => c.Name))), StringResource.Confirm, StringResource.Cancel);
+        if(!selectedColors.Any())
+            return;
+        var isConfirm = await Shell.Current.DisplayAlert(StringResource.DeleteColor, string.Format(StringResource.RemoveColorDialogMessage, string.Join("\", \"", selectedColors.Select(c => $"{c.Hex}({c.Name})"))), StringResource.Confirm, StringResource.Cancel);
         if(!isConfirm)
             return;
-        foreach(var color in Colors.Where(c => c.IsSelected))
+        foreach(var color in selectedColors.ToArray())
             Colors.Remove(color);
     }
 
-
+    [RelayCommand]
+    async Task SaveColorsToPalette()
+    {
+        if(ImageSource is null || Colors.Count == 0)
+            return;
+        var palette = new MiraiPaletteModel()
+        {
+            Name = Path.GetFileNameWithoutExtension(ImagePath) ?? StringResource.NewPalette,
+            Description = $"Extracted from {ImagePath}",
+            Colors = new(Colors)
+        };
+        var paletteId = await _paletteRepositoryService.InsertPaletteAsync(palette);
+        var args = new ShellNavigationQueryParameters
+        {
+            { nameof(MiraiPaletteModel.Id), paletteId }
+        };
+        // 先回到主页面，再跳转到详情页，避免绝对路由异常
+        await Shell.Current.GoToAsync($"//{ShellRoutes.MainPage}");
+        await Shell.Current.GoToAsync($"/{ShellRoutes.PaletteDetailPage}", args);
+    }
 }
