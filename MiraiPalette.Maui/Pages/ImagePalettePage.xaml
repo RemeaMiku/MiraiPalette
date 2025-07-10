@@ -49,6 +49,7 @@
                 StrokeThickness="0">
                 <controls:PanContainer>
                     <Image
+                        x:Name="MainImage"
                         Aspect="AspectFit"
                         HorizontalOptions="Center"
                         InputTransparent="False"
@@ -56,7 +57,12 @@
                         Source="{Binding ImageSource}"
                         TranslationX="{Binding ImageXOffset, Mode=TwoWay}"
                         TranslationY="{Binding ImageYOffset, Mode=TwoWay}"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <PointerGestureRecognizer PointerMoved="PointerGestureRecognizer_PointerMoved" />
+                            <TapGestureRecognizer Tapped="MainImage_Tapped" />
+                        </Image.GestureRecognizers>
+                    </Image>
                 </controls:PanContainer>
             </Border>
             <VerticalStackLayout
@@ -66,14 +72,36 @@
                 Spacing="5"
                 VerticalOptions="Center">
                 <Border attached:TapGesture.Command="{Binding ImageZoomInCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
-                    <icons:MauiIcon Icon="{icons:Fluent Icon=ZoomIn24}" IconSize="28" />
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=ZoomIn24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
                 </Border>
                 <Border attached:TapGesture.Command="{Binding ImageZoomOutCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
-                    <icons:MauiIcon Icon="{icons:Fluent Icon=ZoomOut24}" IconSize="28" />
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=ZoomOut24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
                 </Border>
                 <Border attached:TapGesture.Command="{Binding ResetImageTransformCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
-                    <icons:MauiIcon Icon="{icons:Fluent Icon=ZoomFit24}" IconSize="28" />
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=ZoomFit24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
                 </Border>
+                <Border IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=Eyedropper24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
+                </Border>
+                <Border IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=Drag24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
+                </Border>
+                <Rectangle x:Name="ColorPreviewRect" HeightRequest="50" />
             </VerticalStackLayout>
         </Grid>
 
@@ -101,7 +129,7 @@
                 <Border attached:TapGesture.Command="{Binding PickImageCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=FolderOpen24}"
-                        IconColor="{DynamicResource SecondaryText}"
+                        IconColor="{StaticResource Warning}"
                         IconSize="28" />
                 </Border>
                 <Picker
@@ -116,12 +144,6 @@
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=Color24}"
                         IconColor="{DynamicResource Primary}"
-                        IconSize="28" />
-                </Border>
-                <Border IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}" Style="{StaticResource TransparentIconButtonBorderStyle}">
-                    <icons:MauiIcon
-                        Icon="{icons:Fluent Icon=Eyedropper24}"
-                        IconColor="{StaticResource Warning}"
                         IconSize="28" />
                 </Border>
                 <Border
