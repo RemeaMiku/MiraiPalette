@@ -3,6 +3,7 @@
     x:Class="MiraiPalette.Maui.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:attach="clr-namespace:MiraiPalette.Maui.AttachedProperties"
     xmlns:globalization="clr-namespace:MiraiPalette.Maui.Resources.Globalization;assembly=MiraiPalette.Maui"
     xmlns:icons="http://www.aathifmahir.com/dotnet/2022/maui/icons"
     xmlns:local="clr-namespace:MiraiPalette.Maui"
@@ -22,6 +23,7 @@
             <icons:MauiIcon
                 Margin="0,5,0,0"
                 Icon="{icons:Fluent Icon=LineHorizontal320}"
+                IconColor="{DynamicResource PrimaryText}"
                 VerticalOptions="Center"
                 WidthRequest="28" />
             <Button
@@ -52,12 +54,12 @@
         </DataTemplate>
     </Shell.ItemTemplate>
     <ShellContent Title="{x:Static globalization:StringResource.Palettes}" ContentTemplate="{DataTemplate pages:MainPage}">
-        <icons:MauiIcon Icon="{icons:Fluent Icon=Color24}" />
+        <icons:MauiIcon Icon="{icons:Fluent Icon=Color24}" IconColor="{DynamicResource PrimaryText}" />
     </ShellContent>
     <ShellContent Title="{x:Static globalization:StringResource.ImagePalette}" ContentTemplate="{DataTemplate pages:ImagePalettePage}">
-        <icons:MauiIcon Icon="{icons:Fluent Icon=Image24}" />
+        <icons:MauiIcon Icon="{icons:Fluent Icon=Image24}" IconColor="{DynamicResource PrimaryText}" />
     </ShellContent>
     <ShellContent Title="{x:Static globalization:StringResource.Options}" ContentTemplate="{DataTemplate pages:OptionsPage}">
-        <icons:MauiIcon Icon="{icons:Fluent Icon=Options24}" />
+        <icons:MauiIcon Icon="{icons:Fluent Icon=Options24}" IconColor="{DynamicResource PrimaryText}" />
     </ShellContent>
 </Shell>

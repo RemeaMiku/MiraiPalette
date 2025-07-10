@@ -7,6 +7,27 @@ public partial class PanContainer : ContentView
     double _xOffset = 0;
     double _yOffset = 0;
 
+    const double _minScale = 1;
+    const double _maxScale = 5;
+
+    public bool IsPanEnabled
+    {
+        get => (bool)GetValue(IsPanEnabledProperty);
+        set => SetValue(IsPanEnabledProperty, value);
+    }
+
+    public bool IsZoomEnabled
+    {
+        get => (bool)GetValue(IsZoomEnabledProperty);
+        set => SetValue(IsZoomEnabledProperty, value);
+    }
+
+    public static readonly BindableProperty IsZoomEnabledProperty =
+        BindableProperty.Create(nameof(IsZoomEnabled), typeof(bool), typeof(PanContainer), true);
+
+    public static readonly BindableProperty IsPanEnabledProperty =
+        BindableProperty.Create(nameof(IsPanEnabled), typeof(bool), typeof(PanContainer), true);
+
     public PanContainer()
     {
         var panGestureReconizer = new PanGestureRecognizer();
@@ -80,7 +101,7 @@ public partial class PanContainer : ContentView
     void ApplyScale(double scaleDelta, double centerX, double centerY)
     {
         var oldScale = Content.Scale;
-        var newScale = Math.Max(1, oldScale * scaleDelta);
+        var newScale = Math.Clamp(oldScale * scaleDelta, _minScale, _maxScale);
         Content.Scale = newScale;
         _currentScale = newScale;
         // 可根据需要调整锚点和偏移

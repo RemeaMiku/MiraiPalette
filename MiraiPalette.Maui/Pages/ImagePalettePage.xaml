@@ -41,20 +41,42 @@
         Padding="10"
         RowDefinitions="3*,2*,Auto"
         RowSpacing="10">
-        <Border
-            Margin="5"
-            BackgroundColor="{DynamicResource Secondary}"
-            StrokeShape="RoundRectangle 5"
-            StrokeThickness="0">
-            <controls:PanContainer>
-                <Image
-                    Aspect="AspectFit"
-                    HorizontalOptions="Center"
-                    InputTransparent="False"
-                    Source="{Binding ImageSource}"
-                    VerticalOptions="Center" />
-            </controls:PanContainer>
-        </Border>
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="5">
+            <Border
+                Margin="5"
+                BackgroundColor="{DynamicResource Secondary}"
+                StrokeShape="RoundRectangle 5"
+                StrokeThickness="0">
+                <controls:PanContainer>
+                    <Image
+                        Aspect="AspectFit"
+                        HorizontalOptions="Center"
+                        InputTransparent="False"
+                        Scale="{Binding ImageScale, Mode=TwoWay}"
+                        Source="{Binding ImageSource}"
+                        TranslationX="{Binding ImageXOffset, Mode=TwoWay}"
+                        TranslationY="{Binding ImageYOffset, Mode=TwoWay}"
+                        VerticalOptions="Center" />
+                </controls:PanContainer>
+            </Border>
+            <VerticalStackLayout
+                Grid.Column="1"
+                Padding="5"
+                IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"
+                Spacing="5"
+                VerticalOptions="Center">
+                <Border attached:TapGesture.Command="{Binding ImageZoomInCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=ZoomIn24}" IconSize="28" />
+                </Border>
+                <Border attached:TapGesture.Command="{Binding ImageZoomOutCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=ZoomOut24}" IconSize="28" />
+                </Border>
+                <Border attached:TapGesture.Command="{Binding ResetImageTransformCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=ZoomFit24}" IconSize="28" />
+                </Border>
+            </VerticalStackLayout>
+        </Grid>
+
         <ScrollView Grid.Row="1" Padding="5">
             <FlexLayout
                 AlignContent="Start"
@@ -70,29 +92,32 @@
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
                 <Border attached:TapGesture.Command="{Binding PickImageCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
-                        Icon="{icons:Fluent Icon=ImageEdit24}"
+                        Icon="{icons:Fluent Icon=FolderOpen24}"
                         IconColor="{DynamicResource SecondaryText}"
                         IconSize="28" />
                 </Border>
-                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border
+                    attached:TapGesture.Command="{Binding ExtractColorsCommand}"
+                    IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"
+                    Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=Color24}"
                         IconColor="{DynamicResource Primary}"
                         IconSize="28" />
                 </Border>
-                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}" Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=Eyedropper24}"
                         IconColor="{StaticResource Warning}"
                         IconSize="28" />
                 </Border>
-                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border IsVisible="{Binding Colors, Converter={toolkit:IsListNotNullOrEmptyConverter}}" Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=Delete24}"
                         IconColor="{StaticResource Error}"
                         IconSize="28" />
                 </Border>
-                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border IsVisible="{Binding Colors, Converter={toolkit:IsListNotNullOrEmptyConverter}}" Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=SaveArrowRight24}"
                         IconColor="{StaticResource Info}"
