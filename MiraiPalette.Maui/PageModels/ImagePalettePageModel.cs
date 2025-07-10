@@ -84,8 +84,8 @@ public partial class ImagePalettePageModel : ObservableObject
     {
         if(string.IsNullOrWhiteSpace(ImagePath))
             return;
-        var extractedColors = await ImagePaletteExtractor.ExtractAsync(ImagePath);
-        foreach(var color in extractedColors)
+        Colors.Clear();
+        foreach(var color in await ImagePaletteExtractor.ExtractAsync(ImagePath))
             Colors.Add(new MiraiColorModel() { Name = $"{color.Percentage}%", Color = color.Color });
     }
 
