@@ -24,7 +24,13 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     private async Task GoBack()
     {
         CloseColorDetail();
+
         await Shell.Current.GoToAsync(ShellRoutes.GoBack);
+#if WINDOWS || MACCATALYST
+        Shell.Current.FlyoutBehavior = FlyoutBehavior.Locked;
+#else
+        Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+#endif
     }
 
     private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
@@ -183,6 +189,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     [RelayCommand]
     private async Task Load()
     {
+        Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
         var palette = await _paletteRepositoryService.SelectPaletteAsync(_paletteId);
         if(palette is null)
         {

@@ -141,8 +141,6 @@ public partial class ImagePalettePageModel : ObservableObject
         {
             { nameof(MiraiPaletteModel.Id), paletteId }
         };
-        // 先回到主页面，再跳转到详情页，避免绝对路由异常
-        await Shell.Current.GoToAsync($"//{ShellRoutes.MainPage}");
-        await Shell.Current.GoToAsync($"/{ShellRoutes.PaletteDetailPage}", args);
+        await Shell.Current.GoToAsync($"{ShellRoutes.PaletteDetailPage}", args);
     }
 }
