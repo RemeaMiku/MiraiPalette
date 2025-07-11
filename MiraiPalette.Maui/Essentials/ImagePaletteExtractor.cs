@@ -9,7 +9,11 @@ public class ImagePaletteExtractor
         public Color Color { get; set; } = Colors.White;
     }
 
-    public static async Task<IEnumerable<ImagePaletteColor>> ExtractAsync(string imagePath, int colorCount = 4)
+    public const int MaxSampleEdge = 256;
+
+    public const int MaxKMeansIterations = 25;
+
+    public static async Task<IEnumerable<ImagePaletteColor>> ExtractAsync(string imagePath, int colorCount)
     {
         return string.IsNullOrWhiteSpace(imagePath)
             ? throw new ArgumentException("Image path cannot be null or empty.", nameof(imagePath))
@@ -18,9 +22,9 @@ public class ImagePaletteExtractor
 
     private static IEnumerable<ImagePaletteColor> Extract(string imagePath, int colorCount)
     {
-        using var sampledBitmap = LoadAndSampleBitmap(imagePath, 128);
+        using var sampledBitmap = LoadAndSampleBitmap(imagePath, MaxSampleEdge);
         var pixels = ExtractPixels(sampledBitmap);
-        var clusters = ClusterColors(pixels, colorCount, 10);
+        var clusters = ClusterColors(pixels, colorCount, MaxKMeansIterations, imagePath);
         return ToPaletteColors(clusters, pixels.Count);
     }
 
@@ -51,9 +55,10 @@ public class ImagePaletteExtractor
         return pixels;
     }
 
-    private static List<Cluster> ClusterColors(List<(byte R, byte G, byte B)> pixels, int k, int maxIterations)
+    private static List<Cluster> ClusterColors(List<(byte R, byte G, byte B)> pixels, int k, int maxIterations, string imagePath = "")
     {
-        return KMeans(pixels, k, maxIterations);
+        int seed = imagePath.GetHashCode();
+        return KMeans(pixels, k, maxIterations, seed);
     }
 
     private static IEnumerable<ImagePaletteColor> ToPaletteColors(List<Cluster> clusters, int total)
@@ -80,9 +85,9 @@ public class ImagePaletteExtractor
         public List<(byte R, byte G, byte B)> Pixels = [];
     }
 
-    private static List<Cluster> KMeans(List<(byte R, byte G, byte B)> pixels, int k, int maxIterations)
+    private static List<Cluster> KMeans(List<(byte R, byte G, byte B)> pixels, int k, int maxIterations, int seed = 0)
     {
-        var rnd = new Random();
+        var rnd = seed == 0 ? new Random(0) : new Random(seed);
         var centers = pixels.OrderBy(_ => rnd.Next()).Take(k)
             .Select(p => (R: (double)p.R, G: (double)p.G, B: (double)p.B)).ToList();
         List<Cluster> clusters = [];
