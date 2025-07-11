@@ -40,9 +40,11 @@ public partial class ImagePalettePage : ContentPage
         if(_bitmapCache is null || !_isPointerPressed || !_viewModel.IsColorPickerEnabled)
             return;
 
+        SetPositionForPickedColorPreview(e);
+
         // 获取点击点在Image控件内的坐标
-        var touchPoint = e.GetPosition(_imageView);
-        if(touchPoint is not Point point)
+        var touchPointOnImage = e.GetPosition(_imageView);
+        if(!touchPointOnImage.HasValue)
             return;
 
         // 获取Image控件实际显示区域
@@ -59,8 +61,8 @@ public partial class ImagePalettePage : ContentPage
         double offsetY = (imageHeight - displayH) / 2;
 
         // 映射控件坐标到图片像素
-        double imgX = (point.X - offsetX) / scale;
-        double imgY = (point.Y - offsetY) / scale;
+        double imgX = (touchPointOnImage.Value.X - offsetX) / scale;
+        double imgY = (touchPointOnImage.Value.Y - offsetY) / scale;
 
         int px = (int)Math.Clamp(imgX, 0, bmpWidth - 1);
         int py = (int)Math.Clamp(imgY, 0, bmpHeight - 1);
@@ -74,14 +76,31 @@ public partial class ImagePalettePage : ContentPage
 
     bool _isPointerPressed = false;
 
+    private void SetPositionForPickedColorPreview(PointerEventArgs e)
+    {
+        var touchPointOnContainer = e.GetPosition(_imageContainer);
+        if(touchPointOnContainer.HasValue)
+        {
+            _pickedColorPreview.TranslationX = touchPointOnContainer.Value.X - _pickedColorPreview.Width / 2;
+            _pickedColorPreview.TranslationY = touchPointOnContainer.Value.Y - _pickedColorPreview.Height / 2;
+        }
+    }
+
     private void OnImageViewPointerPressed(object sender, PointerEventArgs e)
     {
+        if(_bitmapCache is null || !_viewModel.IsColorPickerEnabled)
+            return;
         _isPointerPressed = true;
+        _pickedColorPreview.IsVisible = true;
+        SetPositionForPickedColorPreview(e);
     }
 
     private void OnImageViewPointerReleased(object sender, PointerEventArgs e)
     {
+        if(_bitmapCache is null || !_viewModel.IsColorPickerEnabled)
+            return;
         _isPointerPressed = false;
+        _pickedColorPreview.IsVisible = false;
     }
 
     private void OnZoomInButtonTapped(object sender, TappedEventArgs e)

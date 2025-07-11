@@ -141,6 +141,7 @@
 	  <EmbeddedResource Update="Resources\Globalization\StringResource.ja.resx">
 	    <LastGenOutput>StringResource.ja.Designer.cs</LastGenOutput>
 	    <Generator>ResXFileCodeGenerator</Generator>
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Update="Resources\Globalization\StringResource.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>

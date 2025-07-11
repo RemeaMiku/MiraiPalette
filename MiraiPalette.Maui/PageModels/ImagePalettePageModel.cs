@@ -29,7 +29,13 @@ public partial class ImagePalettePageModel : ObservableObject
     [ObservableProperty]
     public partial bool IsColorPickerEnabled { get; set; } = false;
 
-    public List<int> ColorCountOptions { get; } = [.. Enumerable.Range(1, 16)];
+    public List<int> ColorCountOptions { get; } =
+    [
+        Constants.DefaultColorCount,
+        Constants.DefaultColorCount * 2,
+        Constants.DefaultColorCount * 3,
+        Constants.DefaultColorCount * 4
+    ];
 
     [ObservableProperty]
     public partial int ColorCount { get; set; } = Constants.DefaultColorCount;
@@ -62,8 +68,15 @@ public partial class ImagePalettePageModel : ObservableObject
     void ToggleColorPicker()
     {
         IsColorPickerEnabled = !IsColorPickerEnabled;
-        if(!IsColorPickerEnabled && PickedColor is not null)
-            Colors.Add(new MiraiColorModel() { Name = $"{PickedColor.ToHex()}", Color = PickedColor });
+        PickedColor = null;
+    }
+
+    [RelayCommand]
+    void SubmitPickedColor()
+    {
+        if(PickedColor is null)
+            return;
+        Colors.Add(new() { Name = $"{PickedColor.ToHex()}", Color = PickedColor });
         PickedColor = null;
     }
 
@@ -72,7 +85,11 @@ public partial class ImagePalettePageModel : ObservableObject
     {
         if(IsBusy || string.IsNullOrWhiteSpace(ImagePath))
             return;
-        Colors.Clear();
+        for(int i = Colors.Count - 1; i >= 0; i--)
+        {
+            if(!Colors[i].Name.StartsWith('#'))
+                Colors.Remove(Colors[i]);
+        }
         IsBusy = true;
         foreach(var color in await ImagePaletteExtractor.ExtractAsync(ImagePath, ColorCount))
             Colors.Add(new MiraiColorModel() { Name = $"{color.Percentage:0.0}%", Color = color.Color });

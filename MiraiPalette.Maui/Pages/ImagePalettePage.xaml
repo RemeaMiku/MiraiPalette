@@ -47,7 +47,6 @@
         RowSpacing="10">
         <Grid ColumnDefinitions="*,Auto" ColumnSpacing="5">
             <Border
-                Margin="5"
                 BackgroundColor="{DynamicResource Secondary}"
                 StrokeShape="RoundRectangle 5"
                 StrokeThickness="0">
@@ -71,59 +70,71 @@
                     </Image>
                 </controls:PanContainer>
             </Border>
-            <Grid
+
+            <VerticalStackLayout
                 Grid.Column="1"
                 Padding="5"
-                RowDefinitions="*,Auto">
+                IsEnabled="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"
+                Spacing="5"
+                VerticalOptions="Center">
+                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnZoomInButtonTapped" />
+                    </Border.GestureRecognizers>
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=ZoomIn24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
+                </Border>
+                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnZoomOutButtonTapped" />
+                    </Border.GestureRecognizers>
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=ZoomOut24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
+                </Border>
+                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnResetTransformButtonTapped" />
+                    </Border.GestureRecognizers>
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=ZoomFit24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
+                </Border>
+                <Border attached:TapGesture.Command="{Binding ToggleColorPickerCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{Binding IsColorPickerEnabled, Converter={StaticResource IsColorPickerEnabledToIconConverter}}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
+                </Border>
                 <Border
                     BackgroundColor="{Binding PickedColor}"
-                    HorizontalOptions="Fill"
+                    HeightRequest="50"
                     StrokeShape="RoundRectangle 5"
-                    StrokeThickness="0"
-                    VerticalOptions="Fill" />
-                <HorizontalStackLayout
-                    Grid.Row="1"
-                    Padding="5"
-                    HorizontalOptions="Center"
-                    IsEnabled="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"
-                    Spacing="5">
-                    <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnZoomInButtonTapped" />
-                        </Border.GestureRecognizers>
-                        <icons:MauiIcon
-                            Icon="{icons:Fluent Icon=ZoomIn24}"
-                            IconColor="{DynamicResource PrimaryText}"
-                            IconSize="28" />
-                    </Border>
-                    <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnZoomOutButtonTapped" />
-                        </Border.GestureRecognizers>
-                        <icons:MauiIcon
-                            Icon="{icons:Fluent Icon=ZoomOut24}"
-                            IconColor="{DynamicResource PrimaryText}"
-                            IconSize="28" />
-                    </Border>
-                    <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnResetTransformButtonTapped" />
-                        </Border.GestureRecognizers>
-                        <icons:MauiIcon
-                            Icon="{icons:Fluent Icon=ZoomFit24}"
-                            IconColor="{DynamicResource PrimaryText}"
-                            IconSize="28" />
-                    </Border>
-                    <Border attached:TapGesture.Command="{Binding ToggleColorPickerCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
-                        <icons:MauiIcon
-                            Icon="{Binding IsColorPickerEnabled, Converter={StaticResource IsColorPickerEnabledToIconConverter}}"
-                            IconColor="{DynamicResource PrimaryText}"
-                            IconSize="28" />
-                    </Border>
+                    StrokeThickness="0" />
+                <Border
+                    attached:TapGesture.Command="{Binding SubmitPickedColorCommand}"
+                    IsVisible="{Binding PickedColor, Converter={toolkit:IsNotNullConverter}}"
+                    Style="{StaticResource TransparentIconButtonBorderStyle}">
+                    <icons:MauiIcon
+                        Icon="{icons:Fluent Icon=Checkmark24}"
+                        IconColor="{DynamicResource PrimaryText}"
+                        IconSize="28" />
+                </Border>
+            </VerticalStackLayout>
 
-                </HorizontalStackLayout>
-            </Grid>
-
+            <Border
+                x:Name="_pickedColorPreview"
+                HeightRequest="200"
+                HorizontalOptions="Start"
+                Stroke="{Binding PickedColor}"
+                StrokeShape="Ellipse"
+                StrokeThickness="20"
+                VerticalOptions="Start"
+                WidthRequest="200" />
         </Grid>
 
         <ScrollView Grid.Row="1" Padding="5">
@@ -157,7 +168,8 @@
                     FontSize="Small"
                     IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"
                     ItemsSource="{Binding ColorCountOptions, Mode=OneTime}"
-                    SelectedItem="{Binding ColorCount}" />
+                    SelectedItem="{Binding ColorCount}"
+                    WidthRequest="100" />
                 <Border
                     attached:TapGesture.Command="{Binding ExtractColorsCommand}"
                     IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"

@@ -13,9 +13,9 @@
     BackgroundColor="Transparent"
     FlyoutBackground="Transparent"
     FlyoutBehavior="{OnIdiom Desktop={x:Static FlyoutBehavior.Locked},
-                             Phone={x:Static FlyoutBehavior.Flyout},
-                             Default={x:Static FlyoutBehavior.Flyout}}"
-    FlyoutHeader="{OnIdiom Desktop={DynamicResource SideBarToggleButton}}"
+                             Phone={x:Static FlyoutBehavior.Locked},
+                             Default={x:Static FlyoutBehavior.Locked}}"
+    FlyoutHeader="{DynamicResource SideBarToggleButton}"
     FlyoutWidth="{x:Static local:AppShell.DefaultFlyoutWidth}">
     <Shell.Resources>
         <Border
