@@ -11,31 +11,31 @@
             <Setter Property="ColumnDefinitions">
                 <Setter.Value>
                     <ColumnDefinitionCollection>
-                        <ColumnDefinition Width="32"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="32" />
+                        <ColumnDefinition Width="*" />
                     </ColumnDefinitionCollection>
                 </Setter.Value>
             </Setter>
             <Setter Property="ColumnSpacing"
-                    Value="10"/>
+                    Value="10" />
         </Style>
         <Style TargetType="Label"
                x:Key="CenterLabelStyle">
             <Setter Property="HorizontalOptions"
-                    Value="Center"/>
+                    Value="Center" />
             <Setter Property="VerticalTextAlignment"
-                    Value="Center"/>
+                    Value="Center" />
         </Style>
         <Style TargetType="Entry"
                x:Key="ComponentEntryStyle">
             <Setter Property="Keyboard"
-                    Value="Numeric"/>
+                    Value="Numeric" />
             <Setter Property="ClearButtonVisibility"
-                    Value="WhileEditing"/>
+                    Value="WhileEditing" />
             <Setter Property="ReturnType"
-                    Value="Done"/>
+                    Value="Done" />
             <Setter Property="attachments:InputViewSelectAllBehavior.Enabled"
-                    Value="True"/>
+                    Value="True" />
         </Style>
     </ContentView.Resources>
     <VerticalStackLayout Spacing="10">
@@ -43,7 +43,7 @@
                 StrokeThickness="0"
                 HorizontalOptions="Fill"
                 MinimumHeightRequest="100"
-                MinimumWidthRequest="100"/>
+                MinimumWidthRequest="100" />
         <Entry attachments:InputViewSelectAllBehavior.Enabled="True"
                x:Name="_hexEntry"
                Keyboard="Plain"
@@ -51,15 +51,15 @@
                ReturnType="Done"
                TextChanged="HexEntry_TextChanged"
                TextTransform="Uppercase"
-               Unfocused="HexEntry_Unfocused"/>
+               Unfocused="HexEntry_Unfocused" />
         <Picker x:Name="_modelPicker"
-                SelectedIndexChanged="Picker_SelectedIndexChanged"/>
+                SelectedIndexChanged="Picker_SelectedIndexChanged" />
         <Grid>
             <VerticalStackLayout Spacing="5"
                                  x:Name="_rgbComponents">
                 <Grid Style="{StaticResource ComponentGridStyle}">
                     <Label Text="R"
-                           Style="{StaticResource CenterLabelStyle}"/>
+                           Style="{StaticResource CenterLabelStyle}" />
                     <Entry x:Name="_redEntry"
                            Style="{StaticResource ComponentEntryStyle}"
                            Grid.Column="1"
@@ -69,51 +69,51 @@
                 </Grid>
                 <Grid Style="{StaticResource ComponentGridStyle}">
                     <Label Text="G"
-                           Style="{StaticResource CenterLabelStyle}"/>
+                           Style="{StaticResource CenterLabelStyle}" />
                     <Entry x:Name="_greenEntry"
                            Style="{StaticResource ComponentEntryStyle}"
                            Grid.Column="1"
                            TextChanged="RgbComponentEntry_TextChanged"
-                           Unfocused="ComponentEntry_Unfocused"/>
+                           Unfocused="ComponentEntry_Unfocused" />
                 </Grid>
                 <Grid Style="{StaticResource ComponentGridStyle}">
                     <Label Text="B"
-                           Style="{StaticResource CenterLabelStyle}"/>
+                           Style="{StaticResource CenterLabelStyle}" />
                     <Entry x:Name="_blueEntry"
                            Style="{StaticResource ComponentEntryStyle}"
                            Grid.Column="1"
                            TextChanged="RgbComponentEntry_TextChanged"
-                           Unfocused="ComponentEntry_Unfocused"/>
+                           Unfocused="ComponentEntry_Unfocused" />
                 </Grid>
             </VerticalStackLayout>
             <VerticalStackLayout Spacing="5"
                                  x:Name="_hslComponents">
                 <Grid Style="{StaticResource ComponentGridStyle}">
                     <Label Text="H(°)"
-                           Style="{StaticResource CenterLabelStyle}"/>
+                           Style="{StaticResource CenterLabelStyle}" />
                     <Entry x:Name="_hueEntry"
                            Grid.Column="1"
                            Style="{StaticResource ComponentEntryStyle}"
                            TextChanged="HslComponentEntry_TextChanged"
-                           Unfocused="ComponentEntry_Unfocused"/>
+                           Unfocused="ComponentEntry_Unfocused" />
                 </Grid>
                 <Grid Style="{StaticResource ComponentGridStyle}">
                     <Label Text="S(%)"
-                           Style="{StaticResource CenterLabelStyle}"/>
+                           Style="{StaticResource CenterLabelStyle}" />
                     <Entry x:Name="_saturationEntry"
                            Grid.Column="1"
                            Style="{StaticResource ComponentEntryStyle}"
                            TextChanged="HslComponentEntry_TextChanged"
-                           Unfocused="ComponentEntry_Unfocused"/>
+                           Unfocused="ComponentEntry_Unfocused" />
                 </Grid>
                 <Grid Style="{StaticResource ComponentGridStyle}">
                     <Label Text="L(%)"
-                           Style="{StaticResource CenterLabelStyle}"/>
+                           Style="{StaticResource CenterLabelStyle}" />
                     <Entry x:Name="_lightnessEntry"
                            Grid.Column="1"
                            Style="{StaticResource ComponentEntryStyle}"
                            TextChanged="HslComponentEntry_TextChanged"
-                           Unfocused="ComponentEntry_Unfocused"/>
+                           Unfocused="ComponentEntry_Unfocused" />
                 </Grid>
             </VerticalStackLayout>
         </Grid>

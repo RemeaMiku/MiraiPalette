@@ -8,9 +8,10 @@ using MiraiPalette.Maui.Pages;
 using MiraiPalette.Maui.Services;
 using MiraiPalette.Maui.Services.Local;
 
-
 [assembly: RootNamespace("MiraiPalette.Maui")]
+
 namespace MiraiPalette.Maui;
+
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
@@ -37,7 +38,7 @@ public static class MauiProgram
 
         builder.Services
             .AddLocalization(options =>
-            options.ResourcesPath = "Resources\\Globalization")            
+            options.ResourcesPath = "Resources\\Globalization")
             .AddSingleton<IPaletteRepositoryService, JsonPaletteRepositoryService>()
             .AddSingletonWithShellRoute<MainPage, MainPageModel>(ShellRoutes.MainPage)
             .AddSingletonWithShellRoute<ImagePalettePage, ImagePalettePageModel>(ShellRoutes.ImagePalettePage)

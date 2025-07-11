@@ -1,6 +1,7 @@
 ﻿using SkiaSharp;
 
 namespace MiraiPalette.Maui.Essentials;
+
 public class ImagePaletteExtractor
 {
     public class ImagePaletteColor

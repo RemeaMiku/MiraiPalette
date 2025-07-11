@@ -42,9 +42,6 @@ public static class TapGesture
         view.SetValue(CommandProperty, value);
     }
 
-
-
-
     public static readonly BindableProperty CommandParameterProperty =
     BindableProperty.CreateAttached("CommandParameter", typeof(object), typeof(object), default, propertyChanged: OnCommandParameterChanged);
 
@@ -70,8 +67,6 @@ public static class TapGesture
     {
         view.SetValue(CommandParameterProperty, value);
     }
-
-
 
     //public static EventHandler<TappedEventArgs> GetTapped(BindableObject obj)
     //{

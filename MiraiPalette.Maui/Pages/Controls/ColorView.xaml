@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView
-    x:Class="MiraiPalette.Maui.Pages.Controls.ColorView"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:DataType="models:MiraiColorModel">
+<ContentView x:Class="MiraiPalette.Maui.Pages.Controls.ColorView"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MiraiPalette.Maui.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="models:MiraiColorModel">
     <ContentView.Resources>
         <!--<Style x:Key="ColorModelLabelStyle"
                TargetType="Label">
             <Setter Property="Padding"
-                    Value="15,10"/>
+                    Value="15,10" />
             <Setter Property="LineHeight"
-                    Value="1"/>
+                    Value="1" />
             <Setter Property="TextColor"
-                    Value="{DynamicResource SecondaryText}"/>
+                    Value="{DynamicResource SecondaryText}" />
             <Setter Property="VerticalTextAlignment"
-                    Value="Center"/>
+                    Value="Center" />
         </Style>-->
-        <Style x:Key="ColorModelButtonStyle" TargetType="Button">
-            <!--<Setter Property="CornerRadius" Value="0"/>-->
-            <Setter Property="Padding" Value="15,10" />
-            <Setter Property="HorizontalOptions" Value="Fill" />
-            <Setter Property="VerticalOptions" Value="Fill" />
-            <Setter Property="BackgroundColor" Value="Transparent" />
-            <Setter Property="TextColor" Value="{DynamicResource SecondaryText}" />
-            <Setter Property="ToolTipProperties.Text" Value="Click to copy to clipboard" />
+        <Style x:Key="ColorModelButtonStyle"
+               TargetType="Button">
+            <!--<Setter Property="CornerRadius" Value="0" />-->
+            <Setter Property="Padding"
+                    Value="15,10" />
+            <Setter Property="HorizontalOptions"
+                    Value="Fill" />
+            <Setter Property="VerticalOptions"
+                    Value="Fill" />
+            <Setter Property="BackgroundColor"
+                    Value="Transparent" />
+            <Setter Property="TextColor"
+                    Value="{DynamicResource SecondaryText}" />
+            <Setter Property="ToolTipProperties.Text"
+                    Value="Click to copy to clipboard" />
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
                     <VisualStateGroup x:Name="CommonStates">
                         <VisualState x:Name="Normal" />
                         <VisualState x:Name="PointerOver">
                             <VisualState.Setters>
-                                <Setter Property="TextColor" Value="{Binding Color}" />
+                                <Setter Property="TextColor"
+                                        Value="{Binding Color}" />
                             </VisualState.Setters>
                         </VisualState>
                     </VisualStateGroup>
@@ -40,38 +47,37 @@
             </Setter>
         </Style>
     </ContentView.Resources>
-    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="0">
-        <Label
-            Padding="10"
-            FontSize="Micro"
-            HorizontalTextAlignment="Center"
-            LineBreakMode="MiddleTruncation"
-            Text="{Binding Name}"
-            ToolTipProperties.Text="{Binding Name}" />
-        <Rectangle Grid.Row="1" BackgroundColor="{Binding Color}" />
+    <Grid RowDefinitions="Auto,*,Auto"
+          RowSpacing="0">
+        <Label Padding="10"
+               FontSize="Micro"
+               HorizontalTextAlignment="Center"
+               LineBreakMode="MiddleTruncation"
+               Text="{Binding Name}"
+               ToolTipProperties.Text="{Binding Name}" />
+        <Rectangle Grid.Row="1"
+                   BackgroundColor="{Binding Color}" />
         <Grid Grid.Row="2">
-            <Button
-                x:Name="_hexButton"
-                Clicked="CopyButton_Clicked"
-                Style="{StaticResource ColorModelButtonStyle}"
-                Text="{Binding Hex}" />
-            <Label
-                x:Name="_copiedLabel"
-                Margin="1"
-                Padding="20,5"
-                BackgroundColor="{StaticResource Success}"
-                HorizontalTextAlignment="Center"
-                IsVisible="False"
-                Opacity="0"
-                TextColor="{StaticResource White}"
-                VerticalTextAlignment="Center" />
+            <Button x:Name="_hexButton"
+                    Clicked="CopyButton_Clicked"
+                    Style="{StaticResource ColorModelButtonStyle}"
+                    Text="{Binding Hex}" />
+            <Label x:Name="_copiedLabel"
+                   Margin="1"
+                   Padding="20,5"
+                   BackgroundColor="{StaticResource Success}"
+                   HorizontalTextAlignment="Center"
+                   IsVisible="False"
+                   Opacity="0"
+                   TextColor="{StaticResource White}"
+                   VerticalTextAlignment="Center" />
         </Grid>
     </Grid>
 
     <!--<Grid ColumnDefinitions="64,*" ColumnSpacing="5">
-        <Rectangle BackgroundColor="{Binding Color}"/>
+        <Rectangle BackgroundColor="{Binding Color}" />
         <VerticalStackLayout Padding="5" Grid.Column="1">
-            <Label HorizontalTextAlignment="Center" Margin="5" Text="{Binding Name}" FontSize="Small" LineBreakMode="MiddleTruncation" ToolTipProperties.Text="{Binding Name}"/>
+            <Label HorizontalTextAlignment="Center" Margin="5" Text="{Binding Name}" FontSize="Small" LineBreakMode="MiddleTruncation" ToolTipProperties.Text="{Binding Name}" />
             <Grid ColumnDefinitions="Auto,*">
                 <Label Style="{StaticResource ColorModelLabelStyle}" Text="HEX" />
                 <Button Style="{StaticResource ColorModelButtonStyle}" Grid.Column="1" Text="{Binding Hex}" />

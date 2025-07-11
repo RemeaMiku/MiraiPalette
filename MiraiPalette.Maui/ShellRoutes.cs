@@ -5,6 +5,6 @@ public static class ShellRoutes
     public const string MainPage = "main";
     public const string PaletteDetailPage = "palette";
     public const string ImagePalettePage = "image";
-    public const string OptionsPage = "options";    
+    public const string OptionsPage = "options";
     public const string GoBack = "..";
 }

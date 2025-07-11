@@ -1,11 +1,9 @@
-﻿
-using CommunityToolkit.Maui.Behaviors;
+﻿using CommunityToolkit.Maui.Behaviors;
 
 namespace MiraiPalette.Maui.AttachedProperties;
 
 public static class Touch
 {
-
     public static readonly BindableProperty HoveredBackgroundColorProperty =
     BindableProperty.CreateAttached("HoveredBackgroundColor", typeof(Color), typeof(Color), default(Color), propertyChanged: OnHoveredBackgroundColorChanged);
 
@@ -43,5 +41,4 @@ public static class Touch
     {
         view.SetValue(HoveredBackgroundColorProperty, value);
     }
-
 }

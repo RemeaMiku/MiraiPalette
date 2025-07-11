@@ -1,5 +1,4 @@
-﻿
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 
 namespace MiraiPalette.Maui;
 
@@ -22,7 +21,7 @@ public partial class AppShell : Shell
     }
 
     [RelayCommand]
-    void ToggleSidebar()
+    private void ToggleSidebar()
     {
         if(_isSideBarExpanded)
             new Animation(w => FlyoutWidth = w, DefaultFlyoutWidth, MinFlyoutWidth, Easing.Default).Commit(this, "FoldSideBar", rate: 10, length: 200);

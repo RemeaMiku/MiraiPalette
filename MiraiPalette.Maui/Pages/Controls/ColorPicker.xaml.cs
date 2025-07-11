@@ -4,7 +4,7 @@ namespace MiraiPalette.Maui.Pages.Controls;
 
 public partial class ColorPicker : ContentView
 {
-    enum ColorModel
+    private enum ColorModel
     {
         RGB,
         HSL
@@ -115,6 +115,7 @@ public partial class ColorPicker : ContentView
             case ColorModel.RGB:
                 SetColorFromRgbComponents();
                 break;
+
             case ColorModel.HSL:
                 SetColorFromHslComponents();
                 break;

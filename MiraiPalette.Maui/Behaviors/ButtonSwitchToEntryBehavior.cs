@@ -48,7 +48,7 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
     private static void Register(Button button, Entry entry)
     {
         if(button is null || entry is null)
-            return;        
+            return;
         _buttonEntryPairs.Add(button, entry);
         _entryButtonPairs.Add(entry, button);
         button.Clicked += OnButtonClicked;
@@ -68,7 +68,7 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
             _entryButtonPairs.Remove(entry);
         button.Clicked -= OnButtonClicked;
         entry.Unfocused -= OnEntryUnfocused;
-        entry.Completed -= OnEntryCompleted; 
+        entry.Completed -= OnEntryCompleted;
     }
 
     private static void OnEntryUnfocused(object? sender, FocusEventArgs e)
@@ -83,7 +83,7 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
         entry.IsVisible = false;
         button.IsVisible = true;
         button.IsEnabled = true;
-        button.Focus();        
+        button.Focus();
     }
 
     private static void OnButtonClicked(object? sender, EventArgs e)

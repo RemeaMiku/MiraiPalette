@@ -2,8 +2,8 @@
 
 public partial class PanContainer : ContentView
 {
-    double _xOffset = 0;
-    double _yOffset = 0;
+    private double _xOffset = 0;
+    private double _yOffset = 0;
 
     public bool IsPanEnabled
     {
@@ -29,17 +29,14 @@ public partial class PanContainer : ContentView
         set => SetValue(MaxScaleProperty, value);
     }
 
-
     public static readonly BindableProperty IsZoomEnabledProperty =
         BindableProperty.Create(nameof(IsZoomEnabled), typeof(bool), typeof(PanContainer), true);
 
     public static readonly BindableProperty IsPanEnabledProperty =
         BindableProperty.Create(nameof(IsPanEnabled), typeof(bool), typeof(PanContainer), true);
 
-
     public static readonly BindableProperty MinScaleProperty = BindableProperty.Create(
         nameof(MinScale), typeof(double), typeof(PanContainer), 1d);
-
 
     public static readonly BindableProperty MaxScaleProperty = BindableProperty.Create(
         nameof(MaxScale), typeof(double), typeof(PanContainer), 5d);
@@ -75,7 +72,7 @@ public partial class PanContainer : ContentView
     }
 #endif
 
-    void OnPinchUpdated(object? _, PinchGestureUpdatedEventArgs e)
+    private void OnPinchUpdated(object? _, PinchGestureUpdatedEventArgs e)
     {
         if(!IsZoomEnabled)
             return;
@@ -90,7 +87,7 @@ public partial class PanContainer : ContentView
         }
     }
 
-    void OnPanUpdated(object? _, PanUpdatedEventArgs e)
+    private void OnPanUpdated(object? _, PanUpdatedEventArgs e)
     {
         if(!IsPanEnabled)
             return;
@@ -109,6 +106,7 @@ public partial class PanContainer : ContentView
                 Content.TranslationX = Math.Clamp(newX, -absMaxXOffset, absMaxXOffset);
                 Content.TranslationY = Math.Clamp(newY, -absMaxYOffset, absMaxYOffset);
                 break;
+
             case GestureStatus.Completed:
                 // 记录最终偏移
                 _xOffset = Content.TranslationX;

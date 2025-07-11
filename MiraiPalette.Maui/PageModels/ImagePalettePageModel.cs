@@ -16,7 +16,7 @@ public partial class ImagePalettePageModel : ObservableObject
         _paletteRepositoryService = paletteRepositoryService;
     }
 
-    readonly IPaletteRepositoryService _paletteRepositoryService;
+    private readonly IPaletteRepositoryService _paletteRepositoryService;
 
     public ObservableCollection<MiraiColorModel> Colors { get; } = [];
 
@@ -47,7 +47,7 @@ public partial class ImagePalettePageModel : ObservableObject
     public partial bool IsBusy { get; set; } = false;
 
     [RelayCommand]
-    async Task PickImage()
+    private async Task PickImage()
     {
         if(IsBusy)
             return;
@@ -65,14 +65,14 @@ public partial class ImagePalettePageModel : ObservableObject
     }
 
     [RelayCommand]
-    void ToggleColorPicker()
+    private void ToggleColorPicker()
     {
         IsColorPickerEnabled = !IsColorPickerEnabled;
         PickedColor = null;
     }
 
     [RelayCommand]
-    void SubmitPickedColor()
+    private void SubmitPickedColor()
     {
         if(PickedColor is null)
             return;
@@ -81,7 +81,7 @@ public partial class ImagePalettePageModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task ExtractColors()
+    private async Task ExtractColors()
     {
         if(IsBusy || string.IsNullOrWhiteSpace(ImagePath))
             return;
@@ -97,7 +97,7 @@ public partial class ImagePalettePageModel : ObservableObject
     }
 
     [RelayCommand]
-    static void SelectColor(MiraiColorModel color)
+    private static void SelectColor(MiraiColorModel color)
     {
         if(color is null)
             return;
@@ -105,7 +105,7 @@ public partial class ImagePalettePageModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task DeleteSelectedColors()
+    private async Task DeleteSelectedColors()
     {
         if(Colors.Count == 0)
             return;
@@ -120,7 +120,7 @@ public partial class ImagePalettePageModel : ObservableObject
     }
 
     [RelayCommand]
-    async Task SaveColorsToPalette()
+    private async Task SaveColorsToPalette()
     {
         if(IsBusy || Colors.Count == 0)
             return;

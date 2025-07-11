@@ -1,6 +1,7 @@
 ﻿using MiraiPalette.Maui.Resources.Globalization;
 
 namespace MiraiPalette.Maui.Essentials;
+
 public class LanguageOption(string language, string code)
 {
     public string Language { get; set; } = language;
@@ -25,7 +26,7 @@ public class LanguageOption(string language, string code)
 
     public void Apply()
     {
-        if(Current.Code != Code)        
-            StringResource.Culture = new(Code);       
-    }    
+        if(Current.Code != Code)
+            StringResource.Culture = new(Code);
+    }
 }

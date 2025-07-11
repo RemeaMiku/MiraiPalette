@@ -18,7 +18,4 @@ public partial class MainPage : ContentPage
     }
 
     private readonly MainPageModel _model;
-
-
 }
-

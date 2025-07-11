@@ -8,9 +8,9 @@ public partial class EntryRestoreBehavior : Behavior<Entry>
     {
         base.OnAttachedTo(bindable);
         bindable.Focused += OnFocused;
-        bindable.Unfocused += OnUnfocused;        
-        if(!string.IsNullOrWhiteSpace(bindable.Text))        
-            _lastValidText = bindable.Text;        
+        bindable.Unfocused += OnUnfocused;
+        if(!string.IsNullOrWhiteSpace(bindable.Text))
+            _lastValidText = bindable.Text;
     }
 
     private void OnFocused(object? sender, FocusEventArgs e)
@@ -19,7 +19,7 @@ public partial class EntryRestoreBehavior : Behavior<Entry>
         {
             _lastValidText = entry.Text;
             entry.Focused -= OnFocused;
-        }                    
+        }
     }
 
     protected override void OnDetachingFrom(Entry bindable)
@@ -32,10 +32,10 @@ public partial class EntryRestoreBehavior : Behavior<Entry>
     {
         if(sender is Entry entry)
         {
-            if(string.IsNullOrWhiteSpace(entry.Text))            
-                entry.Text = _lastValidText;            
-            else            
-                _lastValidText = entry.Text;            
+            if(string.IsNullOrWhiteSpace(entry.Text))
+                entry.Text = _lastValidText;
+            else
+                _lastValidText = entry.Text;
         }
     }
 }

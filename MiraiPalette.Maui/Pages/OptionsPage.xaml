@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="MiraiPalette.Maui.Pages.OptionsPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:glogalization="clr-namespace:MiraiPalette.Maui.Resources.Globalization"
-    xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
-    Padding="10"
-    x:DataType="pages:OptionsPageModel"
-    Shell.NavBarIsVisible="False">
+<ContentPage x:Class="MiraiPalette.Maui.Pages.OptionsPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:glogalization="clr-namespace:MiraiPalette.Maui.Resources.Globalization"
+             xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
+             Padding="10"
+             x:DataType="pages:OptionsPageModel"
+             Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
-        <Style x:Key="SectionGridStyle" TargetType="Grid">
-            <Setter Property="Margin" Value="5" />
-            <Setter Property="Padding" Value="5" />
-            <Setter Property="RowDefinitions" Value="Auto,*" />
-            <Setter Property="RowSpacing" Value="5" />
+        <Style x:Key="SectionGridStyle"
+               TargetType="Grid">
+            <Setter Property="Margin"
+                    Value="5" />
+            <Setter Property="Padding"
+                    Value="5" />
+            <Setter Property="RowDefinitions"
+                    Value="Auto,*" />
+            <Setter Property="RowSpacing"
+                    Value="5" />
         </Style>
-        <Style x:Key="SectionTitleStyle" TargetType="Label">
-            <Setter Property="FontSize" Value="Title" />
-            <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
+        <Style x:Key="SectionTitleStyle"
+               TargetType="Label">
+            <Setter Property="FontSize"
+                    Value="Title" />
+            <Setter Property="TextColor"
+                    Value="{DynamicResource PrimaryText}" />
         </Style>
-        <Style x:Key="OptionLableStyle" TargetType="Label">
-            <Setter Property="FontSize" Value="Small" />
-            <Setter Property="TextColor" Value="{DynamicResource SecondaryText}" />
+        <Style x:Key="OptionLableStyle"
+               TargetType="Label">
+            <Setter Property="FontSize"
+                    Value="Small" />
+            <Setter Property="TextColor"
+                    Value="{DynamicResource SecondaryText}" />
         </Style>
     </ContentPage.Resources>
-    <Grid
-        Margin="5"
-        Padding="10"
-        RowDefinitions="Auto,*"
-        RowSpacing="10">
-        <Label FontSize="Large" Text="{x:Static glogalization:StringResource.Options}" />
-        <VerticalStackLayout Grid.Row="1" Spacing="10">
+    <Grid Margin="5"
+          Padding="10"
+          RowDefinitions="Auto,*"
+          RowSpacing="10">
+        <Label FontSize="Large"
+               Text="{x:Static glogalization:StringResource.Options}" />
+        <VerticalStackLayout Grid.Row="1"
+                             Spacing="10">
             <!--<Grid
                 Margin="5"
                 Padding="5"
@@ -46,6 +57,4 @@
             </Grid>-->
         </VerticalStackLayout>
     </Grid>
-
-
 </ContentPage>

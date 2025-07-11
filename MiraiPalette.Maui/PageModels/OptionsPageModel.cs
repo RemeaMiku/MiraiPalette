@@ -5,7 +5,6 @@ namespace MiraiPalette.Maui.PageModels;
 
 public partial class OptionsPageModel : ObservableObject
 {
-
     [ObservableProperty]
     public partial LanguageOption SelectedLanguageOption { get; set; } = LanguageOption.Current;
 

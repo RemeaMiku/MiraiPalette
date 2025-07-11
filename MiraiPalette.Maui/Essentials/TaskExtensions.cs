@@ -2,7 +2,6 @@
 
 //public static class TaskExtensions
 //{
-
 //    /// <summary>
 //    /// Fire and Forget Safe Async.
 //    /// </summary>

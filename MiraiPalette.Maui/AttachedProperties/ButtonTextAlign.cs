@@ -5,8 +5,6 @@ public class ButtonTextAlign
     public static readonly BindableProperty TextAlignProperty =
         BindableProperty.CreateAttached("TextAlign", typeof(TextAlignment), typeof(ButtonTextAlign), TextAlignment.Center, propertyChanged: OnTextAlignChanged);
 
-
-
     private static void OnTextAlignChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var button = bindable as Button ?? throw new ArgumentException("Bindable object must be a Button");
@@ -48,7 +46,6 @@ public class ButtonTextAlign
         };
 #endif
     }
-
 
     public static TextAlignment GetTextAlign(BindableObject view)
     {

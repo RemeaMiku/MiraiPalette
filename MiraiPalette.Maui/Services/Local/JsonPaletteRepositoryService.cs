@@ -8,7 +8,6 @@ namespace MiraiPalette.Maui.Services.Local;
 
 public class JsonPaletteRepositoryService : IPaletteRepositoryService
 {
-
     private readonly ILogger _logger;
 
     private readonly string _filePath = Path.Combine(FileSystem.AppDataDirectory, "palettes.json");
@@ -48,7 +47,6 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
             _logger.LogError("Failed to read palettes.json file at {FilePath}:{Message}", _filePath, e.Message);
             throw new Exception("Failed to read palettes.json file", e);
         }
-
     }
 
     private readonly List<MiraiPaletteModel> _palettes;

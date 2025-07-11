@@ -43,7 +43,7 @@ public partial class ImagePalettePage : ContentPage
         SetPositionForPickedColorPreview(e);
     }
 
-    bool _isPointerPressed = false;
+    private bool _isPointerPressed = false;
 
     private void SetPositionForPickedColorPreview(PointerEventArgs e)
     {

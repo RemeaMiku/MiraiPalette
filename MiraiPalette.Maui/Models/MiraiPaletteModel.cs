@@ -8,7 +8,6 @@ public partial class MiraiPaletteModel : ObservableObject
 {
     public MiraiPaletteModel()
     {
-
     }
 
     public MiraiPaletteModel(Palette palette)

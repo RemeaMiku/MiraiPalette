@@ -10,7 +10,6 @@ public partial class MiraiColorModel : ObservableObject
 {
     public MiraiColorModel()
     {
-
     }
 
     public MiraiColorModel(MiraiColor miraiColor)

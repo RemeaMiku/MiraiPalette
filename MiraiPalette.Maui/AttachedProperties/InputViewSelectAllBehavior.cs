@@ -1,5 +1,4 @@
-﻿
-using CommunityToolkit.Maui.Behaviors;
+﻿using CommunityToolkit.Maui.Behaviors;
 
 namespace MiraiPalette.Maui.AttachedProperties;
 
@@ -12,7 +11,7 @@ public static class InputViewSelectAllBehavior
 
     public static void SetEnabled(BindableObject bindable, bool value) => bindable.SetValue(EnabledProperty, value);
 
-    private readonly static SelectAllTextBehavior _behavior = new();
+    private static readonly SelectAllTextBehavior _behavior = new();
 
     private static void OnEnabledChanged(BindableObject bindable, object oldValue, object newValue)
     {
