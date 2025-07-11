@@ -127,7 +127,7 @@ public partial class ImagePalettePageModel : ObservableObject
         var palette = new MiraiPaletteModel()
         {
             Name = Path.GetFileNameWithoutExtension(ImagePath) ?? StringResource.NewPalette,
-            Description = $"Extracted from {ImagePath}",
+            Description = string.Format(StringResource.ExtractedFrom, ImagePath),
             Colors = new(Colors)
         };
         IsBusy = true;

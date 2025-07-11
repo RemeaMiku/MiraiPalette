@@ -213,4 +213,7 @@
   <data name="ImagePalette" xml:space="preserve">
     <value>图片调色板</value>
   </data>
+  <data name="ExtractedFrom" xml:space="preserve">
+    <value>从图片 "{0}" 中提取的调色板</value>
+  </data>
 </root>

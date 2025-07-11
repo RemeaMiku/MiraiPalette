@@ -213,4 +213,7 @@
   <data name="ImagePalette" xml:space="preserve">
     <value>画像カラーパレット</value>
   </data>
+  <data name="ExtractedFrom" xml:space="preserve">
+    <value>画像「{0}」から抽出されたカラーパレット</value>
+  </data>
 </root>

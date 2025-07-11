@@ -214,6 +214,15 @@ namespace MiraiPalette.Maui.Resources.Globalization {
         }
         
         /// <summary>
+        ///   查找类似 从图片 &quot;{0}&quot; 中提取的调色板 的本地化字符串。
+        /// </summary>
+        internal static string ExtractedFrom {
+            get {
+                return ResourceManager.GetString("ExtractedFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 首页 的本地化字符串。
         /// </summary>
         internal static string Home {
