@@ -32,15 +32,15 @@ namespace MiraiPalette.Maui
             var window = new Window(appShell)
             {
                 MinimumWidth = 350,
-                MinimumHeight = 400,
-                Title=StringResource.MainWindowTitle
+                MinimumHeight = 600,
+                Title = StringResource.MainWindowTitle
             };
             return window;
         }
 
         protected override void OnStart()
-        {            
-            base.OnStart();            
+        {
+            base.OnStart();
             OnCurrentRequestedThemeChanged(this, new AppThemeChangedEventArgs(Current!.RequestedTheme));
             Current!.RequestedThemeChanged += OnCurrentRequestedThemeChanged;
         }

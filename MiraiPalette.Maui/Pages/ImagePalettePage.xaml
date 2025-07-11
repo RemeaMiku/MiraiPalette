@@ -42,10 +42,13 @@
         </DataTemplate>
     </ContentPage.Resources>
     <Grid
-        Padding="10"
+        Padding="5"
         RowDefinitions="3*,2*,Auto"
-        RowSpacing="10">
-        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="5">
+        RowSpacing="5">
+        <Grid
+            Padding="5"
+            ColumnDefinitions="*,Auto"
+            ColumnSpacing="5">
             <Border
                 BackgroundColor="{DynamicResource Secondary}"
                 StrokeShape="RoundRectangle 5"
@@ -73,42 +76,46 @@
 
             <VerticalStackLayout
                 Grid.Column="1"
+                Margin="5"
                 Padding="5"
                 IsEnabled="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"
-                Spacing="5"
+                Spacing="3"
                 VerticalOptions="Center">
-                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border Padding="3" Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnZoomInButtonTapped" />
                     </Border.GestureRecognizers>
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=ZoomIn24}"
                         IconColor="{DynamicResource PrimaryText}"
-                        IconSize="28" />
+                        IconSize="24" />
                 </Border>
-                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border Padding="3" Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnZoomOutButtonTapped" />
                     </Border.GestureRecognizers>
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=ZoomOut24}"
                         IconColor="{DynamicResource PrimaryText}"
-                        IconSize="28" />
+                        IconSize="24" />
                 </Border>
-                <Border Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border Padding="3" Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnResetTransformButtonTapped" />
                     </Border.GestureRecognizers>
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=ZoomFit24}"
                         IconColor="{DynamicResource PrimaryText}"
-                        IconSize="28" />
+                        IconSize="24" />
                 </Border>
-                <Border attached:TapGesture.Command="{Binding ToggleColorPickerCommand}" Style="{StaticResource TransparentIconButtonBorderStyle}">
+                <Border
+                    Padding="3"
+                    attached:TapGesture.Command="{Binding ToggleColorPickerCommand}"
+                    Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
                         Icon="{Binding IsColorPickerEnabled, Converter={StaticResource IsColorPickerEnabledToIconConverter}}"
                         IconColor="{DynamicResource PrimaryText}"
-                        IconSize="28" />
+                        IconSize="24" />
                 </Border>
                 <Border
                     BackgroundColor="{Binding PickedColor}"
@@ -116,13 +123,14 @@
                     StrokeShape="RoundRectangle 5"
                     StrokeThickness="0" />
                 <Border
+                    Padding="3"
                     attached:TapGesture.Command="{Binding SubmitPickedColorCommand}"
                     IsVisible="{Binding PickedColor, Converter={toolkit:IsNotNullConverter}}"
                     Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon
                         Icon="{icons:Fluent Icon=Checkmark24}"
                         IconColor="{DynamicResource PrimaryText}"
-                        IconSize="28" />
+                        IconSize="24" />
                 </Border>
             </VerticalStackLayout>
 
