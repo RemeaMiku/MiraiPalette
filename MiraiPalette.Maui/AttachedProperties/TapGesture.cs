@@ -71,4 +71,41 @@ public static class TapGesture
         view.SetValue(CommandParameterProperty, value);
     }
 
+
+
+    //public static EventHandler<TappedEventArgs> GetTapped(BindableObject obj)
+    //{
+    //    return (EventHandler<TappedEventArgs>)obj.GetValue(TappedProperty);
+    //}
+
+    //public static void SetTapped(BindableObject obj, EventHandler<TappedEventArgs> value)
+    //{
+    //    obj.SetValue(TappedProperty, value);
+    //}
+
+    //public static readonly BindableProperty TappedProperty =
+    //    BindableProperty.CreateAttached("Tapped", typeof(EventHandler<TappedEventArgs>), typeof(EventHandler<TappedEventArgs>), default, propertyChanged: OnTappedChanged);
+
+    //private static void OnTappedChanged(BindableObject bindable, object oldValue, object newValue)
+    //{
+    //    if(bindable is not View view)
+    //        throw new ArgumentException("Bindable object must be a view");
+    //    var gesture = (TapGestureRecognizer?)view.GestureRecognizers.FirstOrDefault(g => g is TapGestureRecognizer);
+    //    if(newValue is EventHandler<TappedEventArgs> handler)
+    //    {
+    //        if(gesture is not null)
+    //            gesture.Tapped += handler;
+    //        else
+    //        {
+    //            gesture = new();
+    //            gesture.Tapped += handler;
+    //            view.GestureRecognizers.Add(gesture);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        if(gesture is not null)
+    //            view.GestureRecognizers.Remove(gesture);
+    //    }
+    //}
 }

@@ -21,38 +21,24 @@ public partial class ImagePalettePageModel : ObservableObject
     public ObservableCollection<MiraiColorModel> Colors { get; } = [];
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(ImageSource))]
     public partial string ImagePath { get; set; } = string.Empty;
 
-    public ImageSource? ImageSource => string.IsNullOrWhiteSpace(ImagePath) ? null : ImageSource.FromFile(ImagePath);
+    [ObservableProperty]
+    public partial ImageSource? ImageSource { get; set; }
 
     [ObservableProperty]
-    public partial double ImageScale { get; set; } = 1;
+    public partial bool IsColorPickerEnabled { get; set; } = false;
 
-    [ObservableProperty]
-    public partial double ImageXOffset { get; set; } = 0;
-
-    [ObservableProperty]
-    public partial double ImageYOffset { get; set; } = 0;
-
-    [ObservableProperty]
-    public partial bool IsColorPickerEnabled { get; set; }
-
-    public List<int> ColorCountOptions { get; } = Enumerable.Range(1, 16).ToList();
+    public List<int> ColorCountOptions { get; } = [.. Enumerable.Range(1, 16)];
 
     [ObservableProperty]
     public partial int ColorCount { get; set; } = Constants.DefaultColorCount;
 
     [ObservableProperty]
-    public partial bool IsBusy { get; set; } = false;
+    public partial Color? PickedColor { get; set; }
 
-    [RelayCommand]
-    void ResetImageTransform()
-    {
-        ImageScale = 1;
-        ImageXOffset = 0;
-        ImageYOffset = 0;
-    }
+    [ObservableProperty]
+    public partial bool IsBusy { get; set; } = false;
 
     [RelayCommand]
     async Task PickImage()
@@ -65,27 +51,20 @@ public partial class ImagePalettePageModel : ObservableObject
         });
         if(result is null)
             return;
-        ResetImageTransform();
         ImagePath = string.Empty;
         GC.Collect(); // Clear memory to avoid issues with large images
         ImagePath = result.FullPath;
+        ImageSource = ImageSource.FromFile(result.FullPath);
         Colors.Clear();
     }
 
     [RelayCommand]
-    void ImageZoomIn()
+    void ToggleColorPicker()
     {
-        if(string.IsNullOrWhiteSpace(ImagePath))
-            return;
-        ImageScale = Math.Min(ImageScale * 1.1, 5);
-    }
-
-    [RelayCommand]
-    void ImageZoomOut()
-    {
-        if(string.IsNullOrWhiteSpace(ImagePath))
-            return;
-        ImageScale = Math.Max(ImageScale * 0.9, 1);
+        IsColorPickerEnabled = !IsColorPickerEnabled;
+        if(!IsColorPickerEnabled && PickedColor is not null)
+            Colors.Add(new MiraiColorModel() { Name = $"{PickedColor.ToHex()}", Color = PickedColor });
+        PickedColor = null;
     }
 
     [RelayCommand]

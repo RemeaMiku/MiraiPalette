@@ -1,4 +1,5 @@
-﻿using MiraiPalette.Maui.PageModels;
+﻿using System.ComponentModel;
+using MiraiPalette.Maui.PageModels;
 using SkiaSharp;
 
 namespace MiraiPalette.Maui.Pages;
@@ -6,48 +7,47 @@ namespace MiraiPalette.Maui.Pages;
 public partial class ImagePalettePage : ContentPage
 {
     private SKBitmap? _bitmapCache;
+    private readonly ImagePalettePageModel _viewModel;
 
     public ImagePalettePage(ImagePalettePageModel model)
     {
         InitializeComponent();
         BindingContext = model;
+        _viewModel = model;
+        _viewModel.PropertyChanged += OnViewModelPropertyChanged;
     }
 
-    protected override void OnAppearing()
+    private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        base.OnAppearing();
-        LoadBitmapCache();
+        if(e.PropertyName == nameof(ImagePalettePageModel.ImagePath))
+        {
+            LoadBitmapCache();
+        }
     }
 
     private void LoadBitmapCache()
     {
-        var model = BindingContext as ImagePalettePageModel;
-        if(model?.ImagePath is { Length: > 0 } path && File.Exists(path))
+        if(!string.IsNullOrEmpty(_viewModel.ImagePath) && File.Exists(_viewModel.ImagePath))
         {
             _bitmapCache?.Dispose();
-            using var stream = File.OpenRead(path);
+            using var stream = File.OpenRead(_viewModel.ImagePath);
             _bitmapCache = SKBitmap.Decode(stream);
         }
     }
 
-    private void MainImage_Tapped(object sender, TappedEventArgs e)
+    private void OnImageViewPointerMoved(object sender, PointerEventArgs e)
     {
-        var model = BindingContext as ImagePalettePageModel;
-        if(model?.ImagePath is { Length: > 0 } path && File.Exists(path))
-        {
-            _bitmapCache?.Dispose();
-            using var stream = File.OpenRead(path);
-            _bitmapCache = SKBitmap.Decode(stream);
-        }
+        if(_bitmapCache is null || !_isPointerPressed || !_viewModel.IsColorPickerEnabled)
+            return;
 
         // 获取点击点在Image控件内的坐标
-        var touchPoint = e.GetPosition(MainImage);
+        var touchPoint = e.GetPosition(_imageView);
         if(touchPoint is not Point point)
             return;
 
         // 获取Image控件实际显示区域
-        var imageWidth = MainImage.Width;
-        var imageHeight = MainImage.Height;
+        var imageWidth = _imageView.Width;
+        var imageHeight = _imageView.Height;
         var bmpWidth = _bitmapCache.Width;
         var bmpHeight = _bitmapCache.Height;
 
@@ -65,52 +65,37 @@ public partial class ImagePalettePage : ContentPage
         int px = (int)Math.Clamp(imgX, 0, bmpWidth - 1);
         int py = (int)Math.Clamp(imgY, 0, bmpHeight - 1);
 
-        var color = _bitmapCache.GetPixel(px, py);
-        var mauiColor = Color.FromRgb(color.Red, color.Green, color.Blue);
+        var skColor = _bitmapCache.GetPixel(px, py);
+        var pickedColor = Color.FromRgb(skColor.Red, skColor.Green, skColor.Blue);
 
-        // 设置Rectangle的Fill
-        ColorPreviewRect.Fill = new SolidColorBrush(mauiColor);
+        // 设置PickedColor
+        _viewModel.PickedColor = pickedColor;
     }
 
-    private void PointerGestureRecognizer_PointerMoved(object sender, PointerEventArgs e)
+    bool _isPointerPressed = false;
+
+    private void OnImageViewPointerPressed(object sender, PointerEventArgs e)
     {
-        var model = BindingContext as ImagePalettePageModel;
-        if(model?.ImagePath is { Length: > 0 } path && File.Exists(path))
-        {
-            _bitmapCache?.Dispose();
-            using var stream = File.OpenRead(path);
-            _bitmapCache = SKBitmap.Decode(stream);
-        }
+        _isPointerPressed = true;
+    }
 
-        // 获取点击点在Image控件内的坐标
-        var touchPoint = e.GetPosition(MainImage);
-        if(touchPoint is not Point point)
-            return;
+    private void OnImageViewPointerReleased(object sender, PointerEventArgs e)
+    {
+        _isPointerPressed = false;
+    }
 
-        // 获取Image控件实际显示区域
-        var imageWidth = MainImage.Width;
-        var imageHeight = MainImage.Height;
-        var bmpWidth = _bitmapCache.Width;
-        var bmpHeight = _bitmapCache.Height;
+    private void OnZoomInButtonTapped(object sender, TappedEventArgs e)
+    {
+        _imageContainer.ApplyScale(_imageView.Scale * 1.1);
+    }
 
-        // 计算图片在控件中的缩放和偏移（AspectFit）
-        double scale = Math.Min(imageWidth / bmpWidth, imageHeight / bmpHeight);
-        double displayW = bmpWidth * scale;
-        double displayH = bmpHeight * scale;
-        double offsetX = (imageWidth - displayW) / 2;
-        double offsetY = (imageHeight - displayH) / 2;
+    private void OnZoomOutButtonTapped(object sender, TappedEventArgs e)
+    {
+        _imageContainer.ApplyScale(_imageView.Scale / 1.1);
+    }
 
-        // 映射控件坐标到图片像素
-        double imgX = (point.X - offsetX) / scale;
-        double imgY = (point.Y - offsetY) / scale;
-
-        int px = (int)Math.Clamp(imgX, 0, bmpWidth - 1);
-        int py = (int)Math.Clamp(imgY, 0, bmpHeight - 1);
-
-        var color = _bitmapCache.GetPixel(px, py);
-        var mauiColor = Color.FromRgb(color.Red, color.Green, color.Blue);
-
-        // 设置Rectangle的Fill
-        ColorPreviewRect.Fill = new SolidColorBrush(mauiColor);
+    private void OnResetTransformButtonTapped(object sender, TappedEventArgs e)
+    {
+        _imageContainer.ResetTransform();
     }
 }

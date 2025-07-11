@@ -2,13 +2,8 @@
 
 public partial class PanContainer : ContentView
 {
-    double _currentScale = 1;
-    double _startScale = 1;
     double _xOffset = 0;
     double _yOffset = 0;
-
-    const double _minScale = 1;
-    const double _maxScale = 5;
 
     public bool IsPanEnabled
     {
@@ -22,11 +17,32 @@ public partial class PanContainer : ContentView
         set => SetValue(IsZoomEnabledProperty, value);
     }
 
+    public double MinScale
+    {
+        get => (double)GetValue(MinScaleProperty);
+        set => SetValue(MinScaleProperty, value);
+    }
+
+    public double MaxScale
+    {
+        get => (double)GetValue(MaxScaleProperty);
+        set => SetValue(MaxScaleProperty, value);
+    }
+
+
     public static readonly BindableProperty IsZoomEnabledProperty =
         BindableProperty.Create(nameof(IsZoomEnabled), typeof(bool), typeof(PanContainer), true);
 
     public static readonly BindableProperty IsPanEnabledProperty =
         BindableProperty.Create(nameof(IsPanEnabled), typeof(bool), typeof(PanContainer), true);
+
+
+    public static readonly BindableProperty MinScaleProperty = BindableProperty.Create(
+        nameof(MinScale), typeof(double), typeof(PanContainer), 1d);
+
+
+    public static readonly BindableProperty MaxScaleProperty = BindableProperty.Create(
+        nameof(MaxScale), typeof(double), typeof(PanContainer), 5d);
 
     public PanContainer()
     {
@@ -51,29 +67,33 @@ public partial class PanContainer : ContentView
 #if WINDOWS
     private void NativeImage_PointerWheelChanged(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
+        if(!IsZoomEnabled)
+            return;
         var delta = e.GetCurrentPoint(null).Properties.MouseWheelDelta;
         var scaleDelta = delta > 0 ? 1.1 : 0.9;
-        ApplyScale(scaleDelta, e.GetCurrentPoint(null).Position.X, e.GetCurrentPoint(null).Position.Y);
+        ApplyScale(Content.Scale * scaleDelta);
     }
 #endif
 
     void OnPinchUpdated(object? _, PinchGestureUpdatedEventArgs e)
     {
+        if(!IsZoomEnabled)
+            return;
         if(e.Status == GestureStatus.Started)
         {
-            _startScale = Content.Scale;
             Content.AnchorX = 0.5;
             Content.AnchorY = 0.5;
         }
         else if(e.Status == GestureStatus.Running)
         {
-            _currentScale = Math.Clamp(_startScale * e.Scale, 1, 5);
-            Content.Scale = _currentScale;
+            ApplyScale(e.Scale);
         }
     }
 
     void OnPanUpdated(object? _, PanUpdatedEventArgs e)
     {
+        if(!IsPanEnabled)
+            return;
         switch(e.StatusType)
         {
             case GestureStatus.Running:
@@ -98,12 +118,15 @@ public partial class PanContainer : ContentView
     }
 
     // 鼠标滚轮缩放时的缩放逻辑
-    void ApplyScale(double scaleDelta, double centerX, double centerY)
+    public void ApplyScale(double scale)
     {
-        var oldScale = Content.Scale;
-        var newScale = Math.Clamp(oldScale * scaleDelta, _minScale, _maxScale);
-        Content.Scale = newScale;
-        _currentScale = newScale;
-        // 可根据需要调整锚点和偏移
+        Content.Scale = Math.Clamp(scale, MinScale, MaxScale);
+    }
+
+    public void ResetTransform()
+    {
+        Content.TranslationX = 0;
+        Content.TranslationY = 0;
+        Content.Scale = MinScale;
     }
 }

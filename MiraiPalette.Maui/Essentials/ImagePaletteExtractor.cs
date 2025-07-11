@@ -9,7 +9,7 @@ public class ImagePaletteExtractor
         public Color Color { get; set; } = Colors.White;
     }
 
-    public const int MaxSampleEdge = 256;
+    public const int MaxPixelCount = 512 * 512;
 
     public const int MaxKMeansIterations = 25;
 
@@ -22,18 +22,18 @@ public class ImagePaletteExtractor
 
     private static IEnumerable<ImagePaletteColor> Extract(string imagePath, int colorCount)
     {
-        using var sampledBitmap = LoadAndSampleBitmap(imagePath, MaxSampleEdge);
+        using var sampledBitmap = LoadAndSampleBitmap(imagePath);
         var pixels = ExtractPixels(sampledBitmap);
         var clusters = ClusterColors(pixels, colorCount, MaxKMeansIterations, imagePath);
         return ToPaletteColors(clusters, pixels.Count);
     }
 
-    private static SKBitmap LoadAndSampleBitmap(string imagePath, int maxEdge)
+    private static SKBitmap LoadAndSampleBitmap(string imagePath)
     {
         using var stream = File.OpenRead(imagePath);
         using var originBitmap = SKBitmap.Decode(stream) ?? throw new InvalidOperationException("Failed to decode image.");
         int width = originBitmap.Width, height = originBitmap.Height;
-        float scale = Math.Min(1f, (float)maxEdge / Math.Max(width, height));
+        float scale = Math.Min(1f, (float)MaxPixelCount / (width * height));
         int targetW = (int)(width * scale);
         int targetH = (int)(height * scale);
         return (scale < 1f)
