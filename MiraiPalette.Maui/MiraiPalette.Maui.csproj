@@ -44,6 +44,7 @@
 		<Title>MiraiPalette</Title>
 		<Company>Miraisoft</Company>
 		<Authors>RemeaMiku</Authors>
+		<DefaultLanguage>zh</DefaultLanguage>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">

@@ -112,7 +112,7 @@ public partial class ImagePalettePageModel : ObservableObject
         var selectedColors = Colors.Where(c => c.IsSelected);
         if(!selectedColors.Any())
             return;
-        var isConfirm = await Shell.Current.DisplayAlert(StringResource.DeleteColor, string.Format(StringResource.RemoveColorDialogMessage, string.Join("\", \"", selectedColors.Select(c => $"{c.Hex}({c.Name})"))), StringResource.Confirm, StringResource.Cancel);
+        var isConfirm = await Shell.Current.DisplayAlert(StringResource.DeleteColor, string.Format(StringResource.RemoveColorDialogMessage, string.Join("\"; \"", selectedColors.Select(c => c.Hex))), StringResource.Confirm, StringResource.Cancel);
         if(!isConfirm)
             return;
         foreach(var color in selectedColors.ToArray())
