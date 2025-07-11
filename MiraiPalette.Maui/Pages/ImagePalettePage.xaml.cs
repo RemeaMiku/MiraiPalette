@@ -39,8 +39,26 @@ public partial class ImagePalettePage : ContentPage
     {
         if(_bitmapCache is null || !_isPointerPressed || !_viewModel.IsColorPickerEnabled)
             return;
-
+        SetPickedColor(e);
         SetPositionForPickedColorPreview(e);
+    }
+
+    bool _isPointerPressed = false;
+
+    private void SetPositionForPickedColorPreview(PointerEventArgs e)
+    {
+        var touchPointOnContainer = e.GetPosition(_imageContainer);
+        if(touchPointOnContainer.HasValue)
+        {
+            _pickedColorPreview.TranslationX = touchPointOnContainer.Value.X - _pickedColorPreview.Width / 2;
+            _pickedColorPreview.TranslationY = touchPointOnContainer.Value.Y - _pickedColorPreview.Height / 2;
+        }
+    }
+
+    private void SetPickedColor(PointerEventArgs e)
+    {
+        if(_bitmapCache is null || !_isPointerPressed || !_viewModel.IsColorPickerEnabled)
+            return;
 
         // 获取点击点在Image控件内的坐标
         var touchPointOnImage = e.GetPosition(_imageView);
@@ -74,24 +92,13 @@ public partial class ImagePalettePage : ContentPage
         _viewModel.PickedColor = pickedColor;
     }
 
-    bool _isPointerPressed = false;
-
-    private void SetPositionForPickedColorPreview(PointerEventArgs e)
-    {
-        var touchPointOnContainer = e.GetPosition(_imageContainer);
-        if(touchPointOnContainer.HasValue)
-        {
-            _pickedColorPreview.TranslationX = touchPointOnContainer.Value.X - _pickedColorPreview.Width / 2;
-            _pickedColorPreview.TranslationY = touchPointOnContainer.Value.Y - _pickedColorPreview.Height / 2;
-        }
-    }
-
     private void OnImageViewPointerPressed(object sender, PointerEventArgs e)
     {
         if(_bitmapCache is null || !_viewModel.IsColorPickerEnabled)
             return;
         _isPointerPressed = true;
         _pickedColorPreview.IsVisible = true;
+        SetPickedColor(e);
         SetPositionForPickedColorPreview(e);
     }
 

@@ -138,6 +138,7 @@
                 x:Name="_pickedColorPreview"
                 HeightRequest="200"
                 HorizontalOptions="Start"
+                IsVisible="False"
                 Stroke="{Binding PickedColor}"
                 StrokeShape="Ellipse"
                 StrokeThickness="20"
