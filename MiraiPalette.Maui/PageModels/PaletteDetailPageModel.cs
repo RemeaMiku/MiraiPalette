@@ -98,7 +98,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         if(!isYes)
             return;
         await _paletteRepositoryService.DeletePaletteAsync(Palette.Id);
-        await Shell.Current.GoToAsync(ShellRoutes.GoBack);
+        GoBackCommand.Execute(null);
     }
 
     [RelayCommand]
