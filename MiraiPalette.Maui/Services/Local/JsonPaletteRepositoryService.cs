@@ -17,11 +17,11 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
     public JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> logger)
     {
         _logger = logger;
-        if(!Directory.Exists("data"))
-        {
-            Directory.CreateDirectory("data");
-            _logger.LogInformation("Created new data directory");
-        }
+        //if(!Directory.Exists("data"))
+        //{
+        //    Directory.CreateDirectory("data");
+        //    _logger.LogInformation("Created new data directory");
+        //}
         if(!File.Exists(_filePath))
         {
             File.WriteAllText(_filePath, "[]");
