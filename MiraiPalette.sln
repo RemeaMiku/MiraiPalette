@@ -7,6 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Maui", "MiraiP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Data", "MiraiPalette.Data\MiraiPalette.Data.csproj", "{B23BD68F-CC08-4A9B-B189-DFBE5DCFD673}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Avalonia", "MiraiPalette.Avalonia\MiraiPalette.Avalonia.csproj", "{1D85C250-D807-1513-FFB0-4A36072F3BD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Avalonia.Android", "MiraiPalette.Avalonia.Android\MiraiPalette.Avalonia.Android.csproj", "{A48A68F2-9224-86C3-55D8-967E31D8893F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Avalonia.Browser", "MiraiPalette.Avalonia.Browser\MiraiPalette.Avalonia.Browser.csproj", "{FF0A379A-1944-D1B0-3A8B-6D050A6BB9A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Avalonia.Desktop", "MiraiPalette.Avalonia.Desktop\MiraiPalette.Avalonia.Desktop.csproj", "{2AFE7DFB-A252-AD6A-FA97-D7DC827B5E9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Avalonia.iOS", "MiraiPalette.Avalonia.iOS\MiraiPalette.Avalonia.iOS.csproj", "{B7EA97F6-F87C-9061-0B46-D160A9BEF044}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +31,30 @@ Global
 		{B23BD68F-CC08-4A9B-B189-DFBE5DCFD673}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B23BD68F-CC08-4A9B-B189-DFBE5DCFD673}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B23BD68F-CC08-4A9B-B189-DFBE5DCFD673}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D85C250-D807-1513-FFB0-4A36072F3BD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D85C250-D807-1513-FFB0-4A36072F3BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D85C250-D807-1513-FFB0-4A36072F3BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D85C250-D807-1513-FFB0-4A36072F3BD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A48A68F2-9224-86C3-55D8-967E31D8893F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A48A68F2-9224-86C3-55D8-967E31D8893F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A48A68F2-9224-86C3-55D8-967E31D8893F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A48A68F2-9224-86C3-55D8-967E31D8893F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A48A68F2-9224-86C3-55D8-967E31D8893F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A48A68F2-9224-86C3-55D8-967E31D8893F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{FF0A379A-1944-D1B0-3A8B-6D050A6BB9A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF0A379A-1944-D1B0-3A8B-6D050A6BB9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF0A379A-1944-D1B0-3A8B-6D050A6BB9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF0A379A-1944-D1B0-3A8B-6D050A6BB9A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AFE7DFB-A252-AD6A-FA97-D7DC827B5E9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AFE7DFB-A252-AD6A-FA97-D7DC827B5E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AFE7DFB-A252-AD6A-FA97-D7DC827B5E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AFE7DFB-A252-AD6A-FA97-D7DC827B5E9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7EA97F6-F87C-9061-0B46-D160A9BEF044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7EA97F6-F87C-9061-0B46-D160A9BEF044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7EA97F6-F87C-9061-0B46-D160A9BEF044}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B7EA97F6-F87C-9061-0B46-D160A9BEF044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7EA97F6-F87C-9061-0B46-D160A9BEF044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7EA97F6-F87C-9061-0B46-D160A9BEF044}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
