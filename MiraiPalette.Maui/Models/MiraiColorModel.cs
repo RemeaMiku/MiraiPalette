@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
-using MiraiPalette.Data.Entities;
 using MiraiPalette.Maui.Essentials;
+using MiraiPalette.Shared.Entities;
 
 namespace MiraiPalette.Maui.Models;
 

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Maui", "MiraiPalette.Maui\MiraiPalette.Maui.csproj", "{1BB84BD2-952D-438E-8FC0-4F396DFDDBAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Data", "MiraiPalette.Data\MiraiPalette.Data.csproj", "{B23BD68F-CC08-4A9B-B189-DFBE5DCFD673}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraiPalette.Shared", "MiraiPalette.Shared\MiraiPalette.Shared.csproj", "{B23BD68F-CC08-4A9B-B189-DFBE5DCFD673}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

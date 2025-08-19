@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
-using MiraiPalette.Data.Entities;
 using MiraiPalette.Maui.Models;
+using MiraiPalette.Shared.Entities;
 
 namespace MiraiPalette.Maui.Services.Local;
 

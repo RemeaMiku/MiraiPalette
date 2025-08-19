@@ -1,4 +1,4 @@
-﻿namespace MiraiPalette.Data.Entities;
+﻿namespace MiraiPalette.Shared.Entities;
 
 public class MiraiColor
 {
