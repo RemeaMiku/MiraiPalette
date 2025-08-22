@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MiraiPalette.Maui.Resources.Globalization;
+﻿using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Resources.Styles.Themes;
-using MiraiPalette.Shared.Data;
 
 namespace MiraiPalette.Maui
 {
@@ -45,7 +43,6 @@ namespace MiraiPalette.Maui
             base.OnStart();
             OnCurrentRequestedThemeChanged(this, new AppThemeChangedEventArgs(Current!.RequestedTheme));
             Current!.RequestedThemeChanged += OnCurrentRequestedThemeChanged;
-            IPlatformApplication.Current!.Services.GetRequiredService<MiraiPaletteDb>().Database.Migrate();
         }
     }
 }

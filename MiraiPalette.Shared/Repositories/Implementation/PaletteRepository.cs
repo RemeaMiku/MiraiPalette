@@ -3,9 +3,15 @@ using MiraiPalette.Shared.Data;
 
 namespace MiraiPalette.Shared.Repositories.Implementation;
 
-public class PaletteRepository(MiraiPaletteDb db) : IPaletteRepository
+public class PaletteRepository : IPaletteRepository
 {
-    private readonly MiraiPaletteDb _db = db ?? throw new ArgumentNullException(nameof(db));
+    public PaletteRepository(MiraiPaletteDb db)
+    {
+        _db = db ?? throw new ArgumentNullException(nameof(db));
+        _db.Database.Migrate();
+    }
+
+    private readonly MiraiPaletteDb _db;
 
     public async Task<int> AddPaletteAsync(Palette palette)
     {

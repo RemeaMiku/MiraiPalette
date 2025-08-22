@@ -145,7 +145,23 @@ public class JsonPaletteService : IPaletteService
         => Task.FromResult(_palettes);
 
     public Task<MiraiPaletteModel?> SelectPaletteAsync(int paletteId)
-        => Task.Run(() => _palettes.FirstOrDefault(p => p.Id == paletteId));
+        => Task.Run(() =>
+        {
+            var palette = _palettes.FirstOrDefault(p => p.Id == paletteId);
+            if(palette is null)
+            {
+                _logger.LogWarning("Palette with ID {PaletteId} not found", paletteId);
+                return null;
+            }
+            var copyPalette = new MiraiPaletteModel()
+            {
+                Id = palette.Id,
+                Name = palette.Name,
+                Description = palette.Description,
+                Colors = palette.Colors
+            };
+            return copyPalette;
+        });
 
     public async Task DeletePaletteAsync(int paletteId)
     {

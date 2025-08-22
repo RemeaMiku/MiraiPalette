@@ -3,10 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using MiraiPalette.Shared.Data;
 
 namespace MiraiPalette.Shared.Repositories.Implementation;
-public class ColorRepository(MiraiPaletteDb db) : IColorRepository
+public class ColorRepository : IColorRepository
 {
+    public ColorRepository(MiraiPaletteDb db)
+    {
+        _db = db ?? throw new ArgumentNullException(nameof(db));
+        _db.Database.Migrate();
+    }
 
-    private readonly MiraiPaletteDb _db = db ?? throw new ArgumentNullException(nameof(db));
+    private readonly MiraiPaletteDb _db;
 
     public async Task<int> AddColorAsync(Color color)
     {

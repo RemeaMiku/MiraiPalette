@@ -40,14 +40,4 @@ public partial class MiraiPaletteModel : ObservableObject
     [JsonIgnore]
     [ObservableProperty]
     public partial bool IsSelected { get; set; } = false;
-
-    public Palette ToPalette()
-    {
-        return new()
-        {
-            Id = Id,
-            Name = Name,
-            Description = Description,
-        };
-    }
 }
