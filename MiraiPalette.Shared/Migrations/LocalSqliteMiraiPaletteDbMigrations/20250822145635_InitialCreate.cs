@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace MiraiPalette.Shared.Migrations
+namespace MiraiPalette.Shared.Migrations.LocalSqliteMiraiPaletteDbMigrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
