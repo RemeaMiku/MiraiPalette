@@ -8,5 +8,5 @@ public class MiraiPalette
 
     public string Description { get; set; } = string.Empty;
 
-    public List<MiraiColor> Colors { get; set; } = null!;
+    public List<Color> Colors { get; set; } = [];
 }

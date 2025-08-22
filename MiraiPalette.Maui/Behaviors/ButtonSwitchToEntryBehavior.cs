@@ -79,10 +79,10 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
             return;
         if(button is null)
             return;
-        entry.IsEnabled = false;
+        //entry.IsEnabled = false;
         entry.IsVisible = false;
         button.IsVisible = true;
-        button.IsEnabled = true;
+        //button.IsEnabled = true;
         button.Focus();
     }
 
@@ -92,10 +92,10 @@ public partial class ButtonSwitchToEntryBehavior : Behavior<Button>
             return;
         if(!_buttonEntryPairs.TryGetValue(button, out var entry))
             return;
-        button.IsEnabled = false;
+        //button.IsEnabled = false;
         button.IsVisible = false;
         entry.IsVisible = true;
-        entry.IsEnabled = true;
+        //entry.IsEnabled = true;
         entry.Focus();
     }
 

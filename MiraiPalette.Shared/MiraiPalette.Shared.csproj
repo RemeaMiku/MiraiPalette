@@ -19,8 +19,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\新文件夹\" />
-  </ItemGroup>
-
 </Project>

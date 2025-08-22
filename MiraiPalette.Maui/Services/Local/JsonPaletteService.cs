@@ -6,7 +6,7 @@ using MiraiPalette.Maui.Models;
 
 namespace MiraiPalette.Maui.Services.Local;
 
-public class JsonPaletteRepositoryService : IPaletteRepositoryService
+public class JsonPaletteService : IPaletteService
 {
     private readonly ILogger _logger;
 
@@ -14,7 +14,7 @@ public class JsonPaletteRepositoryService : IPaletteRepositoryService
 
     private readonly FileStream _fileStream;
 
-    public JsonPaletteRepositoryService(ILogger<JsonPaletteRepositoryService> logger)
+    public JsonPaletteService(ILogger<JsonPaletteService> logger)
     {
         _logger = logger;
         //if(!Directory.Exists("data"))

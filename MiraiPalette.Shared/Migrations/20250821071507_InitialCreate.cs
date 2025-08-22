@@ -32,23 +32,23 @@ namespace MiraiPalette.Shared.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Hex = table.Column<string>(type: "TEXT", nullable: false),
-                    PaletteId = table.Column<int>(type: "INTEGER", nullable: false),
-                    MiraiPaletteId = table.Column<int>(type: "INTEGER", nullable: true)
+                    PaletteId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Colors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Colors_Palettes_MiraiPaletteId",
-                        column: x => x.MiraiPaletteId,
+                        name: "FK_Colors_Palettes_PaletteId",
+                        column: x => x.PaletteId,
                         principalTable: "Palettes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Colors_MiraiPaletteId",
+                name: "IX_Colors_PaletteId",
                 table: "Colors",
-                column: "MiraiPaletteId");
+                column: "PaletteId");
         }
 
         /// <inheritdoc />

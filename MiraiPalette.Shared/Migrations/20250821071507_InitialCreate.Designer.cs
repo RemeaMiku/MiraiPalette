@@ -10,7 +10,7 @@ using MiraiPalette.Shared.Data;
 namespace MiraiPalette.Shared.Migrations
 {
     [DbContext(typeof(MiraiPaletteDb))]
-    [Migration("20250820012325_InitialCreate")]
+    [Migration("20250821071507_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,9 +29,6 @@ namespace MiraiPalette.Shared.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("MiraiPaletteId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -41,7 +38,7 @@ namespace MiraiPalette.Shared.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MiraiPaletteId");
+                    b.HasIndex("PaletteId");
 
                     b.ToTable("Colors");
                 });
@@ -67,9 +64,13 @@ namespace MiraiPalette.Shared.Migrations
 
             modelBuilder.Entity("MiraiPalette.Shared.Entities.MiraiColor", b =>
                 {
-                    b.HasOne("MiraiPalette.Shared.Entities.MiraiPalette", null)
+                    b.HasOne("MiraiPalette.Shared.Entities.MiraiPalette", "Palette")
                         .WithMany("Colors")
-                        .HasForeignKey("MiraiPaletteId");
+                        .HasForeignKey("PaletteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Palette");
                 });
 
             modelBuilder.Entity("MiraiPalette.Shared.Entities.MiraiPalette", b =>

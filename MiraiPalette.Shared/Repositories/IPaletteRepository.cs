@@ -1,12 +1,12 @@
-﻿namespace MiraiPalette.Shared.Services;
+﻿namespace MiraiPalette.Shared.Repositories;
 
-public interface IPaletteService
+public interface IPaletteRepository
 {
     Task<IEnumerable<Palette>> GetAllPalettesAsync();
 
-    Task<Palette?> GetPaletteByIdAsync(int id);
+    Task<Palette> GetPaletteByIdAsync(int id);
 
-    Task AddPaletteAsync(Palette palette);
+    Task<int> AddPaletteAsync(Palette palette);
 
     Task UpdatePaletteAsync(Palette palette);
 

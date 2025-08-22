@@ -8,9 +8,9 @@ using MiraiPalette.Maui.Services;
 
 namespace MiraiPalette.Maui.PageModels;
 
-public partial class MainPageModel(IPaletteRepositoryService paletteRepositoryService) : ObservableObject
+public partial class MainPageModel(IPaletteService paletteRepositoryService) : ObservableObject
 {
-    private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
+    private readonly IPaletteService _paletteRepositoryService = paletteRepositoryService;
 
     public string ToggleSelectionModeText { get; } = StringResource.ToggleSelectionMode;
 

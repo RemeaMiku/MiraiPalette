@@ -2,7 +2,7 @@
 
 namespace MiraiPalette.Maui.Services;
 
-public interface IPaletteRepositoryService
+public interface IPaletteService
 {
     public Task<List<MiraiPaletteModel>> ListPalettesAsync();
 

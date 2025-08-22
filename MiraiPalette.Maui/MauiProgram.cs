@@ -7,6 +7,10 @@ using MiraiPalette.Maui.PageModels;
 using MiraiPalette.Maui.Pages;
 using MiraiPalette.Maui.Services;
 using MiraiPalette.Maui.Services.Local;
+using MiraiPalette.Shared.Data;
+using MiraiPalette.Shared.Data.Implementation;
+using MiraiPalette.Shared.Repositories;
+using MiraiPalette.Shared.Repositories.Implementation;
 
 [assembly: RootNamespace("MiraiPalette.Maui")]
 
@@ -39,7 +43,10 @@ public static class MauiProgram
         builder.Services
             .AddLocalization(options =>
             options.ResourcesPath = "Resources\\Globalization")
-            .AddSingleton<IPaletteRepositoryService, JsonPaletteRepositoryService>()
+            .AddSingleton<MiraiPaletteDb, LocalSqliteMiraiPaletteDb>()
+            .AddSingleton<IColorRepository, ColorRepository>()
+            .AddSingleton<IPaletteRepository, PaletteRepository>()
+            .AddSingleton<IPaletteService, DbPaletteService>()
             .AddSingletonWithShellRoute<MainPage, MainPageModel>(ShellRoutes.MainPage)
             .AddSingletonWithShellRoute<ImagePalettePage, ImagePalettePageModel>(ShellRoutes.ImagePalettePage)
             .AddSingletonWithShellRoute<OptionsPage, OptionsPageModel>(ShellRoutes.OptionsPage)

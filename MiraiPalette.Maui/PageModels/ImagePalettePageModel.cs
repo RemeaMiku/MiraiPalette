@@ -10,13 +10,13 @@ namespace MiraiPalette.Maui.PageModels;
 
 public partial class ImagePalettePageModel : ObservableObject
 {
-    public ImagePalettePageModel(IPaletteRepositoryService paletteRepositoryService)
+    public ImagePalettePageModel(IPaletteService paletteRepositoryService)
     {
         Colors.CollectionChanged += (_, _) => OnPropertyChanged(nameof(Colors));
         _paletteRepositoryService = paletteRepositoryService;
     }
 
-    private readonly IPaletteRepositoryService _paletteRepositoryService;
+    private readonly IPaletteService _paletteRepositoryService;
 
     public ObservableCollection<MiraiColorModel> Colors { get; } = [];
 

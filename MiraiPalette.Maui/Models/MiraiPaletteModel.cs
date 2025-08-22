@@ -15,6 +15,7 @@ public partial class MiraiPaletteModel : ObservableObject
         Id = palette.Id;
         Name = palette.Name;
         Description = palette.Description;
+        Colors = new(palette.Colors.Select(c => new MiraiColorModel(c)));
     }
 
     public int Id { get; set; } = 0;
@@ -39,4 +40,14 @@ public partial class MiraiPaletteModel : ObservableObject
     [JsonIgnore]
     [ObservableProperty]
     public partial bool IsSelected { get; set; } = false;
+
+    public Palette ToPalette()
+    {
+        return new()
+        {
+            Id = Id,
+            Name = Name,
+            Description = Description,
+        };
+    }
 }

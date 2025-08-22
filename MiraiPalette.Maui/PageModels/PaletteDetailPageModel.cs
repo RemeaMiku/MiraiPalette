@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
@@ -8,16 +7,13 @@ using MiraiPalette.Maui.Services;
 
 namespace MiraiPalette.Maui.PageModels;
 
-public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRepositoryService) : ObservableObject, IQueryAttributable
+public partial class PaletteDetailPageModel(IPaletteService paletteService) : ObservableObject, IQueryAttributable
 {
-    private void OnPalettePropertyChanged(object? sender, PropertyChangedEventArgs e)
+    [RelayCommand]
+    private async Task Update()
     {
-        if(e.PropertyName is nameof(MiraiPaletteModel.Name) or nameof(MiraiPaletteModel.Description))
-        {
-            _paletteRepositoryService.UpdatePaletteAsync(Palette);
-            if(e.PropertyName == nameof(MiraiPaletteModel.Description))
-                OnPropertyChanged(nameof(DescriptionButtonText));
-        }
+        await _paletteService.UpdatePaletteAsync(Palette);
+        await Load();
     }
 
     [RelayCommand]
@@ -33,7 +29,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
 #endif
     }
 
-    private readonly IPaletteRepositoryService _paletteRepositoryService = paletteRepositoryService;
+    private readonly IPaletteService _paletteService = paletteService;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(DescriptionButtonText), nameof(PaletteNameButtonTooltip))]
@@ -64,15 +60,6 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
 
     public string CopyToClipboardText { get; } = StringResource.CopyToClipboard;
 
-    partial void OnPaletteChanged(MiraiPaletteModel oldValue, MiraiPaletteModel newValue)
-    {
-        if(oldValue != null)
-            oldValue.PropertyChanged -= OnPalettePropertyChanged;
-        if(newValue != null)
-            newValue.PropertyChanged += OnPalettePropertyChanged;
-        OnPropertyChanged(nameof(DescriptionButtonText));
-    }
-
     [ObservableProperty]
     public partial MiraiColorModel? SelectedExistColor { get; set; }
 
@@ -97,7 +84,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         var isYes = await Shell.Current.DisplayAlert(StringResource.DeletePalette, string.Format(StringResource.DeletePaletteDialogMessage, Palette.Name), StringResource.Confirm, StringResource.Cancel);
         if(!isYes)
             return;
-        await _paletteRepositoryService.DeletePaletteAsync(Palette.Id);
+        await _paletteService.DeletePaletteAsync(Palette.Id);
         GoBackCommand.Execute(null);
     }
 
@@ -109,7 +96,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         var isYes = await Shell.Current.DisplayAlert(StringResource.DeleteColor, string.Format(StringResource.RemoveColorDialogMessage, CurrentColor.Name), StringResource.Confirm, StringResource.Cancel);
         if(!isYes)
             return;
-        await _paletteRepositoryService.DeleteColorAsync(SelectedExistColor.Id);
+        await _paletteService.DeleteColorAsync(SelectedExistColor.Id);
         await Load();
         CloseColorDetail();
     }
@@ -158,7 +145,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     {
         if(SelectedExistColor is null)
         {
-            await _paletteRepositoryService.InsertColorAsync(Palette.Id, new MiraiColorModel
+            await _paletteService.InsertColorAsync(Palette.Id, new MiraiColorModel
             {
                 Name = CurrentColor.Name,
                 Color = CurrentColor.Color,
@@ -166,7 +153,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
         }
         else
         {
-            await _paletteRepositoryService.UpdateColorAsync(new MiraiColorModel
+            await _paletteService.UpdateColorAsync(new MiraiColorModel
             {
                 Id = SelectedExistColor.Id,
                 Name = CurrentColor.Name,
@@ -190,7 +177,7 @@ public partial class PaletteDetailPageModel(IPaletteRepositoryService paletteRep
     private async Task Load()
     {
         Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
-        var palette = await _paletteRepositoryService.SelectPaletteAsync(_paletteId);
+        var palette = await _paletteService.SelectPaletteAsync(_paletteId);
         if(palette is null)
         {
             await Shell.Current.DisplayAlert("Error", "Palette not found", "OK");

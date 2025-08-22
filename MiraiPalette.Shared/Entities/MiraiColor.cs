@@ -9,4 +9,6 @@ public class MiraiColor
     public string Hex { get; set; } = string.Empty;
 
     public int PaletteId { get; set; }
+
+    public Palette Palette { get; set; } = null!;
 }

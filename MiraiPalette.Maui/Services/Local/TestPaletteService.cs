@@ -6,7 +6,7 @@ namespace MiraiPalette.Maui.Services.Local;
 
 #pragma warning disable CsWinRT1030
 
-public class TestPaletteRepositoryService : IPaletteRepositoryService
+public class TestPaletteService : IPaletteService
 {
     private readonly List<Palette> _palettes =
     [
