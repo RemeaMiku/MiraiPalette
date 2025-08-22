@@ -15,18 +15,18 @@ public class LanguageOption(string language, string code)
         new("日本語", "ja"),
     ];
 
-    public static LanguageOption Current
+    public static LanguageOption? Current
     {
         get
         {
             var currentCode = StringResource.Culture?.TwoLetterISOLanguageName ?? Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
-            return LanguageOptions.First(option => option.Code == currentCode) ?? LanguageOptions[0];
+            return LanguageOptions.FirstOrDefault(option => option.Code == currentCode) ?? LanguageOptions[0];
         }
     }
 
     public void Apply()
     {
-        if(Current.Code != Code)
+        if(Current?.Code != Code)
             StringResource.Culture = new(Code);
     }
 }

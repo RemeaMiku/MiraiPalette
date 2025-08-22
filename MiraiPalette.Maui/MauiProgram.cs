@@ -46,7 +46,7 @@ public static class MauiProgram
             .AddSingleton<MiraiPaletteDb, LocalSqliteMiraiPaletteDb>()
             .AddSingleton<IColorRepository, ColorRepository>()
             .AddSingleton<IPaletteRepository, PaletteRepository>()
-            .AddSingleton<IPaletteService, JsonPaletteService>()
+            .AddSingleton<IPaletteService, DbPaletteService>()
             .AddSingletonWithShellRoute<MainPage, MainPageModel>(ShellRoutes.MainPage)
             .AddSingletonWithShellRoute<ImagePalettePage, ImagePalettePageModel>(ShellRoutes.ImagePalettePage)
             .AddSingletonWithShellRoute<OptionsPage, OptionsPageModel>(ShellRoutes.OptionsPage)

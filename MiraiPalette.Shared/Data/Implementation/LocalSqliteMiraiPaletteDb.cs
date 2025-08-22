@@ -6,7 +6,7 @@ public class LocalSqliteMiraiPaletteDb : MiraiPaletteDb
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=mirai_palette.db");
+        optionsBuilder.UseSqlite($"Data Source={Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "mirai_palette.db")}");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
