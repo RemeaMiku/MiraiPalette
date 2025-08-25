@@ -20,13 +20,8 @@ public partial class PaletteDetailPageModel(IPaletteService paletteService) : Ob
     private async Task GoBack()
     {
         CloseColorDetail();
-
+        ShellFlyoutHelper.RestoreFlyout();
         await Shell.Current.GoToAsync(ShellRoutes.GoBack);
-#if WINDOWS || MACCATALYST
-        Shell.Current.FlyoutBehavior = FlyoutBehavior.Locked;
-#else
-        Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
-#endif
     }
 
     private readonly IPaletteService _paletteService = paletteService;
@@ -173,10 +168,12 @@ public partial class PaletteDetailPageModel(IPaletteService paletteService) : Ob
             : throw new ArgumentException("Palette Id not found in query parameters", nameof(query));
     }
 
+
+
     [RelayCommand]
     private async Task Load()
     {
-        Shell.Current.FlyoutBehavior = FlyoutBehavior.Disabled;
+        ShellFlyoutHelper.DisableFlyout();
         var palette = await _paletteService.SelectPaletteAsync(_paletteId);
         if(palette is null)
         {

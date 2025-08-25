@@ -1,4 +1,5 @@
-﻿using MiraiPalette.Maui.Resources.Globalization;
+﻿using MiraiPalette.Maui.Essentials;
+using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Resources.Styles.Themes;
 
 namespace MiraiPalette.Maui;
@@ -35,6 +36,7 @@ public partial class App : Application
             MinimumHeight = 600,
             Title = StringResource.MainWindowTitle
         };
+        ShellFlyoutHelper.RegisterListener(window);
         return window;
     }
 

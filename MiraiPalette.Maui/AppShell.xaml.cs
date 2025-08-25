@@ -23,10 +23,6 @@ public partial class AppShell : Shell
     [RelayCommand]
     private void ToggleSidebar()
     {
-        if(_isSideBarExpanded)
-            new Animation(w => FlyoutWidth = w, DefaultFlyoutWidth, MinFlyoutWidth, Easing.Default).Commit(this, "FoldSideBar", rate: 10, length: 200);
-        else
-            new Animation(w => FlyoutWidth = w, MinFlyoutWidth, DefaultFlyoutWidth, Easing.Default).Commit(this, "ExpandSideBar", rate: 10, length: 200);
-        _isSideBarExpanded = !_isSideBarExpanded;
+        FlyoutIsPresented = !FlyoutIsPresented;
     }
 }
