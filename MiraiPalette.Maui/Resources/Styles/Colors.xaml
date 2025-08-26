@@ -61,6 +61,6 @@
 
     <SolidColorBrush x:Key="TransparentBrush"
                      Color="{StaticResource Transparent}" />
-
+    
     <!--#endregion-->
 </ResourceDictionary>

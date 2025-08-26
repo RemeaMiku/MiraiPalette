@@ -9,9 +9,8 @@
        xmlns:pages="clr-namespace:MiraiPalette.Maui.Pages"
        Title="{x:Static globalization:StringResource.MainWindowTitle}"
        x:DataType="local:AppShell"
-       BackgroundColor="Transparent"
-       FlyoutBackground="Transparent"
-       FlyoutBehavior="{OnIdiom Desktop={x:Static FlyoutBehavior.Locked},
+       FlyoutBackground="{StaticResource TransparentBrush}"
+       FlyoutBehavior="{OnIdiom Desktop={x:Static FlyoutBehavior.Flyout},
                              Phone={x:Static FlyoutBehavior.Flyout},
                              Default={x:Static FlyoutBehavior.Locked}}"
        FlyoutWidth="{x:Static local:AppShell.DefaultFlyoutWidth}">
@@ -31,42 +30,16 @@
                             VerticalOptions="Center"
                             WidthRequest="28" />
         </Border>
-
         <Style Class="FlyoutItemLabelStyle"
                TargetType="Label">
             <Setter Property="FontSize"
                     Value="18" />
         </Style>
     </Shell.Resources>
-    <!--<Shell.ItemTemplate>
-        <DataTemplate x:DataType="ShellContent">
-            <Grid Padding="5"
-                  ColumnDefinitions="28,*"
-                  ColumnSpacing="12"
-                  HeightRequest="44"
-                  HorizontalOptions="Fill"
-                  VerticalOptions="Center">
-                <ContentView Content="{Binding Content}" />
-                <Label Grid.Column="1"
-                       FontSize="Small"
-                       HorizontalTextAlignment="Start"
-                       MinimumWidthRequest="200"
-                       Text="{Binding Title}"
-                       TextColor="{DynamicResource PrimaryText}"
-                       VerticalOptions="Center"
-                       VerticalTextAlignment="Center" />
-            </Grid>
-        </DataTemplate>
-    </Shell.ItemTemplate>-->
     <ShellContent Title="{x:Static globalization:StringResource.Palettes}"
                   ContentTemplate="{DataTemplate pages:MainPage}"
                   Icon="{icons:Fluent Icon=Color24,IconColor={DynamicResource PrimaryText}}"
                   Route="{x:Static local:ShellRoutes.MainPage}">
-    </ShellContent>
-    <ShellContent Title="{x:Static globalization:StringResource.ImagePalette}"
-                  ContentTemplate="{DataTemplate pages:ImagePalettePage}"
-                  Icon="{icons:Fluent Icon=Image24,IconColor={DynamicResource PrimaryText}}"
-                  Route="{x:Static local:ShellRoutes.ImagePalettePage}">
     </ShellContent>
     <ShellContent Title="{x:Static globalization:StringResource.Options}"
                   ContentTemplate="{DataTemplate pages:OptionsPage}"

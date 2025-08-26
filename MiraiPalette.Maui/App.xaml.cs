@@ -32,7 +32,7 @@ public partial class App : Application
         var appShell = new AppShell();
         var window = new Window(appShell)
         {
-            MinimumWidth = 350,
+            MinimumWidth = 400,
             MinimumHeight = 600,
             Title = StringResource.MainWindowTitle
         };

@@ -72,12 +72,11 @@
         <Grid
             Margin="5"
             Padding="10"
-            RowDefinitions="Auto,*,Auto"
-            RowSpacing="10">
-            <VerticalStackLayout Spacing="10">
+            RowDefinitions="Auto,Auto,*">
+            <VerticalStackLayout Margin="5" Padding="5" Spacing="10">
                 <Button
                     FontAttributes="Bold"
-                    FontSize="Title"
+                    FontSize="Large"
                     Style="{StaticResource NameDescriptionButtonStyle}"
                     Text="{Binding Palette.Name}"
                     TextColor="{DynamicResource Primary}"
@@ -90,7 +89,7 @@
                     x:Name="_nameEntry"
                     Margin="0,5"
                     FontAttributes="Bold"
-                    FontSize="Title"
+                    FontSize="Large"
                     Style="{StaticResource NameDescriptionEntryStyle}"
                     Text="{Binding Palette.Name, Mode=TwoWay}"
                     TextColor="{DynamicResource Primary}">
@@ -103,7 +102,6 @@
                     </Entry.Behaviors>
                 </Entry>
                 <Button
-                    FontSize="Body"
                     Style="{StaticResource NameDescriptionButtonStyle}"
                     Text="{Binding DescriptionButtonText}"
                     TextColor="{DynamicResource SecondaryText}"
@@ -114,7 +112,6 @@
                 </Button>
                 <Entry
                     x:Name="_descriptionEntry"
-                    FontSize="Body"
                     Style="{StaticResource NameDescriptionEntryStyle}"
                     Text="{Binding Palette.Description, UpdateSourceEventName=Unfocused}"
                     TextColor="{DynamicResource SecondaryText}">
@@ -126,42 +123,38 @@
                     </Entry.Behaviors>
                 </Entry>
             </VerticalStackLayout>
-            <ScrollView Grid.Row="1">
+            <StackLayout Grid.Row="1"                         
+                         Padding="10,5"
+                         HorizontalOptions="Start"
+                         Orientation="Horizontal"
+                         VerticalOptions="Center">
+                <Border Margin="5"                        
+                        attached:TapGesture.Command="{Binding AddNewColorCommand}"
+                        Style="{StaticResource SecondaryIconButtonBorderStyle}"
+                        ToolTipProperties.Text="{Binding AddNewColorText}">
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=Add24}"
+                                    IconColor="{DynamicResource PrimaryText}"
+                                    Style="{StaticResource IconButtonMauiIconStyle}" />
+                </Border>
+                <Border Margin="5"
+                        attached:TapGesture.Command="{Binding DeletePaletteCommand}"
+                        Style="{StaticResource SecondaryIconButtonBorderStyle}"
+                        ToolTipProperties.Text="{Binding DeletePaletteText}">
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=Delete28}"
+                                    IconColor="{StaticResource Error}"
+                                    Style="{StaticResource IconButtonMauiIconStyle}" />
+                </Border>
+            </StackLayout>
+            <ScrollView Grid.Row="2" Margin="5" Padding="5">
                 <FlexLayout
+                    Padding="5"
                     AlignContent="Start"
                     AlignItems="Center"
                     BindableLayout.ItemTemplate="{StaticResource ColorTemplate}"
                     BindableLayout.ItemsSource="{Binding Palette.Colors}"
                     Wrap="Wrap" />
             </ScrollView>
-            <StackLayout
-                Grid.Row="2"
-                Margin="5"
-                Padding="5"
-                HorizontalOptions="Center"
-                Orientation="Horizontal"
-                VerticalOptions="Center">
-                <Border
-                    Margin="5"
-                    attached:TapGesture.Command="{Binding AddNewColorCommand}"
-                    Style="{StaticResource SecondaryIconButtonBorderStyle}"
-                    ToolTipProperties.Text="{Binding AddNewColorText}">
-                    <icons:MauiIcon
-                        Icon="{icons:Fluent Icon=Add28}"
-                        IconColor="{DynamicResource PrimaryText}"
-                        Style="{StaticResource IconButtonMauiIconStyle}" />
-                </Border>
-                <Border
-                    Margin="5"
-                    Style="{StaticResource SecondaryIconButtonBorderStyle}"
-                    ToolTipProperties.Text="{Binding DeletePaletteText}">
-                    <icons:MauiIcon
-                        attached:TapGesture.Command="{Binding DeletePaletteCommand}"
-                        Icon="{icons:Fluent Icon=Delete28}"
-                        IconColor="{StaticResource Error}"
-                        Style="{StaticResource IconButtonMauiIconStyle}" />
-                </Border>
-            </StackLayout>
+           
             <!--<FlexLayout
                 Grid.Row="2"
                 Padding="10"

@@ -9,7 +9,11 @@ public class ShellFlyoutHelper
 
     private static FlyoutBehavior GetFlyoutBehaviorForWidth(double width)
     {
+#if WINDOWS || MACCATALYST
         return width < CompactModeThresholdWidth ? FlyoutBehavior.Flyout : FlyoutBehavior.Locked;
+#else
+        return FlyoutBehavior.Flyout;
+#endif
     }
 
     public static void RegisterListener(Window window)

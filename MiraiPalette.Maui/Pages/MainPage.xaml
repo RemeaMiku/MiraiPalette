@@ -12,7 +12,7 @@
              x:Name="_page"
              Title="{Binding Title}"
              x:DataType="pages:MainPageModel"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="{OnIdiom Desktop={x:Static x:Boolean.FalseString},Default={x:Static x:Boolean.TrueString}}">
     <ContentPage.Resources>
         <Style x:Key="ToolButtonBorderStyle"
                BasedOn="{StaticResource TransparentIconButtonBorderStyle}"
@@ -54,48 +54,57 @@
                                         EventName="Appearing" />
     </ContentPage.Behaviors>
     <Grid Padding="10"
-          RowDefinitions="Auto,*"
           RowSpacing="5">
-        <HorizontalStackLayout Padding="10"
-                               HorizontalOptions="Start"
-                               Spacing="10">
-            <Border attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}"
-                    Stroke="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledToStrokeConverter}}"
-                    StrokeThickness="2"
-                    Style="{StaticResource ToolButtonBorderStyle}"
-                    ToolTipProperties.Text="{Binding ToggleSelectionModeText}">
-                <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}"
-                                IconColor="{DynamicResource SecondaryText}" />
-            </Border>
-            <Label Margin="20,0,0,0"
-                   IsVisible="{Binding IsSelectionEnabled}"
-                   Text="{Binding SelectAllText}"
-                   VerticalTextAlignment="Center" />
-            <CheckBox IsChecked="{Binding IsAllSelected}"
-                      IsVisible="{Binding IsSelectionEnabled}" />
-        </HorizontalStackLayout>
-        <HorizontalStackLayout Padding="10"
-                               HorizontalOptions="End"
-                               Spacing="10"
-                               ToolTipProperties.Text="{Binding AddNewPaletteText}">
-            <Border attached:TapGesture.Command="{Binding AddNewPaletteCommand}"
-                    Style="{StaticResource ToolButtonBorderStyle}">
-                <icons:MauiIcon Icon="{icons:Fluent Icon=Add24}"
-                                IconColor="{DynamicResource SecondaryText}" />
-            </Border>
-            <Border attached:TapGesture.Command="{Binding DeletePalettesCommand}"
-                    IsVisible="{Binding IsSelectionEnabled}"
-                    Style="{StaticResource ToolButtonBorderStyle}"
-                    ToolTipProperties.Text="{Binding DeletePalettesText}">
-                <icons:MauiIcon Icon="{icons:Fluent Icon=Delete24}"
-                                IconColor="{StaticResource Error}" />
-            </Border>
-        </HorizontalStackLayout>
-        <ScrollView Grid.Row="1">
-            <VerticalStackLayout Margin="10,5"
+        <ScrollView>
+            <VerticalStackLayout Margin="10"
                                  BindableLayout.ItemTemplate="{StaticResource PaletteTemplate}"
                                  BindableLayout.ItemsSource="{Binding Palettes}"
                                  Spacing="5" />
         </ScrollView>
+        <Border StrokeThickness="0"
+                Padding="5"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                BackgroundColor="{DynamicResource ToolbarBackground}"
+                StrokeShape="RoundRectangle 5"
+                Margin="0,0,0,40">
+            <HorizontalStackLayout Padding="5"
+                                   Spacing="10">
+                <Border attached:TapGesture.Command="{Binding ToggleSelectionModeCommand}"
+                        Stroke="{Binding IsSelectionEnabled, Converter={StaticResource IsSelectionEnabledToStrokeConverter}}"
+                        StrokeThickness="2"
+                        Style="{StaticResource ToolButtonBorderStyle}"
+                        ToolTipProperties.Text="{Binding ToggleSelectionModeText}">
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}"
+                                    IconColor="{DynamicResource PrimaryText}" />
+                </Border>
+                <Label Margin="20,0,0,0"
+                       IsVisible="{Binding IsSelectionEnabled}"
+                       Text="{Binding SelectAllText}"
+                       VerticalTextAlignment="Center" />
+                <CheckBox IsChecked="{Binding IsAllSelected}"
+                          IsVisible="{Binding IsSelectionEnabled}" />
+                <Border attached:TapGesture.Command="{Binding AddNewPaletteCommand}"
+                        Style="{StaticResource ToolButtonBorderStyle}"
+                        ToolTipProperties.Text="{Binding AddNewPaletteText}">
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=Add24}"
+                                    IconColor="{DynamicResource PrimaryText}" />
+                </Border>
+                <Border attached:TapGesture.Command="{Binding ExtractPaletteFromImageCommand}"
+                        Style="{StaticResource ToolButtonBorderStyle}"
+                        ToolTipProperties.Text="{Binding AddNewPaletteText}">
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=ImageArrowBack24}"
+                                    IconColor="{DynamicResource PrimaryText}" />
+                </Border>
+                <Border attached:TapGesture.Command="{Binding DeletePalettesCommand}"
+                        IsVisible="{Binding IsSelectionEnabled}"
+                        Style="{StaticResource ToolButtonBorderStyle}"
+                        ToolTipProperties.Text="{Binding DeletePalettesText}">
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=Delete24}"
+                                    IconColor="{StaticResource Error}" />
+                </Border>
+            </HorizontalStackLayout>
+        </Border>
+       
     </Grid>
 </ContentPage>

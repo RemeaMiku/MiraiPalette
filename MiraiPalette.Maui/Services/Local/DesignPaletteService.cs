@@ -4,7 +4,7 @@ using MiraiPalette.Shared.Entities;
 
 namespace MiraiPalette.Maui.Services.Local;
 
-public class TestPaletteService : IPaletteService
+public class DesignPaletteService : IPaletteService
 {
     private readonly List<Palette> _palettes =
     [
@@ -69,35 +69,35 @@ public class TestPaletteService : IPaletteService
             Id = 5,
             Name = "Main",
             Hex = "#f9a8d4",
-            PaletteId=2,
+            PaletteId=1,
         },
         new MiraiColor
         {
             Id = 6,
             Name = "Accent",
             Hex = "#39c5bb",
-            PaletteId=2,
+            PaletteId=1,
         },
         new MiraiColor
         {
             Id = 7,
             Name = "Dark",
             Hex = "#1e1e1e",
-            PaletteId=2,
+            PaletteId=1,
         },
         new MiraiColor
         {
             Id = 8,
             Name = "Light",
             Hex = "#f5f5f5",
-            PaletteId=2,
+            PaletteId=1,
         },
         new MiraiColor
         {
             Id = 9,
             Name = "Main",
             Hex = "#f9a8d4",
-            PaletteId=3,
+            PaletteId=1,
         },
         new MiraiColor
         {
