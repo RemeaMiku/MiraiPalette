@@ -8,7 +8,7 @@ using MiraiPalette.Maui.Services;
 
 namespace MiraiPalette.Maui.PageModels;
 
-public partial class ImagePalettePageModel : ObservableObject
+public partial class ImagePalettePageModel : ObservableObject, IQueryAttributable
 {
     public ImagePalettePageModel(IPaletteService paletteRepositoryService)
     {
@@ -137,6 +137,17 @@ public partial class ImagePalettePageModel : ObservableObject
         {
             { nameof(MiraiPaletteModel.Id), paletteId }
         };
+        await Shell.Current.GoToAsync(ShellRoutes.GoBack);
         await Shell.Current.GoToAsync($"{ShellRoutes.PaletteDetailPage}", args);
+    }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        var imagePath = query[nameof(ImagePath)];
+        if(imagePath is string path && !string.IsNullOrWhiteSpace(path))
+        {
+            ImagePath = path;
+            ImageSource = ImageSource.FromFile(path);
+        }
     }
 }

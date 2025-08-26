@@ -49,7 +49,7 @@
     <Grid Padding="5"
           RowDefinitions="3*,2*,Auto"
           RowSpacing="5">
-        <Grid Padding="5"
+        <Grid Padding="10"
               ColumnDefinitions="*,Auto"
               ColumnSpacing="5">
             <Border BackgroundColor="{DynamicResource Secondary}"
@@ -158,12 +158,12 @@
                 StrokeThickness="0">
             <HorizontalStackLayout HorizontalOptions="Center"
                                    Spacing="10">
-                <Border attached:TapGesture.Command="{Binding PickImageCommand}"
+                <!--<Border attached:TapGesture.Command="{Binding PickImageCommand}"
                         Style="{StaticResource TransparentIconButtonBorderStyle}">
                     <icons:MauiIcon Icon="{icons:Fluent Icon=FolderOpen24}"
                                     IconColor="{StaticResource Warning}"
                                     IconSize="28" />
-                </Border>
+                </Border>-->
                 <Picker FontSize="Small"
                         IsVisible="{Binding ImageSource, Converter={toolkit:IsNotNullConverter}}"
                         ItemsSource="{Binding ColorCountOptions, Mode=OneTime}"

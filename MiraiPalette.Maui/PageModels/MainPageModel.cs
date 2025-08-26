@@ -122,6 +122,22 @@ public partial class MainPageModel(IPaletteService paletteRepositoryService) : O
     }
 
     [RelayCommand]
+    private async Task ExtractPaletteFromImage()
+    {
+        IsSelectionEnabled = false;
+        var result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
+        {
+            Title = "Select an image to extract colors"
+        });
+        if(result is null)
+            return;
+        await Shell.Current.GoToAsync(ShellRoutes.ImagePalettePage, new ShellNavigationQueryParameters
+        {
+            { nameof(ImagePalettePageModel.ImagePath), result.FullPath }
+        });
+    }
+
+    [RelayCommand]
     private async Task DeletePalettes()
     {
         if(SelectedPalettes.Count == 0)

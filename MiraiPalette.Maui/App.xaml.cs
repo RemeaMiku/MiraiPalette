@@ -1,4 +1,5 @@
-﻿using MiraiPalette.Maui.Resources.Globalization;
+﻿using MiraiPalette.Maui.Essentials;
+using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Resources.Styles.Themes;
 
 namespace MiraiPalette.Maui;
@@ -31,10 +32,11 @@ public partial class App : Application
         var appShell = new AppShell();
         var window = new Window(appShell)
         {
-            MinimumWidth = 350,
+            MinimumWidth = 400,
             MinimumHeight = 600,
             Title = StringResource.MainWindowTitle
         };
+        ShellFlyoutHelper.RegisterListener(window);
         return window;
     }
 

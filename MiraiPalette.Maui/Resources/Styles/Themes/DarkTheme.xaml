@@ -10,6 +10,7 @@
 
     <Color x:Key="HoveredBackground">#555F5F5F</Color>
     <Color x:Key="PageBackground">#00000000</Color>
+    <Color x:Key="ToolbarBackground">#AA111522</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush"
                      Color="{StaticResource Primary}" />
@@ -31,4 +32,6 @@
                      Color="{StaticResource HoveredBackground}" />
     <SolidColorBrush x:Key="PageBackgroundBrush"
                      Color="{StaticResource PageBackground}" />
+    <SolidColorBrush x:Key="ToolbarBackgroundBrush"
+                     Color="{StaticResource ToolbarBackground}" />
 </ResourceDictionary>
