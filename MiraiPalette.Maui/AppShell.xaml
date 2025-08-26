@@ -43,7 +43,7 @@
     </ShellContent>
     <ShellContent Title="{x:Static globalization:StringResource.Options}"
                   ContentTemplate="{DataTemplate pages:OptionsPage}"
-                  Icon="{icons:Fluent Icon=Options24,IconColor={DynamicResource PrimaryText}}"
+                  Icon="{icons:Fluent Icon=Settings24,IconColor={DynamicResource PrimaryText}}"
                   Route="{x:Static local:ShellRoutes.OptionsPage}">
     </ShellContent>
 </Shell>
