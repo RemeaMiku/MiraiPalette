@@ -4,7 +4,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:glogalization="clr-namespace:MiraiPalette.Maui.Resources.Globalization"
              xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Padding="10"
+             x:Name="_page"
              x:DataType="pages:OptionsPageModel"
              Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
@@ -34,6 +36,9 @@
                     Value="{DynamicResource SecondaryText}" />
         </Style>
     </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" BindingContext="{Binding BindingContext, Source={x:Reference _page}}" Command="{Binding LoadCommand}"/>
+    </ContentPage.Behaviors>
     <Grid Margin="5"
           Padding="10"
           RowDefinitions="Auto,*"
@@ -42,6 +47,7 @@
                Text="{x:Static glogalization:StringResource.Options}" />
         <VerticalStackLayout Grid.Row="1"
                              Spacing="10">
+            <Picker SelectedIndex="{Binding SelectedThemeIndex}" ItemsSource="{Binding ThemeOptionItems}"/>
             <!--<Grid
                 Margin="5"
                 Padding="5"

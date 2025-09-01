@@ -11,14 +11,17 @@ public partial class App : Application
         InitializeComponent();
     }
 
-    private void OnCurrentRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+    private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
     {
-        if(e.RequestedTheme == AppTheme.Unspecified)
-            return;
-        var dictionaries = Current!.Resources.MergedDictionaries;
+        ApplyTheme(e.RequestedTheme);
+    }
+
+    public void ApplyTheme(AppTheme theme)
+    {
+        var dictionaries = Resources.MergedDictionaries;
         var currentThemeDictionary = dictionaries.FirstOrDefault(d => d is not null && d.Source?.OriginalString.Contains("Themes") == true);
         dictionaries.Remove(currentThemeDictionary);
-        ResourceDictionary newThemeDictionary = e.RequestedTheme switch
+        ResourceDictionary newThemeDictionary = theme switch
         {
             AppTheme.Light => new LightTheme(),
             AppTheme.Dark => new DarkTheme(),
@@ -43,7 +46,7 @@ public partial class App : Application
     protected override void OnStart()
     {
         base.OnStart();
-        OnCurrentRequestedThemeChanged(this, new AppThemeChangedEventArgs(Current!.RequestedTheme));
-        Current!.RequestedThemeChanged += OnCurrentRequestedThemeChanged;
+        OnRequestedThemeChanged(this, new AppThemeChangedEventArgs(RequestedTheme));
+        RequestedThemeChanged += OnRequestedThemeChanged;
     }
 }

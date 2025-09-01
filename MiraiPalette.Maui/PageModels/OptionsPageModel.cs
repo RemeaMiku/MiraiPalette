@@ -1,24 +1,52 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using MiraiPalette.Maui.Essentials;
+using CommunityToolkit.Mvvm.Input;
+using MiraiPalette.Maui.Options;
+using MiraiPalette.Maui.Resources.Globalization;
 
 namespace MiraiPalette.Maui.PageModels;
 
-public partial class OptionsPageModel : ObservableObject
+public partial class OptionsPageModel(IPreferences preferences) : ObservableObject
 {
+    readonly IPreferences _preferences = preferences;
+
     [ObservableProperty]
-    public partial LanguageOption SelectedLanguageOption { get; set; } = LanguageOption.Current;
+    public partial int SelectedThemeIndex { get; set; }
 
-    public List<LanguageOption> LanguageOptions { get; } = LanguageOption.LanguageOptions;
+    public string[] ThemeOptionItems { get; } = [StringResource.FollowSystem, StringResource.LightMode, StringResource.DarkMode];
 
-    partial void OnSelectedLanguageOptionChanged(LanguageOption value)
+    private readonly string[] _themeOptions = [ThemeOptions.System, ThemeOptions.Light, ThemeOptions.Dark];
+
+    [RelayCommand]
+    private void Load()
     {
-        value.Apply();
-        // 重新导航到当前页面，强制刷新
-        MainThread.BeginInvokeOnMainThread(async () =>
+        var theme = _preferences.Get(ThemeOptions.Key, ThemeOptions.Default);
+        var themeIndex = _themeOptions.IndexOf(theme);
+        SelectedThemeIndex = themeIndex;
+    }
+
+    partial void OnSelectedThemeIndexChanged(int value)
+    {
+        var theme = _themeOptions[SelectedThemeIndex];
+        _preferences.Set(ThemeOptions.Key, theme);
+        if(theme == ThemeOptions.System)
         {
-            var current = Shell.Current.CurrentPage;
-            var route = Shell.Current.CurrentState.Location.OriginalString;
-            await Shell.Current.GoToAsync("///" + route, true); // true 表示重置导航堆栈
-        });
+            Application.Current!.UserAppTheme = AppTheme.Unspecified;
+        }
+        else
+        {
+            AppTheme appTheme;
+            switch(theme)
+            {
+                case ThemeOptions.Dark:
+                    appTheme = AppTheme.Dark;
+                    break;
+                case ThemeOptions.Light:
+                    appTheme = AppTheme.Light;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            Application.Current?.UserAppTheme = appTheme;
+        }
     }
 }

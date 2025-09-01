@@ -71,6 +71,7 @@ public partial class MainPageModel(IPaletteService paletteRepositoryService) : O
     [RelayCommand]
     private async Task Load()
     {
+        ShellFlyoutHelper.RestoreFlyout();
         Palettes = default;
         ClearSelection();
         Palettes = await _paletteRepositoryService.ListPalettesAsync();
@@ -135,6 +136,7 @@ public partial class MainPageModel(IPaletteService paletteRepositoryService) : O
         {
             { nameof(ImagePalettePageModel.ImagePath), result.FullPath }
         });
+        ShellFlyoutHelper.DisableFlyout();
     }
 
     [RelayCommand]

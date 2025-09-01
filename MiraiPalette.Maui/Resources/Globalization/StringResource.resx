@@ -216,4 +216,13 @@
   <data name="ExtractedFrom" xml:space="preserve">
     <value>从图片 "{0}" 中提取的调色板</value>
   </data>
+  <data name="LightMode" xml:space="preserve">
+    <value>浅色模式</value>
+  </data>
+  <data name="DarkMode" xml:space="preserve">
+    <value>深色模式</value>
+  </data>
+  <data name="FollowSystem" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
 </root>

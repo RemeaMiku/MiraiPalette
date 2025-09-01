@@ -9,7 +9,7 @@
        xmlns:pages="clr-namespace:MiraiPalette.Maui.Pages"
        Title="{x:Static globalization:StringResource.MainWindowTitle}"
        x:DataType="local:AppShell"
-       FlyoutBackground="{StaticResource TransparentBrush}"
+       FlyoutBackground="#39c5bb"
        FlyoutBehavior="{OnIdiom Desktop={x:Static FlyoutBehavior.Flyout},
                              Phone={x:Static FlyoutBehavior.Flyout},
                              Default={x:Static FlyoutBehavior.Locked}}"
