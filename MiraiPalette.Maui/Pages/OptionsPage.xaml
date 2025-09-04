@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:glogalization="clr-namespace:MiraiPalette.Maui.Resources.Globalization"
              xmlns:pages="clr-namespace:MiraiPalette.Maui.PageModels"
+             xmlns:attach="clr-namespace:MiraiPalette.Maui.AttachedProperties"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Padding="10"
              x:Name="_page"
@@ -48,20 +49,16 @@
                Text="{x:Static glogalization:StringResource.Options}" />
         <VerticalStackLayout Grid.Row="1"
                              Spacing="10">
-            <Picker Title="{x:Static glogalization:StringResource.AppTheme}" SelectedIndex="{Binding SelectedThemeIndex}" ItemsSource="{Binding ThemeOptionItems}"/>
-            <!--<Grid
-                Margin="5"
-                Padding="5"
-                RowDefinitions="Auto,*"
-                RowSpacing="5">
-                <Label FontSize="Title" Text="{x:Static glogalization:StringResource.Language}" />
-                <Picker
-                    Grid.Row="1"
-                    HorizontalOptions="Start"
-                    ItemsSource="{Binding LanguageOptions}"
-                    SelectedItem="{Binding SelectedLanguageOption}"
-                    WidthRequest="200" />
-            </Grid>-->
+            <Picker HorizontalOptions="Start"
+                    attach:Touch.HoveredBackgroundColor="{DynamicResource HoveredBackground}"
+                    Margin="3"
+                    FontSize="Small"
+                    WidthRequest="250"
+                    MinimumWidthRequest="250"
+                    Title="{x:Static glogalization:StringResource.AppTheme}"
+                    SelectedIndex="{Binding SelectedThemeIndex}"
+                    ItemsSource="{Binding ThemeOptionItems}">
+            </Picker>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

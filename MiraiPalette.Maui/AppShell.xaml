@@ -13,13 +13,15 @@
        FlyoutBackground="{DynamicResource FlyoutBackground}"
        FlyoutBehavior="{OnIdiom Desktop={x:Static FlyoutBehavior.Flyout},
                              Phone={x:Static FlyoutBehavior.Flyout},
-                             Default={x:Static FlyoutBehavior.Locked}}"
+                             Default={x:Static FlyoutBehavior.Flyout}}"
        FlyoutWidth="{x:Static local:AppShell.DefaultFlyoutWidth}">
     <Shell.Resources>
         <Style Class="FlyoutItemLabelStyle"
                TargetType="Label">
             <Setter Property="FontSize"
                     Value="18" />
+            <Setter Property="TextColor"
+                    Value="White" />
         </Style>
     </Shell.Resources>
     <ShellContent Title="{x:Static globalization:StringResource.Palettes}"
