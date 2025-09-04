@@ -88,6 +88,15 @@ namespace MiraiPalette.Maui.Resources.Globalization {
         }
         
         /// <summary>
+        ///   查找类似 应用主题 的本地化字符串。
+        /// </summary>
+        internal static string AppTheme {
+            get {
+                return ResourceManager.GetString("AppTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 取消 的本地化字符串。
         /// </summary>
         internal static string Cancel {

@@ -10,7 +10,7 @@ public partial class OptionsPageModel(IPreferences preferences) : ObservableObje
     readonly IPreferences _preferences = preferences;
 
     [ObservableProperty]
-    public partial int SelectedThemeIndex { get; set; }
+    public partial int SelectedThemeIndex { get; set; } = -1;
 
     public string[] ThemeOptionItems { get; } = [StringResource.FollowSystem, StringResource.LightMode, StringResource.DarkMode];
 
@@ -28,25 +28,6 @@ public partial class OptionsPageModel(IPreferences preferences) : ObservableObje
     {
         var theme = _themeOptions[SelectedThemeIndex];
         _preferences.Set(ThemeOptions.Key, theme);
-        if(theme == ThemeOptions.System)
-        {
-            Application.Current!.UserAppTheme = AppTheme.Unspecified;
-        }
-        else
-        {
-            AppTheme appTheme;
-            switch(theme)
-            {
-                case ThemeOptions.Dark:
-                    appTheme = AppTheme.Dark;
-                    break;
-                case ThemeOptions.Light:
-                    appTheme = AppTheme.Light;
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-            Application.Current?.UserAppTheme = appTheme;
-        }
+        App.Current.UserAppTheme = ThemeOptions.ToAppTheme(theme);
     }
 }

@@ -8,6 +8,7 @@
              Padding="10"
              x:Name="_page"
              x:DataType="pages:OptionsPageModel"
+             BackgroundColor="{DynamicResource PageBackground}"
              Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
         <Style x:Key="SectionGridStyle"
@@ -47,7 +48,7 @@
                Text="{x:Static glogalization:StringResource.Options}" />
         <VerticalStackLayout Grid.Row="1"
                              Spacing="10">
-            <Picker SelectedIndex="{Binding SelectedThemeIndex}" ItemsSource="{Binding ThemeOptionItems}"/>
+            <Picker Title="{x:Static glogalization:StringResource.AppTheme}" SelectedIndex="{Binding SelectedThemeIndex}" ItemsSource="{Binding ThemeOptionItems}"/>
             <!--<Grid
                 Margin="5"
                 Padding="5"

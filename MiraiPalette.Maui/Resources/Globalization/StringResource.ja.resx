@@ -210,9 +210,6 @@
   <data name="Language" xml:space="preserve">
     <value>言語</value>
   </data>
-  <data name="ImagePalette" xml:space="preserve">
-    <value>画像カラーパレット</value>
-  </data>
   <data name="ExtractedFrom" xml:space="preserve">
     <value>画像「{0}」から抽出されたカラーパレット</value>
   </data>
@@ -222,9 +219,13 @@
   <data name="DarkMode" xml:space="preserve">
     <value>ダークモード</value>
   </data>
-  <data name="FollowSystem" type="System.Resources.ResXNullRef, System.Windows.Forms">
+  <data name="FollowSystem" xml:space="preserve">
     <value>システムに合わせる</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  
+  <data name="ImagePalette" xml:space="preserve">
+    <value>画像カラーパレット</value>
+  </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>アプリテーマ</value>
+  </data>
 </root>

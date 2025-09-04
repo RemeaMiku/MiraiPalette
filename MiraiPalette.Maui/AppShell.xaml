@@ -9,27 +9,13 @@
        xmlns:pages="clr-namespace:MiraiPalette.Maui.Pages"
        Title="{x:Static globalization:StringResource.MainWindowTitle}"
        x:DataType="local:AppShell"
-       FlyoutBackground="#39c5bb"
+       FlyoutIsPresented="True"
+       FlyoutBackground="{DynamicResource FlyoutBackground}"
        FlyoutBehavior="{OnIdiom Desktop={x:Static FlyoutBehavior.Flyout},
                              Phone={x:Static FlyoutBehavior.Flyout},
                              Default={x:Static FlyoutBehavior.Locked}}"
        FlyoutWidth="{x:Static local:AppShell.DefaultFlyoutWidth}">
     <Shell.Resources>
-        <Border x:Key="SideBarToggleButton"
-                Margin="5,2"
-                Padding="15,5,0,5"
-                attach:TapGesture.Command="{Binding ToggleSidebarCommand}"
-                HeightRequest="44"
-                HorizontalOptions="Fill"
-                MinimumWidthRequest="0"
-                Style="{StaticResource TransparentIconButtonBorderStyle}">
-            <icons:MauiIcon Margin="0,5,0,0"
-                            HorizontalOptions="Start"
-                            Icon="{icons:Fluent Icon=LineHorizontal320}"
-                            IconColor="{DynamicResource Primary}"
-                            VerticalOptions="Center"
-                            WidthRequest="28" />
-        </Border>
         <Style Class="FlyoutItemLabelStyle"
                TargetType="Label">
             <Setter Property="FontSize"

@@ -1,4 +1,5 @@
 ﻿using MiraiPalette.Maui.Essentials;
+using MiraiPalette.Maui.Options;
 using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Resources.Styles.Themes;
 
@@ -10,6 +11,8 @@ public partial class App : Application
     {
         InitializeComponent();
     }
+
+    public new static App Current => (App)Application.Current!;
 
     private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
     {
@@ -46,7 +49,9 @@ public partial class App : Application
     protected override void OnStart()
     {
         base.OnStart();
-        OnRequestedThemeChanged(this, new AppThemeChangedEventArgs(RequestedTheme));
         RequestedThemeChanged += OnRequestedThemeChanged;
+        var theme = Preferences.Default.Get(ThemeOptions.Key, ThemeOptions.Default);
+        UserAppTheme = ThemeOptions.ToAppTheme(theme);
+        ApplyTheme(RequestedTheme);
     }
 }
