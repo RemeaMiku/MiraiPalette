@@ -136,6 +136,15 @@
                                     IconColor="{DynamicResource PrimaryText}"
                                     Style="{StaticResource IconButtonMauiIconStyle}" />
                 </Border>
+                <Picker WidthRequest="100" Margin="5,3" ItemsSource="{Binding PaletteFileFormatOptions}" SelectedItem="{Binding SelectedPaletteFileFormat}"/>
+                <Border Margin="5"
+                        attached:TapGesture.Command="{Binding ExportPaletteCommand}"
+                        Style="{StaticResource SecondaryIconButtonBorderStyle}"
+                        >
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=DocumentSave24}"
+                                    IconColor="{DynamicResource PrimaryText}"
+                                    Style="{StaticResource IconButtonMauiIconStyle}" />
+                </Border>
                 <Border Margin="5"
                         attached:TapGesture.Command="{Binding DeletePaletteCommand}"
                         Style="{StaticResource SecondaryIconButtonBorderStyle}"

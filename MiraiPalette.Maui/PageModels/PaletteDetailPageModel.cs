@@ -1,9 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
 using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Services;
+using MiraiPalette.Shared.Entities;
+using MiraiPalette.Shared.Exporters;
 
 namespace MiraiPalette.Maui.PageModels;
 
@@ -192,5 +196,39 @@ public partial class PaletteDetailPageModel(IPaletteService paletteService) : Ob
         {
             Name = Constants.DefaultPaletteName,
         };
+    }
+
+    public IList<PaletteFileFormat> PaletteFileFormatOptions { get; } = Enum.GetValues<PaletteFileFormat>();
+
+    public PaletteFileFormat SelectedPaletteFileFormat { get; set; } = PaletteFileFormat.ACO;
+
+    [RelayCommand]
+    private async Task ExportPalette()
+    {
+        var fileName = $"{Palette.Name}.{SelectedPaletteFileFormat.ToString().ToLower()}";
+        var filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        using var stream = new MemoryStream();
+        using var writer = new BinaryWriter(stream);
+        switch(SelectedPaletteFileFormat)
+        {
+            case PaletteFileFormat.ACO:
+            {
+                ACOExporter.ExportACO(writer, Palette.Colors.Select(c => new MiraiColor() { Name = c.Name, Hex = c.Hex }), ACOFormatVersion.Version1);
+                break;
+            }
+            case PaletteFileFormat.JSON:
+                throw new NotImplementedException("JSON export is not implemented yet.");
+            default:
+                throw new NotSupportedException($"Unsupported file format: {SelectedPaletteFileFormat}");
+        }
+        var result = await FileSaver.SaveAsync(filePath, fileName, stream);
+        if(result.IsSuccessful)
+        {
+            await Shell.Current.DisplaySnackbar($"Saved to {result.FilePath}");
+        }
+        else
+        {
+            await Shell.Current.DisplaySnackbar($"Failed to save file: {result.Exception?.Message ?? "Unknown error"}");
+        }
     }
 }
