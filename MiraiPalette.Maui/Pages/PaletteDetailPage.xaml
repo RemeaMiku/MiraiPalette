@@ -13,7 +13,7 @@
     x:Name="_page"
     Title=""
     x:DataType="pages:PaletteDetailPageModel"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="{OnIdiom Desktop={x:Static x:Boolean.FalseString},Default={x:Static x:Boolean.TrueString}}">
     <ContentPage.Resources>
         <Style x:Key="NameDescriptionEntryStyle" TargetType="Entry">
             <Setter Property="Keyboard" Value="Text" />

@@ -10,7 +10,7 @@
              x:Name="_page"
              x:DataType="pages:OptionsPageModel"
              BackgroundColor="{DynamicResource PageBackground}"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="{OnIdiom Desktop={x:Static x:Boolean.FalseString},Default={x:Static x:Boolean.TrueString}}">
     <ContentPage.Resources>
         <Style x:Key="SectionGridStyle"
                TargetType="Grid">
