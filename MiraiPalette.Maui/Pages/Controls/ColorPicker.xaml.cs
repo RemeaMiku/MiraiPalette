@@ -174,7 +174,7 @@ public partial class ColorPicker : ContentView
 
     private void SetColorFromHexEntry(bool rollback = true)
     {
-        if(!ColorUtilities.TryParseRgb(_hexEntry.Text, out var color))
+        if(!ColorParser.TryParseRgb(_hexEntry.Text, out var color))
         {
             if(rollback)
                 _hexEntry.Text = Color.ToHex();

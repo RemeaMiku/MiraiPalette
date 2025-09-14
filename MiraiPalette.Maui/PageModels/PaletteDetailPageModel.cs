@@ -6,8 +6,8 @@ using MiraiPalette.Maui.Essentials;
 using MiraiPalette.Maui.Models;
 using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Services;
-using MiraiPalette.Shared.Entities;
-using MiraiPalette.Shared.Exporters;
+using MiraiPalette.Shared.Formats;
+using MiraiPalette.Shared.Formats.Aco;
 
 namespace MiraiPalette.Maui.PageModels;
 
@@ -208,16 +208,17 @@ public partial class PaletteDetailPageModel(IPaletteService paletteService) : Ob
         var fileName = $"{Palette.Name}.{SelectedPaletteFileFormat.ToString().ToLower()}";
         var filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         using var stream = new MemoryStream();
-        using var writer = new BinaryWriter(stream);
         switch(SelectedPaletteFileFormat)
         {
             case PaletteFileFormat.ACO:
             {
-                ACOExporter.ExportACO(writer, Palette.Colors.Select(c => new MiraiColor() { Name = c.Name, Hex = c.Hex }), ACOFormatVersion.Version1);
+                var acoFile = new AcoFile
+                {
+                    Colors = [.. Palette.Colors.Select(c => AcoColor.FromHex(c.Hex, c.Name))]
+                };
+                acoFile.Save(stream);
                 break;
             }
-            case PaletteFileFormat.JSON:
-                throw new NotImplementedException("JSON export is not implemented yet.");
             default:
                 throw new NotSupportedException($"Unsupported file format: {SelectedPaletteFileFormat}");
         }
