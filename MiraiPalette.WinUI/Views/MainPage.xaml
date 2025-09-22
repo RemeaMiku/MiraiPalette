@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="MiraiPalette.WinUI.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:MiraiPalette.WinUI.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:models="using:MiraiPalette.WinUI.ViewModels"
+      xmlns:views="using:MiraiPalette.WinUI.Views"
+      xmlns:converters="using:MiraiPalette.WinUI.Converters"
+      mc:Ignorable="d">
+    <Grid>
+        <ItemsRepeaterScrollHost Grid.Row="1">
+            <ScrollViewer Padding="5">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="models:PaletteViewModel">
+                            <Button HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    Margin="5">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{x:Bind Title,Mode=OneWay}"
+                                               FontSize="20"
+                                               Margin="8" />
+                                    <GridView Grid.Row="1"
+                                              HorizontalAlignment="Stretch"
+                                              HorizontalContentAlignment="Stretch"
+                                              IsItemClickEnabled="True"
+                                              CanDragItems="True"
+                                              AllowDrop="True"
+                                              CanReorderItems="True"
+                                              ItemsSource="{x:Bind Colors,Mode=OneWay}"
+                                              SelectionMode="None">
+                                        <GridView.ItemContainerStyle>
+                                            <Style TargetType="GridViewItem">
+                                                <Setter Property="Margin"
+                                                        Value="0" />
+                                                <Setter Property="Padding"
+                                                        Value="0" />
+                                                <Setter Property="HorizontalContentAlignment"
+                                                        Value="Stretch" />
+                                                <Setter Property="VerticalContentAlignment"
+                                                        Value="Stretch" />
+                                            </Style>
+                                        </GridView.ItemContainerStyle>
+                                        <GridView.ItemTemplate>
+                                            <DataTemplate x:DataType="models:ColorViewModel">
+                                                <Rectangle
+                                                    Width="280"
+                                                    Height="30"
+                                                    Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
+                                            </DataTemplate>
+                                        </GridView.ItemTemplate>
+                                    </GridView>
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <views:MasonryLayout Width="300" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </ScrollViewer>
+        </ItemsRepeaterScrollHost>
+    </Grid>
+</Page>

@@ -25,38 +25,7 @@
                        VerticalAlignment="Top"
                        Margin="0,8,0,0" />
         </Border>
-        <ItemsRepeaterScrollHost Grid.Row="1">
-            <ScrollViewer Padding="5">
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="models:PaletteViewModel">
-                            <Button Width="500" Margin="5" HorizontalContentAlignment="Left">
-                                <Grid>
-                                    <TextBlock Text="{x:Bind Title,Mode=OneWay}"
-                                               FontSize="20"
-                                               Margin="8" />
-                                    <GridView Grid.Column="1" 
-                                              ItemsSource="{x:Bind Colors,Mode=OneWay}"
-                                              Margin="8,40,8,8"
-                                              IsItemClickEnabled="False"
-                                              SelectionMode="None">
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate x:DataType="models:ColorViewModel">
-                                                <Rectangle Width="50"
-                                                           Height="50"
-                                                           Fill="{x:Bind Brush}" />
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
-                                </Grid>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <views:MasonryLayout Width="500" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-            </ScrollViewer>
-        </ItemsRepeaterScrollHost>
+        <Frame Grid.Row="1"
+               x:Name="MainFrame" />
     </Grid>
 </Window>
