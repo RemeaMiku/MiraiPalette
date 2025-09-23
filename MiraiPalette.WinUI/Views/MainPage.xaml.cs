@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MiraiPalette.WinUI.ViewModels;
 
@@ -17,4 +18,9 @@ public sealed partial class MainPage : Page
     }
 
     public MainPageViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainPageViewModel>();
+
+    private void Page_Loaded(object _, RoutedEventArgs __)
+    {
+        ViewModel.Palettes = new(ViewModel.PaletteDataService.GetAllPalettesAsync().Result);
+    }
 }

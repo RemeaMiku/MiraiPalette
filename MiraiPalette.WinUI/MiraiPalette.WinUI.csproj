@@ -51,9 +51,6 @@
     <ProjectReference Include="..\MiraiPalette.Shared\MiraiPalette.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

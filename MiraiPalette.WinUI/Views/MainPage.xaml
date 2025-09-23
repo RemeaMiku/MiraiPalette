@@ -8,6 +8,7 @@
       xmlns:models="using:MiraiPalette.WinUI.ViewModels"
       xmlns:views="using:MiraiPalette.WinUI.Views"
       xmlns:converters="using:MiraiPalette.WinUI.Converters"
+      Loaded="Page_Loaded"
       mc:Ignorable="d">
     <Grid>
         <ItemsRepeaterScrollHost Grid.Row="1">

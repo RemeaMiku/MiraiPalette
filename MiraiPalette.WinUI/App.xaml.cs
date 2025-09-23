@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using MiraiPalette.WinUI.Services;
+using MiraiPalette.WinUI.Services.Local;
 using MiraiPalette.WinUI.ViewModels;
 using MiraiPalette.WinUI.Views;
 
@@ -21,6 +23,7 @@ public partial class App : Application
     static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection()
+            .AddSingleton<IPaletteDataService, MiraiPaletteDataFilePaletteDataService>()
             .AddSingleton<MainPageViewModel>()
             .AddSingleton<MainPage>()
             .AddSingleton<MainWindowViewModel>()
