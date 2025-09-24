@@ -1,7 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using MiraiPalette.WinUI.ViewModels;
-using MiraiPalette.WinUI.Views;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -12,12 +10,12 @@ namespace MiraiPalette.WinUI;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(MainWindowViewModel viewModel)
     {
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
-        ContentFrame.Content = App.Current.Services.GetRequiredService<MainPage>();
+        ViewModel = viewModel;
     }
 
-    public MainWindowViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainWindowViewModel>();
+    public MainWindowViewModel ViewModel { get; }
 }

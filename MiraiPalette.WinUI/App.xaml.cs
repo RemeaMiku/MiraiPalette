@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using MiraiPalette.WinUI.ViewModels;
-using MiraiPalette.WinUI.Views;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -21,10 +20,8 @@ public partial class App : Application
     static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection()
-            .AddSingleton<MainPageViewModel>()
-            .AddSingleton<MainWindowViewModel>()
-            .AddSingleton<MainPage>()
-            .AddSingleton<MainWindow>();
+                    .AddSingleton<MainWindowViewModel>()
+                    .AddSingleton<MainWindow>();
         return services.BuildServiceProvider();
     }
 
