@@ -13,6 +13,9 @@
     <Nullable>enable</Nullable>
 	<LangVersion>preview</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Views\MainPage.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -48,7 +51,9 @@
     <ProjectReference Include="..\MiraiPalette.Shared\MiraiPalette.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Page Update="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!--
