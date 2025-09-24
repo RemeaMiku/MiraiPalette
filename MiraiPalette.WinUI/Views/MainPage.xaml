@@ -10,24 +10,31 @@
       xmlns:converters="using:MiraiPalette.WinUI.Converters"
       Loaded="Page_Loaded"
       mc:Ignorable="d">
-    <Grid>
+    <Grid Padding="36,0">
         <ItemsRepeaterScrollHost Grid.Row="1">
-            <ScrollViewer Padding="5">
+            <ScrollViewer>
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="models:PaletteViewModel">
                             <Button HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
-                                    Margin="5">
+                                    Margin="4">
                                 <Grid>
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <TextBlock Text="{x:Bind Title,Mode=OneWay}"
-                                               FontSize="20"
-                                               Margin="8" />
-                                    <GridView Grid.Row="1"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               MaxLines="1"
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="8, 4, 8, 0" />
+                                    <TextBlock Foreground="{StaticResource TextFillColorTertiaryBrush}" Margin="8, 4" Grid.Row="1" Text="{x:Bind Description,Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" MaxLines="3" TextTrimming="CharacterEllipsis"/>
+                                    <GridView Grid.Row="2"
+                                              Padding="8"
+                                              MaxHeight="480"
+                                              ScrollViewer.VerticalScrollBarVisibility="Auto"
                                               HorizontalAlignment="Stretch"
                                               HorizontalContentAlignment="Stretch"
                                               IsItemClickEnabled="True"
@@ -39,7 +46,7 @@
                                         <GridView.ItemContainerStyle>
                                             <Style TargetType="GridViewItem">
                                                 <Setter Property="Margin"
-                                                        Value="0" />
+                                                        Value="0,-8" />
                                                 <Setter Property="Padding"
                                                         Value="0" />
                                                 <Setter Property="HorizontalContentAlignment"
@@ -51,8 +58,8 @@
                                         <GridView.ItemTemplate>
                                             <DataTemplate x:DataType="models:ColorViewModel">
                                                 <Rectangle
-                                                    Width="280"
-                                                    Height="30"
+                                                    Width="272"
+                                                    Height="28"
                                                     Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
                                             </DataTemplate>
                                         </GridView.ItemTemplate>
@@ -62,7 +69,7 @@
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                     <ItemsRepeater.Layout>
-                        <views:MasonryLayout Width="300" />
+                        <views:MasonryLayout Width="320" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </ScrollViewer>

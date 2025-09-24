@@ -14,7 +14,7 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
 {
     private const string _fileName = "palettes.mpd";
 
-    private static readonly string _filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+    private static readonly string _filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Mirai Palette");
 
     private const string _headerFormat = "MIRAI_PALETTE_DATA_v{0}";
 
