@@ -8,71 +8,109 @@
       xmlns:models="using:MiraiPalette.WinUI.ViewModels"
       xmlns:views="using:MiraiPalette.WinUI.Views"
       xmlns:converters="using:MiraiPalette.WinUI.Converters"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+      xmlns:media="using:CommunityToolkit.WinUI.Media"
+      xmlns:ui="using:CommunityToolkit.WinUI"
       Loaded="Page_Loaded"
       mc:Ignorable="d">
-    <Grid Padding="36,0">
-        <ItemsRepeaterScrollHost Grid.Row="1">
-            <ScrollViewer>
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="models:PaletteViewModel">
-                            <Button HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    Margin="4">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Text="{x:Bind Title,Mode=OneWay}"
-                                               Style="{StaticResource TitleTextBlockStyle}"
-                                               MaxLines="1"
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="8, 4, 8, 0" />
-                                    <TextBlock Foreground="{StaticResource TextFillColorTertiaryBrush}" Margin="8, 4" Grid.Row="1" Text="{x:Bind Description,Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" MaxLines="3" TextTrimming="CharacterEllipsis"/>
-                                    <GridView Grid.Row="2"
-                                              Padding="8"
-                                              MaxHeight="480"
-                                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                              HorizontalAlignment="Stretch"
-                                              HorizontalContentAlignment="Stretch"
-                                              IsItemClickEnabled="True"
-                                              CanDragItems="True"
-                                              AllowDrop="True"
-                                              CanReorderItems="True"
-                                              ItemsSource="{x:Bind Colors,Mode=OneWay}"
-                                              SelectionMode="None">
-                                        <GridView.ItemContainerStyle>
-                                            <Style TargetType="GridViewItem">
-                                                <Setter Property="Margin"
-                                                        Value="0,-8" />
-                                                <Setter Property="Padding"
-                                                        Value="0" />
-                                                <Setter Property="HorizontalContentAlignment"
-                                                        Value="Stretch" />
-                                                <Setter Property="VerticalContentAlignment"
-                                                        Value="Stretch" />
-                                            </Style>
-                                        </GridView.ItemContainerStyle>
-                                        <GridView.ItemTemplate>
-                                            <DataTemplate x:DataType="models:ColorViewModel">
-                                                <Rectangle
-                                                    Width="272"
-                                                    Height="28"
-                                                    Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
-                                            </DataTemplate>
-                                        </GridView.ItemTemplate>
-                                    </GridView>
-                                </Grid>
-                            </Button>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                    <ItemsRepeater.Layout>
-                        <views:MasonryLayout Width="320" />
-                    </ItemsRepeater.Layout>
-                </ItemsRepeater>
-            </ScrollViewer>
-        </ItemsRepeaterScrollHost>
+    <Page.Resources>
+        <!--<media:AttachedCardShadow x:Key="CommonShadow"
+                                  Offset="4" />-->
+        <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="models:ColorViewModel">
+            <Rectangle Width="272"
+                       Height="28"
+                       Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
+        </DataTemplate>
+        <DataTemplate x:Key="MiraiPaletteItemTemplate" x:DataType="models:PaletteViewModel">
+            <Button HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Margin="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{x:Bind Title,Mode=OneWay}"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               MaxLines="1"
+                               TextTrimming="CharacterEllipsis"
+                               Margin="8, 4, 8, 0" />
+                    <TextBlock Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                               Margin="8, 4"
+                               Grid.Row="1"
+                               Text="{x:Bind Description,Mode=OneWay}"
+                               Style="{StaticResource BodyTextBlockStyle}"
+                               MaxLines="3"
+                               TextTrimming="CharacterEllipsis" />
+                    <GridView Grid.Row="2"
+                              Padding="8"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              IsItemClickEnabled="True"
+                              CanDragItems="True"
+                              AllowDrop="True"
+                              CanReorderItems="True"
+                              ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                              ItemsSource="{x:Bind Colors,Mode=OneWay}"
+                              SelectionMode="None">
+                        <GridView.ItemContainerStyle>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="Margin"
+                                        Value="0,-8" />
+                                <Setter Property="Padding"
+                                        Value="0" />
+                                <Setter Property="HorizontalContentAlignment"
+                                        Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment"
+                                        Value="Stretch" />
+                            </Style>
+                        </GridView.ItemContainerStyle>
+                    </GridView>
+                </Grid>
+            </Button>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid>
+        <ScrollViewer>
+            <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
+                           ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
+                <ItemsRepeater.Layout>
+                    <controls:StaggeredLayout DesiredColumnWidth="320"/>
+                </ItemsRepeater.Layout>
+            </ItemsRepeater>
+        </ScrollViewer>
+        <Border HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                CornerRadius="4"
+                Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}" 
+                Padding="16,8"
+                Margin="32">
+            <StackPanel Orientation="Horizontal">
+                <AppBarSeparator />
+                <SplitButton  BorderThickness="0"  >
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="4">
+                        <SymbolIcon Symbol="Add" />
+                        <TextBlock Text="新建调色板" FontSize="16"/>
+                    </StackPanel>
+                    <SplitButton.Flyout>
+                        <MenuFlyout>
+                            <RadioMenuFlyoutItem FontSize="16" Icon="Add"
+                                            Text="新建调色板" IsChecked="True"/>
+                            <RadioMenuFlyoutItem FontSize="16" Text="从图片提取">
+                                <RadioMenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE91B;" />
+                                </RadioMenuFlyoutItem.Icon>
+                            </RadioMenuFlyoutItem>
+                            <RadioMenuFlyoutItem FontSize="16"
+                                                 Icon="OpenFile"
+                                                 Text="从文件导入" />
+                        </MenuFlyout>
+                    </SplitButton.Flyout>
+                </SplitButton>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

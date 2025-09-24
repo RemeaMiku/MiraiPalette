@@ -9,7 +9,7 @@
         xmlns:models="using:MiraiPalette.WinUI.ViewModels"
         mc:Ignorable="d"
         x:Name="Window"
-        Title="MiraiPalette">
+        Title="Mirai Palette">
     <Window.SystemBackdrop>
         <MicaBackdrop />
     </Window.SystemBackdrop>
@@ -21,7 +21,7 @@
         <Border x:Name="AppTitleBar"
                 VerticalAlignment="Top">
             <TextBlock x:Name="AppTitle"
-                       Text="{x:Bind Title,Mode=OneWay}"
+                       Text="{x:Bind Title,Mode = OneWay}"
                        VerticalAlignment="Top"
                        Margin="0,8,0,0" />
         </Border>

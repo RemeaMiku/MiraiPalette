@@ -10,7 +10,7 @@ public class JsonPaletteService : IPaletteService
 {
     private readonly ILogger _logger;
 
-    private readonly string _filePath = Path.Combine(FileSystem.AppDataDirectory, "palettes.json");
+    private readonly string _filePath = Path.Combine(FileSystem.Current.AppDataDirectory, "palettes.json");
 
     private readonly FileStream _fileStream;
 
