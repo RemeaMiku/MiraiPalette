@@ -17,7 +17,7 @@
         <!--<media:AttachedCardShadow x:Key="CommonShadow"
                                   Offset="4" />-->
         <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="models:ColorViewModel">
-            <Rectangle Width="272"
+            <Rectangle 
                        Height="28"
                        Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
         </DataTemplate>
@@ -72,45 +72,83 @@
             </Button>
         </DataTemplate>
     </Page.Resources>
-    <Grid>
-        <ScrollViewer>
-            <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
-                           ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
-                <ItemsRepeater.Layout>
-                    <controls:StaggeredLayout DesiredColumnWidth="320"/>
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
-        </ScrollViewer>
-        <Border HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                CornerRadius="4"
-                Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}" 
-                Padding="16,8"
-                Margin="32">
-            <StackPanel Orientation="Horizontal">
-                <AppBarSeparator />
-                <SplitButton  BorderThickness="0"  >
-                    <StackPanel Orientation="Horizontal"
-                                Spacing="4">
-                        <SymbolIcon Symbol="Add" />
-                        <TextBlock Text="新建调色板" FontSize="16"/>
-                    </StackPanel>
-                    <SplitButton.Flyout>
-                        <MenuFlyout>
-                            <RadioMenuFlyoutItem FontSize="16" Icon="Add"
-                                            Text="新建调色板" IsChecked="True"/>
-                            <RadioMenuFlyoutItem FontSize="16" Text="从图片提取">
-                                <RadioMenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE91B;" />
-                                </RadioMenuFlyoutItem.Icon>
-                            </RadioMenuFlyoutItem>
-                            <RadioMenuFlyoutItem FontSize="16"
-                                                 Icon="OpenFile"
-                                                 Text="从文件导入" />
-                        </MenuFlyout>
-                    </SplitButton.Flyout>
-                </SplitButton>
+    <SplitView PanePlacement="Right"
+               IsPaneOpen="True"
+               DisplayMode="Overlay"
+               PaneBackground="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
+        <SplitView.Pane>
+            <StackPanel Orientation="Vertical" Padding="16" Spacing="4">
+                <Button Content="{x:Bind ViewModel.Palettes[0].Title}" Background="Transparent" BorderThickness="0" FontSize="{StaticResource TitleTextBlockFontSize}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                <Button Content="{x:Bind ViewModel.Palettes[0].Description}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                <controls:UniformGrid />
             </StackPanel>
-        </Border>
-    </Grid>
+        </SplitView.Pane>
+        <Grid>
+            <ScrollViewer>
+                <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
+                               ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
+                    <ItemsRepeater.Layout>
+                        <controls:StaggeredLayout DesiredColumnWidth="320"
+                                                  ItemsStretch="Fill"
+                                                  ColumnSpacing="8"
+                                                  RowSpacing="8" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </ScrollViewer>
+            <Border HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    CornerRadius="4"
+                    Padding="8"
+                    BorderThickness="1"
+                    BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
+                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                    Margin="32">
+                <StackPanel Orientation="Horizontal"
+                            Spacing="4">
+                    <ToggleButton Background="Transparent"
+                                  BorderThickness="0">
+                        <FontIcon Glyph="&#xE762;" />
+                    </ToggleButton>
+                    <AppBarSeparator />
+                    <SplitButton Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                 BorderThickness="0">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="4">
+                            <SymbolIcon Symbol="Add" />
+                            <TextBlock Text="新建调色板"
+                                       FontSize="16" />
+                        </StackPanel>
+                        <SplitButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyout.SystemBackdrop>
+                                    <DesktopAcrylicBackdrop />
+                                </MenuFlyout.SystemBackdrop>
+                                <RadioMenuFlyoutItem FontSize="16"
+                                                     Icon="Add"
+                                                     Text="新建调色板"
+                                                     IsChecked="True" />
+                                <RadioMenuFlyoutItem FontSize="16"
+                                                     Text="从图片提取"
+                                                     Icon="{ui:FontIcon Glyph=&#xE91B;}">
+                                </RadioMenuFlyoutItem>
+                                <RadioMenuFlyoutItem FontSize="16"
+                                                     Icon="OpenFile"
+                                                     Text="从文件导入" />
+                            </MenuFlyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+                    <Button BorderThickness="0"
+                            Background="Transparent"
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}">
+                        <SymbolIcon Symbol="Delete" />
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </SplitView>
 </Page>
