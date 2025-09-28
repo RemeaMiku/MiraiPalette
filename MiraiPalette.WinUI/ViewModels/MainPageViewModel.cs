@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.WinUI.Services;
+using Windows.UI;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
@@ -11,4 +13,56 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
 
     public IPaletteDataService PaletteDataService { get; } = paletteDataService;
 
+    [ObservableProperty]
+    public partial PaletteViewModel? CurrentPalette { get; set; }
+
+    [ObservableProperty]
+    public partial bool IsPalettePanelOpen { get; set; } = false;
+
+    [RelayCommand]
+    void TogglePaletteSelection(PaletteViewModel palette)
+    {
+        CurrentPalette?.IsSelected = false;
+        if(CurrentPalette == palette)
+        {
+            CurrentPalette = null;
+            IsPalettePanelOpen = false;
+            return;
+        }
+        CurrentPalette = palette;
+        CurrentPalette.IsSelected = true;
+        IsPalettePanelOpen = true;
+    }
+
+    partial void OnIsPalettePanelOpenChanged(bool value)
+    {
+        if(!value)
+        {
+            CurrentPalette?.IsSelected = false;
+            CurrentPalette = null;
+        }
+    }
+
+    [ObservableProperty]
+    public partial Color PreviewColor { get; set; }
+
+    [RelayCommand]
+    void EditColor(ColorViewModel color)
+    {
+        PreviewColor = color.Color;
+    }
+
+    [RelayCommand]
+    void SaveColor(ColorViewModel color)
+    {
+        if(CurrentPalette is null)
+            return;
+        color.Color = PreviewColor;
+    }
+
+    [RelayCommand]
+    void ResetPreviewColor(ColorViewModel color)
+    {
+        PreviewColor = color.Color;
+    }
 }

@@ -1,152 +1,255 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Page x:Class="MiraiPalette.WinUI.Views.MainPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:MiraiPalette.WinUI.Views"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:models="using:MiraiPalette.WinUI.ViewModels"
-      xmlns:views="using:MiraiPalette.WinUI.Views"
-      xmlns:converters="using:MiraiPalette.WinUI.Converters"
-      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
-      xmlns:media="using:CommunityToolkit.WinUI.Media"
-      xmlns:ui="using:CommunityToolkit.WinUI"
-      Loaded="Page_Loaded"
-      mc:Ignorable="d">
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="MiraiPalette.WinUI.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:MiraiPalette.WinUI.Converters"
+    xmlns:converters2="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:MiraiPalette.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:CommunityToolkit.WinUI.Media"
+    xmlns:models="using:MiraiPalette.WinUI.ViewModels"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:views="using:MiraiPalette.WinUI.Views"
+    x:Name="_page"
+    Padding="32"
+    DataContext="{x:Bind}"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
     <Page.Resources>
         <!--<media:AttachedCardShadow x:Key="CommonShadow"
                                   Offset="4" />-->
+        <converters2:BoolToObjectConverter
+            x:Key="MiraiPaletteSelectionToBrushConverter"
+            FalseValue="Transparent"
+            TrueValue="{ThemeResource AccentFillColorTertiaryBrush}" />
+        <Style
+            x:Key="TransparentBorderlessTextBox"
+            BasedOn="{StaticResource DefaultTextBoxStyle}"
+            TargetType="TextBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <converters2:BoolToObjectConverter
+            x:Key="MiraiPaletteSelectionToStyleConverter"
+            FalseValue="{StaticResource DefaultButtonStyle}"
+            TrueValue="{StaticResource AccentButtonStyle}" />
         <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="models:ColorViewModel">
-            <Rectangle 
-                       Height="28"
-                       Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
+            <Rectangle Height="28" Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
         </DataTemplate>
         <DataTemplate x:Key="MiraiPaletteItemTemplate" x:DataType="models:PaletteViewModel">
-            <Button HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    Margin="4">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Bind Title,Mode=OneWay}"
-                               Style="{StaticResource TitleTextBlockStyle}"
-                               MaxLines="1"
-                               TextTrimming="CharacterEllipsis"
-                               Margin="8, 4, 8, 0" />
-                    <TextBlock Foreground="{StaticResource TextFillColorTertiaryBrush}"
-                               Margin="8, 4"
-                               Grid.Row="1"
-                               Text="{x:Bind Description,Mode=OneWay}"
-                               Style="{StaticResource BodyTextBlockStyle}"
-                               MaxLines="3"
-                               TextTrimming="CharacterEllipsis" />
-                    <GridView Grid.Row="2"
-                              Padding="8"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              HorizontalAlignment="Stretch"
-                              HorizontalContentAlignment="Stretch"
-                              IsItemClickEnabled="True"
-                              CanDragItems="True"
-                              AllowDrop="True"
-                              CanReorderItems="True"
-                              ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                              ItemsSource="{x:Bind Colors,Mode=OneWay}"
-                              SelectionMode="None">
-                        <GridView.ItemContainerStyle>
-                            <Style TargetType="GridViewItem">
-                                <Setter Property="Margin"
-                                        Value="0,-8" />
-                                <Setter Property="Padding"
-                                        Value="0" />
-                                <Setter Property="HorizontalContentAlignment"
-                                        Value="Stretch" />
-                                <Setter Property="VerticalContentAlignment"
-                                        Value="Stretch" />
-                            </Style>
-                        </GridView.ItemContainerStyle>
-                    </GridView>
-                </Grid>
-            </Button>
+            <Border
+                BorderBrush="{Binding IsSelected, Converter={StaticResource MiraiPaletteSelectionToBrushConverter}}"
+                BorderThickness="2"
+                CornerRadius="4">
+                <Button
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Command="{Binding DataContext.ViewModel.TogglePaletteSelectionCommand, ElementName=_page, Mode=OneWay}"
+                    CommandParameter="{Binding}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Margin="8,4,8,0"
+                            MaxLines="1"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{Binding Title}"
+                            TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="8,4"
+                            Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                            MaxLines="3"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{Binding Description}"
+                            TextTrimming="CharacterEllipsis" />
+                        <GridView
+                            Grid.Row="2"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            AllowDrop="True"
+                            CanDragItems="True"
+                            CanReorderItems="True"
+                            IsItemClickEnabled="True"
+                            ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                            ItemsSource="{Binding Colors}"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectionMode="None">
+                            <GridView.ItemContainerStyle>
+                                <Style TargetType="GridViewItem">
+                                    <Setter Property="Margin" Value="0,-8" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </GridView.ItemContainerStyle>
+                        </GridView>
+                    </Grid>
+                </Button>
+            </Border>
         </DataTemplate>
-    </Page.Resources>
-    <SplitView PanePlacement="Right"
-               IsPaneOpen="True"
-               DisplayMode="Overlay"
-               PaneBackground="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
-        <SplitView.Pane>
-            <StackPanel Orientation="Vertical" Padding="16" Spacing="4">
-                <Button Content="{x:Bind ViewModel.Palettes[0].Title}" Background="Transparent" BorderThickness="0" FontSize="{StaticResource TitleTextBlockFontSize}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
-                <Button Content="{x:Bind ViewModel.Palettes[0].Description}"
+        <Flyout x:Key="MiraiColorEditColorFlyout">
+            <StackPanel Orientation="Vertical">
+                <ColorPicker IsAlphaEnabled="False" Color="{x:Bind ViewModel.PreviewColor, Mode=TwoWay}" />
+                <StackPanel
+                    HorizontalAlignment="Stretch"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <Button
+                        Click="OnSaveColorButton_Click"
+                        Command="{x:Bind ViewModel.SaveColorCommand, Mode=OneTime}"
+                        CommandParameter="{Binding}"
+                        Content="确定"
+                        Style="{ThemeResource AccentButtonStyle}" />
+                    <Button
+                        Command="{x:Bind ViewModel.ResetPreviewColorCommand, Mode=OneTime}"
+                        CommandParameter="{Binding}"
+                        Content="重置" />
+                </StackPanel>
+            </StackPanel>
+        </Flyout>
+        <DataTemplate x:Key="MiraiColorItemDetailTamplate" x:DataType="models:ColorViewModel">
+            <ItemContainer Width="240" Height="160">
+                <Grid>
+                    <Border Background="{Binding Color, Converter={converters:ColorToBrushConverter}, Mode=OneWay}" />
+                    <Button
+                        Margin="4"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
                         Background="Transparent"
                         BorderThickness="0"
+                        Command="{Binding ViewModel.EditColorCommand, ElementName=_page, Mode=OneTime}"
+                        CommandParameter="{x:Bind}"
+                        Content="{ui:SymbolIcon Symbol=Edit,
+                                                FontSize=16}"
+                        Flyout="{StaticResource MiraiColorEditColorFlyout}" />
+                    <Border
+                        Padding="4"
                         HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
-                <controls:UniformGrid />
-            </StackPanel>
+                        VerticalAlignment="Bottom"
+                        Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}">
+                        <StackPanel Orientation="Vertical" Spacing="4">
+                            <TextBox
+                                Padding="4"
+                                Style="{StaticResource TransparentBorderlessTextBox}"
+                                Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                            <Button
+                                Padding="4"
+                                HorizontalAlignment="Stretch"
+                                Content="{Binding Hex, Mode=OneWay}" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </ItemContainer>
+        </DataTemplate>
+    </Page.Resources>
+    <SplitView
+        x:Name="MainView"
+        DisplayMode="Inline"
+        IsPaneOpen="{x:Bind ViewModel.IsPalettePanelOpen, Mode=TwoWay}"
+        OpenPaneLength="320"
+        PaneBackground="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+        PanePlacement="Right">
+        <SplitView.Pane>
+            <Grid Padding="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical" Spacing="4">
+                    <TextBox
+                        FontSize="{StaticResource TitleTextBlockFontSize}"
+                        PlaceholderText="标题…"
+                        Style="{StaticResource TransparentBorderlessTextBox}"
+                        Text="{x:Bind ViewModel.CurrentPalette.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    <TextBox
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        PlaceholderText="描述…"
+                        Style="{StaticResource TransparentBorderlessTextBox}"
+                        Text="{x:Bind ViewModel.CurrentPalette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                </StackPanel>
+                <GridView
+                    Grid.Row="1"
+                    Padding="8"
+                    HorizontalAlignment="Center"
+                    AllowDrop="True"
+                    CanDragItems="True"
+                    CanReorderItems="True"
+                    IsItemClickEnabled="True"
+                    ItemTemplate="{StaticResource MiraiColorItemDetailTamplate}"
+                    ItemsSource="{x:Bind ViewModel.CurrentPalette.Colors, Mode=OneWay}"
+                    SelectionMode="Single" />
+            </Grid>
         </SplitView.Pane>
-        <Grid>
-            <ScrollViewer>
-                <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
-                               ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
+        <Grid Padding="16">
+            <ScrollViewer Padding="8">
+                <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}" ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
                     <ItemsRepeater.Layout>
-                        <controls:StaggeredLayout DesiredColumnWidth="320"
-                                                  ItemsStretch="Fill"
-                                                  ColumnSpacing="8"
-                                                  RowSpacing="8" />
+                        <controls:StaggeredLayout
+                            ColumnSpacing="8"
+                            DesiredColumnWidth="320"
+                            ItemsStretch="Fill"
+                            RowSpacing="8" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </ScrollViewer>
-            <Border HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    CornerRadius="4"
-                    Padding="8"
-                    BorderThickness="1"
-                    BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
-                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
-                    Margin="32">
-                <StackPanel Orientation="Horizontal"
-                            Spacing="4">
-                    <ToggleButton Background="Transparent"
-                                  BorderThickness="0">
-                        <FontIcon Glyph="&#xE762;" />
-                    </ToggleButton>
+            <Border
+                Margin="32"
+                Padding="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <ToggleButton
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Content="{ui:FontIcon Glyph=&#xE762;}" />
                     <AppBarSeparator />
-                    <SplitButton Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                                 BorderThickness="0">
-                        <StackPanel Orientation="Horizontal"
-                                    Spacing="4">
+                    <SplitButton BorderThickness="0" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
                             <SymbolIcon Symbol="Add" />
-                            <TextBlock Text="新建调色板"
-                                       FontSize="16" />
+                            <TextBlock FontSize="16" Text="新建调色板" />
                         </StackPanel>
                         <SplitButton.Flyout>
                             <MenuFlyout>
                                 <MenuFlyout.SystemBackdrop>
                                     <DesktopAcrylicBackdrop />
                                 </MenuFlyout.SystemBackdrop>
-                                <RadioMenuFlyoutItem FontSize="16"
-                                                     Icon="Add"
-                                                     Text="新建调色板"
-                                                     IsChecked="True" />
-                                <RadioMenuFlyoutItem FontSize="16"
-                                                     Text="从图片提取"
-                                                     Icon="{ui:FontIcon Glyph=&#xE91B;}">
-                                </RadioMenuFlyoutItem>
-                                <RadioMenuFlyoutItem FontSize="16"
-                                                     Icon="OpenFile"
-                                                     Text="从文件导入" />
+                                <RadioMenuFlyoutItem
+                                    FontSize="16"
+                                    Icon="Add"
+                                    IsChecked="True"
+                                    Text="新建调色板" />
+                                <RadioMenuFlyoutItem
+                                    FontSize="16"
+                                    Icon="{ui:FontIcon Glyph=&#xE91B;}"
+                                    Text="从图片提取" />
+                                <RadioMenuFlyoutItem
+                                    FontSize="16"
+                                    Icon="OpenFile"
+                                    Text="从文件导入" />
                             </MenuFlyout>
                         </SplitButton.Flyout>
                     </SplitButton>
-                    <Button BorderThickness="0"
-                            Background="Transparent"
-                            Foreground="{ThemeResource SystemFillColorCriticalBrush}">
-                        <SymbolIcon Symbol="Delete" />
-                    </Button>
+                    <Button
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Content="{ui:SymbolIcon Symbol=Delete}"
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
                 </StackPanel>
             </Border>
         </Grid>

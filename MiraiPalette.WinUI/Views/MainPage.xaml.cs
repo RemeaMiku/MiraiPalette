@@ -23,4 +23,10 @@ public sealed partial class MainPage : Page
     {
         ViewModel.Palettes = new(ViewModel.PaletteDataService.GetAllPalettesAsync().Result);
     }
+
+    private void OnSaveColorButton_Click(object sender, RoutedEventArgs e)
+    {
+        var flyout = Resources["MiraiColorEditColorFlyout"] as Flyout;
+        flyout?.Hide();
+    }
 }

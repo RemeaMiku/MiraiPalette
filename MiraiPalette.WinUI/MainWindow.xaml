@@ -1,31 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Window x:Class="MiraiPalette.WinUI.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="using:MiraiPalette.WinUI"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:views="using:MiraiPalette.WinUI.Views"
-        xmlns:models="using:MiraiPalette.WinUI.ViewModels"
-        mc:Ignorable="d"
-        x:Name="Window"
-        Title="Mirai Palette">
+<?xml version="1.0" encoding="utf-8" ?>
+<Window
+    x:Class="MiraiPalette.WinUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MiraiPalette.WinUI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:MiraiPalette.WinUI.ViewModels"
+    xmlns:views="using:MiraiPalette.WinUI.Views"
+    x:Name="Window"
+    Title="Mirai Palette"
+    mc:Ignorable="d">
     <Window.SystemBackdrop>
         <MicaBackdrop />
     </Window.SystemBackdrop>
-    <Grid RowSpacing="10" Padding="10,5">
+    <Grid Padding="10,5" RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border x:Name="AppTitleBar"
-                VerticalAlignment="Top">
-            <TextBlock x:Name="AppTitle"
-                       Text="{x:Bind Title,Mode = OneWay}"
-                       VerticalAlignment="Top"
-                       Margin="0,8,0,0" />
+        <Border x:Name="AppTitleBar" VerticalAlignment="Top">
+            <TextBlock
+                x:Name="AppTitle"
+                Margin="0,8,0,0"
+                VerticalAlignment="Top"
+                Text="{x:Bind Title, Mode=OneWay}" />
         </Border>
-        <Frame Grid.Row="1"
-               x:Name="MainFrame" />
+        <Frame x:Name="MainFrame" Grid.Row="1" />
     </Grid>
 </Window>

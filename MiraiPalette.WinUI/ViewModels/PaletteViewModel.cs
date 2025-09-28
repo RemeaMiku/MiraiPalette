@@ -15,4 +15,6 @@ public partial class PaletteViewModel : ObservableObject
 
     public ObservableCollection<ColorViewModel> Colors { get; set; } = [];
 
+    [ObservableProperty]
+    public partial bool IsSelected { get; set; }
 }
