@@ -143,11 +143,47 @@
                             <TextBox
                                 Padding="4"
                                 Style="{StaticResource TransparentBorderlessTextBox}"
-                                Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                             <Button
+                                x:Name="CopyColorButton"
                                 Padding="4"
                                 HorizontalAlignment="Stretch"
-                                Content="{Binding Hex, Mode=OneWay}" />
+                                Click="OnCopyColorButton_Click"
+                                Command="{Binding ViewModel.CopyColorToClipboardCommand, ElementName=_page, Mode=OneTime}"
+                                CommandParameter="{x:Bind Hex, Mode=OneWay}">
+                                <Button.Background>
+                                    <SolidColorBrush x:Name="CopyButtonBackgroundBrush" Color="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                                </Button.Background>
+                                <Grid x:Name="CopyButtonContentGrid">
+                                    <StackPanel
+                                        x:Name="CopyNormalContent"
+                                        Orientation="Horizontal"
+                                        Spacing="4">
+                                        <SymbolIcon Symbol="Copy" />
+                                        <TextBlock Text="{x:Bind Hex, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <StackPanel
+                                        x:Name="CopyCopiedContent"
+                                        Orientation="Horizontal"
+                                        Spacing="4"
+                                        Visibility="Collapsed">
+                                        <FontIcon Glyph="&#xE73E;" />
+                                        <TextBlock Text="已复制" />
+                                    </StackPanel>
+                                </Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CopyStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="Copied">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CopyButtonBackgroundBrush" Storyboard.TargetProperty="Color">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SuccessFillColorDefaultBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Button>
                         </StackPanel>
                     </Border>
                 </Grid>

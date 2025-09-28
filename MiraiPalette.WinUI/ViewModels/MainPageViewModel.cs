@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.WinUI.Services;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
 
 namespace MiraiPalette.WinUI.ViewModels;
@@ -64,5 +65,13 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
     void ResetPreviewColor(ColorViewModel color)
     {
         PreviewColor = color.Color;
+    }
+
+    [RelayCommand]
+    static void CopyColorToClipboard(string hex)
+    {
+        var package = new DataPackage();
+        package.SetText(hex);
+        Clipboard.SetContent(package);
     }
 }

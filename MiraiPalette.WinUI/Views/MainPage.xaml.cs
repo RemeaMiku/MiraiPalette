@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -28,5 +29,42 @@ public sealed partial class MainPage : Page
     {
         var flyout = Resources["MiraiColorEditColorFlyout"] as Flyout;
         flyout?.Hide();
+    }
+
+    private async void OnCopyColorButton_Click(object sender, RoutedEventArgs e)
+    {
+        if(sender is Button button)
+        {
+            // ÇÐ»»µ½¡°ÒÑ¸´ÖÆ¡±×´Ì¬
+            VisualStateManager.GoToState(button, "Copied", true);
+
+            // ÇÐ»»ÄÚÈÝ
+            var grid = button.Content as Grid;
+            if(grid != null)
+            {
+                var normal = grid.FindName("CopyNormalContent") as StackPanel;
+                var copied = grid.FindName("CopyCopiedContent") as StackPanel;
+                if(normal != null && copied != null)
+                {
+                    normal.Visibility = Visibility.Collapsed;
+                    copied.Visibility = Visibility.Visible;
+                }
+            }
+
+            // µÈ´ý1.5Ãëºó»Ö¸´
+            await Task.Delay(1500);
+
+            VisualStateManager.GoToState(button, "Normal", true);
+            if(grid != null)
+            {
+                var normal = grid.FindName("CopyNormalContent") as StackPanel;
+                var copied = grid.FindName("CopyCopiedContent") as StackPanel;
+                if(normal != null && copied != null)
+                {
+                    normal.Visibility = Visibility.Visible;
+                    copied.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
     }
 }
