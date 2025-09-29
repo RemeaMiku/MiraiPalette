@@ -15,11 +15,15 @@
     xmlns:models="using:MiraiPalette.WinUI.ViewModels"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:views="using:MiraiPalette.WinUI.Views"
-    x:Name="_page"
+     x:Name="_page"
     Padding="32"
     DataContext="{x:Bind}"
-    Loaded="Page_Loaded"
     mc:Ignorable="d">
+    <interactivity:Interaction.Behaviors>
+        <interactivity:EventTriggerBehavior EventName="Loaded">
+            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand, Mode=OneTime}" />
+        </interactivity:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
     <Page.Resources>
         <!--<media:AttachedCardShadow x:Key="CommonShadow"
                                   Offset="4" />-->

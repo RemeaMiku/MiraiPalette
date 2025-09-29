@@ -20,9 +20,9 @@ public sealed partial class MainPage : Page
 
     public MainPageViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainPageViewModel>();
 
-    private void Page_Loaded(object _, RoutedEventArgs __)
+    private async Task Page_Loaded(object _, RoutedEventArgs _2)
     {
-        ViewModel.Palettes = new(ViewModel.PaletteDataService.GetAllPalettesAsync().Result);
+        //ViewModel.Palettes = new(await ViewModel.PaletteDataService.GetAllPalettesAsync());
     }
 
     private void OnSaveColorButton_Click(object sender, RoutedEventArgs e)
@@ -51,7 +51,7 @@ public sealed partial class MainPage : Page
                 }
             }
 
-            // µ»¥˝1.5√Î∫Ûª÷∏¥
+            // µ»¥˝1.5√ÅEÛª÷∏¥
             await Task.Delay(1500);
 
             VisualStateManager.GoToState(button, "Normal", true);

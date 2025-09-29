@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.WinUI.Services;
@@ -19,6 +20,20 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
 
     [ObservableProperty]
     public partial bool IsPalettePanelOpen { get; set; } = false;
+
+    [RelayCommand]
+    async Task Load()
+    {
+        IsBusy = true;
+        Palettes = new(await PaletteDataService.GetAllPalettesAsync());
+        IsBusy = false;
+    }
+
+    [RelayCommand]
+    async Task DeletePalette()
+    {
+
+    }
 
     [RelayCommand]
     void TogglePaletteSelection(PaletteViewModel palette)
