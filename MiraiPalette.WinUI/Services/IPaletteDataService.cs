@@ -15,4 +15,6 @@ public interface IPaletteDataService
     public Task UpdatePaletteAsync(PaletteViewModel palette);
 
     public Task DeletePaletteAsync(int paletteId);
+
+    public Task DeletePalettesAsync(IEnumerable<int> paletteIds);
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.WinUI.Helpers;
+using MiraiPalette.Shared.Entities;
 using MiraiPalette.Shared.Essentials;
 using MiraiPalette.WinUI.ViewModels;
 
@@ -21,7 +22,7 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
 
     private const string _version = "1.0";
 
-    private readonly Dictionary<int, PaletteViewModel> _palettes = [];
+    private readonly Dictionary<int, PaletteEntity> _palettes = [];
 
     public MiraiPaletteDataFilePaletteDataService()
     {
@@ -52,7 +53,7 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
         foreach((var id, var palette) in _palettes)
         {
             builder.AppendLine($"ID:{id}");
-            builder.AppendLine(palette.Title);
+            builder.AppendLine(palette.Name);
             builder.AppendLine(palette.Description);
             builder.AppendLine("COLORS:");
             foreach(var color in palette.Colors)
@@ -93,7 +94,7 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
             var line = lines[i];
             if(string.IsNullOrWhiteSpace(line))
                 continue;
-            if(line.StartsWith("ID:", System.StringComparison.CurrentCultureIgnoreCase))
+            if(line.StartsWith("ID:", StringComparison.CurrentCultureIgnoreCase))
             {
                 var idStr = line.Substring(3).Trim();
                 if(!int.TryParse(idStr, out int id))
@@ -101,9 +102,9 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
                 var title = lines[++i].Trim();
                 var description = lines[++i].Trim();
                 var colorsLine = lines[++i].Trim();
-                if(!colorsLine.Equals("COLORS:", System.StringComparison.CurrentCultureIgnoreCase))
+                if(!colorsLine.Equals("COLORS:", StringComparison.CurrentCultureIgnoreCase))
                     continue;
-                var colors = new ObservableCollection<ColorViewModel>();
+                var colors = new List<ColorEntity>();
                 while(++i < lines.Length && !string.IsNullOrWhiteSpace(lines[i]))
                 {
                     var colorLine = lines[i].Trim();
@@ -112,13 +113,18 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
                     {
                         var colorName = parts[0].Trim();
                         var colorHex = parts[1].Trim();
-                        colors.Add(new ColorViewModel { Name = colorName, Color = colorHex.ToColor() });
+                        colors.Add(new () { Name = colorName, Hex = colorHex });
+                    }
+                    else if(parts.Length == 1)
+                    {
+                        var colorHex = parts[0].Trim();
+                        colors.Add(new () { Hex = colorHex });
                     }
                 }
-                var palette = new PaletteViewModel
+                var palette = new PaletteEntity
                 {
                     Id = id,
-                    Title = title,
+                    Name = title,
                     Description = description,
                     Colors = colors
                 };
@@ -133,7 +139,15 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
         if(_palettes.Count > 0)
             nextId = _palettes.Keys.Max() + 1;
         palette.Id = nextId;
-        _palettes.Add(nextId, palette);
+        var entityColors = palette.Colors.Select(c => new ColorEntity { Name = c.Name, Hex = c.Hex }).ToList();
+        var entity = new PaletteEntity
+        {
+            Id = palette.Id,
+            Name = palette.Title,
+            Description = palette.Description,
+            Colors = entityColors
+        };
+        _palettes.Add(nextId, entity);
         SaveFile();
         return Task.FromResult(nextId);
     }
@@ -149,22 +163,41 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
 
     public Task<IEnumerable<PaletteViewModel>> GetAllPalettesAsync()
     {
-        return Task.FromResult<IEnumerable<PaletteViewModel>>(_palettes.Values);
+        return Task.FromResult(_palettes.Values.Select(p=>new PaletteViewModel(p)));
     }
 
     public Task<PaletteViewModel?> GetPaletteAsync(int paletteId)
     {
-        _palettes.TryGetValue(paletteId, out var palette);
-        return Task.FromResult(palette);
+        return _palettes.TryGetValue(paletteId, out var palette)
+            ? Task.FromResult<PaletteViewModel?>(new PaletteViewModel(palette))
+            : Task.FromResult<PaletteViewModel?>(null);
     }
 
     public Task UpdatePaletteAsync(PaletteViewModel palette)
     {
         if(_palettes.ContainsKey(palette.Id))
         {
-            _palettes[palette.Id] = palette;
+            var entityColors = palette.Colors.Select(c => new ColorEntity { Name = c.Name, Hex = c.Hex }).ToList();
+            var entity = new PaletteEntity
+            {
+                Id = palette.Id,
+                Name = palette.Title,
+                Description = palette.Description,
+                Colors = entityColors
+            };
+            _palettes[palette.Id] = entity;
             SaveFile();
         }
+        return Task.CompletedTask;
+    }
+
+    public Task DeletePalettesAsync(IEnumerable<int> paletteIds)
+    {
+        foreach(var paletteId in paletteIds)
+        {
+            _palettes.Remove(paletteId);
+        }
+        SaveFile();
         return Task.CompletedTask;
     }
 }
