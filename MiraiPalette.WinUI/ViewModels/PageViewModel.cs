@@ -9,4 +9,6 @@ public abstract partial class PageViewModel : ObservableObject
 
     [ObservableProperty]
     public partial bool IsBusy { get; set; } = false;
+
+    public override string ToString() => Title;
 }
