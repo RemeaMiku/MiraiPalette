@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+ï»¿using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -35,10 +35,10 @@ public sealed partial class MainPage : Page
     {
         if(sender is Button button)
         {
-            // ÇĞ»»µ½¡°ÒÑ¸´ÖÆ¡±×´Ì¬
+            // åˆ‡æ¢åˆ°â€œå·²å¤åˆ¶â€çŠ¶æ€
             VisualStateManager.GoToState(button, "Copied", true);
 
-            // ÇĞ»»ÄÚÈİ
+            // åˆ‡æ¢å†…å®¹
             var grid = button.Content as Grid;
             if(grid != null)
             {
@@ -51,7 +51,7 @@ public sealed partial class MainPage : Page
                 }
             }
 
-            // µÈ´ı1.5ÃEó»Ö¸´
+            // ç­‰å¾…1.5ç§’
             await Task.Delay(1500);
 
             VisualStateManager.GoToState(button, "Normal", true);
