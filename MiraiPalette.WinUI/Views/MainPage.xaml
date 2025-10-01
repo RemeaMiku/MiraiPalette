@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="MiraiPalette.WinUI.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -15,9 +15,11 @@
     xmlns:models="using:MiraiPalette.WinUI.ViewModels"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:views="using:MiraiPalette.WinUI.Views"
-     x:Name="_page"
+    x:Name="_page"
+    MinWidth="320"
     Padding="32"
     DataContext="{x:Bind}"
+    SizeChanged="OnPageSizeChanged"
     mc:Ignorable="d">
     <interactivity:Interaction.Behaviors>
         <interactivity:EventTriggerBehavior EventName="Loaded">
@@ -105,39 +107,75 @@
         </DataTemplate>
         <Flyout x:Key="MiraiColorEditColorFlyout">
             <StackPanel Orientation="Vertical">
-                <ColorPicker IsAlphaEnabled="False" Color="{x:Bind ViewModel.PreviewColor, Mode=TwoWay}" />
+                <controls:ColorPicker IsAlphaEnabled="False" Color="{x:Bind ViewModel.PreviewColor, Mode=TwoWay}" />
                 <StackPanel
-                    HorizontalAlignment="Stretch"
+                    Margin="8"
+                    HorizontalAlignment="Center"
                     Orientation="Horizontal"
-                    Spacing="8">
+                    Spacing="16">
                     <Button
+                        Padding="32,4"
+                        HorizontalAlignment="Left"
                         Click="OnSaveColorButton_Click"
                         Command="{x:Bind ViewModel.SaveColorCommand, Mode=OneTime}"
                         CommandParameter="{Binding}"
-                        Content="确定"
+                        Content="{ui:SymbolIcon Symbol=Accept}"
                         Style="{ThemeResource AccentButtonStyle}" />
                     <Button
+                        Padding="32,4"
+                        HorizontalAlignment="Right"
                         Command="{x:Bind ViewModel.ResetPreviewColorCommand, Mode=OneTime}"
                         CommandParameter="{Binding}"
-                        Content="重置" />
+                        Content="{ui:SymbolIcon Symbol=Cancel}" />
                 </StackPanel>
             </StackPanel>
         </Flyout>
+        <MenuFlyout x:Name="MiraiColorMoreFlyout">
+            <MenuFlyoutItem Icon="{ui:SymbolIcon Symbol=Go}" Text="将颜色移动到…" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                Foreground="{StaticResource SystemFillColorCriticalBrush}"
+                Icon="{ui:SymbolIcon Symbol=Delete}"
+                Text="删除颜色" />
+        </MenuFlyout>
         <DataTemplate x:Key="MiraiColorItemDetailTamplate" x:DataType="models:ColorViewModel">
-            <ItemContainer Width="240" Height="160">
+            <ItemContainer
+                x:Name="MiraiColorItemDetailItemContainer"
+                Width="240"
+                Height="160"
+                IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
                 <Grid>
-                    <Border Background="{Binding Color, Converter={converters:ColorToBrushConverter}, Mode=OneWay}" />
+                    <!--<Border Background="{Binding Color, Converter={converters:ColorToBrushConverter}, Mode=OneWay}" />-->
                     <Button
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{Binding Color, Converter={converters:ColorToBrushConverter}, Mode=OneWay}"
+                        Command="{Binding ViewModel.EditColorCommand, ElementName=_page, Mode=OneTime}"
+                        CommandParameter="{x:Bind}"
+                        Flyout="{StaticResource MiraiColorEditColorFlyout}"
+                        Style="{StaticResource DateTimePickerFlyoutButtonStyle}" />
+                    <StackPanel
                         Margin="4"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Command="{Binding ViewModel.EditColorCommand, ElementName=_page, Mode=OneTime}"
-                        CommandParameter="{x:Bind}"
-                        Content="{ui:SymbolIcon Symbol=Edit,
-                                                FontSize=16}"
-                        Flyout="{StaticResource MiraiColorEditColorFlyout}" />
+                        Orientation="Horizontal">
+                        <!--<Button
+                            Padding="4"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding ViewModel.EditColorCommand, ElementName=_page, Mode=OneTime}"
+                            CommandParameter="{x:Bind}"
+                            Content="{ui:SymbolIcon Symbol=Edit,
+                                                    FontSize=16}"
+                            Flyout="{StaticResource MiraiColorEditColorFlyout}" />-->
+                        <!--<Button
+                            Padding="4"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Content="{ui:SymbolIcon Symbol=More}"
+                            Flyout="{StaticResource MiraiColorMoreFlyout}" />-->
+                    </StackPanel>
+
                     <Border
                         Padding="4"
                         HorizontalAlignment="Stretch"
@@ -195,7 +233,7 @@
         </DataTemplate>
     </Page.Resources>
     <SplitView
-        x:Name="MainView"
+        x:Name="_mainView"
         DisplayMode="Inline"
         IsPaneOpen="{x:Bind ViewModel.IsPalettePanelOpen, Mode=TwoWay}"
         OpenPaneLength="320"
@@ -226,10 +264,11 @@
                     AllowDrop="True"
                     CanDragItems="True"
                     CanReorderItems="True"
+                    ContextFlyout="{StaticResource MiraiColorMoreFlyout}"
                     IsItemClickEnabled="True"
                     ItemTemplate="{StaticResource MiraiColorItemDetailTamplate}"
                     ItemsSource="{x:Bind ViewModel.CurrentPalette.Colors, Mode=OneWay}"
-                    SelectionMode="Single" />
+                    SelectionMode="Extended" />
             </Grid>
         </SplitView.Pane>
         <Grid Padding="16">

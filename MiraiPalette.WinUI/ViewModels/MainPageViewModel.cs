@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
 using MiraiPalette.WinUI.Services;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
-using WinRT;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
@@ -46,7 +45,7 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
     async Task DeleteSelectedPalettes()
     {
         IsBusy = true;
-        await PaletteDataService.DeletePalettesAsync(SelectedPalettes.Select(p=>p.Id));
+        await PaletteDataService.DeletePalettesAsync(SelectedPalettes.Select(p => p.Id));
         await Load();
         IsBusy = false;
     }
@@ -97,12 +96,15 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
     }
 
     [ObservableProperty]
-    public partial Color PreviewColor { get; set; }
+    public partial Color PreviewColor { get; set; } = "#39c5bb".ToColor();
 
     [RelayCommand]
     void EditColor(ColorViewModel color)
     {
+        foreach(var c in CurrentPalette!.Colors)
+            c.IsSelected = false;
         PreviewColor = color.Color;
+        color.IsSelected = true;
     }
 
     [RelayCommand]
@@ -131,7 +133,7 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
     }
 
     partial void OnCurrentPaletteChanged(PaletteViewModel? oldValue, PaletteViewModel? newValue)
-    {   
+    {
         if(oldValue is not null)
         {
             oldValue.PropertyChanged -= OnCurrentPalettePropertyChanged;
@@ -148,7 +150,7 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
                 color.PropertyChanged += OnCurrentPaletteColorPropertyChanged;
             }
         }
-       
+
     }
 
     private async void OnCurrentPaletteColorPropertyChanged(object? sender, PropertyChangedEventArgs e)

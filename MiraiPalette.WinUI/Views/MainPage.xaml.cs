@@ -20,11 +20,6 @@ public sealed partial class MainPage : Page
 
     public MainPageViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainPageViewModel>();
 
-    private async Task Page_Loaded(object _, RoutedEventArgs _2)
-    {
-        //ViewModel.Palettes = new(await ViewModel.PaletteDataService.GetAllPalettesAsync());
-    }
-
     private void OnSaveColorButton_Click(object sender, RoutedEventArgs e)
     {
         var flyout = Resources["MiraiColorEditColorFlyout"] as Flyout;
@@ -66,5 +61,12 @@ public sealed partial class MainPage : Page
                 }
             }
         }
+    }
+
+    private void OnPageSizeChanged(object _, SizeChangedEventArgs e)
+    {
+        _mainView.IsPaneOpen = false;
+        _mainView.DisplayMode = e.NewSize.Width < _mainView.OpenPaneLength * 2 ? SplitViewDisplayMode.Overlay : SplitViewDisplayMode.Inline;
+        _mainView.Focus(FocusState.Programmatic);
     }
 }

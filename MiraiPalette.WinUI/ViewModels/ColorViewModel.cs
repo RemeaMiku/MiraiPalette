@@ -17,11 +17,14 @@ public partial class ColorViewModel : ObservableObject
 
     public string Hex => $"#{Color.R:X2}{Color.G:X2}{Color.B:X2}";
 
+    [ObservableProperty]
+    public partial bool IsSelected { get; set; } = false;
+
     public ColorViewModel()
     {
-        
+
     }
-    
+
     public ColorViewModel(ColorEntity entity)
     {
         Id = entity.Id;
