@@ -107,7 +107,10 @@
         </DataTemplate>
         <Flyout x:Key="MiraiColorEditColorFlyout">
             <StackPanel Orientation="Vertical">
-                <controls:ColorPicker IsAlphaEnabled="False" Color="{x:Bind ViewModel.PreviewColor, Mode=TwoWay}" />
+                <controls:ColorPicker
+                    ColorChanged="ColorPicker_ColorChanged"
+                    IsAlphaEnabled="False"
+                    Color="{x:Bind ViewModel.PreviewColor, Mode=TwoWay}" />
                 <StackPanel
                     Margin="8"
                     HorizontalAlignment="Center"
@@ -126,7 +129,7 @@
                         HorizontalAlignment="Right"
                         Command="{x:Bind ViewModel.ResetPreviewColorCommand, Mode=OneTime}"
                         CommandParameter="{Binding}"
-                        Content="{ui:SymbolIcon Symbol=Cancel}" />
+                        Content="{ui:SymbolIcon Symbol=Undo}" />
                 </StackPanel>
             </StackPanel>
         </Flyout>

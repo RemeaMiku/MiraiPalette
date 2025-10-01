@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -69,4 +70,24 @@ public sealed partial class MainPage : Page
         _mainView.DisplayMode = e.NewSize.Width < _mainView.OpenPaneLength * 2 ? SplitViewDisplayMode.Overlay : SplitViewDisplayMode.Inline;
         _mainView.Focus(FocusState.Programmatic);
     }
+
+    #region ColorPicker 初始值修复
+    // 社区工具包的 ColorPicker 第一次绑定 Color 属性时会莫名其妙地把 Color 设置为透明色 #00FFFFFF
+    // 这是一个已知问题，值会按以下方式改变：#FFFFFFFF => #00000000 => 绑定源 => #00FFFFFF
+    // https://github.com/CommunityToolkit/Windows/blob/main/components/ColorPicker/src/ColorPicker.cs
+
+    int _colorPickerFallbackCount = 0;
+    private void ColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+    {
+        if(args.NewColor.ToHex() == "#00FFFFFF")
+        {
+            // 恢复到旧值
+            sender.Color = args.OldColor;
+            _colorPickerFallbackCount++;
+            // 自动回弹会出现2次
+            if(_colorPickerFallbackCount == 2)
+                sender.ColorChanged -= ColorPicker_ColorChanged;
+        }
+    }
+    #endregion
 }

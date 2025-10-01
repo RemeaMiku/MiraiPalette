@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.Helpers;
 using MiraiPalette.WinUI.Services;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
@@ -96,7 +95,7 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
     }
 
     [ObservableProperty]
-    public partial Color PreviewColor { get; set; } = "#39c5bb".ToColor();
+    public partial Color PreviewColor { get; set; }
 
     [RelayCommand]
     void EditColor(ColorViewModel color)
