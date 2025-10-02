@@ -162,6 +162,7 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
         if(e.PropertyName == nameof(PaletteViewModel.Title) && string.IsNullOrWhiteSpace(CurrentPalette!.Title))
         {
             CurrentPalette.Title = (await PaletteDataService.GetPaletteAsync(CurrentPalette.Id))!.Title;
+            return;
         }
         await PaletteDataService.UpdatePaletteAsync(CurrentPalette!);
     }

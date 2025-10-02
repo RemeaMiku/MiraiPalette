@@ -151,7 +151,8 @@
                     <!--<Border Background="{Binding Color, Converter={converters:ColorToBrushConverter}, Mode=OneWay}" />-->
                     <Button
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Height="96"
                         Background="{Binding Color, Converter={converters:ColorToBrushConverter}, Mode=OneWay}"
                         Command="{Binding ViewModel.EditColorCommand, ElementName=_page, Mode=OneTime}"
                         CommandParameter="{x:Bind}"
@@ -249,6 +250,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Vertical" Spacing="4">
+                    <ToggleButton Background="Transparent" Content="{ui:FontIcon Glyph=&#xE89F;}" Padding="8" HorizontalAlignment="Right" IsChecked="{x:Bind ViewModel.IsPalettePanelOpen, Mode=TwoWay}"/>
                     <TextBox
                         FontSize="{StaticResource TitleTextBlockFontSize}"
                         PlaceholderText="标题…"
