@@ -66,7 +66,6 @@ public sealed partial class MainPage : Page
 
     private void OnPageSizeChanged(object _, SizeChangedEventArgs e)
     {
-        _mainView.IsPaneOpen = false;
         _mainView.DisplayMode = e.NewSize.Width < _mainView.OpenPaneLength * 2 ? SplitViewDisplayMode.Overlay : SplitViewDisplayMode.Inline;
         _mainView.Focus(FocusState.Programmatic);
     }
@@ -90,4 +89,9 @@ public sealed partial class MainPage : Page
         }
     }
     #endregion
+
+    private void OnDeletePaletteConfirmButton_Click(object sender, RoutedEventArgs e)
+    {
+        _deletePaletteConfirmFlyout.Hide();
+    }
 }

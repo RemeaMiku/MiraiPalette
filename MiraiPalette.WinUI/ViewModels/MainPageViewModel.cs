@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,17 +12,26 @@ using Windows.UI;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
-public partial class MainPageViewModel(IPaletteDataService paletteDataService) : PageViewModel
+public partial class MainPageViewModel : PageViewModel
 {
+    public MainPageViewModel(IPaletteDataService paletteDataService)
+    {
+        PaletteDataService = paletteDataService;
+        SelectedPalettes.CollectionChanged += (_, _)
+            => OnPropertyChanged(nameof(HasSelectedPalettes));
+    }
+
     [ObservableProperty]
     public partial ObservableCollection<PaletteViewModel> Palettes { get; set; } = [];
 
-    public IPaletteDataService PaletteDataService { get; } = paletteDataService;
+    public IPaletteDataService PaletteDataService { get; }
 
     [ObservableProperty]
     public partial PaletteViewModel? CurrentPalette { get; set; }
 
     public ObservableCollection<PaletteViewModel> SelectedPalettes { get; } = [];
+
+    public bool HasSelectedPalettes => SelectedPalettes.Count > 0;
 
     [ObservableProperty]
     public partial bool IsPalettePanelOpen { get; set; } = false;
@@ -36,8 +46,26 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
         Palettes.Clear();
         SelectedPalettes.Clear();
         CurrentPalette = null;
+        IsPalettePanelOpen = false;
         Palettes = new(await PaletteDataService.GetAllPalettesAsync());
         IsBusy = false;
+    }
+
+    partial void OnIsMultiSelectModeChanged(bool value)
+    {
+        if(value)
+        {
+            CurrentPalette = null;
+            IsPalettePanelOpen = false;
+        }
+        else
+        {
+            foreach(var palette in Palettes)
+            {
+                palette.IsSelected = false;
+            }
+            SelectedPalettes.Clear();
+        }
     }
 
     [RelayCommand]
@@ -60,10 +88,6 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
 
     void SelectPalette(PaletteViewModel palette)
     {
-        palette.IsSelected = true;
-        if(SelectedPalettes.Contains(palette))
-            throw new InvalidOperationException("Palette is already selected.");
-        SelectedPalettes.Add(palette);
         if(!IsMultiSelectMode)
         {
             CurrentPalette?.IsSelected = false;
@@ -71,6 +95,10 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
             CurrentPalette = palette;
             IsPalettePanelOpen = true;
         }
+        palette.IsSelected = true;
+        if(SelectedPalettes.Contains(palette))
+            throw new InvalidOperationException("Palette is already selected.");
+        SelectedPalettes.Add(palette);
     }
 
     void DeselectPalette(PaletteViewModel palette)
@@ -139,6 +167,7 @@ public partial class MainPageViewModel(IPaletteDataService paletteDataService) :
             foreach(var color in oldValue.Colors)
             {
                 color.PropertyChanged -= OnCurrentPaletteColorPropertyChanged;
+                color.IsSelected = false;
             }
         }
         if(newValue is not null)

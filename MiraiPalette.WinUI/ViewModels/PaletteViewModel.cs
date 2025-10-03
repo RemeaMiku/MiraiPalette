@@ -31,4 +31,7 @@ public partial class PaletteViewModel : ObservableObject
         Description = entity.Description;
         Colors = new ObservableCollection<ColorViewModel>(entity.Colors.Select(c => new ColorViewModel(c)));
     }
+
+    public override string ToString()
+        => Title;
 }
