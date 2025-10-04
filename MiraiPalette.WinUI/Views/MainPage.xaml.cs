@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -17,6 +18,19 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         InitializeComponent();
+        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+    }
+
+    private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        switch(e.PropertyName)
+        {
+            case nameof(ViewModel.CurrentPalette):
+                _colorsScrollViewer.ScrollToVerticalOffset(0);
+                break;
+            default:
+                break;
+        }
     }
 
     public MainPageViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainPageViewModel>();

@@ -52,50 +52,50 @@
         </DataTemplate>
         <DataTemplate x:Key="MiraiPaletteItemTemplate" x:DataType="models:PaletteViewModel">
             <ItemContainer IsSelected="{Binding IsSelected, Mode=TwoWay}">
-                <Button HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Command="{Binding DataContext.ViewModel.TogglePaletteSelectionCommand, ElementName=_page, Mode=OneWay}"
-                        CommandParameter="{Binding}">
+                <Button
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Command="{Binding DataContext.ViewModel.TogglePaletteSelectionCommand, ElementName=_page, Mode=OneWay}"
+                    CommandParameter="{Binding}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <TextBlock Margin="8,4,8,0"
-                                   MaxLines="1"
-                                   Style="{StaticResource TitleTextBlockStyle}"
-                                   Text="{Binding Title}"
-                                   TextTrimming="CharacterEllipsis" />
-                        <TextBlock Grid.Row="1"
-                                   Margin="8,4"
-                                   Foreground="{StaticResource TextFillColorTertiaryBrush}"
-                                   MaxLines="3"
-                                   Style="{StaticResource BodyTextBlockStyle}"
-                                   Text="{Binding Description}"
-                                   TextTrimming="CharacterEllipsis" />
-                        <GridView Grid.Row="2"
-                                  Padding="8"
-                                  HorizontalAlignment="Stretch"
-                                  HorizontalContentAlignment="Stretch"
-                                  AllowDrop="True"
-                                  CanDragItems="True"
-                                  CanReorderItems="True"
-                                  IsItemClickEnabled="True"
-                                  ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                                  ItemsSource="{Binding Colors}"
-                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                  SelectionMode="None">
+                        <TextBlock
+                            Margin="8,4,8,0"
+                            MaxLines="1"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{Binding Title}"
+                            TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="8,4"
+                            Foreground="{StaticResource TextFillColorTertiaryBrush}"
+                            MaxLines="3"
+                            Style="{StaticResource BodyTextBlockStyle}"
+                            Text="{Binding Description}"
+                            TextTrimming="CharacterEllipsis" />
+                        <GridView
+                            Grid.Row="2"
+                            Padding="8"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            AllowDrop="True"
+                            CanDragItems="True"
+                            CanReorderItems="True"
+                            IsItemClickEnabled="True"
+                            ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                            ItemsSource="{Binding Colors}"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectionMode="None">
                             <GridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem">
-                                    <Setter Property="Margin"
-                                            Value="0,-8" />
-                                    <Setter Property="Padding"
-                                            Value="0" />
-                                    <Setter Property="HorizontalContentAlignment"
-                                            Value="Stretch" />
-                                    <Setter Property="VerticalContentAlignment"
-                                            Value="Stretch" />
+                                    <Setter Property="Margin" Value="0,-8" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
                                 </Style>
                             </GridView.ItemContainerStyle>
                         </GridView>
@@ -148,9 +148,9 @@
                 <Grid>
                     <!--<Border Background="{Binding Color, Converter={converters:ColorToBrushConverter}, Mode=OneWay}" />-->
                     <Button
+                        Height="96"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
-                        Height="96"
                         Background="{Binding Color, Converter={converters:ColorToBrushConverter}, Mode=OneWay}"
                         Command="{Binding ViewModel.EditColorCommand, ElementName=_page, Mode=OneTime}"
                         CommandParameter="{x:Bind}"
@@ -247,58 +247,74 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Button Command="{x:Bind ViewModel.TogglePaletteSelectionCommand, Mode=OneTime}"
-                        CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}"
-                        BorderThickness="0"
-                        HorizontalAlignment="Right"
-                        Content="{ui:SymbolIcon Symbol=Cancel}" />
-                <ScrollViewer Grid.Row="1">
+                <Button
+                    HorizontalAlignment="Right"
+                    BorderThickness="0"
+                    Command="{x:Bind ViewModel.TogglePaletteSelectionCommand, Mode=OneTime}"
+                    CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}"
+                    Content="{ui:SymbolIcon Symbol=Cancel}" />
+                <ScrollViewer x:Name="_colorsScrollViewer" Grid.Row="1">
                     <StackPanel>
                         <Border Height="128" />
-                        <GridView Padding="4"
-                                  HorizontalAlignment="Center"
-                                  AllowDrop="True"
-                                  CanDragItems="True"
-                                  CanReorderItems="True"
-                                  ContextFlyout="{StaticResource MiraiColorMoreFlyout}"
-                                  ScrollViewer.VerticalScrollMode="Disabled"
-                                  IsItemClickEnabled="True"
-                                  ItemTemplate="{StaticResource MiraiColorItemDetailTamplate}"
-                                  ItemsSource="{x:Bind ViewModel.CurrentPalette.Colors, Mode=OneWay}"
-                                  SelectionMode="Extended" />
+                        <GridView
+                            Padding="4"
+                            HorizontalAlignment="Center"
+                            AllowDrop="True"
+                            CanDragItems="True"
+                            CanReorderItems="True"
+                            ContextFlyout="{StaticResource MiraiColorMoreFlyout}"
+                            IsItemClickEnabled="True"
+                            ItemTemplate="{StaticResource MiraiColorItemDetailTamplate}"
+                            ItemsSource="{x:Bind ViewModel.CurrentPalette.Colors, Mode=OneWay}"
+                            ScrollViewer.VerticalScrollMode="Disabled"
+                            SelectionMode="Extended" />
                     </StackPanel>
                 </ScrollViewer>
-                <Border CornerRadius="{StaticResource ControlCornerRadius}"
+                <Border
+                    Grid.Row="1"
+                    Margin="8,0"
+                    Padding="8"
                     VerticalAlignment="Top"
-                        Margin="8,0"
-                         Grid.Row="1"
-                         Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
-                         Padding="8">
-                    <StackPanel Orientation="Vertical"
-                                Spacing="4">
-                        <TextBox FontSize="{StaticResource TitleTextBlockFontSize}"
-                                 PlaceholderText="标题…"
-                                 Style="{StaticResource TransparentBorderlessTextBox}"
-                                 Text="{x:Bind ViewModel.CurrentPalette.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        <TextBox Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                 PlaceholderText="描述…"
-                                 Style="{StaticResource TransparentBorderlessTextBox}"
-                                 Text="{x:Bind ViewModel.CurrentPalette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+                    <StackPanel Orientation="Vertical" Spacing="4">
+                        <TextBox
+                            FontSize="{StaticResource TitleTextBlockFontSize}"
+                            PlaceholderText="标题…"
+                            Style="{StaticResource TransparentBorderlessTextBox}"
+                            Text="{x:Bind ViewModel.CurrentPalette.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <TextBox
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            PlaceholderText="描述…"
+                            Style="{StaticResource TransparentBorderlessTextBox}"
+                            Text="{x:Bind ViewModel.CurrentPalette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                     </StackPanel>
                 </Border>
-                <Border Padding="8"
-                        Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
-                        BorderThickness="0" HorizontalAlignment="Center" Margin="8" CornerRadius="{StaticResource ControlCornerRadius}" Grid.Row="1" VerticalAlignment="Bottom">
-                    <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Center"
-                                Spacing="4">
-                        <Button BorderThickness="0" Padding="4" Background="Transparent" Content="{ui:SymbolIcon Symbol=Add}" Foreground="{ThemeResource SystemFillColorSuccessBrush}"/>
-                        <Button Padding="4"
-                                BorderThickness="0"
-                                Background="Transparent"
-                                Content="{ui:SymbolIcon Symbol=More}"
-                                Flyout="{StaticResource MiraiColorMoreFlyout}"
-                                 />
+                <Border
+                    Grid.Row="1"
+                    Margin="8"
+                    Padding="8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                    BorderThickness="0"
+                    CornerRadius="{StaticResource ControlCornerRadius}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="4">
+                        <Button
+                            Padding="4"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Content="{ui:SymbolIcon Symbol=Add}"
+                            Foreground="{ThemeResource SystemFillColorSuccessBrush}" />
+                        <Button
+                            Padding="4"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Content="{ui:SymbolIcon Symbol=More}"
+                            Flyout="{StaticResource MiraiColorMoreFlyout}" />
                     </StackPanel>
                 </Border>
             </Grid>
@@ -328,8 +344,8 @@
                     <ToggleButton
                         Background="Transparent"
                         BorderThickness="0"
-                        IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}"
-                        Content="{ui:FontIcon Glyph=&#xE762;}" />
+                        Content="{ui:FontIcon Glyph=&#xE762;}"
+                        IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}" />
                     <AppBarSeparator />
                     <SplitButton BorderThickness="0" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}">
                         <StackPanel Orientation="Horizontal" Spacing="4">
@@ -357,23 +373,25 @@
                             </MenuFlyout>
                         </SplitButton.Flyout>
                     </SplitButton>
-                    <Button Background="Transparent"
-                            BorderThickness="0"
-                            Content="{ui:SymbolIcon Symbol=Delete}"
-                            IsEnabled="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay}"
-                            Foreground="{ThemeResource SystemFillColorCriticalBrush}">
+                    <Button
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Content="{ui:SymbolIcon Symbol=Delete}"
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                        IsEnabled="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay}">
                         <Button.Flyout>
                             <Flyout x:Name="_deletePaletteConfirmFlyout" LightDismissOverlayMode="On">
                                 <StackPanel Spacing="8">
-                                    <TextBlock Text="将永久删除以下{}个调色板:" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="将永久删除以下{}个调色板:" />
                                     <ScrollViewer MaxHeight="128">
-                                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.SelectedPalettes,Mode=OneTime}" />
+                                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.SelectedPalettes, Mode=OneTime}" />
                                     </ScrollViewer>
-                                    <Button Content="{ui:SymbolIcon Symbol=Accept}"
-                                            HorizontalAlignment="Stretch"
-                                            Command="{x:Bind ViewModel.DeleteSelectedPalettesCommand, Mode=OneTime}"
-                                            Click="OnDeletePaletteConfirmButton_Click"
-                                            Style="{StaticResource AccentButtonStyle}" />
+                                    <Button
+                                        HorizontalAlignment="Stretch"
+                                        Click="OnDeletePaletteConfirmButton_Click"
+                                        Command="{x:Bind ViewModel.DeleteSelectedPalettesCommand, Mode=OneTime}"
+                                        Content="{ui:SymbolIcon Symbol=Accept}"
+                                        Style="{StaticResource AccentButtonStyle}" />
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
