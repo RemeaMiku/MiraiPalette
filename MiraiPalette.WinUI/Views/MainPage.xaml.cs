@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +21,10 @@ public sealed partial class MainPage : Page
     {
         InitializeComponent();
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+        _editColorFlyout = Resources["MiraiColorEditColorFlyout"] as Flyout ?? throw new InvalidOperationException("无法找到 MiraiColorEditColorFlyout");
     }
+
+    readonly Flyout _editColorFlyout;
 
     private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -37,8 +42,7 @@ public sealed partial class MainPage : Page
 
     private void OnSaveColorButton_Click(object sender, RoutedEventArgs e)
     {
-        var flyout = Resources["MiraiColorEditColorFlyout"] as Flyout;
-        flyout?.Hide();
+        _editColorFlyout.Hide();
     }
 
     private async void OnCopyColorButton_Click(object sender, RoutedEventArgs e)
@@ -104,8 +108,45 @@ public sealed partial class MainPage : Page
     }
     #endregion
 
-    private void OnDeletePaletteConfirmButton_Click(object sender, RoutedEventArgs e)
+    private async void OnAddColorButton_Click(object sender, RoutedEventArgs e)
     {
-        _deletePaletteConfirmFlyout.Hide();
+        await Task.Delay(100);
+        _colorsScrollViewer.ScrollToVerticalOffset(_colorsScrollViewer.ScrollableHeight);
+    }
+
+    private async void OnDeletePalettesButton_Click(object sender, RoutedEventArgs e)
+    {
+        var message = "将永久删除以下调色板：";
+        var dialog = new ContentDialog()
+        {
+            XamlRoot = XamlRoot,
+            Content = new StackPanel()
+            {
+                Orientation = Orientation.Vertical,
+                Spacing = 16,
+                Children =
+                {
+                    new TextBlock()
+                    {
+                        Text = message,                        
+                    },
+                    new ScrollViewer()
+                    {
+                        Content = new ItemsControl()
+                        {
+                            ItemsSource = ViewModel.SelectedPalettes,
+                        },
+                        MaxHeight = 240,
+                    }
+                }
+            },
+            Title = "删除调色板",
+            PrimaryButtonText = "确定",
+            PrimaryButtonCommand = ViewModel.DeleteSelectedPalettesCommand,
+            CloseButtonText = "取消",
+            DefaultButton = ContentDialogButton.Primary,
+            MaxHeight = 480
+        };
+        await　dialog.ShowAsync();
     }
 }

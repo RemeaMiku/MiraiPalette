@@ -11,13 +11,6 @@
                 <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->
-            <Style
-                   TargetType="ContentControl">
-                <Setter Property="FontFamily"
-                        Value="Microsoft Yahei UI Light" />
-                <Setter Property="FontSize"
-                        Value="16" />
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

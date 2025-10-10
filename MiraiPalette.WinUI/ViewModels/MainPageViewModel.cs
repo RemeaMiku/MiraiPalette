@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI;
 using MiraiPalette.WinUI.Services;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
@@ -42,11 +44,11 @@ public partial class MainPageViewModel : PageViewModel
     [RelayCommand]
     async Task Load()
     {
-        IsBusy = true;
         Palettes.Clear();
         SelectedPalettes.Clear();
         CurrentPalette = null;
         IsPalettePanelOpen = false;
+        IsBusy = true;
         Palettes = new(await PaletteDataService.GetAllPalettesAsync());
         IsBusy = false;
     }
@@ -73,8 +75,8 @@ public partial class MainPageViewModel : PageViewModel
     {
         IsBusy = true;
         await PaletteDataService.DeletePalettesAsync(SelectedPalettes.Select(p => p.Id));
-        await Load();
         IsBusy = false;
+        await Load();
     }
 
     [RelayCommand]
@@ -84,6 +86,34 @@ public partial class MainPageViewModel : PageViewModel
             DeselectPalette(palette);
         else
             SelectPalette(palette);
+    }
+
+    string GetNextColorName()
+    {
+        const string baseName = "新颜色";
+        var names = CurrentPalette?.Colors.Select(c => c.Name).ToList() ?? [];
+        if (!names.Contains(baseName))
+            return baseName;
+
+        var index = 2;
+        while (names.Contains($"{baseName}{index}"))
+            index++;
+        return $"{baseName}{index}";
+    }
+
+    [RelayCommand]
+    async Task AddColor()
+    {
+        if (CurrentPalette is null)
+            throw new InvalidOperationException("No palette is selected.");
+        var newColorModel = new ColorViewModel()
+        {
+            Name = GetNextColorName(),
+            Color = Colors.White
+        };
+        CurrentPalette.Colors.Add(newColorModel);
+        await PaletteDataService.UpdatePaletteAsync(CurrentPalette);
+        EditColor(newColorModel);
     }
 
     void SelectPalette(PaletteViewModel palette)
@@ -128,9 +158,15 @@ public partial class MainPageViewModel : PageViewModel
     [RelayCommand]
     void EditColor(ColorViewModel color)
     {
+        SelectColor(color);
+        PreviewColor = color.Color;
+    }
+
+    [RelayCommand]
+    void SelectColor(ColorViewModel color)
+    {
         foreach(var c in CurrentPalette!.Colors)
             c.IsSelected = false;
-        PreviewColor = color.Color;
         color.IsSelected = true;
     }
 
@@ -138,9 +174,24 @@ public partial class MainPageViewModel : PageViewModel
     async Task SaveColor(ColorViewModel color)
     {
         if(CurrentPalette is null)
-            return;
+            throw new InvalidOperationException("No palette is selected.");
         color.Color = PreviewColor;
         IsBusy = true;
+        await PaletteDataService.UpdatePaletteAsync(CurrentPalette);
+        IsBusy = false;
+    }
+
+    [RelayCommand]
+    async Task DeleteSelectedColors()
+    {
+        if(CurrentPalette is null)
+            throw new InvalidOperationException("No palette is selected.");
+        IsBusy = true;
+        for(int i = CurrentPalette.Colors.Count-1; i >= 0; i--)
+        {
+             if(CurrentPalette.Colors[i].IsSelected)
+                 CurrentPalette.Colors.RemoveAt(i);
+        }
         await PaletteDataService.UpdatePaletteAsync(CurrentPalette);
         IsBusy = false;
     }
@@ -178,7 +229,6 @@ public partial class MainPageViewModel : PageViewModel
                 color.PropertyChanged += OnCurrentPaletteColorPropertyChanged;
             }
         }
-
     }
 
     private async void OnCurrentPaletteColorPropertyChanged(object? sender, PropertyChangedEventArgs e)
