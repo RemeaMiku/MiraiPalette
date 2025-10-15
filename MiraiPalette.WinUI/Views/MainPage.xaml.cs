@@ -6,6 +6,7 @@ using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.Storage.Pickers;
 using MiraiPalette.WinUI.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -116,7 +117,7 @@ public sealed partial class MainPage : Page
 
     private async void OnDeletePalettesButton_Click(object sender, RoutedEventArgs e)
     {
-        var message = "将永久删除以下调色板：";
+        var message = "将永久删除以下调色板，是否继续？";
         var dialog = new ContentDialog()
         {
             XamlRoot = XamlRoot,
@@ -148,5 +149,41 @@ public sealed partial class MainPage : Page
             MaxHeight = 480
         };
         await　dialog.ShowAsync();
+    }
+
+    private async void OnDeleteColorsButton_Click(object sender, RoutedEventArgs e)
+    {
+        var message = "将永久删除选中的颜色，是否继续？";
+        var dialog = new ContentDialog()
+        {
+            XamlRoot = XamlRoot,
+            Content = message,
+            Title = "删除颜色",
+            PrimaryButtonText = "确定",
+            PrimaryButtonCommand = ViewModel.DeleteSelectedColorsCommand,
+            CloseButtonText = "取消",
+            DefaultButton = ContentDialogButton.Primary,            
+        };
+        await dialog.ShowAsync();
+    }
+
+    private async void OnAddPaletteButtonClick(object sender, RoutedEventArgs e)
+    {
+        await Task.Delay(100);
+        _palettesScrollViewer.ScrollToVerticalOffset(_palettesScrollViewer.ScrollableHeight);
+    }
+
+    private async void OnExtractFromImageButtonClick(object sender, RoutedEventArgs e)
+    {
+        var picker = new FileOpenPicker(XamlRoot.ContentIslandEnvironment.AppWindowId)
+        {
+            CommitButtonText = "选择",
+            FileTypeFilter = { ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff" },
+            SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+            ViewMode = PickerViewMode.Thumbnail
+        };
+        var result = await picker.PickSingleFileAsync();
+        if(result is not null)
+            Current.NavigateTo(NavigationTarget.ImagePalette, result.Path);
     }
 }

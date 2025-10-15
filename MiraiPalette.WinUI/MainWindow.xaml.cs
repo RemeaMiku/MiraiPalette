@@ -1,6 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using MiraiPalette.WinUI.ViewModels;
 using MiraiPalette.WinUI.Views;
 
@@ -17,11 +18,18 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
-        MainFrame.Content = App.Current.Services.GetRequiredService<MainPage>();
+        _mainFrame.Navigate(typeof(MainPage));
         var presenter = AppWindow.Presenter as OverlappedPresenter;
         presenter!.PreferredMinimumWidth = 480;
         presenter.PreferredMinimumHeight = 640;
     }
 
     public MainWindowViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainWindowViewModel>();
+
+    public Frame MainFrame => _mainFrame;
+
+    private void OnMainView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+    {
+        App.Current.NavigateTo(NavigationTarget.Back);
+    }
 }

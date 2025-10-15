@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -99,6 +100,23 @@ public partial class MainPageViewModel : PageViewModel
         while (names.Contains($"{baseName}{index}"))
             index++;
         return $"{baseName}{index}";
+    }
+
+    [RelayCommand]
+    async Task AddPalette()
+    {
+        IsMultiSelectMode = false;
+        var newPalette = new PaletteViewModel()
+        {
+            Title = "新建调色板",
+            Description = string.Empty,
+            Colors = []
+        };
+        IsBusy = true;
+        await PaletteDataService.AddPaletteAsync(newPalette);
+        IsBusy = false;
+        Palettes.Add(newPalette);
+        SelectPalette(newPalette);
     }
 
     [RelayCommand]

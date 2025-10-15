@@ -6,7 +6,7 @@
     xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:MiraiPalette.WinUI.Converters"
-    xmlns:converters2="using:CommunityToolkit.WinUI.Converters"
+    xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:MiraiPalette.WinUI.Views"
@@ -16,6 +16,7 @@
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:views="using:MiraiPalette.WinUI.Views"
     x:Name="_page"
+    NavigationCacheMode="Required"
     MinWidth="320"
     Padding="32"
     DataContext="{x:Bind}"
@@ -27,27 +28,18 @@
         </interactivity:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
     <Page.Resources>
-        <!--<media:AttachedCardShadow x:Key="CommonShadow"
-                                  Offset="4" />-->
-        <converters2:BoolToObjectConverter
-            x:Key="MiraiPaletteSelectionToBrushConverter"
-            FalseValue="Transparent"
-            TrueValue="{ThemeResource AccentFillColorTertiaryBrush}" />
-        <converters2:StringFormatConverter x:Key="StringFormatConverter" />
-        <converters2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <Style
-            x:Key="TransparentBorderlessTextBox"
-            BasedOn="{StaticResource DefaultTextBoxStyle}"
-            TargetType="TextBox">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
+        <Style x:Key="TransparentBorderlessTextBox"
+               BasedOn="{StaticResource DefaultTextBoxStyle}"
+               TargetType="TextBox">
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="BorderBrush"
+                    Value="Transparent" />
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Left" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Left" />
         </Style>
-        <converters2:BoolToObjectConverter
-            x:Key="MiraiPaletteSelectionToStyleConverter"
-            FalseValue="{StaticResource DefaultButtonStyle}"
-            TrueValue="{StaticResource AccentButtonStyle}" />
         <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="models:ColorViewModel">
             <Rectangle Height="28" Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
         </DataTemplate>
@@ -137,7 +129,7 @@
             <MenuFlyoutSeparator />
             <MenuFlyoutItem Foreground="{StaticResource SystemFillColorCriticalBrush}"
                             Icon="{ui:SymbolIcon Symbol=Delete}"
-                            Command="{x:Bind ViewModel.DeleteSelectedColorsCommand, Mode=OneTime}"
+                            Click="OnDeleteColorsButton_Click"
                             Text="删除颜色" />
         </MenuFlyout>
         <DataTemplate x:Key="MiraiColorItemDetailTamplate"
@@ -217,15 +209,6 @@
                 </Grid>
             </ItemContainer>
         </DataTemplate>
-        <!--<Page x:Key="DeletePaletteConfirmDialogContent">
-            <StackPanel Spacing="8">
-                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
-                           Text="{x:Bind ViewModel.SelectedPalettes.Count ,Mode=OneWay, Converter={StaticResource StringFormatConverter},ConverterParameter='将永久删除以下 {0} 个调色板：'}" />
-                <ScrollViewer MaxHeight="128">
-                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.SelectedPalettes, Mode=OneTime}" />
-                </ScrollViewer>
-            </StackPanel>
-         </Page >-->
     </Page.Resources>
     <SplitView
         x:Name="_mainView"
@@ -315,68 +298,49 @@
                 </Border>
             </Grid>
         </SplitView.Pane>
-        <Grid Padding="16">
-            <ScrollViewer Padding="8">
-                <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}" ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
+        <Grid Padding="0">
+            <ScrollViewer Padding="8"
+                          x:Name="_palettesScrollViewer">
+                <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
+                               ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
                     <ItemsRepeater.Layout>
-                        <controls:StaggeredLayout
-                            ColumnSpacing="8"
-                            DesiredColumnWidth="320"
-                            ItemsStretch="Fill"
-                            RowSpacing="8" />
+                        <controls:StaggeredLayout ColumnSpacing="8"
+                                                  DesiredColumnWidth="320"
+                                                  ItemsStretch="Fill"
+                                                  RowSpacing="8" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </ScrollViewer>
-            <Border
-                Margin="32"
-                Padding="8"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
-                BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
-                BorderThickness="1"
-                CornerRadius="4">
-                <StackPanel Orientation="Horizontal" Spacing="4">
-                    <ToggleButton
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Content="{ui:FontIcon Glyph=&#xE762;}"
-                        IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}" />
+            <Border HorizontalAlignment="Center"
+                    CornerRadius="8"
+                    Margin="32"
+                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                    VerticalAlignment="Bottom">
+                <CommandBar DefaultLabelPosition="Right">
+                    <AppBarToggleButton Background="Transparent"
+                                        BorderThickness="0"
+                                        Content="{ui:FontIcon Glyph=&#xE762;}"
+                                        Label="多选"
+                                        IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}" />
                     <AppBarSeparator />
-                    <SplitButton BorderThickness="0" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}">
-                        <StackPanel Orientation="Horizontal" Spacing="4">
-                            <SymbolIcon Symbol="Add" />
-                            <TextBlock FontSize="16" Text="新建调色板" />
-                        </StackPanel>
-                        <SplitButton.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyout.SystemBackdrop>
-                                    <DesktopAcrylicBackdrop />
-                                </MenuFlyout.SystemBackdrop>
-                                <RadioMenuFlyoutItem
-                                    FontSize="16"
-                                    Icon="Add"
-                                    IsChecked="True"
-                                    Text="新建调色板" />
-                                <RadioMenuFlyoutItem
-                                    FontSize="16"
-                                    Icon="{ui:FontIcon Glyph=&#xE91B;}"
-                                    Text="从图片提取" />
-                                <RadioMenuFlyoutItem
-                                    FontSize="16"
-                                    Icon="OpenFile"
-                                    Text="从文件导入" />
-                            </MenuFlyout>
-                        </SplitButton.Flyout>
-                    </SplitButton>
-                    <Button Background="Transparent"
-                            BorderThickness="0"
-                            Content="{ui:SymbolIcon Symbol=Delete}"
-                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            IsEnabled="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay}"
-                            Click="OnDeletePalettesButton_Click"
-                           />
-                </StackPanel>
+                    <AppBarButton Icon="{ui:SymbolIcon Symbol=Add}"
+                                  Command="{x:Bind ViewModel.AddPaletteCommand,Mode=OneTime}"
+                                  Click="OnAddPaletteButtonClick"
+                                  Label="新建" />
+                    <AppBarButton Icon="{ui:FontIcon Glyph=&#xE91B;}"
+                                  Click="OnExtractFromImageButtonClick"
+                                  Label="提取" />
+                    <AppBarButton Icon="{ui:SymbolIcon Symbol=OpenFile}"
+                                  Label="导入" />
+                    <AppBarSeparator />
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton Icon="{ui:SymbolIcon Symbol=Delete}"
+                                      Label="删除"
+                                      Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                      Visibility="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
+                                      Click="OnDeletePalettesButton_Click" />
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
             </Border>
         </Grid>
     </SplitView>

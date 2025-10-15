@@ -14,7 +14,7 @@ namespace MiraiPalette.WinUI;
 /// </summary>
 public partial class App : Application
 {
-    private Window? _window;
+    public MainWindow MainWindow => Services.GetRequiredService<MainWindow>();
 
     public new static App Current => (App)Application.Current;
 
@@ -25,6 +25,7 @@ public partial class App : Application
         var services = new ServiceCollection()
             .AddSingleton<IPaletteDataService, MiraiPaletteDataFilePaletteDataService>()
             .AddSingleton<MainPageViewModel>()
+            .AddSingleton<ImagePalettePage>()
             .AddSingleton<MainPage>()
             .AddSingleton<MainWindowViewModel>()
             .AddSingleton<MainWindow>();
@@ -46,7 +47,32 @@ public partial class App : Application
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _window = Services.GetRequiredService<MainWindow>();
-        _window.Activate();
+        MainWindow.Activate();
+    }
+
+    public void NavigateTo(NavigationTarget target, object? parameter=null)
+    {
+        var frame = MainWindow.MainFrame;
+        switch(target)
+        {
+            case NavigationTarget.Back:
+                if (frame.CanGoBack)
+                    frame.GoBack();
+                break;
+            case NavigationTarget.Main:
+                break;
+            case NavigationTarget.ImagePalette:
+                frame.Navigate(typeof(ImagePalettePage), parameter);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public enum NavigationTarget
+    {
+        Back = -1,
+        Main,
+        ImagePalette
     }
 }
