@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI;
@@ -20,8 +18,12 @@ public partial class MainPageViewModel : PageViewModel
     public MainPageViewModel(IPaletteDataService paletteDataService)
     {
         PaletteDataService = paletteDataService;
-        SelectedPalettes.CollectionChanged += (_, _)
-            => OnPropertyChanged(nameof(HasSelectedPalettes));
+        SelectedPalettes.CollectionChanged += OnSelectedPalettesChanged;
+    }
+
+    private void OnSelectedPalettesChanged(object? _, NotifyCollectionChangedEventArgs __)
+    {
+        OnPropertyChanged(nameof(HasSelectedPalettes));
     }
 
     [ObservableProperty]
@@ -41,6 +43,29 @@ public partial class MainPageViewModel : PageViewModel
 
     [ObservableProperty]
     public partial bool IsMultiSelectMode { get; set; } = false;
+
+    [RelayCommand]
+    private void SelectAllPalettes()
+    {
+        if(!IsMultiSelectMode)
+            throw new InvalidOperationException("Not in multi-select mode.");
+        foreach(var palette in Palettes)
+        {
+            if(!palette.IsSelected)
+            {
+                palette.IsSelected = true;
+                SelectedPalettes.Add(palette);
+            }
+        }
+    }
+
+    [RelayCommand]
+    private void ClearSelection()
+    {
+        foreach(var palette in SelectedPalettes)
+            palette.IsSelected = false;
+        SelectedPalettes.Clear();
+    }
 
     [RelayCommand]
     async Task Load()
@@ -64,9 +89,7 @@ public partial class MainPageViewModel : PageViewModel
         else
         {
             foreach(var palette in Palettes)
-            {
                 palette.IsSelected = false;
-            }
             SelectedPalettes.Clear();
         }
     }
@@ -93,11 +116,11 @@ public partial class MainPageViewModel : PageViewModel
     {
         const string baseName = "新颜色";
         var names = CurrentPalette?.Colors.Select(c => c.Name).ToList() ?? [];
-        if (!names.Contains(baseName))
+        if(!names.Contains(baseName))
             return baseName;
 
         var index = 2;
-        while (names.Contains($"{baseName}{index}"))
+        while(names.Contains($"{baseName}{index}"))
             index++;
         return $"{baseName}{index}";
     }
@@ -122,7 +145,7 @@ public partial class MainPageViewModel : PageViewModel
     [RelayCommand]
     async Task AddColor()
     {
-        if (CurrentPalette is null)
+        if(CurrentPalette is null)
             throw new InvalidOperationException("No palette is selected.");
         var newColorModel = new ColorViewModel()
         {
@@ -205,10 +228,10 @@ public partial class MainPageViewModel : PageViewModel
         if(CurrentPalette is null)
             throw new InvalidOperationException("No palette is selected.");
         IsBusy = true;
-        for(int i = CurrentPalette.Colors.Count-1; i >= 0; i--)
+        for(int i = CurrentPalette.Colors.Count - 1; i >= 0; i--)
         {
-             if(CurrentPalette.Colors[i].IsSelected)
-                 CurrentPalette.Colors.RemoveAt(i);
+            if(CurrentPalette.Colors[i].IsSelected)
+                CurrentPalette.Colors.RemoveAt(i);
         }
         await PaletteDataService.UpdatePaletteAsync(CurrentPalette);
         IsBusy = false;

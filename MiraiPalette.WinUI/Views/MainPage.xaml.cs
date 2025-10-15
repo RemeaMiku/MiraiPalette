@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.DependencyInjection;
@@ -129,7 +128,7 @@ public sealed partial class MainPage : Page
                 {
                     new TextBlock()
                     {
-                        Text = message,                        
+                        Text = message,
                     },
                     new ScrollViewer()
                     {
@@ -146,9 +145,9 @@ public sealed partial class MainPage : Page
             PrimaryButtonCommand = ViewModel.DeleteSelectedPalettesCommand,
             CloseButtonText = "取消",
             DefaultButton = ContentDialogButton.Primary,
-            MaxHeight = 480
+            VerticalAlignment = VerticalAlignment.Center,
         };
-        await　dialog.ShowAsync();
+        await dialog.ShowAsync();
     }
 
     private async void OnDeleteColorsButton_Click(object sender, RoutedEventArgs e)
