@@ -5,23 +5,24 @@
       xmlns:local="using:MiraiPalette.WinUI.Views"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      NavigationCacheMode="Disabled"
       mc:Ignorable="d">
     <Grid>
-        <ScrollView x:Name="_imageScrollView"                    
-                    VerticalAlignment="Stretch"
-                    ContentOrientation="None"
-                    ZoomMode="Enabled"
-                    IsTabStop="True"
-                    HorizontalAlignment="Stretch"
-                    HorizontalScrollMode="Auto"
-                    HorizontalScrollBarVisibility="Auto"
-                    VerticalScrollMode="Auto"
-                    VerticalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="_imageScrollView"
+                      ZoomMode="Enabled"
+                      IsTabStop="True"
+                      IsVerticalScrollChainingEnabled="True"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      HorizontalScrollMode="Enabled"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollMode="Enabled"
+                      VerticalScrollBarVisibility="Auto">
             <Image x:Name="_sourceImage"
-                   AutomationProperties.Name="cliff"
                    Stretch="None"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
-        </ScrollView>
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   PointerMoved="OnImage_PointerMoved" />
+        </ScrollViewer>
     </Grid>
 </Page>

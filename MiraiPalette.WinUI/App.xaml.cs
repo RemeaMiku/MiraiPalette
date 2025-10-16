@@ -24,6 +24,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection()
             .AddSingleton<IPaletteDataService, MiraiPaletteDataFilePaletteDataService>()
+            .AddTransient<ImagePalettePageViewModel>()
             .AddSingleton<MainPageViewModel>()
             .AddSingleton<ImagePalettePage>()
             .AddSingleton<MainPage>()

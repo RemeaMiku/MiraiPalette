@@ -38,7 +38,7 @@ public sealed partial class MainPage : Page
         }
     }
 
-    public MainPageViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainPageViewModel>();
+    public MainPageViewModel ViewModel { get; } = Current.Services.GetRequiredService<MainPageViewModel>();
 
     private void OnSaveColorButton_Click(object sender, RoutedEventArgs e)
     {
