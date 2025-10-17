@@ -12,7 +12,7 @@
     xmlns:local="using:MiraiPalette.WinUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:CommunityToolkit.WinUI.Media"
-    xmlns:models="using:MiraiPalette.WinUI.ViewModels"
+    xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:views="using:MiraiPalette.WinUI.Views"
     x:Name="_page"
@@ -40,10 +40,10 @@
             <Setter Property="HorizontalAlignment"
                     Value="Left" />
         </Style>
-        <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="models:ColorViewModel">
+        <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="vm:ColorViewModel">
             <Rectangle Height="28" Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
         </DataTemplate>
-        <DataTemplate x:Key="MiraiPaletteItemTemplate" x:DataType="models:PaletteViewModel">
+        <DataTemplate x:Key="MiraiPaletteItemTemplate" x:DataType="vm:PaletteViewModel">
             <ItemContainer IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
                 <Button
                     HorizontalAlignment="Stretch"
@@ -132,7 +132,7 @@
                             Click="OnDeleteColorsButton_Click"
                             Text="删除颜色" />
         </MenuFlyout>
-        <DataTemplate x:Key="MiraiColorItemDetailTamplate" x:DataType="models:ColorViewModel">
+        <DataTemplate x:Key="MiraiColorItemDetailTamplate" x:DataType="vm:ColorViewModel">
             <ItemContainer
                 x:Name="MiraiColorItemDetailItemContainer"
                 Width="240"
@@ -165,45 +165,27 @@
                                 PlaceholderText="[未命名颜色]"
                                 Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                            <Button
-                                x:Name="CopyColorButton"
-                                Padding="4"
-                                HorizontalAlignment="Stretch"
-                                Click="OnCopyColorButton_Click"
-                                Command="{Binding ViewModel.CopyColorToClipboardCommand, ElementName=_page, Mode=OneTime}"
-                                CommandParameter="{x:Bind Hex, Mode=OneWay}">
-                                <Button.Background>
-                                    <SolidColorBrush x:Name="CopyButtonBackgroundBrush" Color="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
-                                </Button.Background>
+                            <Button x:Name="CopyColorButton"
+                                    Padding="4"
+                                    HorizontalAlignment="Stretch"
+                                    Click="OnCopyColorButton_Click"
+                                    Command="{Binding ViewModel.CopyColorToClipboardCommand, ElementName=_page, Mode=OneTime}"
+                                    CommandParameter="{x:Bind Hex, Mode=OneWay}">
                                 <Grid x:Name="CopyButtonContentGrid">
-                                    <StackPanel
-                                        x:Name="CopyNormalContent"
-                                        Orientation="Horizontal"
-                                        Spacing="4">
+                                    <StackPanel x:Name="CopyNormalContent"
+                                                Orientation="Horizontal"
+                                                Spacing="4">
                                         <SymbolIcon Symbol="Copy" />
                                         <TextBlock Text="{x:Bind Hex, Mode=OneWay}" />
                                     </StackPanel>
-                                    <StackPanel
-                                        x:Name="CopyCopiedContent"
-                                        Orientation="Horizontal"
-                                        Spacing="4"
-                                        Visibility="Collapsed">
+                                    <StackPanel x:Name="CopyCopiedContent"
+                                                Orientation="Horizontal"
+                                                Spacing="4"
+                                                Visibility="Collapsed">
                                         <FontIcon Glyph="&#xE73E;" />
                                         <TextBlock Text="已复制" />
                                     </StackPanel>
                                 </Grid>
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CopyStates">
-                                        <VisualState x:Name="Normal" />
-                                        <VisualState x:Name="Copied">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CopyButtonBackgroundBrush" Storyboard.TargetProperty="Color">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SuccessFillColorDefaultBrush}" />
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
                             </Button>
                         </StackPanel>
                     </Border>
@@ -317,20 +299,20 @@
                     Margin="32"
                     Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
                     VerticalAlignment="Bottom">
-                <CommandBar DefaultLabelPosition="Bottom">
+                <CommandBar DefaultLabelPosition="Right">
                     <AppBarToggleButton
                                         BorderThickness="0"
                                         Content="{ui:FontIcon Glyph=&#xE762;}"
                                         Label="多选"
                                         IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}" />
-                    <AppBarButton Label="全选" Icon="{ui:SymbolIcon Symbol=SelectAll}" Command="{x:Bind ViewModel.SelectAllPalettesCommand,Mode=OneTime}" Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <AppBarButton Label="全选" Icon="SelectAll" Command="{x:Bind ViewModel.SelectAllPalettesCommand,Mode=OneTime}" Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <AppBarButton Label="清除"
-                                  Icon="{ui:SymbolIcon Symbol=ClearSelection}"
+                                  Icon="ClearSelection"
                                   Command="{x:Bind ViewModel.ClearSelectionCommand,Mode=OneTime}"
                                   IsEnabled="{x:Bind ViewModel.HasSelectedPalettes,Mode=OneWay}"
                                   Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                     <AppBarSeparator />
-                    <AppBarButton Icon="{ui:SymbolIcon Symbol=Add}"
+                    <AppBarButton Icon="Add"
                                   Command="{x:Bind ViewModel.AddPaletteCommand,Mode=OneTime}"
                                   Click="OnAddPaletteButtonClick"
                                   Label="新建" />

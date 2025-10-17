@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Helpers;
+using MiraiPalette.WinUI.Essentials;
 using Windows.UI;
 
 namespace MiraiPalette.WinUI.ViewModels;
@@ -15,7 +16,7 @@ public partial class ColorViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(Hex))]
     public partial Color Color { get; set; }
 
-    public string Hex => $"#{Color.R:X2}{Color.G:X2}{Color.B:X2}";
+    public string Hex => Color.ToHex(false);
 
     [ObservableProperty]
     public partial bool IsSelected { get; set; } = false;

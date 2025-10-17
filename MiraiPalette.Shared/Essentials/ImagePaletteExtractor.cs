@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MiraiPalette.Shared.Essentials;
+﻿namespace MiraiPalette.Shared.Essentials;
 
 /// <summary>
 /// Provides functionality to extract a representative color palette from an image using k-means clustering.
@@ -21,13 +17,13 @@ public class ImagePaletteExtractor
 
     public int MaxKMeansIterations { get; init; } = 25;
 
-    public IEnumerable<(byte R, byte G, byte B, float Percentage)> Extract(List<(byte R, byte G, byte B)> pixels, int colorCount)
+    public IEnumerable<(byte R, byte G, byte B, float Percentage)> Extract(IEnumerable<(byte R, byte G, byte B)> pixels, int colorCount)
     {
         var clusters = ClusterColors(pixels, colorCount, MaxKMeansIterations);
-        return ToPaletteColors(clusters, pixels.Count);
+        return ToPaletteColors(clusters, pixels.Count());
     }
 
-    private static IEnumerable<(byte R, byte G, byte B, float Percentage)> ToPaletteColors(List<Cluster> clusters, int total)
+    private static IEnumerable<(byte R, byte G, byte B, float Percentage)> ToPaletteColors(IEnumerable<Cluster> clusters, int total)
     {
         foreach(var cluster in clusters.OrderByDescending(c => c.Pixels.Count))
         {
@@ -37,7 +33,7 @@ public class ImagePaletteExtractor
             var g = (int)cluster.Pixels.Average(p => p.G);
             var b = (int)cluster.Pixels.Average(p => p.B);
             var percent = cluster.Pixels.Count * 100f / total;
-            yield return new ()
+            yield return new()
             {
                 Percentage = percent,
                 R = (byte)r,
@@ -47,13 +43,13 @@ public class ImagePaletteExtractor
         }
     }
 
-    private static List<Cluster> ClusterColors(List<(byte R, byte G, byte B)> pixels, int k, int maxIterations)
+    private static List<Cluster> ClusterColors(IEnumerable<(byte R, byte G, byte B)> pixels, int k, int maxIterations)
     {
         var seed = DateTimeOffset.Now.GetHashCode();
         return KMeans(pixels, k, maxIterations, seed);
     }
 
-    private static List<Cluster> KMeans(List<(byte R, byte G, byte B)> pixels, int k, int maxIterations, int seed = 0)
+    private static List<Cluster> KMeans(IEnumerable<(byte R, byte G, byte B)> pixels, int k, int maxIterations, int seed = 0)
     {
         var rnd = new Random(seed);
         var centers = pixels.OrderBy(_ => rnd.Next()).Take(k)

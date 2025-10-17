@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using Microsoft.UI;
 using Windows.UI;
 
 namespace MiraiPalette.WinUI.Essentials;
 
-public class ImagePixels(double scale, double width, double height, Color[] colors)
+public class ImagePixels(double scale, int width, int height, Color[] colors)
 {
     public double Scale { get; } = scale;
-    public double Width { get; } = width;
-    public double Height { get; } = height;
-    public Color[] Pixels { get; } = colors;
+    public int Width { get; } = width;
+    public int Height { get; } = height;
+    public Color[] PixelData { get; } = colors;
 
     public Color this[int x, int y]
     {
@@ -19,9 +18,9 @@ public class ImagePixels(double scale, double width, double height, Color[] colo
         {
             ArgumentOutOfRangeException.ThrowIfLessThan(x, 0);
             ArgumentOutOfRangeException.ThrowIfLessThan(y, 0);
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(x, (int)Width);
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(y, (int)Height);
-            return Pixels[(int)(y * Width + x)];
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(x, Width);
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(y, Height);
+            return PixelData[y * Width + x];
         }
     }
 
@@ -29,9 +28,10 @@ public class ImagePixels(double scale, double width, double height, Color[] colo
     {
         var sx = xOnOriginal * Scale;
         var sy = yOnOriginal * Scale;
-        if(sx < 0 || sy < 0 || sx >= Width || sy >= Height)
-            return Colors.Transparent;
-        return Pixels[(int)(sy * Width + sx)];
+        Trace.WriteLine("");
+        Trace.WriteLine($"ox:{xOnOriginal},oy:{yOnOriginal}");
+        Trace.WriteLine($"sx:{sx:F0},sy:{sy:F0}");
+        return sx < 0 || sy < 0 || sx >= Width || sy >= Height ? Colors.Transparent : PixelData[(int)Math.Round(sy * Width + sx)];
     }
 }
 

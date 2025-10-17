@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Windows.Storage.Pickers;
 using MiraiPalette.WinUI.ViewModels;
 
@@ -22,6 +23,11 @@ public sealed partial class MainPage : Page
         InitializeComponent();
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
         _editColorFlyout = Resources["MiraiColorEditColorFlyout"] as Flyout ?? throw new InvalidOperationException("无法找到 MiraiColorEditColorFlyout");
+    }
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        ViewModel.LoadCommand.Execute(null);
     }
 
     readonly Flyout _editColorFlyout;
@@ -49,9 +55,6 @@ public sealed partial class MainPage : Page
     {
         if(sender is Button button)
         {
-            // 切换到“已复制”状态
-            VisualStateManager.GoToState(button, "Copied", true);
-
             // 切换内容
             var grid = button.Content as Grid;
             if(grid != null)
@@ -161,7 +164,7 @@ public sealed partial class MainPage : Page
             PrimaryButtonText = "确定",
             PrimaryButtonCommand = ViewModel.DeleteSelectedColorsCommand,
             CloseButtonText = "取消",
-            DefaultButton = ContentDialogButton.Primary,            
+            DefaultButton = ContentDialogButton.Primary,
         };
         await dialog.ShowAsync();
     }

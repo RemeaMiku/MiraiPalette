@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -21,19 +23,57 @@ public sealed partial class ImagePalettePage : Page
     }
 
     public ImagePalettePageViewModel ViewModel { get; } = Current.Services.GetRequiredService<ImagePalettePageViewModel>();
-    ImagePixels _pixels = null!;
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
         var path = (string)e.Parameter;
-        _sourceImage.Source = new BitmapImage(new(path));
-        _pixels = await new ImagePixelsExtractor().ExtractImagePixelsAsync(path);
+        SourceImage.Source = new BitmapImage(new(path));
+        ViewModel.ImagePath = path;
+        ViewModel.ImagePixels = await new ImagePixelsExtractor().ExtractImagePixelsAsync(path);
+    }
+
+    private float GetMinZoomFactorToFitImage()
+    {
+        var bitmapImage = (BitmapImage)SourceImage.Source;
+        var factor = (float)Math.Min(ImageScrollView.ActualWidth / bitmapImage.PixelWidth, ImageScrollView.ActualHeight / bitmapImage.PixelHeight);
+        return factor;
     }
 
     private void OnImage_PointerMoved(object sender, PointerRoutedEventArgs e)
     {
-        var position = e.GetCurrentPoint(_sourceImage).Position;
-        //TODO 
+        ViewModel.PointerPositionOnImage = e.GetCurrentPoint(SourceImage).Position;
     }
+
+    private void OnImage_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        var minZoomFactor = GetMinZoomFactorToFitImage();
+        ImageScrollView.ZoomToFactor(minZoomFactor);
+        ImageScrollView.MinZoomFactor = minZoomFactor;
+    }
+
+    private void ColorCountNumberBox_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+        => sender.Value = Math.Floor(sender.Value);
+
+    private void CompleteButton_Click(object sender, RoutedEventArgs e)
+    {
+        Current.NavigateTo(NavigationTarget.Back);
+    }
+
+    private void FitImageSizeToPanelButton_Click(object _sender, RoutedEventArgs _e)
+        => ImageScrollView.ZoomToFactor(GetMinZoomFactorToFitImage());
+
+    private void ImageZoomInButton_Click(object _sender, RoutedEventArgs _e)
+        => ImageScrollView.ZoomToFactor(ImageScrollView.ZoomFactor * 1.25f);
+
+    private void ImageZoomOutButton_Click(object _sender, RoutedEventArgs _e)
+        => ImageScrollView.ZoomToFactor(ImageScrollView.ZoomFactor * 0.8f);
+
+    private void ImageScrollView_SizeChanged(object _, SizeChangedEventArgs __)
+    {
+        if(!SourceImage.IsLoaded)
+            return;
+        ImageScrollView.MinZoomFactor = GetMinZoomFactorToFitImage();
+    }
+
 }

@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.UI;
 
 namespace MiraiPalette.WinUI.Essentials;
 
 public class ImagePixelsExtractor
 {
-    public int MaxPixelsCount { get; init; } = 1024 * 1024;
+    public int MaxPixelsCount { get; init; } = int.MaxValue;
 
     public async Task<ImagePixels> ExtractImagePixelsAsync(string path)
     {
@@ -22,9 +19,9 @@ public class ImagePixelsExtractor
         var w = decoder.PixelWidth;
         var h = decoder.PixelHeight;
 
-        var scale = Math.Min(1.0, (double)MaxPixelsCount / Math.Max(w, h));
-        var scaledW = (uint)(w * scale);
-        var scaledH = (uint)(h * scale);
+        var scale = Math.Min(1.0, Math.Sqrt((double)MaxPixelsCount / (w * h)));
+        var scaledW = (uint)Math.Round(w * scale);
+        var scaledH = (uint)Math.Round(h * scale);
 
         var transform = new BitmapTransform()
         {
@@ -37,7 +34,7 @@ public class ImagePixelsExtractor
             BitmapPixelFormat.Bgra8,
             BitmapAlphaMode.Premultiplied,
             transform,
-            ExifOrientationMode.IgnoreExifOrientation,
+            ExifOrientationMode.RespectExifOrientation,
             ColorManagementMode.DoNotColorManage);
 
         var bytes = pixelData.DetachPixelData();
@@ -53,7 +50,7 @@ public class ImagePixelsExtractor
                 bytes[idx]);
         }
 
-        return new ImagePixels(scale, scaledW, scaledH, colors);
+        return new ImagePixels(scale, (int)scaledW, (int)scaledH, colors);
     }
 
 }
