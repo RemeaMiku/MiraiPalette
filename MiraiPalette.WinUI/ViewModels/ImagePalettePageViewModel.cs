@@ -66,7 +66,7 @@ public partial class ImagePalettePageViewModel : PageViewModel
                 return new ColorViewModel
                 {
                     Color = color,
-                    Name = $"{c.Percentage:0.0}%",
+                    Name = $"{color.ToHex(false)} ({c.Percentage:0.0}%)",
                 };
             }
         )];
@@ -80,8 +80,8 @@ public partial class ImagePalettePageViewModel : PageViewModel
         var pickedColor = PointerPixel;
         var color = new ColorViewModel
         {
+            Name = pickedColor.ToHex(false),
             Color = pickedColor,
-            Name = $"{pickedColor.ToHex(false)}"
         };
         ManualColors.Add(color);
     }

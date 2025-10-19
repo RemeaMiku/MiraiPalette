@@ -37,7 +37,8 @@ public sealed partial class ImagePalettePage : Page
     {
         var bitmapImage = (BitmapImage)SourceImage.Source;
         var factor = (float)Math.Min(ImageScrollView.ActualWidth / bitmapImage.PixelWidth, ImageScrollView.ActualHeight / bitmapImage.PixelHeight);
-        return factor;
+        /// 保证不会小于 0.1 倍
+        return MathF.Max(0.1f, factor);
     }
 
     private void OnImage_PointerMoved(object sender, PointerRoutedEventArgs e)
