@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,8 +18,16 @@ public partial class ImagePalettePageViewModel : PageViewModel
     public ImagePalettePageViewModel(IPaletteDataService paletteDataService)
     {
         _paletteDataService = paletteDataService;
-        AutoColors.CollectionChanged += (_, __) => OnPropertyChanged(nameof(HasColors));
-        ManualColors.CollectionChanged += (_, __) => OnPropertyChanged(nameof(HasColors));
+        AutoColors.CollectionChanged += (_, __) =>
+        {
+            OnPropertyChanged(nameof(HasAutoColors));
+            OnPropertyChanged(nameof(HasColors));
+        };
+        ManualColors.CollectionChanged += (_, __) =>
+        {
+            OnPropertyChanged(nameof(HasManualColors));
+            OnPropertyChanged(nameof(HasColors));
+        };
     }
 
     [ObservableProperty]
@@ -35,17 +42,22 @@ public partial class ImagePalettePageViewModel : PageViewModel
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(PointerPixel))]
+    [NotifyPropertyChangedFor(nameof(PointerPixelHex))]
     public partial Point PointerPositionOnImage { get; set; }
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(HasColors))]
-    public partial ObservableCollection<ColorViewModel> AutoColors { get; set; } = [];
+    public ObservableCollection<ColorViewModel> AutoColors { get; } = [];
 
     public ObservableCollection<ColorViewModel> ManualColors { get; } = [];
 
-    public bool HasColors => AutoColors.Count + ManualColors.Count > 0;
+    public bool HasAutoColors => AutoColors.Count > 0;
+
+    public bool HasManualColors => ManualColors.Count > 0;
+
+    public bool HasColors => HasAutoColors || HasManualColors;
 
     public Color PointerPixel => ImagePixels is null || !IsPickingColor ? Colors.Transparent : ImagePixels.FromOriginalCoord((int)PointerPositionOnImage.X, (int)PointerPositionOnImage.Y);
+
+    public string PointerPixelHex => PointerPixel.ToHex(false);
 
     public required ImagePixels ImagePixels { get; set; }
 
@@ -55,21 +67,21 @@ public partial class ImagePalettePageViewModel : PageViewModel
     readonly IPaletteDataService _paletteDataService;
 
     [RelayCommand]
-    async Task ExtractPalette()
+    void ExtractPalette()
     {
-        IsBusy = true;
-        var result = await Task.Run(() => new ImagePaletteExtractor().Extract(ImagePixels.PixelData.Select(c => (c.R, c.G, c.B)), ColorCount));
-        IsBusy = false;
-        AutoColors = [.. result.Select((c) =>
+        AutoColors.Clear();
+        var result = new ImagePaletteExtractor().Extract(ImagePixels.PixelData.Select(c => (c.R, c.G, c.B)), ColorCount);
+        var colors = result.Select(c =>
+        {
+            var color = Color.FromArgb(255, c.R, c.G, c.B);
+            return new ColorViewModel
             {
-                var color = Color.FromArgb(255, c.R, c.G, c.B);
-                return new ColorViewModel
-                {
-                    Color = color,
-                    Name = $"{color.ToHex(false)} ({c.Percentage:0.0}%)",
-                };
-            }
-        )];
+                Color = color,
+                Name = $"{color.ToHex(false)} ({c.Percentage:0.0}%)",
+            };
+        });
+        foreach(var color in colors)
+            AutoColors.Add(color);
     }
 
     [RelayCommand]
@@ -87,6 +99,18 @@ public partial class ImagePalettePageViewModel : PageViewModel
     }
 
     [RelayCommand]
+    void ClearAutoColors()
+    {
+        AutoColors.Clear();
+    }
+
+    [RelayCommand]
+    void ClearManualColors()
+    {
+        ManualColors.Clear();
+    }
+
+    [RelayCommand]
     void DeleteCurrentOrSelectedColors(ColorViewModel color)
     {
         var sourceList = AutoColors.Contains(color) ? AutoColors : ManualColors;
@@ -101,22 +125,28 @@ public partial class ImagePalettePageViewModel : PageViewModel
     }
 
     [RelayCommand]
-    void SelectAutoColors(IList<object> selectedColors)
+    static void ToggleColorSelection(ColorViewModel color)
     {
-        foreach(var color in AutoColors)
-            color.IsSelected = false;
-        foreach(var color in selectedColors.Cast<ColorViewModel>())
-            color.IsSelected = true;
+        color.IsSelected = !color.IsSelected;
     }
 
-    [RelayCommand]
-    void SelectManualColors(IList<object> selectedColors)
-    {
-        foreach(var color in ManualColors)
-            color.IsSelected = false;
-        foreach(ColorViewModel color in selectedColors.Cast<ColorViewModel>())
-            color.IsSelected = true;
-    }
+    //[RelayCommand]
+    //void SelectAutoColors(IList<object> selectedColors)
+    //{
+    //    foreach(var color in AutoColors)
+    //        color.IsSelected = false;
+    //    foreach(var color in selectedColors.Cast<ColorViewModel>())
+    //        color.IsSelected = true;
+    //}
+
+    //[RelayCommand]
+    //void SelectManualColors(IList<object> selectedColors)
+    //{
+    //    foreach(var color in ManualColors)
+    //        color.IsSelected = false;
+    //    foreach(ColorViewModel color in selectedColors.Cast<ColorViewModel>())
+    //        color.IsSelected = true;
+    //}
 
     [RelayCommand]
     async Task SavePalette()

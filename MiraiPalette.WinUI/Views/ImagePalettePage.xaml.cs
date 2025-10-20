@@ -44,9 +44,15 @@ public sealed partial class ImagePalettePage : Page
     private void OnImage_PointerMoved(object sender, PointerRoutedEventArgs e)
     {
         ViewModel.PointerPositionOnImage = e.GetCurrentPoint(SourceImage).Position;
+        var point = e.GetCurrentPoint(ImagePanel).Position;
+        ColorPreviewPanel.Translation = new System.Numerics.Vector3(
+        (float)(point.X),
+        (float)(point.Y),
+        0
+    );
     }
 
-    private void OnImage_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void SourceImage_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         var minZoomFactor = GetMinZoomFactorToFitImage();
         ImageScrollView.ZoomToFactor(minZoomFactor);
@@ -72,4 +78,14 @@ public sealed partial class ImagePalettePage : Page
         ImageScrollView.MinZoomFactor = GetMinZoomFactorToFitImage();
     }
 
+    private void SourceImage_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        ColorPreviewPanel.Visibility = Visibility.Collapsed;
+    }
+
+    private void SourceImage_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        if(ViewModel.IsPickingColor)
+            ColorPreviewPanel.Visibility = Visibility.Visible;
+    }
 }

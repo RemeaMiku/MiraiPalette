@@ -11,6 +11,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
+    xmlns:e="using:MiraiPalette.WinUI.Essentials"
+    MinWidth="640"
     NavigationCacheMode="Disabled"
     mc:Ignorable="d">
     <Page.Resources>
@@ -73,7 +75,9 @@
                     x:Name="SourceImage"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    ImageOpened="OnImage_ImageOpened"
+                    ImageOpened="SourceImage_ImageOpened"
+                    PointerEntered="SourceImage_PointerEntered"
+                    PointerExited="SourceImage_PointerExited"
                     PointerMoved="OnImage_PointerMoved"
                     Stretch="None">
                     <i:Interaction.Behaviors>
@@ -108,19 +112,24 @@
                     Click="ImageZoomOutButton_Click"
                     Content="{ui:SymbolIcon Symbol=ZoomOut}"
                     Style="{StaticResource ToolButtonStyle}" />
-                <ToggleButton
-                    Padding="8"
-                    HorizontalAlignment="Center"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Content="{ui:FontIcon Glyph=&#xEF3C;}"
-                    IsChecked="{x:Bind ViewModel.IsPickingColor, Mode=TwoWay}" />
-                <Border
-                    Width="32"
-                    Height="32"
-                    Background="{x:Bind ViewModel.PointerPixel, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
-                    CornerRadius="{StaticResource ControlCornerRadius}"
-                    Visibility="{x:Bind ViewModel.IsPickingColor, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <ToggleButton Padding="8"
+                              HorizontalAlignment="Center"
+                              Background="Transparent"
+                              BorderThickness="0"
+                              Content="{ui:FontIcon Glyph=&#xEF3C;}"
+                              IsChecked="{x:Bind ViewModel.IsPickingColor, Mode=TwoWay}" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left"
+                        x:Name="ColorPreviewPanel"
+                        Padding="4"
+                        Spacing="4"
+                        Width="64"
+                        Visibility="Collapsed"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
+                        Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+                        VerticalAlignment="Top">
+                <Rectangle RadiusX="4" HorizontalAlignment="Stretch" RadiusY="4" Fill="{x:Bind ViewModel.PointerPixel,Mode=OneWay,Converter={StaticResource ColorToBrushConverter}}" Height="32"/>
+                <TextBlock Text="{x:Bind ViewModel.PointerPixelHex,Mode=OneWay}" FontSize="{StaticResource CaptionTextBlockFontSize}"/>
             </StackPanel>
         </Grid>
         <controls:GridSplitter
@@ -141,45 +150,40 @@
             <ListView x:Name="AutoColorListView"
                       Margin="0,48,0,0"
                       Padding="8"
+                      IsItemClickEnabled="True"
+                      ui:ListViewExtensions.Command="{x:Bind ViewModel.ToggleColorSelectionCommand,Mode=OneTime}"
                       Background="{ThemeResource ControlFillColorDefaultBrush}"
                       CornerRadius="{StaticResource ControlCornerRadius}"
                       ItemTemplate="{StaticResource MiraiColorItemTemplate}"
                       ItemsSource="{x:Bind ViewModel.AutoColors, Mode=OneWay}"
-                      SelectionMode="Extended">
-                <i:Interaction.Behaviors>
-                    <i:EventTriggerBehavior EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{x:Bind ViewModel.SelectAutoColorsCommand, Mode=OneTime}" CommandParameter="{x:Bind AutoColorListView.SelectedItems, Mode=OneTime}"/>
-                    </i:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </ListView>
+                      SelectionMode="Extended" />
             <StackPanel
                 Padding="8"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
                 Orientation="Horizontal"
                 Spacing="8">
                 <FontIcon VerticalAlignment="Center" Glyph="&#xE9F5;" />
                 <TextBlock
-                    VerticalAlignment="Center"
                     FontSize="{StaticResource SubtitleTextBlockFontSize}"
                     Text="自动提取" />
+                <Button
+                        Visibility="{x:Bind ViewModel.HasAutoColors,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}"
+                        Command="{x:Bind ViewModel.ClearAutoColorsCommand,Mode=OneTime}"
+                        Style="{StaticResource BorderlessTransparentButtonStyle}"
+                        Content="{ui:SymbolIcon Symbol=Clear}" Foreground="{ThemeResource SystemFillColorCriticalBrush}" Padding="4"/>
             </StackPanel>
             <ListView x:Name="ManualColorListView"
                       Grid.Column="1"
                       Margin="0,48,0,0"
                       Padding="8"
+                      IsItemClickEnabled="True"
+                      ui:ListViewExtensions.Command="{x:Bind ViewModel.ToggleColorSelectionCommand,Mode=OneTime}"
                       Background="{ThemeResource ControlFillColorDefaultBrush}"
                       CornerRadius="{StaticResource ControlCornerRadius}"
                       ItemTemplate="{StaticResource MiraiColorItemTemplate}"
                       ItemsSource="{x:Bind ViewModel.ManualColors, Mode=OneTime}"
-                      SelectionMode="Extended">
-                <i:Interaction.Behaviors>
-                    <i:EventTriggerBehavior EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{x:Bind ViewModel.SelectManualColorsCommand, Mode=OneTime}"
-                                               CommandParameter="{x:Bind ManualColorListView.SelectedItems, Mode=OneTime}" />
-                    </i:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </ListView>
+                      SelectionMode="Extended" />
             <StackPanel
                 Grid.Column="1"
                 Padding="8"
@@ -192,6 +196,12 @@
                     VerticalAlignment="Center"
                     FontSize="{StaticResource SubtitleTextBlockFontSize}"
                     Text="手动提取" />
+                <Button Style="{StaticResource BorderlessTransparentButtonStyle}"
+                        Visibility="{x:Bind ViewModel.HasManualColors,Converter={StaticResource BoolToVisibilityConverter}}"
+                        Content="{ui:SymbolIcon Symbol=Clear}"
+                        Command="{x:Bind ViewModel.ClearManualColorsCommand,Mode=OneTime}"
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                        Padding="4" />
             </StackPanel>
             <StackPanel
                 Grid.Column="2"
@@ -216,6 +226,7 @@
                     x:Name="CompleteButton"
                     Margin="0,32,0,0"
                     HorizontalAlignment="Stretch"
+                    IsEnabled="{x:Bind ViewModel.HasColors,Mode=OneWay}"
                     Command="{x:Bind ViewModel.SavePaletteCommand, Mode=OneTime}"
                     Content="完成"
                     Style="{StaticResource AccentButtonStyle}" />
