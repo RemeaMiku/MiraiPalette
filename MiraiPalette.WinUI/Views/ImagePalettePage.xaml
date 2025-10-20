@@ -15,15 +15,16 @@
     mc:Ignorable="d">
     <Page.Resources>
         <MenuFlyout x:Key="MiraiColorItemContextFlyout">
-            <MenuFlyoutItem
-                Foreground="{StaticResource SystemFillColorCriticalBrush}"
-                Icon="{ui:SymbolIcon Symbol=Delete}"
-                Text="删除颜色" />
+            <MenuFlyoutItem Foreground="{StaticResource SystemFillColorCriticalBrush}"
+                            Icon="{ui:SymbolIcon Symbol=Delete}"
+                            Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
+                            CommandParameter="{Binding}"
+                            Text="删除颜色" />
         </MenuFlyout>
         <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="vm:ColorViewModel">
             <Grid
-                Height="48"
                 ContextFlyout="{StaticResource MiraiColorItemContextFlyout}"
+                Height="48"
                 CornerRadius="{StaticResource ControlCornerRadius}">
                 <Rectangle
                     Margin="96,0,0,0"
@@ -137,18 +138,17 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" MinWidth="192" />
             </Grid.ColumnDefinitions>
-            <ListView
-                x:Name="AutoColorListView"
-                Margin="0,48,0,0"
-                Padding="8"
-                Background="{ThemeResource ControlFillColorDefaultBrush}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
-                ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                ItemsSource="{x:Bind ViewModel.AutoColors, Mode=OneWay}"
-                SelectionMode="Extended">
+            <ListView x:Name="AutoColorListView"
+                      Margin="0,48,0,0"
+                      Padding="8"
+                      Background="{ThemeResource ControlFillColorDefaultBrush}"
+                      CornerRadius="{StaticResource ControlCornerRadius}"
+                      ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                      ItemsSource="{x:Bind ViewModel.AutoColors, Mode=OneWay}"
+                      SelectionMode="Extended">
                 <i:Interaction.Behaviors>
                     <i:EventTriggerBehavior EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{x:Bind ViewModel.SelectColorsCommand, Mode=OneTime}" CommandParameter="{x:Bind AutoColorListView.SelectedItems, Mode=OneTime}" />
+                        <i:InvokeCommandAction Command="{x:Bind ViewModel.SelectAutoColorsCommand, Mode=OneTime}" CommandParameter="{x:Bind AutoColorListView.SelectedItems, Mode=OneTime}"/>
                     </i:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </ListView>
@@ -164,15 +164,22 @@
                     FontSize="{StaticResource SubtitleTextBlockFontSize}"
                     Text="自动提取" />
             </StackPanel>
-            <ListView
-                Grid.Column="1"
-                Margin="0,48,0,0"
-                Padding="8"
-                Background="{ThemeResource ControlFillColorDefaultBrush}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
-                ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                ItemsSource="{x:Bind ViewModel.ManualColors, Mode=OneTime}"
-                SelectionMode="Extended" />
+            <ListView x:Name="ManualColorListView"
+                      Grid.Column="1"
+                      Margin="0,48,0,0"
+                      Padding="8"
+                      Background="{ThemeResource ControlFillColorDefaultBrush}"
+                      CornerRadius="{StaticResource ControlCornerRadius}"
+                      ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                      ItemsSource="{x:Bind ViewModel.ManualColors, Mode=OneTime}"
+                      SelectionMode="Extended">
+                <i:Interaction.Behaviors>
+                    <i:EventTriggerBehavior EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{x:Bind ViewModel.SelectManualColorsCommand, Mode=OneTime}"
+                                               CommandParameter="{x:Bind ManualColorListView.SelectedItems, Mode=OneTime}" />
+                    </i:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </ListView>
             <StackPanel
                 Grid.Column="1"
                 Padding="8"
@@ -209,7 +216,6 @@
                     x:Name="CompleteButton"
                     Margin="0,32,0,0"
                     HorizontalAlignment="Stretch"
-                    Click="CompleteButton_Click"
                     Command="{x:Bind ViewModel.SavePaletteCommand, Mode=OneTime}"
                     Content="完成"
                     Style="{StaticResource AccentButtonStyle}" />

@@ -87,23 +87,36 @@ public partial class ImagePalettePageViewModel : PageViewModel
     }
 
     [RelayCommand]
-    void DeleteSelectedColors()
+    void DeleteCurrentOrSelectedColors(ColorViewModel color)
     {
-        var toRemove = AutoColors.Where(c => c.IsSelected);
-        foreach(var color in toRemove)
-            AutoColors.Remove(color);
-        toRemove = ManualColors.Where(c => c.IsSelected);
-        foreach(var color in toRemove)
-            ManualColors.Remove(color);
+        var sourceList = AutoColors.Contains(color) ? AutoColors : ManualColors;
+        if(!color.IsSelected)
+        {
+            sourceList.Remove(color);
+            return;
+        }
+        for(int i = sourceList.Count - 1; i >= 0; i--)
+            if(sourceList[i].IsSelected)
+                sourceList.RemoveAt(i);
     }
 
     [RelayCommand]
-    void SelectColors(IList<object> selectedColors)
+    void SelectAutoColors(IList<object> selectedColors)
     {
-        foreach(ColorViewModel color in selectedColors.Cast<ColorViewModel>())
+        foreach(var color in AutoColors)
+            color.IsSelected = false;
+        foreach(var color in selectedColors.Cast<ColorViewModel>())
             color.IsSelected = true;
     }
 
+    [RelayCommand]
+    void SelectManualColors(IList<object> selectedColors)
+    {
+        foreach(var color in ManualColors)
+            color.IsSelected = false;
+        foreach(ColorViewModel color in selectedColors.Cast<ColorViewModel>())
+            color.IsSelected = true;
+    }
 
     [RelayCommand]
     async Task SavePalette()
@@ -117,5 +130,6 @@ public partial class ImagePalettePageViewModel : PageViewModel
         IsBusy = true;
         await _paletteDataService.AddPaletteAsync(palette);
         IsBusy = false;
+        Current.NavigateTo(NavigationTarget.Back);
     }
 }

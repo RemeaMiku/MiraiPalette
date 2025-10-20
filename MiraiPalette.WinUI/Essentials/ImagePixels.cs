@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.UI;
 using Windows.UI;
 
@@ -28,9 +27,6 @@ public class ImagePixels(double scale, int width, int height, Color[] colors)
     {
         var sx = xOnOriginal * Scale;
         var sy = yOnOriginal * Scale;
-        Trace.WriteLine("");
-        Trace.WriteLine($"ox:{xOnOriginal},oy:{yOnOriginal}");
-        Trace.WriteLine($"sx:{sx:F0},sy:{sy:F0}");
         return sx < 0 || sy < 0 || sx >= Width || sy >= Height ? Colors.Transparent : PixelData[(int)Math.Round(sy * Width + sx)];
     }
 }

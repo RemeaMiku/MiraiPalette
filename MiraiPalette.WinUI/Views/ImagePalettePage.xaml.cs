@@ -56,11 +56,6 @@ public sealed partial class ImagePalettePage : Page
     private void ColorCountNumberBox_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         => sender.Value = Math.Floor(sender.Value);
 
-    private void CompleteButton_Click(object sender, RoutedEventArgs e)
-    {
-        Current.NavigateTo(NavigationTarget.Back);
-    }
-
     private void FitImageSizeToPanelButton_Click(object _sender, RoutedEventArgs _e)
         => ImageScrollView.ZoomToFactor(GetMinZoomFactorToFitImage());
 
