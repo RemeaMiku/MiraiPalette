@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommunityToolkit.WinUI.Helpers;
-using MiraiPalette.Shared.Entities;
-using MiraiPalette.Shared.Essentials;
 using MiraiPalette.WinUI.ViewModels;
 
 namespace MiraiPalette.WinUI.Services.Local;
@@ -113,12 +109,12 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
                     {
                         var colorName = parts[0].Trim();
                         var colorHex = parts[1].Trim();
-                        colors.Add(new () { Name = colorName, Hex = colorHex });
+                        colors.Add(new() { Name = colorName, Hex = colorHex });
                     }
                     else if(parts.Length == 1)
                     {
                         var colorHex = parts[0].Trim();
-                        colors.Add(new () { Hex = colorHex });
+                        colors.Add(new() { Hex = colorHex });
                     }
                 }
                 var palette = new PaletteEntity
@@ -163,7 +159,7 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
 
     public Task<IEnumerable<PaletteViewModel>> GetAllPalettesAsync()
     {
-        return Task.FromResult(_palettes.Values.Select(p=>new PaletteViewModel(p)));
+        return Task.FromResult(_palettes.Values.Reverse().Select(p => new PaletteViewModel(p)));
     }
 
     public Task<PaletteViewModel?> GetPaletteAsync(int paletteId)

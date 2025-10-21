@@ -137,8 +137,8 @@ public partial class MainPageViewModel : PageViewModel
         };
         IsBusy = true;
         await PaletteDataService.AddPaletteAsync(newPalette);
+        Palettes.Insert(0, newPalette);
         IsBusy = false;
-        Palettes.Add(newPalette);
         SelectPalette(newPalette);
     }
 

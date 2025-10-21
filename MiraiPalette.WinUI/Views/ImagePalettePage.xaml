@@ -176,7 +176,7 @@
             <ListView x:Name="ManualColorListView"
                       Grid.Column="1"
                       Margin="0,48,0,0"
-                      Padding="8"
+                      Padding="0,8"
                       IsItemClickEnabled="True"
                       ui:ListViewExtensions.Command="{x:Bind ViewModel.ToggleColorSelectionCommand,Mode=OneTime}"
                       Background="{ThemeResource ControlFillColorDefaultBrush}"

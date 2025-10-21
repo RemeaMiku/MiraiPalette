@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -80,12 +81,18 @@ public sealed partial class ImagePalettePage : Page
 
     private void SourceImage_PointerExited(object sender, PointerRoutedEventArgs e)
     {
+        ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
         ColorPreviewPanel.Visibility = Visibility.Collapsed;
     }
 
     private void SourceImage_PointerEntered(object sender, PointerRoutedEventArgs e)
     {
-        if(ViewModel.IsPickingColor)
-            ColorPreviewPanel.Visibility = Visibility.Visible;
+        if(!ViewModel.IsPickingColor)
+        {
+            ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+            return;
+        }
+        ColorPreviewPanel.Visibility = Visibility.Visible;
+        ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Cross);
     }
 }

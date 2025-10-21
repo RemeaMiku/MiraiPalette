@@ -171,8 +171,8 @@ public sealed partial class MainPage : Page
 
     private async void OnAddPaletteButtonClick(object sender, RoutedEventArgs e)
     {
-        await Task.Delay(100);
-        _palettesScrollViewer.ScrollToVerticalOffset(_palettesScrollViewer.ScrollableHeight);
+        //await Task.Delay(100);
+        //_palettesScrollViewer.ScrollToVerticalOffset(_palettesScrollViewer.ScrollableHeight);
     }
 
     private async void OnExtractFromImageButtonClick(object sender, RoutedEventArgs e)

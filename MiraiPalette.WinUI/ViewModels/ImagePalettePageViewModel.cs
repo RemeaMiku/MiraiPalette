@@ -130,24 +130,6 @@ public partial class ImagePalettePageViewModel : PageViewModel
         color.IsSelected = !color.IsSelected;
     }
 
-    //[RelayCommand]
-    //void SelectAutoColors(IList<object> selectedColors)
-    //{
-    //    foreach(var color in AutoColors)
-    //        color.IsSelected = false;
-    //    foreach(var color in selectedColors.Cast<ColorViewModel>())
-    //        color.IsSelected = true;
-    //}
-
-    //[RelayCommand]
-    //void SelectManualColors(IList<object> selectedColors)
-    //{
-    //    foreach(var color in ManualColors)
-    //        color.IsSelected = false;
-    //    foreach(ColorViewModel color in selectedColors.Cast<ColorViewModel>())
-    //        color.IsSelected = true;
-    //}
-
     [RelayCommand]
     async Task SavePalette()
     {
