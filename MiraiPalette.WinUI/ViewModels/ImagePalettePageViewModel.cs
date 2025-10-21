@@ -21,12 +21,12 @@ public partial class ImagePalettePageViewModel : PageViewModel
         AutoColors.CollectionChanged += (_, __) =>
         {
             OnPropertyChanged(nameof(HasAutoColors));
-            OnPropertyChanged(nameof(HasColors));
+            OnPropertyChanged(nameof(CanSavePalette));
         };
         ManualColors.CollectionChanged += (_, __) =>
         {
             OnPropertyChanged(nameof(HasManualColors));
-            OnPropertyChanged(nameof(HasColors));
+            OnPropertyChanged(nameof(CanSavePalette));
         };
     }
 
@@ -53,7 +53,7 @@ public partial class ImagePalettePageViewModel : PageViewModel
 
     public bool HasManualColors => ManualColors.Count > 0;
 
-    public bool HasColors => HasAutoColors || HasManualColors;
+    public bool CanSavePalette => (HasAutoColors || HasManualColors) && IsNotBusy;
 
     public Color PointerPixel => ImagePixels is null || !IsPickingColor ? Colors.Transparent : ImagePixels.FromOriginalCoord((int)PointerPositionOnImage.X, (int)PointerPositionOnImage.Y);
 
@@ -67,10 +67,11 @@ public partial class ImagePalettePageViewModel : PageViewModel
     readonly IPaletteDataService _paletteDataService;
 
     [RelayCommand]
-    void ExtractPalette()
+    async Task ExtractPalette()
     {
+        IsBusy = true;
         AutoColors.Clear();
-        var result = new ImagePaletteExtractor().Extract(ImagePixels.PixelData.Select(c => (c.R, c.G, c.B)), ColorCount);
+        var result = await Task.Run(() => new ImagePaletteExtractor().Extract(ImagePixels.PixelData.Select(c => (c.R, c.G, c.B)), ColorCount).ToArray());
         var colors = result.Select(c =>
         {
             var color = Color.FromArgb(255, c.R, c.G, c.B);
@@ -82,6 +83,7 @@ public partial class ImagePalettePageViewModel : PageViewModel
         });
         foreach(var color in colors)
             AutoColors.Add(color);
+        IsBusy = false;
     }
 
     [RelayCommand]
@@ -95,18 +97,24 @@ public partial class ImagePalettePageViewModel : PageViewModel
             Name = pickedColor.ToHex(false),
             Color = pickedColor,
         };
-        ManualColors.Add(color);
+        ManualColors.Insert(0, color);
     }
 
     [RelayCommand]
-    void ClearAutoColors()
+    async Task ClearAutoColors()
     {
+        var confirmed = await Current.ShowConfirmDialogAsync("清除颜色", "确定要清除所有自动提取的颜色吗？");
+        if(!confirmed)
+            return;
         AutoColors.Clear();
     }
 
     [RelayCommand]
-    void ClearManualColors()
+    async Task ClearManualColors()
     {
+        var confirmed = await Current.ShowConfirmDialogAsync("清除颜色", "确定要清除所有手动吸取的颜色吗？");
+        if(!confirmed)
+            return;
         ManualColors.Clear();
     }
 
@@ -116,13 +124,13 @@ public partial class ImagePalettePageViewModel : PageViewModel
         var sourceList = AutoColors.Contains(color) ? AutoColors : ManualColors;
         if(!color.IsSelected)
         {
-            var confirmed = await Current.ShowConfirmDialog("删除颜色", $"确定要删除颜色 {color.Name} 吗？");
+            var confirmed = await Current.ShowConfirmDialogAsync("删除颜色", $"确定要删除颜色 {color.Name} 吗？");
             if(!confirmed)
                 return;
             sourceList.Remove(color);
             return;
         }
-        var confirmedAll = await Current.ShowConfirmDialog("删除选中颜色", $"确定要删除所选的 {sourceList.Count(c => c.IsSelected)} 个颜色吗？");
+        var confirmedAll = await Current.ShowConfirmDialogAsync("删除选中颜色", $"确定要删除所选的 {sourceList.Count(c => c.IsSelected)} 个颜色吗？");
         if(!confirmedAll)
             return;
         for(int i = sourceList.Count - 1; i >= 0; i--)

@@ -73,7 +73,7 @@ public partial class App : Application
         }
     }
 
-    public async Task<bool> ShowConfirmDialog(string title, string content)
+    public async Task<bool> ShowConfirmDialogAsync(string title, string content)
     {
         var dialog = new ContentDialog
         {

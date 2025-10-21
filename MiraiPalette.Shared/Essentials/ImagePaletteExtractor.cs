@@ -8,7 +8,7 @@ public class ImagePaletteExtractor
         public List<(double L, double A, double B)> Pixels = [];
     }
 
-    public int MaxPixelCount { get; init; } = 1024 * 512;
+    public int MaxPixelCount { get; init; } = 1024 * 1024;
     public int MaxKMeansIterations { get; init; } = 25;
 
     /// <summary>

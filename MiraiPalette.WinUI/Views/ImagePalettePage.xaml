@@ -6,27 +6,28 @@
     xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:e="using:MiraiPalette.WinUI.Essentials"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:MiraiPalette.WinUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
-    xmlns:e="using:MiraiPalette.WinUI.Essentials"
     MinWidth="640"
     NavigationCacheMode="Disabled"
     mc:Ignorable="d">
     <Page.Resources>
         <MenuFlyout x:Key="MiraiColorItemContextFlyout">
-            <MenuFlyoutItem Foreground="{StaticResource SystemFillColorCriticalBrush}"
-                            Icon="{ui:SymbolIcon Symbol=Delete}"
-                            Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
-                            CommandParameter="{Binding}"
-                            Text="删除颜色" />
+            <MenuFlyoutItem
+                Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
+                CommandParameter="{Binding}"
+                Foreground="{StaticResource SystemFillColorCriticalBrush}"
+                Icon="{ui:SymbolIcon Symbol=Delete}"
+                Text="删除颜色" />
         </MenuFlyout>
         <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="vm:ColorViewModel">
             <Grid
-                ContextFlyout="{StaticResource MiraiColorItemContextFlyout}"
                 Height="48"
+                ContextFlyout="{StaticResource MiraiColorItemContextFlyout}"
                 CornerRadius="{StaticResource ControlCornerRadius}">
                 <Rectangle
                     Margin="96,0,0,0"
@@ -112,24 +113,31 @@
                     Click="ImageZoomOutButton_Click"
                     Content="{ui:SymbolIcon Symbol=ZoomOut}"
                     Style="{StaticResource ToolButtonStyle}" />
-                <ToggleButton Padding="8"
-                              HorizontalAlignment="Center"
-                              Background="Transparent"
-                              BorderThickness="0"
-                              Content="{ui:FontIcon Glyph=&#xEF3C;}"
-                              IsChecked="{x:Bind ViewModel.IsPickingColor, Mode=TwoWay}" />
+                <ToggleButton
+                    Padding="8"
+                    HorizontalAlignment="Center"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Content="{ui:FontIcon Glyph=&#xEF3C;}"
+                    IsChecked="{x:Bind ViewModel.IsPickingColor, Mode=TwoWay}" />
             </StackPanel>
-            <StackPanel HorizontalAlignment="Left"
-                        x:Name="ColorPreviewPanel"
-                        Padding="4"
-                        Spacing="4"
-                        Width="64"
-                        Visibility="Collapsed"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
-                        Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-                        VerticalAlignment="Top">
-                <Rectangle RadiusX="4" HorizontalAlignment="Stretch" RadiusY="4" Fill="{x:Bind ViewModel.PointerPixel,Mode=OneWay,Converter={StaticResource ColorToBrushConverter}}" Height="32"/>
-                <TextBlock Text="{x:Bind ViewModel.PointerPixelHex,Mode=OneWay}" FontSize="{StaticResource CaptionTextBlockFontSize}"/>
+            <StackPanel
+                x:Name="ColorPreviewPanel"
+                Width="64"
+                Padding="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                Spacing="4"
+                Visibility="Collapsed">
+                <Rectangle
+                    Height="32"
+                    HorizontalAlignment="Stretch"
+                    Fill="{x:Bind ViewModel.PointerPixel, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
+                    RadiusX="4"
+                    RadiusY="4" />
+                <TextBlock FontSize="{StaticResource CaptionTextBlockFontSize}" Text="{x:Bind ViewModel.PointerPixelHex, Mode=OneWay}" />
             </StackPanel>
         </Grid>
         <controls:GridSplitter
@@ -147,16 +155,18 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" MinWidth="192" />
             </Grid.ColumnDefinitions>
-            <ListView x:Name="AutoColorListView"
-                      Margin="0,48,0,0"
-                      Padding="8"
-                      IsItemClickEnabled="True"
-                      ui:ListViewExtensions.Command="{x:Bind ViewModel.ToggleColorSelectionCommand,Mode=OneTime}"
-                      Background="{ThemeResource ControlFillColorDefaultBrush}"
-                      CornerRadius="{StaticResource ControlCornerRadius}"
-                      ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                      ItemsSource="{x:Bind ViewModel.AutoColors, Mode=OneWay}"
-                      SelectionMode="Extended" />
+            <ListView
+                x:Name="AutoColorListView"
+                Margin="0,48,0,0"
+                Padding="8"
+                ui:ListViewExtensions.Command="{x:Bind ViewModel.ToggleColorSelectionCommand, Mode=OneTime}"
+                Background="{ThemeResource ControlFillColorDefaultBrush}"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                IsItemClickEnabled="True"
+                ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                ItemsSource="{x:Bind ViewModel.AutoColors, Mode=OneWay}"
+                SelectionMode="Extended" />
+            <ProgressRing Visibility="{x:Bind ViewModel.IsBusy, Converter={StaticResource BoolToVisibilityConverter}}" />
             <StackPanel
                 Padding="8"
                 HorizontalAlignment="Stretch"
@@ -164,26 +174,27 @@
                 Orientation="Horizontal"
                 Spacing="8">
                 <FontIcon VerticalAlignment="Center" Glyph="&#xE9F5;" />
-                <TextBlock
-                    FontSize="{StaticResource SubtitleTextBlockFontSize}"
-                    Text="自动提取" />
+                <TextBlock FontSize="{StaticResource SubtitleTextBlockFontSize}" Text="自动提取" />
                 <Button
-                        Visibility="{x:Bind ViewModel.HasAutoColors,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}"
-                        Command="{x:Bind ViewModel.ClearAutoColorsCommand,Mode=OneTime}"
-                        Style="{StaticResource BorderlessTransparentButtonStyle}"
-                        Content="{ui:SymbolIcon Symbol=Clear}" Foreground="{ThemeResource SystemFillColorCriticalBrush}" Padding="4"/>
+                    Padding="4"
+                    Command="{x:Bind ViewModel.ClearAutoColorsCommand, Mode=OneTime}"
+                    Content="{ui:SymbolIcon Symbol=Clear}"
+                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                    Style="{StaticResource BorderlessTransparentButtonStyle}"
+                    Visibility="{x:Bind ViewModel.HasAutoColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
             </StackPanel>
-            <ListView x:Name="ManualColorListView"
-                      Grid.Column="1"
-                      Margin="0,48,0,0"
-                      Padding="0,8"
-                      IsItemClickEnabled="True"
-                      ui:ListViewExtensions.Command="{x:Bind ViewModel.ToggleColorSelectionCommand,Mode=OneTime}"
-                      Background="{ThemeResource ControlFillColorDefaultBrush}"
-                      CornerRadius="{StaticResource ControlCornerRadius}"
-                      ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                      ItemsSource="{x:Bind ViewModel.ManualColors, Mode=OneTime}"
-                      SelectionMode="Extended" />
+            <ListView
+                x:Name="ManualColorListView"
+                Grid.Column="1"
+                Margin="0,48,0,0"
+                Padding="0,8"
+                ui:ListViewExtensions.Command="{x:Bind ViewModel.ToggleColorSelectionCommand, Mode=OneTime}"
+                Background="{ThemeResource ControlFillColorDefaultBrush}"
+                CornerRadius="{StaticResource ControlCornerRadius}"
+                IsItemClickEnabled="True"
+                ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                ItemsSource="{x:Bind ViewModel.ManualColors, Mode=OneTime}"
+                SelectionMode="Extended" />
             <StackPanel
                 Grid.Column="1"
                 Padding="8"
@@ -196,12 +207,13 @@
                     VerticalAlignment="Center"
                     FontSize="{StaticResource SubtitleTextBlockFontSize}"
                     Text="手动提取" />
-                <Button Style="{StaticResource BorderlessTransparentButtonStyle}"
-                        Visibility="{x:Bind ViewModel.HasManualColors,Converter={StaticResource BoolToVisibilityConverter}}"
-                        Content="{ui:SymbolIcon Symbol=Clear}"
-                        Command="{x:Bind ViewModel.ClearManualColorsCommand,Mode=OneTime}"
-                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                        Padding="4" />
+                <Button
+                    Padding="4"
+                    Command="{x:Bind ViewModel.ClearManualColorsCommand, Mode=OneTime}"
+                    Content="{ui:SymbolIcon Symbol=Clear}"
+                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                    Style="{StaticResource BorderlessTransparentButtonStyle}"
+                    Visibility="{x:Bind ViewModel.HasManualColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
             </StackPanel>
             <StackPanel
                 Grid.Column="2"
@@ -226,9 +238,9 @@
                     x:Name="CompleteButton"
                     Margin="0,32,0,0"
                     HorizontalAlignment="Stretch"
-                    IsEnabled="{x:Bind ViewModel.HasColors,Mode=OneWay}"
                     Command="{x:Bind ViewModel.SavePaletteCommand, Mode=OneTime}"
                     Content="完成"
+                    IsEnabled="{x:Bind ViewModel.CanSavePalette, Mode=OneWay}"
                     Style="{StaticResource AccentButtonStyle}" />
             </StackPanel>
         </Grid>

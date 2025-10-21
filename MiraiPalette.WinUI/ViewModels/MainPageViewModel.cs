@@ -100,7 +100,7 @@ public partial class MainPageViewModel : PageViewModel
         var message = SelectedPalettes.Count == 1 ?
             $"确定要删除调色板 \"{SelectedPalettes[0].Title}\" 吗？" :
             $"确定要删除所选的 {SelectedPalettes.Count} 个调色板吗？";
-        var confirmed = await Current.ShowConfirmDialog("删除调色板", message);
+        var confirmed = await Current.ShowConfirmDialogAsync("删除调色板", message);
         if(!confirmed)
             return;
         IsBusy = true;
@@ -236,7 +236,7 @@ public partial class MainPageViewModel : PageViewModel
         var message = CurrentPalette.Colors.Count(c => c.IsSelected) == 1 ?
             $"确定要删除颜色 \"{CurrentPalette.Colors.First(c => c.IsSelected).Name}\" 吗？" :
             $"确定要删除所选的 {CurrentPalette.Colors.Count(c => c.IsSelected)} 个颜色吗？";
-        var confirmed = await Current.ShowConfirmDialog("删除颜色", message);
+        var confirmed = await Current.ShowConfirmDialogAsync("删除颜色", message);
         if(!confirmed)
             return;
         IsBusy = true;
