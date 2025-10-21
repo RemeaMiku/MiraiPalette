@@ -125,7 +125,7 @@
             <MenuFlyoutItem Icon="{ui:SymbolIcon Symbol=Go}" Text="将颜色移动到…" />
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
-                Click="OnDeleteColorsButton_Click"
+                Command="{x:Bind ViewModel.DeleteSelectedColorsCommand,Mode=OneTime}"
                 Foreground="{StaticResource SystemFillColorCriticalBrush}"
                 Icon="{ui:SymbolIcon Symbol=Delete}"
                 Text="删除颜色" />
@@ -321,7 +321,6 @@
                         Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                     <AppBarSeparator />
                     <AppBarButton
-                        Click="OnAddPaletteButtonClick"
                         Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
                         Icon="Add"
                         Label="新建" />
@@ -333,7 +332,7 @@
                     <AppBarSeparator />
                     <CommandBar.SecondaryCommands>
                         <AppBarButton
-                            Click="OnDeletePalettesButton_Click"
+                            Command="{x:Bind ViewModel.DeleteSelectedPalettesCommand,Mode=OneTime}"
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                             Icon="{ui:SymbolIcon Symbol=Delete}"
                             Label="删除"

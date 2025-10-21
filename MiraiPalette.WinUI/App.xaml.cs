@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Local;
 using MiraiPalette.WinUI.ViewModels;
@@ -51,13 +54,13 @@ public partial class App : Application
         MainWindow.Activate();
     }
 
-    public void NavigateTo(NavigationTarget target, object? parameter=null)
+    public void NavigateTo(NavigationTarget target, object? parameter = null)
     {
         var frame = MainWindow.MainFrame;
         switch(target)
         {
             case NavigationTarget.Back:
-                if (frame.CanGoBack)
+                if(frame.CanGoBack)
                     frame.GoBack();
                 break;
             case NavigationTarget.Main:
@@ -68,6 +71,21 @@ public partial class App : Application
             default:
                 break;
         }
+    }
+
+    public async Task<bool> ShowConfirmDialog(string title, string content)
+    {
+        var dialog = new ContentDialog
+        {
+            Title = title,
+            Content = content,
+            PrimaryButtonText = "确认",
+            SecondaryButtonText = "取消",
+            DefaultButton = ContentDialogButton.Primary,
+            XamlRoot = MainWindow.Content.XamlRoot
+        };
+        var result = await dialog.ShowAsync();
+        return result == ContentDialogResult.Primary;
     }
 
     public enum NavigationTarget

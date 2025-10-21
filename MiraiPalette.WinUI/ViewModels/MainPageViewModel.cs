@@ -97,6 +97,12 @@ public partial class MainPageViewModel : PageViewModel
     [RelayCommand]
     async Task DeleteSelectedPalettes()
     {
+        var message = SelectedPalettes.Count == 1 ?
+            $"确定要删除调色板 \"{SelectedPalettes[0].Title}\" 吗？" :
+            $"确定要删除所选的 {SelectedPalettes.Count} 个调色板吗？";
+        var confirmed = await Current.ShowConfirmDialog("删除调色板", message);
+        if(!confirmed)
+            return;
         IsBusy = true;
         await PaletteDataService.DeletePalettesAsync(SelectedPalettes.Select(p => p.Id));
         IsBusy = false;
@@ -227,12 +233,16 @@ public partial class MainPageViewModel : PageViewModel
     {
         if(CurrentPalette is null)
             throw new InvalidOperationException("No palette is selected.");
+        var message = CurrentPalette.Colors.Count(c => c.IsSelected) == 1 ?
+            $"确定要删除颜色 \"{CurrentPalette.Colors.First(c => c.IsSelected).Name}\" 吗？" :
+            $"确定要删除所选的 {CurrentPalette.Colors.Count(c => c.IsSelected)} 个颜色吗？";
+        var confirmed = await Current.ShowConfirmDialog("删除颜色", message);
+        if(!confirmed)
+            return;
         IsBusy = true;
         for(int i = CurrentPalette.Colors.Count - 1; i >= 0; i--)
-        {
             if(CurrentPalette.Colors[i].IsSelected)
                 CurrentPalette.Colors.RemoveAt(i);
-        }
         await PaletteDataService.UpdatePaletteAsync(CurrentPalette);
         IsBusy = false;
     }

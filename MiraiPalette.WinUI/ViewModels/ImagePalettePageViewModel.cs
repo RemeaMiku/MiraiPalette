@@ -111,14 +111,20 @@ public partial class ImagePalettePageViewModel : PageViewModel
     }
 
     [RelayCommand]
-    void DeleteCurrentOrSelectedColors(ColorViewModel color)
+    async Task DeleteCurrentOrSelectedColors(ColorViewModel color)
     {
         var sourceList = AutoColors.Contains(color) ? AutoColors : ManualColors;
         if(!color.IsSelected)
         {
+            var confirmed = await Current.ShowConfirmDialog("删除颜色", $"确定要删除颜色 {color.Name} 吗？");
+            if(!confirmed)
+                return;
             sourceList.Remove(color);
             return;
         }
+        var confirmedAll = await Current.ShowConfirmDialog("删除选中颜色", $"确定要删除所选的 {sourceList.Count(c => c.IsSelected)} 个颜色吗？");
+        if(!confirmedAll)
+            return;
         for(int i = sourceList.Count - 1; i >= 0; i--)
             if(sourceList[i].IsSelected)
                 sourceList.RemoveAt(i);

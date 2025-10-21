@@ -117,64 +117,6 @@ public sealed partial class MainPage : Page
         _colorsScrollViewer.ScrollToVerticalOffset(_colorsScrollViewer.ScrollableHeight);
     }
 
-    private async void OnDeletePalettesButton_Click(object sender, RoutedEventArgs e)
-    {
-        var message = "将永久删除以下调色板，是否继续？";
-        var dialog = new ContentDialog()
-        {
-            XamlRoot = XamlRoot,
-            Content = new StackPanel()
-            {
-                Orientation = Orientation.Vertical,
-                Spacing = 16,
-                Children =
-                {
-                    new TextBlock()
-                    {
-                        Text = message,
-                    },
-                    new ScrollViewer()
-                    {
-                        Content = new ItemsControl()
-                        {
-                            ItemsSource = ViewModel.SelectedPalettes,
-                        },
-                        MaxHeight = 240,
-                    }
-                }
-            },
-            Title = "删除调色板",
-            PrimaryButtonText = "确定",
-            PrimaryButtonCommand = ViewModel.DeleteSelectedPalettesCommand,
-            CloseButtonText = "取消",
-            DefaultButton = ContentDialogButton.Primary,
-            VerticalAlignment = VerticalAlignment.Center,
-        };
-        await dialog.ShowAsync();
-    }
-
-    private async void OnDeleteColorsButton_Click(object sender, RoutedEventArgs e)
-    {
-        var message = "将永久删除选中的颜色，是否继续？";
-        var dialog = new ContentDialog()
-        {
-            XamlRoot = XamlRoot,
-            Content = message,
-            Title = "删除颜色",
-            PrimaryButtonText = "确定",
-            PrimaryButtonCommand = ViewModel.DeleteSelectedColorsCommand,
-            CloseButtonText = "取消",
-            DefaultButton = ContentDialogButton.Primary,
-        };
-        await dialog.ShowAsync();
-    }
-
-    private async void OnAddPaletteButtonClick(object sender, RoutedEventArgs e)
-    {
-        //await Task.Delay(100);
-        //_palettesScrollViewer.ScrollToVerticalOffset(_palettesScrollViewer.ScrollableHeight);
-    }
-
     private async void OnExtractFromImageButtonClick(object sender, RoutedEventArgs e)
     {
         var picker = new FileOpenPicker(XamlRoot.ContentIslandEnvironment.AppWindowId)
