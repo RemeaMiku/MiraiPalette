@@ -1,11 +1,14 @@
-﻿namespace MiraiPalette.Shared.Essentials;
+﻿using System.Collections.Concurrent;
+using System.Numerics;
+
+namespace MiraiPalette.Shared.Essentials;
 
 public class ImagePaletteExtractor
 {
     private class Cluster
     {
-        public (double L, double A, double B) Center;
-        public List<(double L, double A, double B)> Pixels = [];
+        public (float L, float A, float B) Center;
+        public ConcurrentBag<(float L, float A, float B)> Pixels = new();
     }
 
     public int MaxPixelCount { get; init; } = 1024 * 1024;
@@ -17,26 +20,27 @@ public class ImagePaletteExtractor
     public IEnumerable<(byte R, byte G, byte B, float Percentage)>
         Extract(IEnumerable<(byte R, byte G, byte B)> pixels, int colorCount)
     {
-        var source = pixels as (byte R, byte G, byte B)[] ?? [.. pixels];
+        var source = pixels as (byte R, byte G, byte B)[] ?? pixels.ToArray();
         if(source.Length == 0)
             yield break;
 
-        // 采样控制
+        // ↓ 采样控制（防止过多像素）
         int step = Math.Max(1, source.Length / MaxPixelCount);
         var sampled = TakeEvery(source, step)
             .Select(p => RgbToLabWeighted(p.R, p.G, p.B))
             .ToArray();
 
+        // ↓ MiniBatch + 并行化的 KMeans++
         var clusters = KMeansPlusPlus(sampled, colorCount, MaxKMeansIterations);
         var total = (float)sampled.Length;
-
+        var totalAssigned = clusters.Sum(c => c.Pixels.Count);
         foreach(var c in clusters.OrderByDescending(c => c.Pixels.Count))
         {
-            if(c.Pixels.Count == 0)
+            if(c.Pixels.IsEmpty)
                 continue;
             var (L, A, B) = Average(c.Pixels);
             var (r, g, b) = LabToRgb(L, A, B);
-            yield return ((byte)r, (byte)g, (byte)b, c.Pixels.Count * 100f / total);
+            yield return ((byte)r, (byte)g, (byte)b, c.Pixels.Count * 100f / totalAssigned);
         }
     }
 
@@ -51,21 +55,37 @@ public class ImagePaletteExtractor
         }
     }
 
-    // -------------------------------
-    // 改良版 KMeans++ 聚类
-    // -------------------------------
-    private static List<Cluster> KMeansPlusPlus((double L, double A, double B)[] pixels, int k, int maxIter)
+    // --------------------------------------------------------------------
+    // MiniBatch + 并行版 KMeans++
+    // --------------------------------------------------------------------
+    private static List<Cluster> KMeansPlusPlus((float L, float A, float B)[] pixels, int k, int maxIter)
     {
         var rnd = new Random();
-        var centers = new List<(double L, double A, double B)>
+        var centers = new List<(float L, float A, float B)>(k)
         {
             pixels[rnd.Next(pixels.Length)]
         };
 
+        // 初始化剩余中心点
         while(centers.Count < k)
         {
-            var distances = pixels.Select(p => centers.Min(c => DistSq(p, c))).ToArray();
-            double total = distances.Sum();
+            var distances = new float[pixels.Length];
+            for(int i = 0; i < pixels.Length; i++)
+            {
+                var p = pixels[i];
+                float min = float.MaxValue;
+                foreach(var c in centers)
+                {
+                    var d = DistSq(p, c);
+                    if(d < min)
+                        min = d;
+                }
+                distances[i] = min;
+            }
+
+            double total = 0;
+            for(int i = 0; i < distances.Length; i++)
+                total += distances[i];
             double r = rnd.NextDouble() * total;
             double cum = 0;
             for(int i = 0; i < pixels.Length; i++)
@@ -79,30 +99,43 @@ public class ImagePaletteExtractor
             }
         }
 
-        List<Cluster> clusters = [];
+        var clusters = centers.Select(c => new Cluster { Center = c }).ToList();
+        const int batchSize = 8192;
+
         for(int iter = 0; iter < maxIter; iter++)
         {
-            clusters = centers.Select(c => new Cluster { Center = c }).ToList();
+            // 清空旧像素分配
+            foreach(var c in clusters)
+                c.Pixels = new();
 
-            foreach(var p in pixels)
+            // 采样一个 batch（MiniBatch KMeans）
+            var batch = new (float L, float A, float B)[batchSize];
+            for(int i = 0; i < batchSize; i++)
+                batch[i] = pixels[rnd.Next(pixels.Length)];
+
+            // 并行计算归属
+            Parallel.For(0, batch.Length, i =>
             {
+                var p = batch[i];
                 int best = 0;
-                double min = double.MaxValue;
-                for(int i = 0; i < centers.Count; i++)
+                float min = float.MaxValue;
+                for(int j = 0; j < centers.Count; j++)
                 {
-                    double d = DistSq(p, centers[i]);
+                    var c = centers[j];
+                    float d = DistSq(p, c);
                     if(d < min)
                     {
                         min = d;
-                        best = i;
+                        best = j;
                     }
                 }
                 clusters[best].Pixels.Add(p);
-            }
+            });
 
+            // 更新中心
             for(int i = 0; i < clusters.Count; i++)
             {
-                if(clusters[i].Pixels.Count == 0)
+                if(clusters[i].Pixels.IsEmpty)
                     continue;
                 centers[i] = Average(clusters[i].Pixels);
             }
@@ -111,74 +144,77 @@ public class ImagePaletteExtractor
         return clusters;
     }
 
-    private static double DistSq((double L, double A, double B) p1, (double L, double A, double B) p2)
+    private static float DistSq((float L, float A, float B) p1, (float L, float A, float B) p2)
     {
-        // ΔE近似公式（Lab空间距离）
-        double dL = p1.L - p2.L;
-        double dA = p1.A - p2.A;
-        double dB = p1.B - p2.B;
-        return 0.5 * dL * dL + dA * dA + dB * dB;
+        // 向量化距离计算
+        var v1 = new Vector3(p1.L, p1.A, p1.B);
+        var v2 = new Vector3(p2.L, p2.A, p2.B);
+        var d = v1 - v2;
+        return Vector3.Dot(d, d);
     }
 
-    private static (double L, double A, double B) Average(IEnumerable<(double L, double A, double B)> pixels)
+    private static (float L, float A, float B) Average(IEnumerable<(float L, float A, float B)> pixels)
     {
-        double l = 0, a = 0, b = 0;
+        float l = 0, a = 0, b = 0;
         int n = 0;
         foreach(var (L, A, B) in pixels)
-        { l += L; a += A; b += B; n++; }
+        {
+            l += L;
+            a += A;
+            b += B;
+            n++;
+        }
         return (l / n, a / n, b / n);
     }
 
     // -------------------------------
     // 感知加权 RGB → Lab
     // -------------------------------
-    private static (double L, double A, double B) RgbToLabWeighted(byte r, byte g, byte b)
+    private static (float L, float A, float B) RgbToLabWeighted(byte r, byte g, byte b)
     {
-        double rf = r / 255.0, gf = g / 255.0, bf = b / 255.0;
-        rf = rf <= 0.04045 ? rf / 12.92 : Math.Pow((rf + 0.055) / 1.055, 2.4);
-        gf = gf <= 0.04045 ? gf / 12.92 : Math.Pow((gf + 0.055) / 1.055, 2.4);
-        bf = bf <= 0.04045 ? bf / 12.92 : Math.Pow((bf + 0.055) / 1.055, 2.4);
+        float rf = r / 255f, gf = g / 255f, bf = b / 255f;
+        rf = rf <= 0.04045f ? rf / 12.92f : MathF.Pow((rf + 0.055f) / 1.055f, 2.4f);
+        gf = gf <= 0.04045f ? gf / 12.92f : MathF.Pow((gf + 0.055f) / 1.055f, 2.4f);
+        bf = bf <= 0.04045f ? bf / 12.92f : MathF.Pow((bf + 0.055f) / 1.055f, 2.4f);
 
-        double x = rf * 0.4124 + gf * 0.3576 + bf * 0.1805;
-        double y = rf * 0.2126 + gf * 0.7152 + bf * 0.0722;
-        double z = rf * 0.0193 + gf * 0.1192 + bf * 0.9505;
-        x /= 0.95047;
-        z /= 1.08883;
+        float x = rf * 0.4124f + gf * 0.3576f + bf * 0.1805f;
+        float y = rf * 0.2126f + gf * 0.7152f + bf * 0.0722f;
+        float z = rf * 0.0193f + gf * 0.1192f + bf * 0.9505f;
+        x /= 0.95047f;
+        z /= 1.08883f;
 
-        double fx = PivotLab(x), fy = PivotLab(y), fz = PivotLab(z);
-        double L = 116 * fy - 16, A = 500 * (fx - fy), B = 200 * (fy - fz);
-
-        // 感知加权（高饱和度像素影响更大）
-        double sat = Math.Sqrt(A * A + B * B) / (L + 1);
-        return (L * (1 + 0.3 * sat), A, B);
+        float fx = PivotLab(x), fy = PivotLab(y), fz = PivotLab(z);
+        float L = 116f * fy - 16f, A = 500f * (fx - fy), B = 200f * (fy - fz);
+        float sat = MathF.Sqrt(A * A + B * B) / (L + 1f);
+        return (L * (1f + 0.3f * sat), A, B);
     }
 
-    private static double PivotLab(double n)
-        => n > 0.008856 ? Math.Pow(n, 1.0 / 3.0) : (7.787 * n) + (16.0 / 116.0);
+    private static float PivotLab(float n)
+        => n > 0.008856f ? MathF.Pow(n, 1f / 3f) : (7.787f * n) + (16f / 116f);
 
     // -------------------------------
     // Lab → RGB
     // -------------------------------
-    private static (byte R, byte G, byte B) LabToRgb(double L, double A, double B)
+    private static (byte R, byte G, byte B) LabToRgb(float L, float A, float B)
     {
-        double y = (L + 16) / 116.0;
-        double x = A / 500.0 + y;
-        double z = y - B / 200.0;
+        float y = (L + 16f) / 116f;
+        float x = A / 500f + y;
+        float z = y - B / 200f;
 
-        double X = 0.95047 * UnpivotLab(x);
-        double Y = UnpivotLab(y);
-        double Z = 1.08883 * UnpivotLab(z);
+        float X = 0.95047f * UnpivotLab(x);
+        float Y = UnpivotLab(y);
+        float Z = 1.08883f * UnpivotLab(z);
 
-        double r = 3.2406 * X - 1.5372 * Y - 0.4986 * Z;
-        double g = -0.9689 * X + 1.8758 * Y + 0.0415 * Z;
-        double b = 0.0557 * X - 0.2040 * Y + 1.0570 * Z;
+        float r = 3.2406f * X - 1.5372f * Y - 0.4986f * Z;
+        float g = -0.9689f * X + 1.8758f * Y + 0.0415f * Z;
+        float b = 0.0557f * X - 0.2040f * Y + 1.0570f * Z;
 
-        static byte Clamp(double v)
-            => (byte)Math.Clamp((v <= 0.0031308 ? 12.92 * v : 1.055 * Math.Pow(v, 1 / 2.4) - 0.055) * 255.0, 0, 255);
+        static byte Clamp(float v)
+            => (byte)Math.Clamp((v <= 0.0031308f ? 12.92f * v : 1.055f * MathF.Pow(v, 1f / 2.4f) - 0.055f) * 255f, 0, 255);
 
         return (Clamp(r), Clamp(g), Clamp(b));
     }
 
-    private static double UnpivotLab(double n)
-        => n * n * n > 0.008856 ? n * n * n : (n - 16.0 / 116.0) / 7.787;
+    private static float UnpivotLab(float n)
+        => n * n * n > 0.008856f ? n * n * n : (n - 16f / 116f) / 7.787f;
 }
