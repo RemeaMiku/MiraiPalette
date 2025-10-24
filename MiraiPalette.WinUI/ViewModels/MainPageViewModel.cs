@@ -171,6 +171,7 @@ public partial class MainPageViewModel : PageViewModel
             SelectedPalettes.Clear();
             CurrentPalette = palette;
             IsPalettePanelOpen = true;
+            Current.NavigateTo(NavigationTarget.Palette, palette);
         }
         palette.IsSelected = true;
         if(SelectedPalettes.Contains(palette))

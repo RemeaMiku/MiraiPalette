@@ -27,10 +27,9 @@ public partial class App : Application
     {
         var services = new ServiceCollection()
             .AddSingleton<IPaletteDataService, MiraiPaletteDataFilePaletteDataService>()
+            .AddTransient<PaletteDetailPageViewModel>()
             .AddTransient<ImagePalettePageViewModel>()
             .AddSingleton<MainPageViewModel>()
-            .AddSingleton<ImagePalettePage>()
-            .AddSingleton<MainPage>()
             .AddSingleton<MainWindowViewModel>()
             .AddSingleton<MainWindow>();
         return services.BuildServiceProvider();
@@ -65,6 +64,9 @@ public partial class App : Application
                 break;
             case NavigationTarget.Main:
                 break;
+            case NavigationTarget.Palette:
+                frame.Navigate(typeof(PaletteDetailPage), parameter);
+                break;
             case NavigationTarget.ImagePalette:
                 frame.Navigate(typeof(ImagePalettePage), parameter);
                 break;
@@ -92,6 +94,7 @@ public partial class App : Application
     {
         Back = -1,
         Main,
-        ImagePalette
+        Palette,
+        ImagePalette,
     }
 }

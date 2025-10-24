@@ -37,7 +37,7 @@ public sealed partial class MainPage : Page
         switch(e.PropertyName)
         {
             case nameof(ViewModel.CurrentPalette):
-                _colorsScrollViewer.ScrollToVerticalOffset(0);
+                ColorsScrollViewer.ScrollToVerticalOffset(0);
                 break;
             default:
                 break;
@@ -87,8 +87,8 @@ public sealed partial class MainPage : Page
 
     private void OnPageSizeChanged(object _, SizeChangedEventArgs e)
     {
-        _mainView.DisplayMode = e.NewSize.Width < _mainView.OpenPaneLength * 2 ? SplitViewDisplayMode.Overlay : SplitViewDisplayMode.Inline;
-        _mainView.Focus(FocusState.Programmatic);
+        MainView.DisplayMode = e.NewSize.Width < MainView.OpenPaneLength * 2 ? SplitViewDisplayMode.Overlay : SplitViewDisplayMode.Inline;
+        MainView.Focus(FocusState.Programmatic);
     }
 
     #region ColorPicker 初始值修复
@@ -114,7 +114,7 @@ public sealed partial class MainPage : Page
     private async void OnAddColorButton_Click(object sender, RoutedEventArgs e)
     {
         await Task.Delay(100);
-        _colorsScrollViewer.ScrollToVerticalOffset(_colorsScrollViewer.ScrollableHeight);
+        ColorsScrollViewer.ScrollToVerticalOffset(ColorsScrollViewer.ScrollableHeight);
     }
 
     private async void OnExtractFromImageButtonClick(object sender, RoutedEventArgs e)
