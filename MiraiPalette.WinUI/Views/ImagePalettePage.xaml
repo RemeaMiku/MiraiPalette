@@ -155,17 +155,21 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" MinWidth="192" />
             </Grid.ColumnDefinitions>
-            <ListView
-                x:Name="AutoColorListView"
-                Margin="0,48,0,0"
-                Padding="8"
-                ui:ListViewExtensions.Command="{x:Bind ViewModel.ToggleColorSelectionCommand, Mode=OneTime}"
-                Background="{ThemeResource ControlFillColorDefaultBrush}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
-                IsItemClickEnabled="True"
-                ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                ItemsSource="{x:Bind ViewModel.AutoColors, Mode=OneWay}"
-                SelectionMode="Extended" />
+            <ListView x:Name="AutoColorListView"
+                      Margin="0,48,0,0"
+                      Padding="8"
+                      Background="{ThemeResource ControlFillColorDefaultBrush}"
+                      CornerRadius="{StaticResource ControlCornerRadius}"
+                      IsItemClickEnabled="True"
+                      ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                      ItemsSource="{x:Bind ViewModel.AutoColors, Mode=OneWay}"
+                      SelectionMode="Extended">
+                <i:Interaction.Behaviors>
+                    <i:EventTriggerBehavior EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{x:Bind ViewModel.SelectAutoColorsCommand, Mode=OneTime}" CommandParameter="{x:Bind AutoColorListView.SelectedItems, Mode=OneTime}"/>
+                    </i:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </ListView>
             <ProgressRing Visibility="{x:Bind ViewModel.IsBusy, Converter={StaticResource BoolToVisibilityConverter}}" />
             <StackPanel
                 Padding="8"
@@ -183,18 +187,23 @@
                     Style="{StaticResource BorderlessTransparentButtonStyle}"
                     Visibility="{x:Bind ViewModel.HasAutoColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
             </StackPanel>
-            <ListView
-                x:Name="ManualColorListView"
-                Grid.Column="1"
-                Margin="0,48,0,0"
-                Padding="0,8"
-                ui:ListViewExtensions.Command="{x:Bind ViewModel.ToggleColorSelectionCommand, Mode=OneTime}"
-                Background="{ThemeResource ControlFillColorDefaultBrush}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
-                IsItemClickEnabled="True"
-                ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                ItemsSource="{x:Bind ViewModel.ManualColors, Mode=OneTime}"
-                SelectionMode="Extended" />
+            <ListView x:Name="ManualColorListView"
+                      Grid.Column="1"
+                      Margin="0,48,0,0"
+                      Padding="0,8"
+                      Background="{ThemeResource ControlFillColorDefaultBrush}"
+                      CornerRadius="{StaticResource ControlCornerRadius}"
+                      IsItemClickEnabled="True"
+                      ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                      ItemsSource="{x:Bind ViewModel.ManualColors, Mode=OneTime}"
+                      SelectionMode="Extended">
+                <i:Interaction.Behaviors>
+                    <i:EventTriggerBehavior EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{x:Bind ViewModel.SelectManualColorsCommand, Mode=OneTime}"
+                                               CommandParameter="{x:Bind ManualColorListView.SelectedItems, Mode=OneTime}" />
+                    </i:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </ListView>
             <StackPanel
                 Grid.Column="1"
                 Padding="8"

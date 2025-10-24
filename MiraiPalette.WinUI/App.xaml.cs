@@ -56,7 +56,7 @@ public partial class App : Application
 
     public void NavigateTo(NavigationTarget target, object? parameter = null)
     {
-        var frame = MainWindow.MainFrame;
+        var frame = MainWindow.NavigationFrame;
         switch(target)
         {
             case NavigationTarget.Back:

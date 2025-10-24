@@ -19,15 +19,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border x:Name="AppTitleBar" VerticalAlignment="Top">
-            <TextBlock
-                x:Name="AppTitle"
-                Margin="8,8,0,0"
-                VerticalAlignment="Top"
-                Text="{x:Bind Title, Mode=OneWay}" />
-        </Border>
-        <NavigationView OpenPaneLength="240" IsPaneOpen="True" IsPaneToggleButtonVisible="False" PaneDisplayMode="Left" x:Name="_mainView" Grid.Row="1" IsBackEnabled="True" BackRequested="OnMainView_BackRequested">
-            <Frame x:Name="_mainFrame" />
-        </NavigationView>
+        <TitleBar Title="Mirai Palette" IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}" BackRequested="TitleBar_BackRequested"/>
+        <Frame Grid.Row="1" x:Name="ContentFrame" />
     </Grid>
 </Window>

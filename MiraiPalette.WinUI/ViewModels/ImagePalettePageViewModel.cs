@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -124,24 +125,26 @@ public partial class ImagePalettePageViewModel : PageViewModel
         var sourceList = AutoColors.Contains(color) ? AutoColors : ManualColors;
         if(!color.IsSelected)
         {
-            var confirmed = await Current.ShowConfirmDialogAsync("删除颜色", $"确定要删除颜色 {color.Name} 吗？");
-            if(!confirmed)
-                return;
             sourceList.Remove(color);
             return;
         }
-        var confirmedAll = await Current.ShowConfirmDialogAsync("删除选中颜色", $"确定要删除所选的 {sourceList.Count(c => c.IsSelected)} 个颜色吗？");
-        if(!confirmedAll)
-            return;
         for(int i = sourceList.Count - 1; i >= 0; i--)
             if(sourceList[i].IsSelected)
                 sourceList.RemoveAt(i);
     }
 
     [RelayCommand]
-    static void ToggleColorSelection(ColorViewModel color)
+    void SelectAutoColors(IList<object> selectedColors)
     {
-        color.IsSelected = !color.IsSelected;
+        foreach(var color in AutoColors)
+            color.IsSelected = selectedColors.Contains(color);
+    }
+
+    [RelayCommand]
+    void SelectManualColors(IList<object> selectedColors)
+    {
+        foreach(var color in ManualColors)
+            color.IsSelected = selectedColors.Contains(color);
     }
 
     [RelayCommand]

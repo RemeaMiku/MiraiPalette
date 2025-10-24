@@ -18,7 +18,7 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
-        _mainFrame.Navigate(typeof(MainPage));
+        ContentFrame.Navigate(typeof(MainPage));
         var presenter = AppWindow.Presenter as OverlappedPresenter;
         presenter!.PreferredMinimumWidth = 480;
         presenter.PreferredMinimumHeight = 640;
@@ -26,9 +26,9 @@ public sealed partial class MainWindow : Window
 
     public MainWindowViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainWindowViewModel>();
 
-    public Frame MainFrame => _mainFrame;
+    public Frame NavigationFrame => ContentFrame;
 
-    private void OnMainView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+    private void TitleBar_BackRequested(TitleBar sender, object args)
     {
         App.Current.NavigateTo(NavigationTarget.Back);
     }
