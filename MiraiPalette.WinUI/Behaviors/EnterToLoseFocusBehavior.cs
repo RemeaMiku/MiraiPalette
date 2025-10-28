@@ -36,7 +36,7 @@ public static class EnterToLoseFocusBehavior
         {
             e.Handled = true;
             // 将焦点移动到下一个可聚焦元素（会触发当前 TextBox LostFocus）
-            FocusManager.TryMoveFocus(FocusNavigationDirection.None, new()
+            FocusManager.TryMoveFocus(FocusNavigationDirection.Down, new()
             {
                 SearchRoot = Current.MainWindow.NavigationFrame.Content as DependencyObject
             });

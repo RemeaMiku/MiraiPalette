@@ -9,8 +9,11 @@
       xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:converters="using:MiraiPalette.WinUI.Converters"
+      xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
       xmlns:behaviors="using:MiraiPalette.WinUI.Behaviors"
+      xmlns:controls="using:CommunityToolkit.WinUI.Controls"
       NavigationCacheMode="Disabled"
+      SizeChanged="OnRootPageSizeChanged"
       x:Name="RootPage"
       mc:Ignorable="d">
     <Page.Resources>
@@ -44,6 +47,7 @@
                         <StackPanel Orientation="Vertical"
                                     Spacing="4">
                             <TextBox Padding="4"
+                                     FontWeight="Medium"
                                      behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                      FontSize="{StaticResource SubtitleTextBlockFontSize}"
                                      PlaceholderText="[未命名]"
@@ -51,6 +55,7 @@
                                      Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                             <Button x:Name="CopyColorButton"
                                     Padding="4"
+                                    Style="{StaticResource BorderlessTransparentButtonStyle}"
                                     HorizontalAlignment="Stretch"
                                     Command="{Binding ViewModel.CopyColorToClipboardCommand,ElementName=RootPage,Mode=OneTime}"
                                     CommandParameter="{x:Bind}">
@@ -66,45 +71,130 @@
                         </StackPanel>
                     </Border>
                 </Grid>
+                <ItemContainer.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{Binding ViewModel.DeleteCurrentOrSelectedColorsCommand,Mode=OneTime,ElementName=RootPage}" Foreground="{ThemeResource SystemFillColorCriticalBrush}" Icon="{ui:SymbolIcon Symbol=Delete}"
+                                        CommandParameter="{x:Bind}" Text="删除颜色"/>
+                    </MenuFlyout>
+                </ItemContainer.ContextFlyout>
             </ItemContainer>
         </DataTemplate>
     </Page.Resources>
     <Grid>
-        <Grid Padding="4"
-              RowSpacing="4">
-            <ScrollViewer x:Name="ColorsScrollViewer">
-                <StackPanel>
-                    <Border Height="128" />
-                    <GridView x:Name="ColorsView"
-                              Padding="4"
-                              HorizontalAlignment="Center"
-                              AllowDrop="True"
-                              CanDragItems="True"
-                              CanReorderItems="True"
-                              IsItemClickEnabled="True"
-                              ItemTemplate="{StaticResource MiraiColorItemDetailTamplate}"
-                              ItemsSource="{x:Bind ViewModel.Palette.Colors, Mode=OneTime}"
-                              SelectionMode="Single" />
-                </StackPanel>
-            </ScrollViewer>
-            <Border Grid.Row="1"
-                    Padding="16,8"
-                    VerticalAlignment="Top"
-                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
-                    CornerRadius="{StaticResource ControlCornerRadius}">
-                <StackPanel Orientation="Vertical"
-                            Spacing="4">
-                    <TextBox FontSize="{StaticResource TitleTextBlockFontSize}"
-                             FontWeight="SemiBold"
-                             PlaceholderText="标题…"
-                             Style="{StaticResource TransparentBorderlessTextBox}"
-                             Text="{x:Bind ViewModel.Palette.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                    <TextBox Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                             PlaceholderText="描述…"
-                             Style="{StaticResource TransparentBorderlessTextBox}"
-                             Text="{x:Bind ViewModel.Palette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                </StackPanel>
-            </Border>
-        </Grid>
+        <SplitView x:Name="PaletteView" DisplayMode="Inline" PanePlacement="Right" LightDismissOverlayMode="On" OpenPaneLength="360" IsPaneOpen="{x:Bind ViewModel.IsEditingColor,Mode=TwoWay}" PaneBackground="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}">
+            <Grid Padding="8"
+                  RowSpacing="4">
+                <ScrollViewer Padding="4" x:Name="ColorsScrollViewer">
+                    <StackPanel Padding="4">
+                        <Border Height="120" />
+                        <GridView x:Name="ColorsView"
+                                  Padding="4"
+                                  HorizontalAlignment="Left"
+                                  AllowDrop="True"
+                                  CanDragItems="True"
+                                  CanReorderItems="True"
+                                  IsItemClickEnabled="True"
+                                  ItemTemplate="{StaticResource MiraiColorItemDetailTamplate}"
+                                  ItemsSource="{x:Bind ViewModel.Palette.Colors, Mode=OneTime}"
+                                  SelectionMode="Single">
+                            <interactivity:Interaction.Behaviors>
+                                <interactivity:EventTriggerBehavior EventName="SelectionChanged">
+                                    <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.UpdateColorSelectionCommand,Mode=OneTime}" CommandParameter="{x:Bind ColorsView.SelectedItems,Mode=OneTime}"/>
+                                </interactivity:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </GridView>
+                    </StackPanel>
+                </ScrollViewer>
+                <Border x:Name="PaletteHeader"
+                        Padding="16,8"
+                        VerticalAlignment="Top"
+                        Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                        CornerRadius="{StaticResource ControlCornerRadius}">
+                    <Grid ColumnSpacing="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical"
+                                    Spacing="4">
+                            <TextBox FontSize="{StaticResource TitleTextBlockFontSize}"
+                                     FontWeight="SemiBold"
+                                     behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
+                                     PlaceholderText="标题…"
+                                     Style="{StaticResource TransparentBorderlessTextBox}"
+                                     Text="{x:Bind ViewModel.Palette.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                            <TextBox Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                     PlaceholderText="描述…"
+                                     behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
+                                     Style="{StaticResource TransparentBorderlessTextBox}"
+                                     Text="{x:Bind ViewModel.Palette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Padding="4"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+                            <ToggleButton x:Name="MultiSelectionToggleButton" Click="MultiSelectionToggleButton_Click" Content="{ui:FontIcon Glyph=&#xE762;}" IsChecked="{x:Bind ViewModel.IsMultiSelectionEnabled,Mode=TwoWay}"/>
+                            <Button IsEnabled="{x:Bind ViewModel.HasSelectedColors,Mode=OneWay}" Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}" Content="{ui:SymbolIcon Symbol=Delete}" Style="{ThemeResource CriticalButtonStyle}" Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"/>
+                            <Button x:Name="AddColorButton" Click="AddColorButton_Click" IsEnabled="{x:Bind ViewModel.IsMultiSelectionEnabled,Converter={StaticResource BoolNegationConverter},Mode=OneWay}" Content="{ui:SymbolIcon Symbol=Add}"
+                                    Command="{x:Bind ViewModel.AddColorCommand,Mode=OneTime}" />
+                            <Button Content="{ui:SymbolIcon Symbol=More}">
+                                <Button.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                                        Text="删除调色板"
+                                                        Command="{x:Bind ViewModel.DeletePaletteCommand,Mode=OneTime}"
+                                                        Icon="{ui:SymbolIcon Symbol=Delete}" />
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+            <SplitView.Pane>
+                <Grid Padding="16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Button x:Name="CloseColorEditPanelButton" Click="CloseColorEditPanelButton_Click" Content="{ui:SymbolIcon Symbol=Cancel}" HorizontalAlignment="Right" Command="{x:Bind ViewModel.ExitColorEditingCommand,Mode=OneTime}"/>
+                    <ScrollViewer Grid.Row="1" Padding="8"
+                                VerticalAlignment="Center">
+                        <Viewbox HorizontalAlignment="Stretch">
+                            <controls:ColorPicker IsColorPaletteVisible="False"                                                  
+                                                  ColorSpectrumShape="Ring"
+                                                  ColorChanged="ColorPicker_ColorChanged"
+                                                  Color="{x:Bind ViewModel.PreviewColor,Mode=TwoWay}" />
+                        </Viewbox>
+                    </ScrollViewer>
+                    <controls:WrapPanel Grid.Row="2" HorizontalAlignment="Center"
+                                        HorizontalSpacing="8">
+                        <Button Width="120"
+                                Click="CloseColorEditPanelButton_Click"
+                                Command="{x:Bind ViewModel.SaveEditingColorCommand,Mode=OneTime}"
+                                Style="{ThemeResource AccentButtonStyle}">
+                            <StackPanel Spacing="8"
+                                        Orientation="Horizontal">
+                                <SymbolIcon Symbol="Accept" />
+                                <TextBlock Text="接受" />
+                            </StackPanel>
+                        </Button>
+                        <Button  Width="120"
+                                 Command="{x:Bind ViewModel.ResetPreviewColorCommand,Mode=OneTime}">
+                            <StackPanel Spacing="8"
+                                        Orientation="Horizontal">
+                                <SymbolIcon Symbol="Undo" />
+                                <TextBlock Text="重置" />
+                            </StackPanel>
+                        </Button>
+                    </controls:WrapPanel>
+                </Grid>
+                
+                
+            </SplitView.Pane>
+        </SplitView>
     </Grid>
 </Page>

@@ -12,9 +12,10 @@
         Title="Mirai Palette"
         mc:Ignorable="d">
     <Window.SystemBackdrop>
-        <MicaBackdrop />
+        <DesktopAcrylicBackdrop />
     </Window.SystemBackdrop>
-    <Grid Padding="10,5" RowSpacing="10">
+    <Grid Padding="10,5"
+          RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
