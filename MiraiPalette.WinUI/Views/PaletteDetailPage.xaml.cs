@@ -54,20 +54,4 @@ public sealed partial class PaletteDetailPage : Page
         }
     }
     #endregion
-
-    private void MultiSelectionToggleButton_Click(object sender, RoutedEventArgs e)
-    {
-        ColorsView.SelectionMode = ViewModel.IsMultiSelectionEnabled ? ListViewSelectionMode.Multiple : ListViewSelectionMode.Single;
-    }
-
-    private void CloseColorEditPanelButton_Click(object sender, RoutedEventArgs e)
-    {
-        ColorsView.SelectedItem = null;
-    }
-
-    private void AddColorButton_Click(object sender, RoutedEventArgs e)
-    {
-        //ColorsView.SelectedIndex = 0;
-        //ColorsView.ScrollIntoView(ColorsView.SelectedItem);
-    }
 }

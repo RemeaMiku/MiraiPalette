@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Numerics;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
-using Windows.Foundation;
 
 namespace MiraiPalette.WinUI.Converters;
 
-public partial class PointToVector3Converter : IValueConverter
+public partial class BoolToListViewSelectionModeConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        return value is Point point
-            ? new Vector3((float)point.X, (float)point.Y, 0f)
-            : new Vector3(0f, 0f, 0f);
+        return value is bool boolValue ? boolValue ? ListViewSelectionMode.Multiple : ListViewSelectionMode.Single : ListViewSelectionMode.Single;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();

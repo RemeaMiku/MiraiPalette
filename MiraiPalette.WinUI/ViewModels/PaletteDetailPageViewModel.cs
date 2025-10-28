@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -30,9 +31,18 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     public partial bool IsEditingColor { get; set; } = false;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasSelectedColors))]
+    public partial ColorViewModel? SelectedColor { get; set; }
+
+    [ObservableProperty]
     public partial Color PreviewColor { get; set; } = Colors.Transparent;
 
-    public bool HasSelectedColors => Palette.Colors.Any(c => c.IsSelected);
+    public bool HasSelectedColors => SelectedColor is not null;
+
+    partial void OnIsEditingColorChanged(bool oldValue, bool newValue)
+    {
+        Trace.WriteLine(newValue);
+    }
 
     [RelayCommand]
     public async Task Load(PaletteViewModel palette)
@@ -58,11 +68,15 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     {
         foreach(var color in Palette.Colors)
             color.IsSelected = selection.Contains(color);
-        OnPropertyChanged(nameof(HasSelectedColors));
         if(selection.Count == 1 && !IsMultiSelectionEnabled)
+        {
+            IsEditingColor = true;
             EditColor();
+        }
         else
+        {
             IsEditingColor = false;
+        }
     }
 
     [RelayCommand]
@@ -84,40 +98,41 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         });
         await _paletteDataService.UpdatePaletteAsync(Palette);
         IsBusy = false;
+        SelectedColor = Palette.Colors[0];
         EditColor();
     }
 
     void EditColor()
     {
-        if(Palette.Colors.Count(c => c.IsSelected) != 1)
+        if(SelectedColor is null)
             return;
-        var selectedColor = Palette.Colors.Single(c => c.IsSelected);
-        PreviewColor = selectedColor.Color;
-        IsEditingColor = true;
+        PreviewColor = SelectedColor!.Color;
     }
 
     [RelayCommand]
     void ResetPreviewColor()
     {
-        var selectedColor = Palette.Colors.Single(c => c.IsSelected);
-        PreviewColor = selectedColor.Color;
+        if(SelectedColor is null)
+            return;
+        PreviewColor = SelectedColor.Color;
     }
 
     [RelayCommand]
     async Task SaveEditingColor()
     {
-        var selectedColor = Palette.Colors.Single(c => c.IsSelected);
-        selectedColor.Color = PreviewColor;
+        if(SelectedColor is null)
+            return;
+        SelectedColor.Color = PreviewColor;
         IsBusy = true;
         await _paletteDataService.UpdatePaletteAsync(Palette);
         IsBusy = false;
-        IsEditingColor = false;
+        SelectedColor = null;
     }
 
     [RelayCommand]
     void ExitColorEditing()
     {
-        IsEditingColor = false;
+        SelectedColor = null;
     }
 
     [RelayCommand]
