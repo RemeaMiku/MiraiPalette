@@ -14,13 +14,15 @@
     <Window.SystemBackdrop>
         <DesktopAcrylicBackdrop />
     </Window.SystemBackdrop>
-    <Grid Padding="10,5"
+    <Grid Padding="4"
           RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TitleBar Title="Mirai Palette" IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}" BackRequested="TitleBar_BackRequested"/>
-        <Frame Grid.Row="1" x:Name="ContentFrame" />
+        <TitleBar Title="Mirai Palette" IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}" BackRequested="TitleBar_BackRequested" IsPaneToggleButtonVisible="True" PaneToggleRequested="TitleBar_PaneToggleRequested"/>
+        <NavigationView x:Name="MainNavigationView" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" Grid.Row="1">
+            <Frame x:Name="ContentFrame"/>
+        </NavigationView>
     </Grid>
 </Window>

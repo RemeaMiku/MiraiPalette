@@ -32,4 +32,9 @@ public sealed partial class MainWindow : Window
     {
         App.Current.NavigateTo(NavigationTarget.Back);
     }
+
+    private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
+    {
+        MainNavigationView.IsPaneOpen = !MainNavigationView.IsPaneOpen;
+    }
 }

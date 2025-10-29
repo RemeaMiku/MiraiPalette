@@ -20,7 +20,6 @@
     Padding="32"
     DataContext="{x:Bind}"
     NavigationCacheMode="Required"
-    SizeChanged="OnPageSizeChanged"
     mc:Ignorable="d">
     <interactivity:Interaction.Behaviors>
         <interactivity:EventTriggerBehavior EventName="Loaded">
@@ -28,12 +27,15 @@
         </interactivity:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
     <Page.Resources>
-        <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="vm:ColorViewModel">
-            <Rectangle Height="28" Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
+        <DataTemplate x:Key="MiraiColorItemTemplate"
+                      x:DataType="vm:ColorViewModel">
+            <Rectangle Height="28"
+                       Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
         </DataTemplate>
         <DataTemplate x:Key="MiraiPaletteItemTemplate"
                       x:DataType="vm:PaletteViewModel">
-            <ItemContainer IsSelected="{x:Bind IsSelected, Mode=TwoWay}">
+            <ItemContainer IsSelected="{x:Bind IsSelected, Mode=OneWay}"
+                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                 <Button HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
                         Command="{Binding DataContext.ViewModel.TogglePaletteSelectionCommand, ElementName=RootPage, Mode=OneWay}"
@@ -86,68 +88,54 @@
             </ItemContainer>
         </DataTemplate>
     </Page.Resources>
-    <SplitView x:Name="MainView"
-               DisplayMode="Inline"
-               IsPaneOpen="{x:Bind ViewModel.IsPalettePanelOpen, Mode=TwoWay}"
-               OpenPaneLength="320"
-               PaneBackground="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
-               PanePlacement="Right">
-        <Grid Padding="0">
-            <ScrollViewer x:Name="PalettesScrollViewer" Padding="8">
-                <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}" ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
+    <Grid Padding="0">
+            <ScrollViewer x:Name="PalettesScrollViewer"
+                          Padding="8">
+                <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
+                                   ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
                     <ItemsRepeater.Layout>
-                        <controls:StaggeredLayout
-                            ColumnSpacing="8"
-                            DesiredColumnWidth="320"
-                            ItemsStretch="Fill"
-                            RowSpacing="8" />
+                        <controls:StaggeredLayout ColumnSpacing="8"
+                                                  DesiredColumnWidth="320"
+                                                  ItemsStretch="Fill"
+                                                  RowSpacing="8" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </ScrollViewer>
-            <Border
-                Margin="32"
-                HorizontalAlignment="Center"
+            <CommandBar 
                 VerticalAlignment="Bottom"
-                Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-                CornerRadius="8">
-                <CommandBar DefaultLabelPosition="Right">
-                    <AppBarToggleButton
-                        BorderThickness="0"
-                        Content="{ui:FontIcon Glyph=&#xE762;}"
-                        IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}"
-                        Label="多选" />
-                    <AppBarButton
-                        Command="{x:Bind ViewModel.SelectAllPalettesCommand, Mode=OneTime}"
-                        Icon="SelectAll"
-                        Label="全选"
-                        Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    <AppBarButton
-                        Command="{x:Bind ViewModel.ClearSelectionCommand, Mode=OneTime}"
-                        Icon="ClearSelection"
-                        IsEnabled="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay}"
-                        Label="清除"
-                        Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    <AppBarSeparator />
-                    <AppBarButton
-                        Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
-                        Icon="Add"
-                        Label="新建" />
-                    <AppBarButton
-                        Click="OnExtractFromImageButtonClick"
-                        Icon="{ui:FontIcon Glyph=&#xE91B;}"
-                        Label="提取" />
-                    <AppBarButton Icon="{ui:SymbolIcon Symbol=OpenFile}" Label="导入" />
-                    <AppBarSeparator />
-                    <CommandBar.SecondaryCommands>
-                        <AppBarButton
-                            Command="{x:Bind ViewModel.DeleteSelectedPalettesCommand,Mode=OneTime}"
-                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            Icon="{ui:SymbolIcon Symbol=Delete}"
-                            Label="删除"
-                            Visibility="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    </CommandBar.SecondaryCommands>
-                </CommandBar>
-            </Border>
+                        Background="{ThemeResource DefaultAcrylicBrush}"
+                        DefaultLabelPosition="Bottom">
+                <AppBarToggleButton BorderThickness="0"
+                                    Content="{ui:FontIcon Glyph=&#xE762;}"
+                                    IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}"
+                                    Label="多选" />
+                <AppBarButton Command="{x:Bind ViewModel.SelectAllPalettesCommand, Mode=OneTime}"
+                              Icon="SelectAll"
+                              IsEnabled="{x:Bind ViewModel.IsAllPalettesSelected,Mode=OneWay,Converter={StaticResource BoolNegationConverter}}"
+                              Label="全选"
+                              Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <AppBarButton Command="{x:Bind ViewModel.ClearSelectionCommand, Mode=OneTime}"
+                              Icon="ClearSelection"
+                              IsEnabled="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay}"
+                              Label="清除"
+                              Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <AppBarSeparator />
+                <AppBarButton Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
+                              Icon="Add"
+                              Label="新建" />
+                <AppBarButton Click="OnExtractFromImageButtonClick"
+                              Icon="{ui:FontIcon Glyph=&#xE91B;}"
+                              Label="提取" />
+                <AppBarButton Icon="{ui:SymbolIcon Symbol=OpenFile}"
+                              Label="导入" />
+                <AppBarSeparator />
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Command="{x:Bind ViewModel.DeleteSelectedPalettesCommand,Mode=OneTime}"
+                                  Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                  Icon="{ui:SymbolIcon Symbol=Delete}"
+                                  Label="删除"
+                                  Visibility="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </CommandBar.SecondaryCommands>
+            </CommandBar>
         </Grid>
-    </SplitView>
 </Page>

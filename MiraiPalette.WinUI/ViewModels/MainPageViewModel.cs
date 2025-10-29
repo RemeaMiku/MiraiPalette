@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI;
 using MiraiPalette.WinUI.Services;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.UI;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
@@ -24,6 +20,7 @@ public partial class MainPageViewModel : PageViewModel
     private void OnSelectedPalettesChanged(object? _, NotifyCollectionChangedEventArgs __)
     {
         OnPropertyChanged(nameof(HasSelectedPalettes));
+        OnPropertyChanged(nameof(IsAllPalettesSelected));
     }
 
     [ObservableProperty]
@@ -31,15 +28,11 @@ public partial class MainPageViewModel : PageViewModel
 
     public IPaletteDataService PaletteDataService { get; }
 
-    [ObservableProperty]
-    public partial PaletteViewModel? CurrentPalette { get; set; }
-
     public ObservableCollection<PaletteViewModel> SelectedPalettes { get; } = [];
 
     public bool HasSelectedPalettes => SelectedPalettes.Count > 0;
 
-    [ObservableProperty]
-    public partial bool IsPalettePanelOpen { get; set; } = false;
+    public bool IsAllPalettesSelected => Palettes.Count > 0 && SelectedPalettes.Count == Palettes.Count;
 
     [ObservableProperty]
     public partial bool IsMultiSelectMode { get; set; } = false;
@@ -72,8 +65,6 @@ public partial class MainPageViewModel : PageViewModel
     {
         Palettes.Clear();
         SelectedPalettes.Clear();
-        CurrentPalette = null;
-        IsPalettePanelOpen = false;
         IsBusy = true;
         Palettes = new(await PaletteDataService.GetAllPalettesAsync());
         IsBusy = false;
@@ -83,8 +74,6 @@ public partial class MainPageViewModel : PageViewModel
     {
         if(value)
         {
-            CurrentPalette = null;
-            IsPalettePanelOpen = false;
         }
         else
         {
@@ -118,19 +107,6 @@ public partial class MainPageViewModel : PageViewModel
             SelectPalette(palette);
     }
 
-    string GetNextColorName()
-    {
-        const string baseName = "新颜色";
-        var names = CurrentPalette?.Colors.Select(c => c.Name).ToList() ?? [];
-        if(!names.Contains(baseName))
-            return baseName;
-
-        var index = 2;
-        while(names.Contains($"{baseName}{index}"))
-            index++;
-        return $"{baseName}{index}";
-    }
-
     [RelayCommand]
     async Task AddPalette()
     {
@@ -148,29 +124,11 @@ public partial class MainPageViewModel : PageViewModel
         SelectPalette(newPalette);
     }
 
-    [RelayCommand]
-    async Task AddColor()
-    {
-        if(CurrentPalette is null)
-            throw new InvalidOperationException("No palette is selected.");
-        var newColorModel = new ColorViewModel()
-        {
-            Name = GetNextColorName(),
-            Color = Colors.White
-        };
-        CurrentPalette.Colors.Add(newColorModel);
-        await PaletteDataService.UpdatePaletteAsync(CurrentPalette);
-        EditColor(newColorModel);
-    }
-
     void SelectPalette(PaletteViewModel palette)
     {
         if(!IsMultiSelectMode)
         {
-            CurrentPalette?.IsSelected = false;
             SelectedPalettes.Clear();
-            CurrentPalette = palette;
-            IsPalettePanelOpen = true;
             Current.NavigateTo(NavigationTarget.Palette, palette);
         }
         palette.IsSelected = true;
@@ -185,116 +143,9 @@ public partial class MainPageViewModel : PageViewModel
         SelectedPalettes.Remove(palette);
         if(!IsMultiSelectMode)
         {
-            CurrentPalette = null;
+            ;
             SelectedPalettes.Clear();
-            IsPalettePanelOpen = false;
         }
     }
 
-    partial void OnIsPalettePanelOpenChanged(bool value)
-    {
-        if(!value)
-        {
-            CurrentPalette?.IsSelected = false;
-            CurrentPalette = null;
-        }
-    }
-
-    [ObservableProperty]
-    public partial Color PreviewColor { get; set; }
-
-    [RelayCommand]
-    void EditColor(ColorViewModel color)
-    {
-        SelectColor(color);
-        PreviewColor = color.Color;
-    }
-
-    [RelayCommand]
-    void SelectColor(ColorViewModel color)
-    {
-        foreach(var c in CurrentPalette!.Colors)
-            c.IsSelected = false;
-        color.IsSelected = true;
-    }
-
-    [RelayCommand]
-    async Task SaveColor(ColorViewModel color)
-    {
-        if(CurrentPalette is null)
-            throw new InvalidOperationException("No palette is selected.");
-        color.Color = PreviewColor;
-        IsBusy = true;
-        await PaletteDataService.UpdatePaletteAsync(CurrentPalette);
-        IsBusy = false;
-    }
-
-    [RelayCommand]
-    async Task DeleteSelectedColors()
-    {
-        if(CurrentPalette is null)
-            throw new InvalidOperationException("No palette is selected.");
-        var message = CurrentPalette.Colors.Count(c => c.IsSelected) == 1 ?
-            $"确定要删除颜色 \"{CurrentPalette.Colors.First(c => c.IsSelected).Name}\" 吗？" :
-            $"确定要删除所选的 {CurrentPalette.Colors.Count(c => c.IsSelected)} 个颜色吗？";
-        var confirmed = await Current.ShowConfirmDialogAsync("删除颜色", message);
-        if(!confirmed)
-            return;
-        IsBusy = true;
-        for(int i = CurrentPalette.Colors.Count - 1; i >= 0; i--)
-            if(CurrentPalette.Colors[i].IsSelected)
-                CurrentPalette.Colors.RemoveAt(i);
-        await PaletteDataService.UpdatePaletteAsync(CurrentPalette);
-        IsBusy = false;
-    }
-
-    [RelayCommand]
-    void ResetPreviewColor(ColorViewModel color)
-    {
-        PreviewColor = color.Color;
-    }
-
-    [RelayCommand]
-    static void CopyColorToClipboard(string colorValue)
-    {
-        var package = new DataPackage();
-        package.SetText(colorValue);
-        Clipboard.SetContent(package);
-    }
-
-    partial void OnCurrentPaletteChanged(PaletteViewModel? oldValue, PaletteViewModel? newValue)
-    {
-        if(oldValue is not null)
-        {
-            oldValue.PropertyChanged -= OnCurrentPalettePropertyChanged;
-            foreach(var color in oldValue.Colors)
-            {
-                color.PropertyChanged -= OnCurrentPaletteColorPropertyChanged;
-                color.IsSelected = false;
-            }
-        }
-        if(newValue is not null)
-        {
-            newValue.PropertyChanged += OnCurrentPalettePropertyChanged;
-            foreach(var color in newValue.Colors)
-            {
-                color.PropertyChanged += OnCurrentPaletteColorPropertyChanged;
-            }
-        }
-    }
-
-    private async void OnCurrentPaletteColorPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        await PaletteDataService.UpdatePaletteAsync(CurrentPalette!);
-    }
-
-    private async void OnCurrentPalettePropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if(e.PropertyName == nameof(PaletteViewModel.Title) && string.IsNullOrWhiteSpace(CurrentPalette!.Title))
-        {
-            CurrentPalette.Title = (await PaletteDataService.GetPaletteAsync(CurrentPalette.Id))!.Title;
-            return;
-        }
-        await PaletteDataService.UpdatePaletteAsync(CurrentPalette!);
-    }
 }

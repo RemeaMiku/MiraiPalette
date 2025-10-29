@@ -16,6 +16,7 @@
     x:Name="RootPage"
     NavigationCacheMode="Disabled"
     SizeChanged="OnRootPageSizeChanged"
+    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <Style
@@ -91,10 +92,10 @@
         <SplitView
             x:Name="PaletteView"
             DisplayMode="Inline"
-            IsPaneOpen="{x:Bind ViewModel.IsEditingColor, Mode=OneWay}"
+            IsPaneOpen="{x:Bind ViewModel.IsEditingColor, Mode=TwoWay}"
             LightDismissOverlayMode="On"
             OpenPaneLength="360"
-            PaneBackground="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+            PaneBackground="{ThemeResource DefaultAcrylicBrush}"
             PanePlacement="Right">
             <Grid Padding="8" RowSpacing="4">
                 <ScrollViewer x:Name="ColorsScrollViewer" Padding="4">
@@ -121,13 +122,14 @@
                 </ScrollViewer>
                 <Border
                     x:Name="PaletteHeader"
+                    Margin="8"
                     Padding="16,8"
                     VerticalAlignment="Top"
-                    Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+                    Background="{ThemeResource DefaultAcrylicBrush}"
                     CornerRadius="{StaticResource ControlCornerRadius}">
                     <Grid ColumnSpacing="4">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Vertical" Spacing="4">

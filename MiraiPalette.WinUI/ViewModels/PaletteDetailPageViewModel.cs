@@ -84,8 +84,14 @@ public partial class PaletteDetailPageViewModel : PageViewModel
             UpdatePaletteCommand.Execute(null);
     }
 
-    private void Palette_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private async void Palette_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if(e.PropertyName is nameof(PaletteViewModel.Title) && string.IsNullOrWhiteSpace(Palette.Title))
+        {
+            var title = (await _paletteDataService.GetPaletteAsync(Palette.Id))!.Title;
+            Palette.Title = title;
+            return;
+        }
         if(e.PropertyName is nameof(PaletteViewModel.Title) or nameof(PaletteViewModel.Description))
             UpdatePaletteCommand.Execute(null);
     }
