@@ -75,7 +75,7 @@ public partial class App : Application
         }
     }
 
-    public async Task<bool> ShowConfirmDialogAsync(string title, string content)
+    public async Task<bool> ShowConfirmDialogAsync(string title, string content, bool showCancelButton = true)
     {
         var dialog = new ContentDialog
         {
@@ -83,6 +83,7 @@ public partial class App : Application
             Content = content,
             PrimaryButtonText = "确认",
             SecondaryButtonText = "取消",
+            IsSecondaryButtonEnabled = showCancelButton,
             DefaultButton = ContentDialogButton.Primary,
             XamlRoot = MainWindow.Content.XamlRoot
         };

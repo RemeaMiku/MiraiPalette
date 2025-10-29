@@ -47,6 +47,7 @@
                         <StackPanel Orientation="Vertical" Spacing="4">
                             <TextBox
                                 Padding="4"
+                                IsEnabled="{Binding ViewModel.IsNotBusy,ElementName=RootPage,Mode=OneWay}"
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 FontSize="{StaticResource SubtitleTextBlockFontSize}"
                                 FontWeight="Medium"
@@ -103,9 +104,8 @@
                             x:Name="ColorsView"
                             Padding="4"
                             HorizontalAlignment="Left"
-                            AllowDrop="True"
-                            CanDragItems="True"
-                            CanReorderItems="True"
+                            AllowDrop="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
+                            CanReorderItems="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
                             IsItemClickEnabled="True"
                             ItemTemplate="{StaticResource MiraiColorItemDetailTamplate}"
                             ItemsSource="{x:Bind ViewModel.Palette.Colors, Mode=OneTime}"
@@ -136,13 +136,15 @@
                                 FontSize="{StaticResource TitleTextBlockFontSize}"
                                 FontWeight="SemiBold"
                                 PlaceholderText="标题…"
+                                IsEnabled="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
                                 Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind ViewModel.Palette.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                             <TextBox
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                 PlaceholderText="描述…"
-                                Style="{StaticResource TransparentBorderlessTextBox}"
+                                     IsEnabled="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
+                                     Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind ViewModel.Palette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                         </StackPanel>
                         <StackPanel
@@ -204,7 +206,7 @@
                                 ColorChanged="ColorPicker_ColorChanged"
                                 ColorSpectrumShape="Ring"
                                 IsColorPaletteVisible="False"
-                                Color="{x:Bind ViewModel.PreviewColor, Mode=TwoWay}" />
+                                Color="{x:Bind ViewModel.SelectedColor.Color, Mode=TwoWay}" />
                         </Viewbox>
                     </ScrollViewer>
                     <controls:WrapPanel
@@ -220,7 +222,7 @@
                                 <TextBlock Text="接受" />
                             </StackPanel>
                         </Button>
-                        <Button Width="120" Command="{x:Bind ViewModel.ResetPreviewColorCommand, Mode=OneTime}">
+                        <Button Width="120" Command="{x:Bind ViewModel.ResetEditingColorCommand, Mode=OneTime}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <SymbolIcon Symbol="Undo" />
                                 <TextBlock Text="重置" />

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,6 +20,36 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         _paletteDataService = paletteDataService;
     }
 
+    partial void OnPaletteChanged(PaletteViewModel value)
+    {
+        value.Colors.CollectionChanged += PaletteColors_CollectionChanged;
+    }
+
+    private void PaletteColors_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        UpdateColorSelectionCommand.Execute(null);
+    }
+
+    [RelayCommand]
+    async Task UpdatePalette()
+    {
+        if(IsBusy)
+        {
+            await Current.ShowConfirmDialogAsync("请稍候", "当前有正在进行的操作，请稍后再试。", false);
+            return;
+        }
+        IsBusy = true;
+        try
+        {
+            await _paletteDataService.UpdatePaletteAsync(Palette);
+        }
+        catch(Exception e)
+        {
+            await Current.ShowConfirmDialogAsync("更新调色板失败", "更新调色板时发生错误：" + e.Message);
+        }
+        IsBusy = false;
+    }
+
     private readonly IPaletteDataService _paletteDataService;
 
     [ObservableProperty]
@@ -34,15 +65,9 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     [NotifyPropertyChangedFor(nameof(HasSelectedColors))]
     public partial ColorViewModel? SelectedColor { get; set; }
 
-    [ObservableProperty]
-    public partial Color PreviewColor { get; set; } = Colors.Transparent;
+    Color _colorBefore = Colors.Transparent;
 
     public bool HasSelectedColors => SelectedColor is not null;
-
-    partial void OnIsEditingColorChanged(bool oldValue, bool newValue)
-    {
-        Trace.WriteLine(newValue);
-    }
 
     [RelayCommand]
     public async Task Load(PaletteViewModel palette)
@@ -53,19 +78,22 @@ public partial class PaletteDetailPageViewModel : PageViewModel
             color.PropertyChanged += Color_PropertyChanged;
     }
 
-    private async void Color_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private void Color_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        await _paletteDataService.UpdatePaletteAsync(Palette);
+        if(e.PropertyName == nameof(ColorViewModel.Name))
+            UpdatePaletteCommand.Execute(null);
     }
 
-    private async void Palette_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private void Palette_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        await _paletteDataService.UpdatePaletteAsync(Palette);
+        if(e.PropertyName is nameof(PaletteViewModel.Title) or nameof(PaletteViewModel.Description))
+            UpdatePaletteCommand.Execute(null);
     }
 
     [RelayCommand]
     public void UpdateColorSelection(IList<object> selection)
     {
+        selection ??= Array.Empty<object>();
         foreach(var color in Palette.Colors)
             color.IsSelected = selection.Contains(color);
         if(selection.Count == 1 && !IsMultiSelectionEnabled)
@@ -90,14 +118,12 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     [RelayCommand]
     async Task AddColor()
     {
-        IsBusy = true;
         Palette.Colors.Insert(0, new ColorViewModel()
         {
             Name = $"新颜色 {Palette.Colors.Count + 1}",
             Color = Colors.White
         });
-        await _paletteDataService.UpdatePaletteAsync(Palette);
-        IsBusy = false;
+        await UpdatePalette();
         SelectedColor = Palette.Colors[0];
         EditColor();
     }
@@ -106,15 +132,15 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     {
         if(SelectedColor is null)
             return;
-        PreviewColor = SelectedColor!.Color;
+        _colorBefore = SelectedColor.Color;
     }
 
     [RelayCommand]
-    void ResetPreviewColor()
+    void ResetEditingColor()
     {
         if(SelectedColor is null)
             return;
-        PreviewColor = SelectedColor.Color;
+        SelectedColor.Color = _colorBefore;
     }
 
     [RelayCommand]
@@ -122,16 +148,37 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     {
         if(SelectedColor is null)
             return;
-        SelectedColor.Color = PreviewColor;
-        IsBusy = true;
-        await _paletteDataService.UpdatePaletteAsync(Palette);
-        IsBusy = false;
+        if(SelectedColor.Color != _colorBefore)
+            await UpdatePalette();
         SelectedColor = null;
+        _colorBefore = Colors.Transparent;
+    }
+
+    partial void OnSelectedColorChanging(ColorViewModel? oldValue, ColorViewModel? newValue)
+    {
+        if(IsEditingColor && oldValue is not null && newValue is not null)
+        {
+            oldValue.Color = _colorBefore;
+        }
     }
 
     [RelayCommand]
-    void ExitColorEditing()
+    async Task ExitColorEditing()
     {
+        if(SelectedColor is null)
+            return;
+        if(SelectedColor.Color != _colorBefore)
+        {
+            var isConfirmed = await Current.ShowConfirmDialogAsync("保存更改", $"颜色 \"{SelectedColor.Name}\" 已更改，是否保存更改？");
+            if(isConfirmed)
+            {
+                await UpdatePalette();
+            }
+            else
+            {
+                ResetEditingColor();
+            }
+        }
         SelectedColor = null;
     }
 
@@ -147,21 +194,17 @@ public partial class PaletteDetailPageViewModel : PageViewModel
             var isConfirmed = await Current.ShowConfirmDialogAsync("删除颜色", message);
             if(!isConfirmed)
                 return;
-            IsBusy = true;
             foreach(var color in selectedColors)
                 Palette.Colors.Remove(color);
-            await _paletteDataService.UpdatePaletteAsync(Palette);
-            IsBusy = false;
+            await UpdatePalette();
         }
         else
         {
             var isConfirmed = await Current.ShowConfirmDialogAsync("删除颜色", $"确定要删除颜色 \"{currentColor.Name}\"({currentColor.Hex}) 吗？");
             if(!isConfirmed)
                 return;
-            IsBusy = true;
             Palette.Colors.Remove(currentColor);
-            await _paletteDataService.UpdatePaletteAsync(Palette);
-            IsBusy = false;
+            await UpdatePalette();
         }
     }
 
@@ -171,9 +214,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         var isConfirmed = await Current.ShowConfirmDialogAsync("删除调色板", $"确定要删除调色板 \"{Palette.Title}\" 吗？");
         if(!isConfirmed)
             return;
-        IsBusy = true;
-        await _paletteDataService.DeletePaletteAsync(Palette.Id);
-        IsBusy = false;
+        await UpdatePalette();
         // 导航回上一级
         Current.NavigateTo(NavigationTarget.Back);
     }
