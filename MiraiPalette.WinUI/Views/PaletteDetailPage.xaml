@@ -16,7 +16,7 @@
     x:Name="RootPage"
     NavigationCacheMode="Disabled"
     SizeChanged="OnRootPageSizeChanged"
-    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+    Background="{ThemeResource DefaultAcrylicBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <Style
@@ -36,7 +36,7 @@
                 IsSelected="{x:Bind IsSelected, Mode=OneWay}">
                 <Grid>
                     <Rectangle
-                        Height="96"
+                        Height="108"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
                         Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" />

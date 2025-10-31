@@ -14,9 +14,8 @@
                 <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->
-            <media:AcrylicBrush x:Key="DefaultAcrylicBrush"
-                                BlurAmount="12"
-                                TintColor="{ThemeResource SolidBackgroundFillColorBase}"
+            <media:AcrylicBrush x:Key="DefaultAcrylicBrush" BlurAmount="15"
+                                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
                                 TintOpacity=".6" />
             <uiconverters:StringFormatConverter x:Key="StringFormatConverter" />
             <uiconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

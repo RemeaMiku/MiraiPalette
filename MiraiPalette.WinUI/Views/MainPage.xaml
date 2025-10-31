@@ -13,13 +13,12 @@
     xmlns:media="using:CommunityToolkit.WinUI.Media"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
-    xmlns:views="using:MiraiPalette.WinUI.Views"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
     x:Name="RootPage"
     MinWidth="320"
     Padding="32"
-    DataContext="{x:Bind}"
     NavigationCacheMode="Required"
+    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
     mc:Ignorable="d">
     <interactivity:Interaction.Behaviors>
         <interactivity:EventTriggerBehavior EventName="Loaded">
@@ -27,6 +26,14 @@
         </interactivity:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
     <Page.Resources>
+        <MenuFlyout x:Key="MiraiPaletteItemContextFlyout">
+            <MenuFlyoutItem Command="{x:Bind ViewModel.DeleteCurrentOrSelectedPalettesCommand, Mode=OneTime}" 
+                            CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}" 
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                            Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                            Icon="{ui:SymbolIcon Symbol=Delete}"
+                            Text="删除调色板" />
+        </MenuFlyout>
         <DataTemplate x:Key="MiraiColorItemTemplate"
                       x:DataType="vm:ColorViewModel">
             <Rectangle Height="28"
@@ -34,11 +41,17 @@
         </DataTemplate>
         <DataTemplate x:Key="MiraiPaletteItemTemplate"
                       x:DataType="vm:PaletteViewModel">
-            <ItemContainer IsSelected="{x:Bind IsSelected, Mode=OneWay}"
-                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+            <ItemContainer ContextFlyout="{StaticResource MiraiPaletteItemContextFlyout}" IsSelected="{x:Bind IsSelected, Mode=OneWay}"
+                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" IsRightTapEnabled="True">
+                <interactivity:Interaction.Behaviors>
+                    <interactivity:EventTriggerBehavior EventName="RightTapped">
+                        <interactivity:InvokeCommandAction Command="{Binding ViewModel.SetCurrentPaletteCommand, ElementName=RootPage, Mode=OneTime}"
+                            CommandParameter="{x:Bind}" />
+                    </interactivity:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
                 <Button HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
-                        Command="{Binding DataContext.ViewModel.TogglePaletteSelectionCommand, ElementName=RootPage, Mode=OneWay}"
+                        Command="{Binding ViewModel.PaletteCommand, ElementName=RootPage, Mode=OneWay}"
                         CommandParameter="{x:Bind}">
                     <Grid Padding="4">
                         <Grid.RowDefinitions>
@@ -89,10 +102,10 @@
         </DataTemplate>
     </Page.Resources>
     <Grid Padding="0">
-            <ScrollViewer x:Name="PalettesScrollViewer"
+        <ScrollViewer x:Name="PalettesScrollViewer"
                           Padding="8">
                 <ItemsRepeater ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
-                                   ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
+                               ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
                     <ItemsRepeater.Layout>
                         <controls:StaggeredLayout ColumnSpacing="8"
                                                   DesiredColumnWidth="320"
@@ -101,10 +114,12 @@
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </ScrollViewer>
-            <CommandBar 
+        <Border CornerRadius="{StaticResource ControlCornerRadius}"
+                HorizontalAlignment="Center"
+                Margin="16"
                 VerticalAlignment="Bottom"
-                        Background="{ThemeResource DefaultAcrylicBrush}"
-                        DefaultLabelPosition="Bottom">
+                Background="{ThemeResource DefaultAcrylicBrush}">
+            <CommandBar DefaultLabelPosition="Bottom">
                 <AppBarToggleButton BorderThickness="0"
                                     Content="{ui:FontIcon Glyph=&#xE762;}"
                                     IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}"
@@ -130,12 +145,13 @@
                               Label="导入" />
                 <AppBarSeparator />
                 <CommandBar.SecondaryCommands>
-                    <AppBarButton Command="{x:Bind ViewModel.DeleteSelectedPalettesCommand,Mode=OneTime}"
+                    <AppBarButton Command="{x:Bind ViewModel.DeleteCurrentOrSelectedPalettesCommand,Mode=OneTime}"
                                   Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                   Icon="{ui:SymbolIcon Symbol=Delete}"
                                   Label="删除"
                                   Visibility="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </CommandBar.SecondaryCommands>
             </CommandBar>
-        </Grid>
+        </Border>
+    </Grid>
 </Page>

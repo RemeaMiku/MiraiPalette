@@ -9,6 +9,7 @@
         xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
         xmlns:views="using:MiraiPalette.WinUI.Views"
         x:Name="Window"
+        SizeChanged="Window_SizeChanged"
         Title="Mirai Palette"
         mc:Ignorable="d">
     <Window.SystemBackdrop>
@@ -20,8 +21,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TitleBar Title="Mirai Palette" IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}" BackRequested="TitleBar_BackRequested" IsPaneToggleButtonVisible="True" PaneToggleRequested="TitleBar_PaneToggleRequested"/>
-        <NavigationView x:Name="MainNavigationView" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" Grid.Row="1">
+        <TitleBar x:Name="TitleBar" Title="Mirai Palette" IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}" BackRequested="TitleBar_BackRequested" PaneToggleRequested="TitleBar_PaneToggleRequested" />
+        <NavigationView CompactModeThresholdWidth="480" ExpandedModeThresholdWidth="480" x:Name="MainNavigationView" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" Grid.Row="1">
             <Frame x:Name="ContentFrame"/>
         </NavigationView>
     </Grid>

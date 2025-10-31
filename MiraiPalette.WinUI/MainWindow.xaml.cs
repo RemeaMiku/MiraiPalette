@@ -14,14 +14,21 @@ namespace MiraiPalette.WinUI;
 /// </summary>
 public sealed partial class MainWindow : Window
 {
+
+    public const int MinWindowWidth = 480;
+
+    public const int MinWindowHeight = 640;
+
+    public const int OverlayThresholdWidth = 800;
+
     public MainWindow()
     {
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
         ContentFrame.Navigate(typeof(MainPage));
         var presenter = AppWindow.Presenter as OverlappedPresenter;
-        presenter!.PreferredMinimumWidth = 480;
-        presenter.PreferredMinimumHeight = 640;
+        presenter!.PreferredMinimumWidth = MinWindowWidth;
+        presenter.PreferredMinimumHeight = MinWindowHeight;
     }
 
     public MainWindowViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainWindowViewModel>();
