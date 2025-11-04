@@ -138,7 +138,7 @@
                 <AppBarButton Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
                               Icon="Add"
                               Label="新建" />
-                <AppBarButton Click="OnExtractFromImageButtonClick"
+                <AppBarButton Command="{x:Bind ViewModel.NavigateToImagePaletteCommand,Mode=OneTime}"
                               Icon="{ui:FontIcon Glyph=&#xE91B;}"
                               Label="提取" />
                 <AppBarButton Icon="{ui:SymbolIcon Symbol=OpenFile}"

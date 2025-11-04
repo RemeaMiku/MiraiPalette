@@ -174,4 +174,13 @@ public partial class MainPageViewModel : PageViewModel
         palette.IsSelected = false;
         SelectedPalettes.Remove(palette);
     }
+
+    [RelayCommand]
+    async Task NavigateToImagePalette()
+    {
+        var path = await Current.PickFile("打开", ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff");
+        if(path is not null)
+            Current.NavigateTo(NavigationTarget.ImagePalette, path);
+        ClearSelection();
+    }
 }

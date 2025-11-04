@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.Storage.Pickers;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Local;
 using MiraiPalette.WinUI.ViewModels;
@@ -93,6 +96,32 @@ public partial class App : Application
         };
         var result = await dialog.ShowAsync();
         return result == ContentDialogResult.Primary;
+    }
+
+    public async Task<string?> PickFile(string commitText, params string[] filter)
+    {
+        var picker = CreateFileOpenPicker(commitText, filter);
+        var result = await picker.PickSingleFileAsync();
+        return result?.Path;
+    }
+
+    public async Task<IEnumerable<string>?> PickFiles(string commitText, params string[] filter)
+    {
+        var picker = CreateFileOpenPicker(commitText, filter);
+        var results = await picker.PickMultipleFilesAsync();
+        return results?.Select(f => f.Path);
+    }
+
+    FileOpenPicker CreateFileOpenPicker(string commitText, params string[] filter)
+    {
+        var picker = new FileOpenPicker(MainWindow.Content.XamlRoot.ContentIslandEnvironment.AppWindowId)
+        {
+            CommitButtonText = commitText,
+            ViewMode = PickerViewMode.Thumbnail,
+        };
+        foreach(var ext in filter)
+            picker.FileTypeFilter.Add(ext);
+        return picker;
     }
 
     public enum NavigationTarget
