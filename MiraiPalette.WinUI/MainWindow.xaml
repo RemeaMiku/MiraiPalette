@@ -8,6 +8,7 @@
         xmlns:models="using:MiraiPalette.WinUI.ViewModels"
         xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
         xmlns:views="using:MiraiPalette.WinUI.Views"
+        xmlns:controls="using:CommunityToolkit.WinUI.Controls"
         x:Name="Window"
         SizeChanged="Window_SizeChanged"
         Title="Mirai Palette"
@@ -22,8 +23,23 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TitleBar x:Name="TitleBar" Title="Mirai Palette" IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}" BackRequested="TitleBar_BackRequested" PaneToggleRequested="TitleBar_PaneToggleRequested" />
-        <NavigationView CompactModeThresholdWidth="480" ExpandedModeThresholdWidth="480" x:Name="MainNavigationView" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" Grid.Row="1">
-            <Frame x:Name="ContentFrame"/>
+        <NavigationView SelectionChanged="MainNavigationView_SelectionChanged" CompactModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth,Mode=OneTime}"
+                        ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth,Mode=OneTime}" x:Name="MainNavigationView" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" Grid.Row="1">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="ViewAll" Content="全部调色板" IsSelected="True"/>
+            </NavigationView.MenuItems>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <controls:PropertySizer Minimum="50"
+                                        Maximum="360"
+                                        Binding="{x:Bind MainNavigationView.OpenPaneLength,Mode=TwoWay}"
+                                        Visibility="{x:Bind MainNavigationView.IsPaneOpen,Mode=OneWay}" />
+                <Frame Grid.Column="1"
+                       x:Name="ContentFrame" />
+            </Grid>
         </NavigationView>
     </Grid>
 </Window>

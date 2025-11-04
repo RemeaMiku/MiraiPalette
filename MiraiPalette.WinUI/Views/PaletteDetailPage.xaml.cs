@@ -32,7 +32,8 @@ public sealed partial class PaletteDetailPage : Page
     private void OnRootPageSizeChanged(object _, SizeChangedEventArgs e)
     {
         PaletteView.DisplayMode = e.NewSize.Width < PaletteView.OpenPaneLength * 2 ? SplitViewDisplayMode.Overlay : SplitViewDisplayMode.Inline;
-        PaletteView.Focus(FocusState.Programmatic);
+        PaletteView.IsPaneOpen = ViewModel.IsEditingColor;
+        //PaletteView.Focus(FocusState.Programmatic);
     }
 
     #region ColorPicker 初始值修复

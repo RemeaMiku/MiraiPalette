@@ -92,7 +92,7 @@
         <SplitView
             x:Name="PaletteView"
             DisplayMode="Inline"
-            IsPaneOpen="{x:Bind ViewModel.IsEditingColor, Mode=TwoWay}"
+            IsPaneOpen="{x:Bind ViewModel.IsEditingColor, Mode=OneWay}"
             LightDismissOverlayMode="On"
             OpenPaneLength="360"
             PaneBackground="{ThemeResource DefaultAcrylicBrush}"

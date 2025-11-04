@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -219,5 +220,10 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         await UpdatePalette();
         // 导航回上一级
         Current.NavigateTo(NavigationTarget.Back);
+    }
+
+    partial void OnIsEditingColorChanged(bool value)
+    {
+        Trace.WriteLine($"IsEditingColor changed to {value}");
     }
 }

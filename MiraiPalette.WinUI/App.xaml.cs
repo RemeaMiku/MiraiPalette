@@ -63,12 +63,16 @@ public partial class App : Application
                     frame.GoBack();
                 break;
             case NavigationTarget.Main:
+                frame.Navigate(typeof(MainPage), parameter);
                 break;
             case NavigationTarget.Palette:
                 frame.Navigate(typeof(PaletteDetailPage), parameter);
                 break;
             case NavigationTarget.ImagePalette:
                 frame.Navigate(typeof(ImagePalettePage), parameter);
+                break;
+            case NavigationTarget.Settings:
+                frame.Navigate(typeof(SettingsPage), parameter);
                 break;
             default:
                 break;
@@ -97,5 +101,6 @@ public partial class App : Application
         Main,
         Palette,
         ImagePalette,
+        Settings
     }
 }

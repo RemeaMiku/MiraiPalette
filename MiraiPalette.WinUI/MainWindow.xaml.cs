@@ -44,4 +44,26 @@ public sealed partial class MainWindow : Window
     {
         MainNavigationView.IsPaneOpen = !MainNavigationView.IsPaneOpen;
     }
+
+    private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs args)
+    {
+        TitleBar.IsPaneToggleButtonVisible = Window.Bounds.Width < OverlayThresholdWidth;
+    }
+
+    private void MainNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+    {
+        if(args.IsSettingsSelected)
+        {
+            App.Current.NavigateTo(NavigationTarget.Settings);
+            return;
+        }
+        var selectedItem = args.SelectedItem as NavigationViewItem;
+        switch(selectedItem?.Tag)
+        {
+            // 临时
+            case null:
+                App.Current.NavigateTo(NavigationTarget.Main);
+                break;
+        }
+    }
 }

@@ -109,7 +109,7 @@
                     <ItemsRepeater.Layout>
                         <controls:StaggeredLayout ColumnSpacing="8"
                                                   DesiredColumnWidth="320"
-                                                  ItemsStretch="Fill"
+                                                  ItemsStretch="None"
                                                   RowSpacing="8" />
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
