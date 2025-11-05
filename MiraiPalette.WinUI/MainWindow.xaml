@@ -33,7 +33,9 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <controls:PropertySizer Minimum="50"
+                <controls:PropertySizer Background="Transparent"
+                                        Opacity="0.2"
+                                        Minimum="50"
                                         Maximum="360"
                                         Binding="{x:Bind MainNavigationView.OpenPaneLength,Mode=TwoWay}"
                                         Visibility="{x:Bind MainNavigationView.IsPaneOpen,Mode=OneWay}" />

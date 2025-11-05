@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,9 +15,10 @@ namespace MiraiPalette.WinUI.ViewModels;
 
 public partial class PaletteDetailPageViewModel : PageViewModel
 {
-    public PaletteDetailPageViewModel(IPaletteDataService paletteDataService)
+    public PaletteDetailPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService)
     {
-        _paletteDataService = paletteDataService;
+        _miraiPaletteStorageService = miraiPaletteStorageService;
+        _paletteFileService = paletteFileService;
     }
 
     partial void OnPaletteChanged(PaletteViewModel value)
@@ -28,7 +28,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
 
     private void PaletteColors_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        UpdateColorSelectionCommand.Execute(null);
+        UpdatePaletteCommand.Execute(null);
     }
 
     [RelayCommand]
@@ -42,7 +42,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         IsBusy = true;
         try
         {
-            await _paletteDataService.UpdatePaletteAsync(Palette);
+            await _miraiPaletteStorageService.UpdatePaletteAsync(Palette);
         }
         catch(Exception e)
         {
@@ -51,7 +51,9 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         IsBusy = false;
     }
 
-    private readonly IPaletteDataService _paletteDataService;
+    private readonly IMiraiPaletteStorageService _miraiPaletteStorageService;
+
+    private readonly IPaletteFileService _paletteFileService;
 
     [ObservableProperty]
     public partial PaletteViewModel Palette { get; private set; } = null!;
@@ -89,7 +91,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     {
         if(e.PropertyName is nameof(PaletteViewModel.Title) && string.IsNullOrWhiteSpace(Palette.Title))
         {
-            var title = (await _paletteDataService.GetPaletteAsync(Palette.Id))!.Title;
+            var title = (await _miraiPaletteStorageService.GetPaletteAsync(Palette.Id))!.Title;
             Palette.Title = title;
             return;
         }
@@ -134,6 +136,13 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         SelectedColor = Palette.Colors[0];
         EditColor();
     }
+
+    [RelayCommand]
+    async Task ExportPalette()
+    {
+
+    }
+
 
     void EditColor()
     {
@@ -217,13 +226,10 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         var isConfirmed = await Current.ShowConfirmDialogAsync("删除调色板", $"确定要删除调色板 \"{Palette.Title}\" 吗？");
         if(!isConfirmed)
             return;
-        await UpdatePalette();
+        IsBusy = true;
+        await _miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
+        IsBusy = false;
         // 导航回上一级
         Current.NavigateTo(NavigationTarget.Back);
-    }
-
-    partial void OnIsEditingColorChanged(bool value)
-    {
-        Trace.WriteLine($"IsEditingColor changed to {value}");
     }
 }

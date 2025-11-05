@@ -16,7 +16,6 @@
     x:Name="RootPage"
     NavigationCacheMode="Disabled"
     SizeChanged="OnRootPageSizeChanged"
-    Background="{ThemeResource DefaultAcrylicBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <Style
@@ -149,28 +148,29 @@
                                      Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind ViewModel.Palette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                         </StackPanel>
+                        <controls:WrapPanel>
+                            
+                        </controls:WrapPanel>
                         <StackPanel
                             Grid.Column="1"
                             Padding="4"
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
-                            Spacing="8">
-                            <ToggleButton
-                                x:Name="MultiSelectionToggleButton"
-                                Content="{ui:FontIcon Glyph=&#xE762;}"
-                                IsChecked="{x:Bind ViewModel.IsMultiSelectionEnabled, Mode=TwoWay}" />
-                            <Button
-                                Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
-                                Content="{ui:SymbolIcon Symbol=Delete}"
-                                IsEnabled="{x:Bind ViewModel.HasSelectedColors, Mode=OneWay}"
-                                Style="{ThemeResource CriticalButtonStyle}"
-                                Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                            <Button
-                                x:Name="AddColorButton"
-                                Command="{x:Bind ViewModel.AddColorCommand, Mode=OneTime}"
-                                Content="{ui:SymbolIcon Symbol=Add}"
-                                Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-                                IsEnabled="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+                            Spacing="16">
+                            <Button x:Name="AddColorButton"
+                                    Command="{x:Bind ViewModel.AddColorCommand, Mode=OneTime}"
+                                    Content="{ui:SymbolIcon Symbol=Add}"
+                                    Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                                    IsEnabled="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+                            <ToggleButton x:Name="MultiSelectionToggleButton"
+                                          Content="{ui:FontIcon Glyph=&#xE762;}"
+                                          IsChecked="{x:Bind ViewModel.IsMultiSelectionEnabled, Mode=TwoWay}" />
+                            <Button Foreground="SkyBlue" Content="{ui:FontIcon Glyph=&#xE792;}"/>
+                            <Button Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
+                                    Content="{ui:SymbolIcon Symbol=Delete}"
+                                    IsEnabled="{x:Bind ViewModel.HasSelectedColors, Mode=OneWay}"
+                                    Style="{ThemeResource CriticalButtonStyle}"
+                                    Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
                             <Button Content="{ui:SymbolIcon Symbol=More}">
                                 <Button.Flyout>
                                     <MenuFlyout>

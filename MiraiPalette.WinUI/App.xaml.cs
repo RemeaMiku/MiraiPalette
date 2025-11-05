@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.Storage.Pickers;
 using MiraiPalette.WinUI.Services;
-using MiraiPalette.WinUI.Services.Local;
+using MiraiPalette.WinUI.Services.Impl;
 using MiraiPalette.WinUI.ViewModels;
 using MiraiPalette.WinUI.Views;
 
@@ -29,7 +29,8 @@ public partial class App : Application
     static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection()
-            .AddSingleton<IPaletteDataService, MiraiPaletteDataFilePaletteDataService>()
+            .AddSingleton<IMiraiPaletteStorageService, MiraiPaletteDataFileStorageService>()
+            .AddSingleton<IPaletteFileService, PaletteFileService>()
             .AddTransient<PaletteDetailPageViewModel>()
             .AddTransient<ImagePalettePageViewModel>()
             .AddSingleton<MainPageViewModel>()

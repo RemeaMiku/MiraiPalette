@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MiraiPalette.WinUI.ViewModels;
 
-namespace MiraiPalette.WinUI.Services.Local;
+namespace MiraiPalette.WinUI.Services.Impl;
 
-public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
+public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
 {
     private const string _fileName = "palettes.mpd";
 
@@ -20,24 +20,8 @@ public class MiraiPaletteDataFilePaletteDataService : IPaletteDataService
 
     private readonly Dictionary<int, PaletteEntity> _palettes = [];
 
-    public MiraiPaletteDataFilePaletteDataService()
+    public MiraiPaletteDataFileStorageService()
     {
-        //var random = new Random();
-        //for(int i = 0; i < 96; i++)
-        //{
-        //    var count = random.Next(0, 16);
-        //    var colors = PaletteGenerator.GenerateRandomHexColor(count).Select((hex, index)
-        //        => new ColorViewModel { Id = index + 1, Name = $"Color {index + 1}", Color = hex.ToColor() });
-        //    var palette = new PaletteViewModel()
-        //    {
-        //        Id = i + 1,
-        //        Title = $"Palette {i + 1}",
-        //        Description = $"This is palette {i + 1} with {count} colors.",
-        //        Colors = new ObservableCollection<ColorViewModel>(colors)
-        //    };
-        //    _palettes.Add(palette.Id, palette);
-        //}
-        //SaveFile();
         ReadFile();
     }
 

@@ -4,7 +4,7 @@ using MiraiPalette.WinUI.ViewModels;
 
 namespace MiraiPalette.WinUI.Services;
 
-public interface IPaletteDataService
+public interface IMiraiPaletteStorageService
 {
     public Task<IEnumerable<PaletteViewModel>> GetAllPalettesAsync();
 

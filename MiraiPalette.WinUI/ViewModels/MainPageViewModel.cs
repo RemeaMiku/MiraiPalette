@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MiraiPalette.Shared.Formats;
 using MiraiPalette.WinUI.Services;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
 public partial class MainPageViewModel : PageViewModel
 {
-    public MainPageViewModel(IPaletteDataService paletteDataService)
+    public MainPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService)
     {
-        PaletteDataService = paletteDataService;
+        _miraiPaletteStorageService = miraiPaletteStorageService;
+        _paletteFileService = paletteFileService;
         SelectedPalettes.CollectionChanged += OnSelectedPalettesChanged;
         PaletteCommand = NavigateToPaletteCommand;
     }
@@ -28,7 +31,9 @@ public partial class MainPageViewModel : PageViewModel
     [ObservableProperty]
     public partial ObservableCollection<PaletteViewModel> Palettes { get; set; } = [];
 
-    public IPaletteDataService PaletteDataService { get; }
+    readonly IMiraiPaletteStorageService _miraiPaletteStorageService;
+
+    readonly IPaletteFileService _paletteFileService;
 
     public ObservableCollection<PaletteViewModel> SelectedPalettes { get; } = [];
 
@@ -74,7 +79,7 @@ public partial class MainPageViewModel : PageViewModel
         Palettes.Clear();
         SelectedPalettes.Clear();
         IsBusy = true;
-        Palettes = new(await PaletteDataService.GetAllPalettesAsync());
+        Palettes = new(await _miraiPaletteStorageService.GetAllPalettesAsync());
         IsBusy = false;
     }
 
@@ -109,7 +114,7 @@ public partial class MainPageViewModel : PageViewModel
             if(!confirmed)
                 return;
             IsBusy = true;
-            await PaletteDataService.DeletePalettesAsync(SelectedPalettes.Select(p => p.Id));
+            await _miraiPaletteStorageService.DeletePalettesAsync(SelectedPalettes.Select(p => p.Id));
             IsBusy = false;
         }
         else
@@ -118,7 +123,7 @@ public partial class MainPageViewModel : PageViewModel
             if(!confirmed)
                 return;
             IsBusy = true;
-            await PaletteDataService.DeletePaletteAsync(palette.Id);
+            await _miraiPaletteStorageService.DeletePaletteAsync(palette.Id);
             IsBusy = false;
         }
         await Load();
@@ -151,10 +156,43 @@ public partial class MainPageViewModel : PageViewModel
             Colors = []
         };
         IsBusy = true;
-        await PaletteDataService.AddPaletteAsync(newPalette);
+        await _miraiPaletteStorageService.AddPaletteAsync(newPalette);
         Palettes.Insert(0, newPalette);
         IsBusy = false;
         NavigateToPalette(newPalette);
+    }
+
+    [RelayCommand]
+    async Task AddPaletteFromFile()
+    {
+        IsMultiSelectMode = false;
+        var path = await Current.PickFile("导入调色板文件", ".aco");
+        if(path is null || !File.Exists(path))
+        {
+            await Current.ShowConfirmDialogAsync("导入调色板失败", "未选择有效的调色板文件。");
+            return;
+        }
+        try
+        {
+            IsBusy = true;
+            var palette = await _paletteFileService.Import(path);
+            if(palette is null)
+            {
+                await Current.ShowConfirmDialogAsync("导入调色板失败", "未能导入调色板。");
+                return;
+            }
+            await _miraiPaletteStorageService.AddPaletteAsync(palette);
+            Palettes.Insert(0, palette);
+            NavigateToPalette(palette);
+        }
+        catch(Exception e)
+        {
+            await Current.ShowConfirmDialogAsync("导入调色板失败", "导入调色板时发生错误：" + e.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]

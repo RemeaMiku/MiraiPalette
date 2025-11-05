@@ -16,7 +16,7 @@ namespace MiraiPalette.WinUI.ViewModels;
 
 public partial class ImagePalettePageViewModel : PageViewModel
 {
-    public ImagePalettePageViewModel(IPaletteDataService paletteDataService)
+    public ImagePalettePageViewModel(IMiraiPaletteStorageService paletteDataService)
     {
         _paletteDataService = paletteDataService;
         AutoColors.CollectionChanged += (_, __) =>
@@ -65,7 +65,7 @@ public partial class ImagePalettePageViewModel : PageViewModel
     [ObservableProperty]
     public partial bool IsPickingColor { get; set; }
 
-    readonly IPaletteDataService _paletteDataService;
+    readonly IMiraiPaletteStorageService _paletteDataService;
 
     [RelayCommand]
     async Task ExtractPalette()
@@ -73,6 +73,7 @@ public partial class ImagePalettePageViewModel : PageViewModel
         IsBusy = true;
         AutoColors.Clear();
         var result = await Task.Run(() => new ImagePaletteExtractor().Extract(ImagePixels.PixelData.Select(c => (c.R, c.G, c.B)), ColorCount).ToArray());
+        IsBusy = false;
         var colors = result.Select(c =>
         {
             var color = Color.FromArgb(255, c.R, c.G, c.B);
@@ -84,7 +85,6 @@ public partial class ImagePalettePageViewModel : PageViewModel
         });
         foreach(var color in colors)
             AutoColors.Add(color);
-        IsBusy = false;
     }
 
     [RelayCommand]
