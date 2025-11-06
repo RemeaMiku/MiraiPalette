@@ -140,7 +140,22 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     [RelayCommand]
     async Task ExportPalette()
     {
-
+        var path = await Current.PickPathToSave(Palette.Title, "保存", ("Adobe Color 文件", [".aco"]));
+        if(path is null)
+            return;
+        try
+        {
+            IsBusy = true;
+            await _paletteFileService.Export(Palette, path);
+        }
+        catch(Exception e)
+        {
+            await Current.ShowConfirmDialogAsync("导出调色板失败", "导出调色板时发生错误：" + e.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
 

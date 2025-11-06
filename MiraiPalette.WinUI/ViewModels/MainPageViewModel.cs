@@ -166,10 +166,12 @@ public partial class MainPageViewModel : PageViewModel
     async Task AddPaletteFromFile()
     {
         IsMultiSelectMode = false;
-        var path = await Current.PickFile("导入调色板文件", ".aco");
-        if(path is null || !File.Exists(path))
+        var path = await Current.PickFileToOpen("导入调色板文件", ".aco");
+        if(path is null)
+            return;
+        if(!File.Exists(path))
         {
-            await Current.ShowConfirmDialogAsync("导入调色板失败", "未选择有效的调色板文件。");
+            await Current.ShowConfirmDialogAsync("导入调色板失败", $"文件路径\"{path}\"不存在。", false);
             return;
         }
         try
@@ -178,7 +180,7 @@ public partial class MainPageViewModel : PageViewModel
             var palette = await _paletteFileService.Import(path);
             if(palette is null)
             {
-                await Current.ShowConfirmDialogAsync("导入调色板失败", "未能导入调色板。");
+                await Current.ShowConfirmDialogAsync("导入调色板失败", "未能导入调色板", false);
                 return;
             }
             await _miraiPaletteStorageService.AddPaletteAsync(palette);
@@ -216,7 +218,7 @@ public partial class MainPageViewModel : PageViewModel
     [RelayCommand]
     async Task NavigateToImagePalette()
     {
-        var path = await Current.PickFile("打开", ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff");
+        var path = await Current.PickFileToOpen("打开", ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff");
         if(path is not null)
             Current.NavigateTo(NavigationTarget.ImagePalette, path);
         ClearSelection();

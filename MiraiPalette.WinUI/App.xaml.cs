@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -89,7 +90,7 @@ public partial class App : Application
         {
             Title = title,
             Content = content,
-            PrimaryButtonText = "确认",
+            PrimaryButtonText = "确定",
             SecondaryButtonText = "取消",
             IsSecondaryButtonEnabled = showCancelButton,
             DefaultButton = ContentDialogButton.Primary,
@@ -99,18 +100,35 @@ public partial class App : Application
         return result == ContentDialogResult.Primary;
     }
 
-    public async Task<string?> PickFile(string commitText, params string[] filter)
+    public async Task<string?> PickFileToOpen(string commitText, params string[] filter)
     {
         var picker = CreateFileOpenPicker(commitText, filter);
         var result = await picker.PickSingleFileAsync();
         return result?.Path;
     }
 
-    public async Task<IEnumerable<string>?> PickFiles(string commitText, params string[] filter)
+    public async Task<IEnumerable<string>?> PickFilesToOpen(string commitText, params string[] filter)
     {
         var picker = CreateFileOpenPicker(commitText, filter);
         var results = await picker.PickMultipleFilesAsync();
         return results?.Select(f => f.Path);
+    }
+
+    public async Task<string?> PickPathToSave(string path, string commitText, params (string, IList<string>)[] fileTypeChoices)
+    {
+        var fileName = Path.GetFileNameWithoutExtension(path);
+        var extension = Path.GetExtension(path);
+        var picker = new FileSavePicker(MainWindow.Content.XamlRoot.ContentIslandEnvironment.AppWindowId)
+        {
+            SuggestedFileName = fileName,
+            DefaultFileExtension = extension,
+            CommitButtonText = commitText,
+            SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+        };
+        foreach(var (key, value) in fileTypeChoices)
+            picker.FileTypeChoices.Add(key, value);
+        var result = await picker.PickSaveFileAsync();
+        return result?.Path;
     }
 
     FileOpenPicker CreateFileOpenPicker(string commitText, params string[] filter)
