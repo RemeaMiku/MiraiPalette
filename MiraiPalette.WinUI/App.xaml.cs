@@ -27,14 +27,30 @@ public partial class App : Application
 
     public ServiceProvider Services { get; } = ConfigureServices();
 
+    public ElementTheme ThemeMode
+    {
+        get
+        {
+            var frameworkElement = MainWindow.Content as FrameworkElement;
+            return frameworkElement?.RequestedTheme ?? ElementTheme.Default;
+        }
+        pa set
+        {
+            var frameworkElement = MainWindow.Content as FrameworkElement;
+            frameworkElement?.RequestedTheme = value;
+        }
+    }
+
     static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection()
             .AddSingleton<IMiraiPaletteStorageService, MiraiPaletteDataFileStorageService>()
             .AddSingleton<IPaletteFileService, PaletteFileService>()
+            .AddSingleton<ISettingsService, LocalSettingsService>()
             .AddTransient<PaletteDetailPageViewModel>()
             .AddTransient<ImagePalettePageViewModel>()
             .AddSingleton<MainPageViewModel>()
+            .AddSingleton<SettingsPageViewModel>()
             .AddSingleton<MainWindowViewModel>()
             .AddSingleton<MainWindow>();
         return services.BuildServiceProvider();
@@ -55,7 +71,21 @@ public partial class App : Application
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        base.OnLaunched(args);
         MainWindow.Activate();
+        ApplyThemeModeSetting();
+    }
+
+    public void ApplyThemeModeSetting()
+    {
+        var settingsService = Services.GetRequiredService<ISettingsService>();
+        var themeModeStr = settingsService.GetValue(nameof(ThemeMode), nameof(ElementTheme.Default));
+        if(!Enum.TryParse<ElementTheme>(themeModeStr, out var themeMode))
+        {
+            settingsService.SetValue(nameof(ThemeMode), nameof(ElementTheme.Default));
+            return;
+        }
+        ThemeMode = themeMode;
     }
 
     public void NavigateTo(NavigationTarget target, object? parameter = null)
