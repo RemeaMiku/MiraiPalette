@@ -34,7 +34,7 @@ public partial class App : Application
             var frameworkElement = MainWindow.Content as FrameworkElement;
             return frameworkElement?.RequestedTheme ?? ElementTheme.Default;
         }
-        pa set
+        private set
         {
             var frameworkElement = MainWindow.Content as FrameworkElement;
             frameworkElement?.RequestedTheme = value;
