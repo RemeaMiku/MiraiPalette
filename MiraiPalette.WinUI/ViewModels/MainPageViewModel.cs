@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.Shared.Formats;
 using MiraiPalette.WinUI.Services;
+using MiraiPalette.WinUI.Strings.Resources;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
@@ -151,7 +152,7 @@ public partial class MainPageViewModel : PageViewModel
         IsMultiSelectMode = false;
         var newPalette = new PaletteViewModel()
         {
-            Title = "新建调色板",
+            Title = Resources.NewPalette,
             Description = string.Empty,
             Colors = []
         };

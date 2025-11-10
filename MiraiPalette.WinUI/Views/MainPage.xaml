@@ -14,6 +14,7 @@
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
+    xmlns:resources="using:MiraiPalette.WinUI.Strings.Resources"
     x:Name="RootPage"
     MinWidth="320"
     Padding="32"
@@ -31,7 +32,7 @@
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                             Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
                             Icon="{ui:SymbolIcon Symbol=Delete}"
-                            Text="删除调色板" />
+                            Text="{x:Bind resources:Resources.DeletePalettes,Mode=OneTime}" />
         </MenuFlyout>
         <DataTemplate x:Key="MiraiColorItemTemplate"
                       x:DataType="vm:ColorViewModel">
@@ -116,40 +117,43 @@
             </ScrollViewer>
         <Border CornerRadius="{StaticResource ControlCornerRadius}"
                 HorizontalAlignment="Center"
-                Margin="16"
+                Margin="32"
                 VerticalAlignment="Bottom"
                 Background="{ThemeResource DefaultAcrylicBrush}">
             <CommandBar DefaultLabelPosition="Bottom">
                 <AppBarToggleButton BorderThickness="0"
                                     Content="{ui:FontIcon Glyph=&#xE762;}"
                                     IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}"
-                                    Label="多选" />
+                                    Label="{x:Bind resources:Resources.MultipleSelection, Mode=OneTime}" />
                 <AppBarButton Command="{x:Bind ViewModel.SelectAllPalettesCommand, Mode=OneTime}"
                               Icon="SelectAll"
                               IsEnabled="{x:Bind ViewModel.IsAllPalettesSelected,Mode=OneWay,Converter={StaticResource BoolNegationConverter}}"
-                              Label="全选"
+                              Label="{x:Bind resources:Resources.SelectAll, Mode=OneTime}"
                               Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <AppBarButton Command="{x:Bind ViewModel.ClearSelectionCommand, Mode=OneTime}"
                               Icon="ClearSelection"
                               IsEnabled="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay}"
-                              Label="清除"
+                              Label="{x:Bind resources:Resources.ClearSelection, Mode=OneTime}" 
                               Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <AppBarSeparator />
                 <AppBarButton Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
                               Icon="Add"
-                              Label="新建" />
+                              ToolTipService.ToolTip="{x:Bind resources:Resources.CreateNewPalette_Tooltip, Mode=OneTime}"
+                              Label="{x:Bind resources:Resources.Create,Mode=OneTime}" />
                 <AppBarButton Command="{x:Bind ViewModel.NavigateToImagePaletteCommand,Mode=OneTime}"
                               Icon="{ui:FontIcon Glyph=&#xE91B;}"
-                              Label="提取" />
+                              ToolTipService.ToolTip="{x:Bind resources:Resources.ExtractPaletteFromImage_Tooltip}"
+                              Label="{x:Bind resources:Resources.Extract, Mode=OneTime}" />
                 <AppBarButton Command="{x:Bind ViewModel.AddPaletteFromFileCommand,Mode=OneTime}"
                               Icon="{ui:SymbolIcon Symbol=OpenFile}"
-                              Label="导入" />
+                              ToolTipService.ToolTip="{x:Bind resources:Resources.ImportPaletteFile_Tooltip, Mode=OneTime}"
+                              Label="{x:Bind resources:Resources.Import, Mode=OneTime}" />
                 <AppBarSeparator />
                 <CommandBar.SecondaryCommands>
                     <AppBarButton Command="{x:Bind ViewModel.DeleteCurrentOrSelectedPalettesCommand,Mode=OneTime}"
                                   Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                   Icon="{ui:SymbolIcon Symbol=Delete}"
-                                  Label="删除"
+                                  Label="{x:Bind resources:Resources.Delete, Mode=OneTime}"
                                   Visibility="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </CommandBar.SecondaryCommands>
             </CommandBar>
