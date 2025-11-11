@@ -13,6 +13,7 @@
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
+    xmlns:resources="using:MiraiPalette.WinUI.Strings.Resources"
     x:Name="RootPage"
     NavigationCacheMode="Disabled"
     SizeChanged="OnRootPageSizeChanged"
@@ -51,7 +52,7 @@
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 FontSize="{StaticResource SubtitleTextBlockFontSize}"
                                 FontWeight="Medium"
-                                PlaceholderText="[未命名]"
+                                PlaceholderText="{x:Bind resources:Resources.ColorName_Placeholder,Mode=OneTime}"
                                 Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                             <Button
@@ -81,7 +82,7 @@
                             CommandParameter="{x:Bind}"
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                             Icon="{ui:SymbolIcon Symbol=Delete}"
-                            Text="删除颜色" />
+                            Text="{x:Bind resources:Resources.RemoveColors, Mode=OneTime}" />
                     </MenuFlyout>
                 </ItemContainer.ContextFlyout>
             </ItemContainer>
@@ -136,16 +137,18 @@
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 FontSize="{StaticResource TitleTextBlockFontSize}"
                                 FontWeight="SemiBold"
-                                PlaceholderText="标题…"
+                                PlaceholderText="{x:Bind resources:Resources.PaletteTitle_Placeholder}"
+                                ToolTipService.ToolTip="{x:Bind resources:Resources.PaletteTitle_Tooltip}"
                                 IsEnabled="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
                                 Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind ViewModel.Palette.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                             <TextBox
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                PlaceholderText="描述…"
-                                     IsEnabled="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
-                                     Style="{StaticResource TransparentBorderlessTextBox}"
+                                PlaceholderText="{x:Bind resources:Resources.PaletteDescription_Placeholder}"
+                                ToolTipService.ToolTip="{x:Bind resources:Resources.PaletteDescription_Tooltip}"
+                                IsEnabled="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
+                                Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind ViewModel.Palette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                         </StackPanel>
                         <controls:WrapPanel>
@@ -161,13 +164,20 @@
                                     Command="{x:Bind ViewModel.AddColorCommand, Mode=OneTime}"
                                     Content="{ui:SymbolIcon Symbol=Add}"
                                     Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                                    ToolTipService.ToolTip="{x:Bind resources:Resources.AddColor_Tooltip, Mode=OneTime}"
                                     IsEnabled="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
                             <ToggleButton x:Name="MultiSelectionToggleButton"
                                           Content="{ui:FontIcon Glyph=&#xE762;}"
+                                          ToolTipService.ToolTip="{x:Bind resources:Resources.ToggleSelectionMode_Tooltip, Mode=OneTime}"
                                           IsChecked="{x:Bind ViewModel.IsMultiSelectionEnabled, Mode=TwoWay}" />
-                            <Button Foreground="SkyBlue" Content="{ui:FontIcon Glyph=&#xE792;}" Command="{x:Bind ViewModel.ExportPaletteCommand,Mode=OneTime}"/>
+                            <Button 
+                                Foreground="SkyBlue" 
+                                Content="{ui:FontIcon Glyph=&#xE792;}"
+                                ToolTipService.ToolTip="{x:Bind resources:Resources.SaveAs,Mode=OneTime}"
+                                Command="{x:Bind ViewModel.ExportPaletteCommand,Mode=OneTime}"/>
                             <Button Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
                                     Content="{ui:SymbolIcon Symbol=Delete}"
+                                    ToolTipService.ToolTip="{x:Bind resources:Resources.RemoveColors, Mode=OneTime}"
                                     IsEnabled="{x:Bind ViewModel.HasSelectedColors, Mode=OneWay}"
                                     Style="{ThemeResource CriticalButtonStyle}"
                                     Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
@@ -179,7 +189,7 @@
                                             Command="{x:Bind ViewModel.DeletePaletteCommand, Mode=OneTime}"
                                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                             Icon="{ui:SymbolIcon Symbol=Delete}"
-                                            Text="删除调色板" />
+                                            Text="{x:Bind resources:Resources.DeletePalette,Mode=OneTime}" />
                                     </MenuFlyout>
                                 </Button.Flyout>
                             </Button>
@@ -221,13 +231,13 @@
                             Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <SymbolIcon Symbol="Accept" />
-                                <TextBlock Text="接受" />
+                                <TextBlock Text="{x:Bind resources:Resources.Accept,Mode=OneTime}" />
                             </StackPanel>
                         </Button>
                         <Button Width="120" Command="{x:Bind ViewModel.ResetEditingColorCommand, Mode=OneTime}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <SymbolIcon Symbol="Undo" />
-                                <TextBlock Text="重置" />
+                                <TextBlock Text="{x:Bind resources:Resources.Reset,Mode=OneTime}" />
                             </StackPanel>
                         </Button>
                     </controls:WrapPanel>

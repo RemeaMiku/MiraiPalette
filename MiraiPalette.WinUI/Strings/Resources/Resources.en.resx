@@ -159,7 +159,7 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="NewPalette" xml:space="preserve">
+  <data name="DefaultPaletteTitle" xml:space="preserve">
     <value>New Palette</value>
   </data>
   <data name="Confirm" xml:space="preserve">
@@ -183,10 +183,31 @@
   <data name="SaveAs" xml:space="preserve">
     <value>Save As</value>
   </data>
-  <data name="PaletteTitle_Tooltip" xml:space="preserve">
+  <data name="PaletteTitle.Tooltip" xml:space="preserve">
     <value>Click to edit palette description</value>
   </data>
-  <data name="PaletteDescription_Tooltip" xml:space="preserve">
+  <data name="PaletteDescription.Tooltip" xml:space="preserve">
     <value>Click to edit palette title</value>
+  </data>
+  <data name="PaletteTitle.Placeholder" xml:space="preserve">
+    <value>Palette Title...</value>
+  </data>
+  <data name="ColorName.Placeholder" xml:space="preserve">
+    <value>[Unnamed]</value>
+  </data>
+  <data name="PaletteDescription.Placeholder" xml:space="preserve">
+    <value>Description...</value>
+  </data>
+  <data name="DeletePalette" xml:space="preserve">
+    <value>Delete Palette</value>
+  </data>
+  <data name="RemoveColors" xml:space="preserve">
+    <value>Remove Colors</value>
+  </data>
+  <data name="ColorName.Tooltip" xml:space="preserve">
+    <value>Click to edit color name</value>
+  </data>
+  <data name="DefaultColorName" xml:space="preserve">
+    <value>New Color</value>
   </data>
 </root>

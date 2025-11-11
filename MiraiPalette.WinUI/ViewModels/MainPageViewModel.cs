@@ -152,7 +152,7 @@ public partial class MainPageViewModel : PageViewModel
         IsMultiSelectMode = false;
         var newPalette = new PaletteViewModel()
         {
-            Title = Resources.NewPalette,
+            Title = Resources.DefaultPaletteTitle,
             Description = string.Empty,
             Colors = []
         };

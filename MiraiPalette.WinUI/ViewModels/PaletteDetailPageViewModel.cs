@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI;
 using MiraiPalette.WinUI.Services;
+using MiraiPalette.WinUI.Strings.Resources;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
 
@@ -129,7 +130,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     {
         Palette.Colors.Insert(0, new ColorViewModel()
         {
-            Name = $"新颜色 {Palette.Colors.Count + 1}",
+            Name = $"{Resources.DefaultColorName} {Palette.Colors.Count + 1}",
             Color = Colors.White
         });
         await UpdatePalette();

@@ -106,6 +106,24 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         }
         
         /// <summary>
+        ///   查找类似 [未命名] 的本地化字符串。
+        /// </summary>
+        internal static string ColorName_Placeholder {
+            get {
+                return ResourceManager.GetString("ColorName.Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 点击以编辑颜色名称 的本地化字符串。
+        /// </summary>
+        internal static string ColorName_Tooltip {
+            get {
+                return ResourceManager.GetString("ColorName.Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 确定 的本地化字符串。
         /// </summary>
         internal static string Confirm {
@@ -133,11 +151,38 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         }
         
         /// <summary>
+        ///   查找类似 新颜色 的本地化字符串。
+        /// </summary>
+        internal static string DefaultColorName {
+            get {
+                return ResourceManager.GetString("DefaultColorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建调色板 的本地化字符串。
+        /// </summary>
+        internal static string DefaultPaletteTitle {
+            get {
+                return ResourceManager.GetString("DefaultPaletteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 删除 的本地化字符串。
         /// </summary>
         internal static string Delete {
             get {
                 return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除调色板 的本地化字符串。
+        /// </summary>
+        internal static string DeletePalette {
+            get {
+                return ResourceManager.GetString("DeletePalette", resourceCulture);
             }
         }
         
@@ -196,11 +241,11 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         }
         
         /// <summary>
-        ///   查找类似 新建调色板 的本地化字符串。
+        ///   查找类似 描述… 的本地化字符串。
         /// </summary>
-        internal static string NewPalette {
+        internal static string PaletteDescription_Placeholder {
             get {
-                return ResourceManager.GetString("NewPalette", resourceCulture);
+                return ResourceManager.GetString("PaletteDescription.Placeholder", resourceCulture);
             }
         }
         
@@ -209,7 +254,16 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         /// </summary>
         internal static string PaletteDescription_Tooltip {
             get {
-                return ResourceManager.GetString("PaletteDescription_Tooltip", resourceCulture);
+                return ResourceManager.GetString("PaletteDescription.Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 调色板标题… 的本地化字符串。
+        /// </summary>
+        internal static string PaletteTitle_Placeholder {
+            get {
+                return ResourceManager.GetString("PaletteTitle.Placeholder", resourceCulture);
             }
         }
         
@@ -218,7 +272,7 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         /// </summary>
         internal static string PaletteTitle_Tooltip {
             get {
-                return ResourceManager.GetString("PaletteTitle_Tooltip", resourceCulture);
+                return ResourceManager.GetString("PaletteTitle.Tooltip", resourceCulture);
             }
         }
         
@@ -228,6 +282,15 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         internal static string RemoveColor {
             get {
                 return ResourceManager.GetString("RemoveColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 移除颜色 的本地化字符串。
+        /// </summary>
+        internal static string RemoveColors {
+            get {
+                return ResourceManager.GetString("RemoveColors", resourceCulture);
             }
         }
         

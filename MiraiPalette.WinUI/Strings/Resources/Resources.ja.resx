@@ -159,8 +159,8 @@
   <data name="Settings" xml:space="preserve">
     <value>設定</value>
   </data>
-  <data name="NewPalette" xml:space="preserve">
-    <value>新しいパレットを作成する</value>
+  <data name="DefaultPaletteTitle" xml:space="preserve">
+    <value>新しいパレット</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>確定</value>
@@ -169,7 +169,7 @@
     <value>キャンセル</value>
   </data>
   <data name="AddColor.Tooltip" xml:space="preserve">
-    <value>色を加える</value>
+    <value>色を追加する</value>
   </data>
   <data name="RemoveColor" xml:space="preserve">
     <value>色を削除する</value>
@@ -183,10 +183,31 @@
   <data name="SaveAs" xml:space="preserve">
     <value>名前を付けて保存</value>
   </data>
-  <data name="PaletteTitle_Tooltip" xml:space="preserve">
+  <data name="PaletteTitle.Tooltip" xml:space="preserve">
     <value>クリックしてパレットの説明を編集する</value>
   </data>
-  <data name="PaletteDescription_Tooltip" xml:space="preserve">
+  <data name="PaletteDescription.Tooltip" xml:space="preserve">
     <value>クリックしてパレットのタイトルを編集する</value>
+  </data>
+  <data name="PaletteTitle.Placeholder" xml:space="preserve">
+    <value>パレットのタイトル…</value>
+  </data>
+  <data name="ColorName.Placeholder" xml:space="preserve">
+    <value>[名前なし]</value>
+  </data>
+  <data name="PaletteDescription.Placeholder" xml:space="preserve">
+    <value>説明…</value>
+  </data>
+  <data name="DeletePalette" xml:space="preserve">
+    <value>パレットの削除</value>
+  </data>
+  <data name="RemoveColors" xml:space="preserve">
+    <value>色を削除する</value>
+  </data>
+  <data name="ColorName.Tooltip" xml:space="preserve">
+    <value>クリックして色名を編集する</value>
+  </data>
+  <data name="DefaultColorName" xml:space="preserve">
+    <value>新しい色</value>
   </data>
 </root>
