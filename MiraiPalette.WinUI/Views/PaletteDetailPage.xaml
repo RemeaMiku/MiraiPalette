@@ -34,6 +34,7 @@
                 x:Name="MiraiColorItemDetailItemContainer"
                 Width="240"
                 Height="160"
+                ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.ColorItem_Tooltip,Name),Mode=OneWay}"
                 IsSelected="{x:Bind IsSelected, Mode=OneWay}">
                 <Grid>
                     <Rectangle
@@ -50,7 +51,7 @@
                             <TextBox
                                 Padding="4"
                                 IsEnabled="{Binding ViewModel.IsNotBusy,ElementName=RootPage,Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.ColorItem_Tooltip,Name),Mode=OneWay}"
+                                ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.ColorName_Tooltip,Name),Mode=OneWay}"
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 FontSize="{StaticResource SubtitleTextBlockFontSize}"
                                 FontWeight="Medium"

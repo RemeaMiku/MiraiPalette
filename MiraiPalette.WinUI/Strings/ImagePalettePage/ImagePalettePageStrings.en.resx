@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,46 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PaletteTitle.Placeholder" xml:space="preserve">
-    <value>调色板标题...</value>
+  <data name="ZoomInButton.Tooltip" xml:space="preserve">
+    <value>Zoom in</value>
   </data>
-  <data name="PaletteTitle.Tooltip" xml:space="preserve">
-    <value>{0}（点击以编辑调色板标题）</value>
+  <data name="ZoomOutButton.Tooltip" xml:space="preserve">
+    <value>Zoom out</value>
   </data>
-  <data name="PaletteDescription.Tooltip" xml:space="preserve">
-    <value>{0}（点击以编辑描述）</value>
+  <data name="FitSizeButton.Tooltip" xml:space="preserve">
+    <value>Adapt to panel size</value>
   </data>
-  <data name="PaletteDescription.Placeholder" xml:space="preserve">
-    <value>描述...</value>
+  <data name="ColorPickerToggleButton.Tooltip" xml:space="preserve">
+    <value>Toggle color picker</value>
   </data>
-  <data name="AddColorButton.Tooltip" xml:space="preserve">
-    <value>添加颜色</value>
+  <data name="AutoColorsList.Title" xml:space="preserve">
+    <value>Automatic</value>
   </data>
-  <data name="ExportPaletteButton.Tooltip" xml:space="preserve">
-    <value>导出调色板（目前仅支持 ACO 文件）</value>
+  <data name="ManualColorsList.Title" xml:space="preserve">
+    <value>Manual</value>
   </data>
-  <data name="ToggleSelectionModeButton.Tooltip" xml:space="preserve">
-    <value>切换选择模式</value>
+  <data name="ColorsListClearButton.Tooltip" xml:space="preserve">
+    <value>Clear list</value>
   </data>
-  <data name="ColorName.Placeholder" xml:space="preserve">
-    <value>[未命名]</value>
+  <data name="AutoColorsCountSetting.Header" xml:space="preserve">
+    <value>Set the number of colors to auto-extract:</value>
   </data>
-  <data name="ColorValueButton.Tooltip" xml:space="preserve">
-    <value>{0}（点击以复制到剪切板）</value>
+  <data name="AutoExtractButton.Text" xml:space="preserve">
+    <value>Auto-extract</value>
   </data>
-  <data name="ColorItem.Tooltip" xml:space="preserve">
-    <value>{0}（点击以编辑颜色）</value>
-  </data>
-  <data name="CloseColorEditPaneButton.Tooltip" xml:space="preserve">
-    <value>关闭侧栏</value>
-  </data>
-  <data name="DeletePaletteButton.Text" xml:space="preserve">
-    <value>删除调色板</value>
-  </data>
-  <data name="MoreActionsButton.Tooltip" xml:space="preserve">
-    <value>查看更多调色板的操作</value>
-  </data>
-  <data name="ColorName.Tooltip" xml:space="preserve">
-    <value>{0}（点击以编辑颜色名称）</value>
+  <data name="ImagePaletteDescription" xml:space="preserve">
+    <value>Palette extracted from "{0}"</value>
   </data>
 </root>

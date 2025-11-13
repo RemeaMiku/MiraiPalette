@@ -171,4 +171,7 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>Multi-Select</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
 </root>

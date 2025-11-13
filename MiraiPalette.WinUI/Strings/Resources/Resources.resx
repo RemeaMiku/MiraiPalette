@@ -171,4 +171,7 @@
   <data name="MultiSelect" xml:space="preserve">
     <value>多选</value>
   </data>
+  <data name="Complete" xml:space="preserve">
+    <value>完成</value>
+  </data>
 </root>

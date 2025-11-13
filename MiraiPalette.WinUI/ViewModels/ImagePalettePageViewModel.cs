@@ -9,6 +9,7 @@ using Microsoft.UI;
 using MiraiPalette.Shared.Essentials;
 using MiraiPalette.WinUI.Essentials;
 using MiraiPalette.WinUI.Services;
+using MiraiPalette.WinUI.Strings;
 using Windows.Foundation;
 using Windows.UI;
 
@@ -152,8 +153,8 @@ public partial class ImagePalettePageViewModel : PageViewModel
     {
         var palette = new PaletteViewModel
         {
-            Title = $"图像调色板 - {Path.GetFileNameWithoutExtension(ImagePath)}",
-            Description = $"从图像 \"{ImagePath}\" 提取的调色板",
+            Title = Path.GetFileNameWithoutExtension(ImagePath),
+            Description = string.Format(ImagePalettePageStrings.ImagePaletteDescription, ImagePath),
             Colors = [.. AutoColors, .. ManualColors]
         };
         IsBusy = true;

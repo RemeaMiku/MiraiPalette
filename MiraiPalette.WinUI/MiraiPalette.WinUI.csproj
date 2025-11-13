@@ -109,10 +109,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Settings\" />
-    <Folder Include="Strings\ImagePalettePage\" />
     <Folder Include="Strings\SettingsPage\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Strings\ImagePalettePage\ImagePalettePageStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ImagePalettePageStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Strings\MainPage\MainPageStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -130,6 +134,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Strings\ImagePalettePage\ImagePalettePageStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImagePalettePageStrings.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+    </EmbeddedResource>
     <EmbeddedResource Update="Strings\MainPage\MainPageStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MainPageStrings.Designer.cs</LastGenOutput>

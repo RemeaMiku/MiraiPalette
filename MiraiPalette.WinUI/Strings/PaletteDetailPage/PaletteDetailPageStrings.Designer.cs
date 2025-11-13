@@ -97,6 +97,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 {0}（点击以编辑颜色名称） 的本地化字符串。
+        /// </summary>
+        internal static string ColorName_Tooltip {
+            get {
+                return ResourceManager.GetString("ColorName.Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0}（点击以复制到剪切板） 的本地化字符串。
         /// </summary>
         internal static string ColorValueButton_Tooltip {

@@ -156,4 +156,7 @@
   <data name="MoreActionsButton.Tooltip" xml:space="preserve">
     <value>View more palette actions</value>
   </data>
+  <data name="ColorName.Tooltip" xml:space="preserve">
+    <value>{0} (click to edit color name)</value>
+  </data>
 </root>

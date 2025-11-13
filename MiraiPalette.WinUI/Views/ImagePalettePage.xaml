@@ -12,8 +12,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
-      xmlns:localization="using:MiraiPalette.WinUI.Strings"
-      MinWidth="640"
+    xmlns:localization="using:MiraiPalette.WinUI.Strings"
+    MinWidth="640"
     NavigationCacheMode="Disabled"
     mc:Ignorable="d">
     <Page.Resources>
@@ -103,22 +103,26 @@
                     x:Name="FitImageSizeToPanelButton"
                     Click="FitImageSizeToPanelButton_Click"
                     Content="{ui:FontIcon Glyph=&#xE9A6;}"
+                    ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.FitSizeButton_Tooltip,Mode=OneTime}"
                     Style="{StaticResource ToolButtonStyle}" />
                 <Button
                     x:Name="ImageZoomInButton"
                     Click="ImageZoomInButton_Click"
                     Content="{ui:SymbolIcon Symbol=ZoomIn}"
+                    ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ZoomInButton_Tooltip,Mode=OneTime}"
                     Style="{StaticResource ToolButtonStyle}" />
                 <Button
                     x:Name="ImageZoomOutButton"
                     Click="ImageZoomOutButton_Click"
                     Content="{ui:SymbolIcon Symbol=ZoomOut}"
+                    ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ZoomOutButton_Tooltip,Mode=OneTime}"
                     Style="{StaticResource ToolButtonStyle}" />
                 <ToggleButton
                     Padding="8"
                     HorizontalAlignment="Center"
                     Background="Transparent"
                     BorderThickness="0"
+                    ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ColorPickerToggleButton_Tooltip,Mode=OneTime}"
                     Content="{ui:FontIcon Glyph=&#xEF3C;}"
                     IsChecked="{x:Bind ViewModel.IsPickingColor, Mode=TwoWay}" />
             </StackPanel>
@@ -179,13 +183,14 @@
                 Orientation="Horizontal"
                 Spacing="8">
                 <FontIcon VerticalAlignment="Center" Glyph="&#xE9F5;" />
-                <TextBlock FontSize="{StaticResource SubtitleTextBlockFontSize}" Text="自动提取" />
+                <TextBlock FontSize="{StaticResource SubtitleTextBlockFontSize}" Text="{x:Bind localization:ImagePalettePageStrings.AutoColorsList_Title,Mode=OneTime}" />
                 <Button
                     Padding="4"
                     Command="{x:Bind ViewModel.ClearAutoColorsCommand, Mode=OneTime}"
                     Content="{ui:SymbolIcon Symbol=Clear}"
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                     Style="{StaticResource BorderlessTransparentButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ColorsListClearButton_Tooltip,Mode=OneTime}"
                     Visibility="{x:Bind ViewModel.HasAutoColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
             </StackPanel>
             <ListView x:Name="ManualColorListView"
@@ -216,14 +221,15 @@
                 <TextBlock
                     VerticalAlignment="Center"
                     FontSize="{StaticResource SubtitleTextBlockFontSize}"
-                    Text="手动提取" />
+                           Text="{x:Bind localization:ImagePalettePageStrings.ManualColorsList_Title,Mode=OneTime}" />
                 <Button
                     Padding="4"
                     Command="{x:Bind ViewModel.ClearManualColorsCommand, Mode=OneTime}"
                     Content="{ui:SymbolIcon Symbol=Clear}"
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                     Style="{StaticResource BorderlessTransparentButtonStyle}"
-                    Visibility="{x:Bind ViewModel.HasManualColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                        ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ColorsListClearButton_Tooltip,Mode=OneTime}"
+                        Visibility="{x:Bind ViewModel.HasManualColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
             </StackPanel>
             <StackPanel
                 Grid.Column="2"
@@ -231,8 +237,8 @@
                 VerticalAlignment="Center"
                 Orientation="Vertical"
                 Spacing="16">
-                <NumberBox
-                    Header="自动提取颜色数："
+                <NumberBox 
+                    Header="{x:Bind localization:ImagePalettePageStrings.AutoColorsCountSetting_Header,Mode=OneTime}"
                     LargeChange="10"
                     Maximum="{x:Bind ViewModel.MaximumColorCount, Mode=OneTime}"
                     Minimum="{x:Bind ViewModel.MinimumColorCount, Mode=OneTime}"
@@ -243,13 +249,13 @@
                 <Button
                     HorizontalAlignment="Stretch"
                     Command="{x:Bind ViewModel.ExtractPaletteCommand, Mode=OneTime}"
-                    Content="自动提取" />
+                        Content="{x:Bind localization:ImagePalettePageStrings.AutoExtractButton_Text,Mode=OneTime}" />
                 <Button
                     x:Name="CompleteButton"
                     Margin="0,32,0,0"
                     HorizontalAlignment="Stretch"
                     Command="{x:Bind ViewModel.SavePaletteCommand, Mode=OneTime}"
-                    Content="完成"
+                    Content="{x:Bind localization:Resources.Complete,Mode=OneTime}"
                     IsEnabled="{x:Bind ViewModel.CanSavePalette, Mode=OneWay}"
                     Style="{StaticResource AccentButtonStyle}" />
             </StackPanel>
