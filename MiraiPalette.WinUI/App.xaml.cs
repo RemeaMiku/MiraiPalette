@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.Storage.Pickers;
@@ -11,6 +12,7 @@ using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Impl;
 using MiraiPalette.WinUI.ViewModels;
 using MiraiPalette.WinUI.Views;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -37,6 +39,13 @@ public partial class App : Application
         private set
         {
             var frameworkElement = MainWindow.Content as FrameworkElement;
+            // Update title bar button colors
+            var titleBar = MainWindow.AppWindow.TitleBar;
+            var foregroundColor = value == ElementTheme.Dark ? Colors.White : Colors.Black;
+            titleBar.ButtonForegroundColor = foregroundColor;
+            titleBar.ButtonHoverForegroundColor = foregroundColor;
+            var backgroundHoverColor = value == ElementTheme.Dark ? Color.FromArgb(24, 255, 255, 255) : Color.FromArgb(24, 0, 0, 0);
+            titleBar.ButtonHoverBackgroundColor = backgroundHoverColor;
             frameworkElement?.RequestedTheme = value;
         }
     }

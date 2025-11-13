@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MiraiPalette.WinUI.Strings.Resources {
+namespace MiraiPalette.WinUI.Strings {
     using System;
     
     
@@ -70,15 +70,6 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         }
         
         /// <summary>
-        ///   查找类似 添加颜色 的本地化字符串。
-        /// </summary>
-        internal static string AddColor_Tooltip {
-            get {
-                return ResourceManager.GetString("AddColor.Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 全部调色板 的本地化字符串。
         /// </summary>
         internal static string AllPalettes {
@@ -106,24 +97,6 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         }
         
         /// <summary>
-        ///   查找类似 [未命名] 的本地化字符串。
-        /// </summary>
-        internal static string ColorName_Placeholder {
-            get {
-                return ResourceManager.GetString("ColorName.Placeholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 点击以编辑颜色名称 的本地化字符串。
-        /// </summary>
-        internal static string ColorName_Tooltip {
-            get {
-                return ResourceManager.GetString("ColorName.Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 确定 的本地化字符串。
         /// </summary>
         internal static string Confirm {
@@ -138,15 +111,6 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         internal static string Create {
             get {
                 return ResourceManager.GetString("Create", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 新建空白调色板 的本地化字符串。
-        /// </summary>
-        internal static string CreateNewPalette_Tooltip {
-            get {
-                return ResourceManager.GetString("CreateNewPalette.Tooltip", resourceCulture);
             }
         }
         
@@ -178,20 +142,11 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         }
         
         /// <summary>
-        ///   查找类似 删除调色板 的本地化字符串。
+        ///   查找类似 导出 的本地化字符串。
         /// </summary>
-        internal static string DeletePalette {
+        internal static string Export {
             get {
-                return ResourceManager.GetString("DeletePalette", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 删除调色板 的本地化字符串。
-        /// </summary>
-        internal static string DeletePalettes {
-            get {
-                return ResourceManager.GetString("DeletePalettes", resourceCulture);
+                return ResourceManager.GetString("Export", resourceCulture);
             }
         }
         
@@ -205,15 +160,6 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         }
         
         /// <summary>
-        ///   查找类似 从图片中提取 的本地化字符串。
-        /// </summary>
-        internal static string ExtractPaletteFromImage_Tooltip {
-            get {
-                return ResourceManager.GetString("ExtractPaletteFromImage.Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 导入 的本地化字符串。
         /// </summary>
         internal static string Import {
@@ -223,74 +169,20 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         }
         
         /// <summary>
-        ///   查找类似 从文件导入（目前只支持ACO文件） 的本地化字符串。
-        /// </summary>
-        internal static string ImportPaletteFile_Tooltip {
-            get {
-                return ResourceManager.GetString("ImportPaletteFile.Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 多选 的本地化字符串。
         /// </summary>
-        internal static string MultipleSelection {
+        internal static string MultiSelect {
             get {
-                return ResourceManager.GetString("MultipleSelection", resourceCulture);
+                return ResourceManager.GetString("MultiSelect", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 描述… 的本地化字符串。
+        ///   查找类似 移除 的本地化字符串。
         /// </summary>
-        internal static string PaletteDescription_Placeholder {
+        internal static string Remove {
             get {
-                return ResourceManager.GetString("PaletteDescription.Placeholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 点击以编辑调色板标题 的本地化字符串。
-        /// </summary>
-        internal static string PaletteDescription_Tooltip {
-            get {
-                return ResourceManager.GetString("PaletteDescription.Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 调色板标题… 的本地化字符串。
-        /// </summary>
-        internal static string PaletteTitle_Placeholder {
-            get {
-                return ResourceManager.GetString("PaletteTitle.Placeholder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 点击以编辑调色板描述 的本地化字符串。
-        /// </summary>
-        internal static string PaletteTitle_Tooltip {
-            get {
-                return ResourceManager.GetString("PaletteTitle.Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 移除颜色 的本地化字符串。
-        /// </summary>
-        internal static string RemoveColor {
-            get {
-                return ResourceManager.GetString("RemoveColor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 移除颜色 的本地化字符串。
-        /// </summary>
-        internal static string RemoveColors {
-            get {
-                return ResourceManager.GetString("RemoveColors", resourceCulture);
+                return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
         
@@ -327,15 +219,6 @@ namespace MiraiPalette.WinUI.Strings.Resources {
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 切换选择模式 的本地化字符串。
-        /// </summary>
-        internal static string ToggleSelectionMode_Tooltip {
-            get {
-                return ResourceManager.GetString("ToggleSelectionMode.Tooltip", resourceCulture);
             }
         }
     }

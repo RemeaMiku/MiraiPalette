@@ -20,6 +20,7 @@
             <uiconverters:StringFormatConverter x:Key="StringFormatConverter" />
             <uiconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <uiconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <converters:BoolToVisibilityInverseConverter x:Key="BoolToVisibilityInverseConverter" />
             <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
             <converters:BoolToListViewSelectionModeConverter x:Key="BoolToListViewSelectionModeConverter" />
             <Style

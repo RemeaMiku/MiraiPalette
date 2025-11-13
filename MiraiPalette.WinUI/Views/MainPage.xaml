@@ -14,7 +14,7 @@
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
-    xmlns:resources="using:MiraiPalette.WinUI.Strings.Resources"
+    xmlns:localization="using:MiraiPalette.WinUI.Strings"
     x:Name="RootPage"
     MinWidth="320"
     Padding="32"
@@ -32,7 +32,7 @@
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                             Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
                             Icon="{ui:SymbolIcon Symbol=Delete}"
-                            Text="{x:Bind resources:Resources.DeletePalettes,Mode=OneTime}" />
+                            Text="{x:Bind localization:Resources.Delete,Mode=OneTime}" />
         </MenuFlyout>
         <DataTemplate x:Key="MiraiColorItemTemplate"
                       x:DataType="vm:ColorViewModel">
@@ -42,7 +42,8 @@
         <DataTemplate x:Key="MiraiPaletteItemTemplate"
                       x:DataType="vm:PaletteViewModel">
             <ItemContainer ContextFlyout="{StaticResource MiraiPaletteItemContextFlyout}" IsSelected="{x:Bind IsSelected, Mode=OneWay}"
-                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" IsRightTapEnabled="True">
+                           Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" IsRightTapEnabled="True"
+                           ToolTipService.ToolTip="{x:Bind Title,Mode=OneWay}">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="RightTapped">
                         <interactivity:InvokeCommandAction Command="{Binding ViewModel.SetCurrentPaletteCommand, ElementName=RootPage, Mode=OneTime}"
@@ -124,36 +125,37 @@
                 <AppBarToggleButton BorderThickness="0"
                                     Content="{ui:FontIcon Glyph=&#xE762;}"
                                     IsChecked="{x:Bind ViewModel.IsMultiSelectMode, Mode=TwoWay}"
-                                    Label="{x:Bind resources:Resources.MultipleSelection, Mode=OneTime}" />
+                                    ToolTipService.ToolTip="{x:Bind localization:MainPageStrings.ToggleSelectionMode_Tooltip}"
+                                    Label="{x:Bind localization:Resources.MultiSelect, Mode=OneTime}" />
                 <AppBarButton Command="{x:Bind ViewModel.SelectAllPalettesCommand, Mode=OneTime}"
                               Icon="SelectAll"
                               IsEnabled="{x:Bind ViewModel.IsAllPalettesSelected,Mode=OneWay,Converter={StaticResource BoolNegationConverter}}"
-                              Label="{x:Bind resources:Resources.SelectAll, Mode=OneTime}"
+                              Label="{x:Bind localization:Resources.SelectAll, Mode=OneTime}"
                               Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <AppBarButton Command="{x:Bind ViewModel.ClearSelectionCommand, Mode=OneTime}"
                               Icon="ClearSelection"
                               IsEnabled="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay}"
-                              Label="{x:Bind resources:Resources.ClearSelection, Mode=OneTime}" 
+                              Label="{x:Bind localization:Resources.ClearSelection, Mode=OneTime}" 
                               Visibility="{x:Bind ViewModel.IsMultiSelectMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <AppBarSeparator />
                 <AppBarButton Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
                               Icon="Add"
-                              ToolTipService.ToolTip="{x:Bind resources:Resources.CreateNewPalette_Tooltip, Mode=OneTime}"
-                              Label="{x:Bind resources:Resources.Create,Mode=OneTime}" />
+                              ToolTipService.ToolTip="{x:Bind localization:MainPageStrings.CreateNewPalette_Tooltip, Mode=OneTime}"
+                              Label="{x:Bind localization:Resources.Create,Mode=OneTime}" />
                 <AppBarButton Command="{x:Bind ViewModel.NavigateToImagePaletteCommand,Mode=OneTime}"
                               Icon="{ui:FontIcon Glyph=&#xE91B;}"
-                              ToolTipService.ToolTip="{x:Bind resources:Resources.ExtractPaletteFromImage_Tooltip}"
-                              Label="{x:Bind resources:Resources.Extract, Mode=OneTime}" />
+                              ToolTipService.ToolTip="{x:Bind localization:MainPageStrings.ExtractPaletteFromImage_Tooltip}"
+                              Label="{x:Bind localization:Resources.Extract, Mode=OneTime}" />
                 <AppBarButton Command="{x:Bind ViewModel.AddPaletteFromFileCommand,Mode=OneTime}"
                               Icon="{ui:SymbolIcon Symbol=OpenFile}"
-                              ToolTipService.ToolTip="{x:Bind resources:Resources.ImportPaletteFile_Tooltip, Mode=OneTime}"
-                              Label="{x:Bind resources:Resources.Import, Mode=OneTime}" />
+                              ToolTipService.ToolTip="{x:Bind localization:MainPageStrings.ImportPaletteFile_Tooltip, Mode=OneTime}"
+                              Label="{x:Bind localization:Resources.Import, Mode=OneTime}" />
                 <AppBarSeparator />
                 <CommandBar.SecondaryCommands>
                     <AppBarButton Command="{x:Bind ViewModel.DeleteCurrentOrSelectedPalettesCommand,Mode=OneTime}"
                                   Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                   Icon="{ui:SymbolIcon Symbol=Delete}"
-                                  Label="{x:Bind resources:Resources.Delete, Mode=OneTime}"
+                                  Label="{x:Bind localization:Resources.Delete, Mode=OneTime}"
                                   Visibility="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </CommandBar.SecondaryCommands>
             </CommandBar>

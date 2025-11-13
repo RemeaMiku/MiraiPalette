@@ -117,58 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>新建</value>
+  <data name="AddColorButton.Tooltip" xml:space="preserve">
+    <value>Add Color</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>删除</value>
+  <data name="PaletteTitle.Placeholder" xml:space="preserve">
+    <value>Palette Title...</value>
   </data>
-  <data name="AllPalettes" xml:space="preserve">
-    <value>全部调色板</value>
+  <data name="PaletteDescription.Placeholder" xml:space="preserve">
+    <value>Description...</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>设置</value>
+  <data name="ColorName.Placeholder" xml:space="preserve">
+    <value>[Unnamed]</value>
   </data>
-  <data name="DefaultColorName" xml:space="preserve">
-    <value>新颜色</value>
+  <data name="PaletteTitle.Tooltip" xml:space="preserve">
+    <value>{0} (click to edit palette title)</value>
   </data>
-  <data name="Import" xml:space="preserve">
-    <value>导入</value>
+  <data name="PaletteDescription.Tooltip" xml:space="preserve">
+    <value>{0} (click to edit description)</value>
   </data>
-  <data name="DefaultPaletteTitle" xml:space="preserve">
-    <value>新建调色板</value>
+  <data name="ExportPaletteButton.Tooltip" xml:space="preserve">
+    <value>Export palette (currently only ACO files supported)</value>
   </data>
-  <data name="Confirm" xml:space="preserve">
-    <value>确定</value>
+  <data name="ToggleSelectionModeButton.Tooltip" xml:space="preserve">
+    <value>Switch selection mode</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+  <data name="ColorValueButton.Tooltip" xml:space="preserve">
+    <value>{0} (click to copy to clipboard)</value>
   </data>
-  <data name="Accept" xml:space="preserve">
-    <value>接受</value>
+  <data name="ColorItem.Tooltip" xml:space="preserve">
+    <value>{0} (click to edit color)</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>重置</value>
+  <data name="CloseColorEditPaneButton.Tooltip" xml:space="preserve">
+    <value>Close sidebar</value>
   </data>
-  <data name="SaveAs" xml:space="preserve">
-    <value>另存为</value>
+  <data name="DeletePaletteButton.Text" xml:space="preserve">
+    <value>Delete The Palette</value>
   </data>
-  <data name="Export" xml:space="preserve">
-    <value>导出</value>
-  </data>
-  <data name="Extract" xml:space="preserve">
-    <value>提取</value>
-  </data>
-  <data name="SelectAll" xml:space="preserve">
-    <value>全选</value>
-  </data>
-  <data name="ClearSelection" xml:space="preserve">
-    <value>清除选择</value>
-  </data>
-  <data name="Remove" xml:space="preserve">
-    <value>移除</value>
-  </data>
-  <data name="MultiSelect" xml:space="preserve">
-    <value>多选</value>
+  <data name="MoreActionsButton.Tooltip" xml:space="preserve">
+    <value>View more palette actions</value>
   </data>
 </root>

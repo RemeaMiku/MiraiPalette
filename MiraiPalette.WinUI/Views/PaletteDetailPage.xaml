@@ -13,7 +13,8 @@
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
-    xmlns:resources="using:MiraiPalette.WinUI.Strings.Resources"
+    xmlns:localization="using:MiraiPalette.WinUI.Strings"
+    xmlns:helpers="using:MiraiPalette.WinUI.Helpers"
     x:Name="RootPage"
     NavigationCacheMode="Disabled"
     SizeChanged="OnRootPageSizeChanged"
@@ -49,10 +50,11 @@
                             <TextBox
                                 Padding="4"
                                 IsEnabled="{Binding ViewModel.IsNotBusy,ElementName=RootPage,Mode=OneWay}"
+                                ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.ColorItem_Tooltip,Name),Mode=OneWay}"
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 FontSize="{StaticResource SubtitleTextBlockFontSize}"
                                 FontWeight="Medium"
-                                PlaceholderText="{x:Bind resources:Resources.ColorName_Placeholder,Mode=OneTime}"
+                                PlaceholderText="{x:Bind localization:PaletteDetailPageStrings.ColorName_Placeholder,Mode=OneTime}"
                                 Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                             <Button
@@ -61,6 +63,7 @@
                                 HorizontalAlignment="Stretch"
                                 Command="{Binding ViewModel.CopyColorToClipboardCommand, ElementName=RootPage, Mode=OneTime}"
                                 CommandParameter="{x:Bind}"
+                                ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.ColorValueButton_Tooltip,Hex), Mode=OneWay}"
                                 Style="{StaticResource BorderlessTransparentButtonStyle}">
                                 <Grid x:Name="CopyButtonContentGrid">
                                     <StackPanel
@@ -82,7 +85,7 @@
                             CommandParameter="{x:Bind}"
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                             Icon="{ui:SymbolIcon Symbol=Delete}"
-                            Text="{x:Bind resources:Resources.RemoveColors, Mode=OneTime}" />
+                            Text="{x:Bind localization:Resources.Remove, Mode=OneTime}" />
                     </MenuFlyout>
                 </ItemContainer.ContextFlyout>
             </ItemContainer>
@@ -137,16 +140,16 @@
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 FontSize="{StaticResource TitleTextBlockFontSize}"
                                 FontWeight="SemiBold"
-                                PlaceholderText="{x:Bind resources:Resources.PaletteTitle_Placeholder}"
-                                ToolTipService.ToolTip="{x:Bind resources:Resources.PaletteTitle_Tooltip}"
+                                PlaceholderText="{x:Bind localization:PaletteDetailPageStrings.PaletteTitle_Placeholder}"
+                                ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.PaletteTitle_Tooltip, ViewModel.Palette.Title),Mode=OneWay}"
                                 IsEnabled="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
                                 Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind ViewModel.Palette.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                             <TextBox
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                PlaceholderText="{x:Bind resources:Resources.PaletteDescription_Placeholder}"
-                                ToolTipService.ToolTip="{x:Bind resources:Resources.PaletteDescription_Tooltip}"
+                                PlaceholderText="{x:Bind localization:PaletteDetailPageStrings.PaletteDescription_Placeholder}"
+                                ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.PaletteDescription_Tooltip, ViewModel.Palette.Description),Mode=OneWay}"
                                 IsEnabled="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
                                 Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind ViewModel.Palette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
@@ -163,25 +166,28 @@
                             <Button x:Name="AddColorButton"
                                     Command="{x:Bind ViewModel.AddColorCommand, Mode=OneTime}"
                                     Content="{ui:SymbolIcon Symbol=Add}"
+                                    Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled,Converter={StaticResource BoolToVisibilityInverseConverter},Mode=OneWay}"
                                     Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-                                    ToolTipService.ToolTip="{x:Bind resources:Resources.AddColor_Tooltip, Mode=OneTime}"
-                                    IsEnabled="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+                                    ToolTipService.ToolTip="{x:Bind localization:PaletteDetailPageStrings.AddColorButton_Tooltip, Mode=OneTime}"
+                                    IsEnabled="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}" />
                             <ToggleButton x:Name="MultiSelectionToggleButton"
                                           Content="{ui:FontIcon Glyph=&#xE762;}"
-                                          ToolTipService.ToolTip="{x:Bind resources:Resources.ToggleSelectionMode_Tooltip, Mode=OneTime}"
+                                          ToolTipService.ToolTip="{x:Bind localization:PaletteDetailPageStrings.ToggleSelectionModeButton_Tooltip, Mode=OneTime}"
                                           IsChecked="{x:Bind ViewModel.IsMultiSelectionEnabled, Mode=TwoWay}" />
                             <Button 
                                 Foreground="SkyBlue" 
                                 Content="{ui:FontIcon Glyph=&#xE792;}"
-                                ToolTipService.ToolTip="{x:Bind resources:Resources.SaveAs,Mode=OneTime}"
+                                Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled,Converter={StaticResource BoolToVisibilityInverseConverter},Mode=OneWay}"
+                                ToolTipService.ToolTip="{x:Bind localization:PaletteDetailPageStrings.ExportPaletteButton_Tooltip, Mode=OneTime}"
                                 Command="{x:Bind ViewModel.ExportPaletteCommand,Mode=OneTime}"/>
                             <Button Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
-                                    Content="{ui:SymbolIcon Symbol=Delete}"
-                                    ToolTipService.ToolTip="{x:Bind resources:Resources.RemoveColors, Mode=OneTime}"
+                                    Content="{ui:SymbolIcon Symbol=Remove}"
+                                    ToolTipService.ToolTip="{x:Bind localization:Resources.Remove, Mode=OneTime}"
                                     IsEnabled="{x:Bind ViewModel.HasSelectedColors, Mode=OneWay}"
                                     Style="{ThemeResource CriticalButtonStyle}"
                                     Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                            <Button Content="{ui:SymbolIcon Symbol=More}">
+                            <Button Content="{ui:SymbolIcon Symbol=More}" 
+                                    ToolTipService.ToolTip="{x:Bind localization:PaletteDetailPageStrings.MoreActionsButton_Tooltip,Mode=OneTime}">
                                 <Button.Flyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
@@ -189,7 +195,7 @@
                                             Command="{x:Bind ViewModel.DeletePaletteCommand, Mode=OneTime}"
                                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                             Icon="{ui:SymbolIcon Symbol=Delete}"
-                                            Text="{x:Bind resources:Resources.DeletePalette,Mode=OneTime}" />
+                                            Text="{x:Bind localization:PaletteDetailPageStrings.DeletePaletteButton_Text,Mode=OneTime}" />
                                     </MenuFlyout>
                                 </Button.Flyout>
                             </Button>
@@ -231,13 +237,13 @@
                             Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <SymbolIcon Symbol="Accept" />
-                                <TextBlock Text="{x:Bind resources:Resources.Accept,Mode=OneTime}" />
+                                <TextBlock Text="{x:Bind localization:Resources.Accept,Mode=OneTime}" />
                             </StackPanel>
                         </Button>
                         <Button Width="120" Command="{x:Bind ViewModel.ResetEditingColorCommand, Mode=OneTime}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <SymbolIcon Symbol="Undo" />
-                                <TextBlock Text="{x:Bind resources:Resources.Reset,Mode=OneTime}" />
+                                <TextBlock Text="{x:Bind localization:Resources.Reset,Mode=OneTime}" />
                             </StackPanel>
                         </Button>
                     </controls:WrapPanel>

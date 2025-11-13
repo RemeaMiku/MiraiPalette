@@ -31,6 +31,8 @@ public sealed partial class MainWindow : Window
 
     public MainWindowViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainWindowViewModel>();
 
+    public TitleBar TitleBarControl => TitleBar;
+
     public Frame NavigationFrame => ContentFrame;
 
     private void TitleBar_BackRequested(TitleBar sender, object args)

@@ -120,36 +120,6 @@
   <data name="Create" xml:space="preserve">
     <value>新規作成</value>
   </data>
-  <data name="Extract" xml:space="preserve">
-    <value>抽出</value>
-  </data>
-  <data name="Import" xml:space="preserve">
-    <value>導入</value>
-  </data>
-  <data name="DeletePalettes" xml:space="preserve">
-    <value>パレットの削除</value>
-  </data>
-  <data name="CreateNewPalette.Tooltip" xml:space="preserve">
-    <value>新しい空のパレットを作成する</value>
-  </data>
-  <data name="ExtractPaletteFromImage.Tooltip" xml:space="preserve">
-    <value>画像から抽出</value>
-  </data>
-  <data name="ImportPaletteFile.Tooltip" xml:space="preserve">
-    <value>ファイルからインポート（現在はACOファイルのみ対応）</value>
-  </data>
-  <data name="MultipleSelection" xml:space="preserve">
-    <value>複数選択</value>
-  </data>
-  <data name="ToggleSelectionMode.Tooltip" xml:space="preserve">
-    <value>選択モードを切り替える</value>
-  </data>
-  <data name="SelectAll" xml:space="preserve">
-    <value>すべて選択</value>
-  </data>
-  <data name="ClearSelection" xml:space="preserve">
-    <value>選択をクリア</value>
-  </data>
   <data name="Delete" xml:space="preserve">
     <value>削除</value>
   </data>
@@ -158,6 +128,12 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>設定</value>
+  </data>
+  <data name="DefaultColorName" xml:space="preserve">
+    <value>新しい色</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>導入</value>
   </data>
   <data name="DefaultPaletteTitle" xml:space="preserve">
     <value>新しいパレット</value>
@@ -168,12 +144,6 @@
   <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="AddColor.Tooltip" xml:space="preserve">
-    <value>色を追加する</value>
-  </data>
-  <data name="RemoveColor" xml:space="preserve">
-    <value>色を削除する</value>
-  </data>
   <data name="Accept" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -183,31 +153,22 @@
   <data name="SaveAs" xml:space="preserve">
     <value>名前を付けて保存</value>
   </data>
-  <data name="PaletteTitle.Tooltip" xml:space="preserve">
-    <value>クリックしてパレットの説明を編集する</value>
+  <data name="Export" xml:space="preserve">
+    <value>エクスポート</value>
   </data>
-  <data name="PaletteDescription.Tooltip" xml:space="preserve">
-    <value>クリックしてパレットのタイトルを編集する</value>
+  <data name="Extract" xml:space="preserve">
+    <value>抽出</value>
   </data>
-  <data name="PaletteTitle.Placeholder" xml:space="preserve">
-    <value>パレットのタイトル…</value>
+  <data name="SelectAll" xml:space="preserve">
+    <value>すべて選択</value>
   </data>
-  <data name="ColorName.Placeholder" xml:space="preserve">
-    <value>[名前なし]</value>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>選択をクリア</value>
   </data>
-  <data name="PaletteDescription.Placeholder" xml:space="preserve">
-    <value>説明…</value>
+  <data name="Remove" xml:space="preserve">
+    <value>取り除く</value>
   </data>
-  <data name="DeletePalette" xml:space="preserve">
-    <value>パレットの削除</value>
-  </data>
-  <data name="RemoveColors" xml:space="preserve">
-    <value>色を削除する</value>
-  </data>
-  <data name="ColorName.Tooltip" xml:space="preserve">
-    <value>クリックして色名を編集する</value>
-  </data>
-  <data name="DefaultColorName" xml:space="preserve">
-    <value>新しい色</value>
+  <data name="MultiSelect" xml:space="preserve">
+    <value>多肢選択</value>
   </data>
 </root>

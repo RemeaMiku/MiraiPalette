@@ -12,7 +12,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
-    MinWidth="640"
+      xmlns:localization="using:MiraiPalette.WinUI.Strings"
+      MinWidth="640"
     NavigationCacheMode="Disabled"
     mc:Ignorable="d">
     <Page.Resources>
@@ -22,7 +23,7 @@
                 CommandParameter="{Binding}"
                 Foreground="{StaticResource SystemFillColorCriticalBrush}"
                 Icon="{ui:SymbolIcon Symbol=Delete}"
-                Text="删除颜色" />
+                Text="{x:Bind localization:Resources.Remove,Mode=OneTime}" />
         </MenuFlyout>
         <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="vm:ColorViewModel">
             <Grid

@@ -120,36 +120,6 @@
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
-  <data name="Extract" xml:space="preserve">
-    <value>Extract</value>
-  </data>
-  <data name="Import" xml:space="preserve">
-    <value>Import</value>
-  </data>
-  <data name="DeletePalettes" xml:space="preserve">
-    <value>Delete Palettes</value>
-  </data>
-  <data name="CreateNewPalette.Tooltip" xml:space="preserve">
-    <value>Create New Blank Palette</value>
-  </data>
-  <data name="ExtractPaletteFromImage.Tooltip" xml:space="preserve">
-    <value>Extract from Image</value>
-  </data>
-  <data name="ImportPaletteFile.Tooltip" xml:space="preserve">
-    <value>Import from File (ACO files only supported)</value>
-  </data>
-  <data name="MultipleSelection" xml:space="preserve">
-    <value>Multi-select</value>
-  </data>
-  <data name="ToggleSelectionMode.Tooltip" xml:space="preserve">
-    <value>Toggle Selection Mode</value>
-  </data>
-  <data name="SelectAll" xml:space="preserve">
-    <value>Select All</value>
-  </data>
-  <data name="ClearSelection" xml:space="preserve">
-    <value>Clear Selection</value>
-  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -159,20 +129,20 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="DefaultColorName" xml:space="preserve">
+    <value>New Color</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
   <data name="DefaultPaletteTitle" xml:space="preserve">
     <value>New Palette</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>OK</value>
+    <value>Confirm</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
-  </data>
-  <data name="AddColor.Tooltip" xml:space="preserve">
-    <value>Add Color</value>
-  </data>
-  <data name="RemoveColor" xml:space="preserve">
-    <value>Remove Color</value>
   </data>
   <data name="Accept" xml:space="preserve">
     <value>Accept</value>
@@ -183,31 +153,22 @@
   <data name="SaveAs" xml:space="preserve">
     <value>Save As</value>
   </data>
-  <data name="PaletteTitle.Tooltip" xml:space="preserve">
-    <value>Click to edit palette description</value>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
   </data>
-  <data name="PaletteDescription.Tooltip" xml:space="preserve">
-    <value>Click to edit palette title</value>
+  <data name="Extract" xml:space="preserve">
+    <value>Extract</value>
   </data>
-  <data name="PaletteTitle.Placeholder" xml:space="preserve">
-    <value>Palette Title...</value>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select All</value>
   </data>
-  <data name="ColorName.Placeholder" xml:space="preserve">
-    <value>[Unnamed]</value>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>Clear Selection</value>
   </data>
-  <data name="PaletteDescription.Placeholder" xml:space="preserve">
-    <value>Description...</value>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
-  <data name="DeletePalette" xml:space="preserve">
-    <value>Delete Palette</value>
-  </data>
-  <data name="RemoveColors" xml:space="preserve">
-    <value>Remove Colors</value>
-  </data>
-  <data name="ColorName.Tooltip" xml:space="preserve">
-    <value>Click to edit color name</value>
-  </data>
-  <data name="DefaultColorName" xml:space="preserve">
-    <value>New Color</value>
+  <data name="MultiSelect" xml:space="preserve">
+    <value>Multi-Select</value>
   </data>
 </root>

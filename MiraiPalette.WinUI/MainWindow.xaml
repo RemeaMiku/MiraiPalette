@@ -9,7 +9,7 @@
         xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
         xmlns:views="using:MiraiPalette.WinUI.Views"
         xmlns:controls="using:CommunityToolkit.WinUI.Controls"
-        xmlns:resources="using:MiraiPalette.WinUI.Strings.Resources"
+        xmlns:localization="using:MiraiPalette.WinUI.Strings"
         x:Name="Window"
         SizeChanged="Window_SizeChanged"
         Title="Mirai Palette"
@@ -28,7 +28,7 @@
                         ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth,Mode=OneTime}" x:Name="MainNavigationView" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" Grid.Row="1">
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="ViewAll"
-                                    Content="{x:Bind resources:Resources.AllPalettes,Mode=OneTime}" IsSelected="True"/>
+                                    Content="{x:Bind localization:Resources.AllPalettes,Mode=OneTime}" IsSelected="True"/>
             </NavigationView.MenuItems>
             <Grid>
                 <Grid.ColumnDefinitions>
