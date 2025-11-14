@@ -174,7 +174,7 @@ public partial class MainPageViewModel : PageViewModel
     async Task AddPaletteFromFile()
     {
         IsMultiSelectMode = false;
-        var path = await Current.PickFileToOpen("导入调色板文件", ".aco");
+        var path = await Current.PickFileToOpen(OpenFileStrings.OpenPaletteFile_Commit, ".aco");
         if(path is null)
             return;
         if(!File.Exists(path))

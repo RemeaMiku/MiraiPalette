@@ -117,6 +117,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>DeleteConfirmStrings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Strings\Dialogs\ErrorMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ErrorMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\Dialogs\OpenFileStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OpenFileStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Strings\ImagePalettePage\ImagePalettePageStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -142,6 +152,15 @@
     <EmbeddedResource Update="Strings\Dialogs\DeleteConfirmStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DeleteConfirmStrings.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings\Dialogs\ErrorMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings\Dialogs\OpenFileStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OpenFileStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Strings\ImagePalettePage\ImagePalettePageStrings.resx">
