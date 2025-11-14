@@ -85,7 +85,7 @@
                             Command="{Binding ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime, ElementName=RootPage}"
                             CommandParameter="{x:Bind}"
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            Icon="{ui:SymbolIcon Symbol=Delete}"
+                            Icon="{ui:SymbolIcon Symbol=Remove}"
                             Text="{x:Bind localization:Resources.Remove, Mode=OneTime}" />
                     </MenuFlyout>
                 </ItemContainer.ContextFlyout>
@@ -108,7 +108,7 @@
                         <GridView
                             x:Name="ColorsView"
                             Padding="4"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             AllowDrop="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
                             CanReorderItems="{x:Bind ViewModel.IsNotBusy,Mode=OneWay}"
                             IsItemClickEnabled="True"
@@ -133,11 +133,12 @@
                     CornerRadius="{StaticResource ControlCornerRadius}">
                     <Grid ColumnSpacing="4">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" MinWidth="160"/>
+                            <ColumnDefinition MinWidth="60" MaxWidth="240"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Vertical" Spacing="4">
                             <TextBox
+                                TextAlignment="Left"
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 FontSize="{StaticResource TitleTextBlockFontSize}"
                                 FontWeight="SemiBold"
@@ -155,15 +156,7 @@
                                 Style="{StaticResource TransparentBorderlessTextBox}"
                                 Text="{x:Bind ViewModel.Palette.Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                         </StackPanel>
-                        <controls:WrapPanel>
-                            
-                        </controls:WrapPanel>
-                        <StackPanel
-                            Grid.Column="1"
-                            Padding="4"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal"
-                            Spacing="16">
+                        <controls:WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" HorizontalSpacing="16" VerticalSpacing="4">
                             <Button x:Name="AddColorButton"
                                     Command="{x:Bind ViewModel.AddColorCommand, Mode=OneTime}"
                                     Content="{ui:SymbolIcon Symbol=Add}"
@@ -175,31 +168,37 @@
                                           Content="{ui:FontIcon Glyph=&#xE762;}"
                                           ToolTipService.ToolTip="{x:Bind localization:PaletteDetailPageStrings.ToggleSelectionModeButton_Tooltip, Mode=OneTime}"
                                           IsChecked="{x:Bind ViewModel.IsMultiSelectionEnabled, Mode=TwoWay}" />
-                            <Button 
-                                Foreground="SkyBlue" 
-                                Content="{ui:FontIcon Glyph=&#xE792;}"
-                                Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled,Converter={StaticResource BoolToVisibilityInverseConverter},Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind localization:PaletteDetailPageStrings.ExportPaletteButton_Tooltip, Mode=OneTime}"
-                                Command="{x:Bind ViewModel.ExportPaletteCommand,Mode=OneTime}"/>
+                            <Button Foreground="SkyBlue"
+                                    Content="{ui:FontIcon Glyph=&#xE792;}"
+                                    Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled,Converter={StaticResource BoolToVisibilityInverseConverter},Mode=OneWay}"
+                                    ToolTipService.ToolTip="{x:Bind localization:PaletteDetailPageStrings.ExportPaletteButton_Tooltip, Mode=OneTime}"
+                                    Command="{x:Bind ViewModel.ExportPaletteCommand,Mode=OneTime}" />
                             <Button Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
                                     Content="{ui:SymbolIcon Symbol=Remove}"
                                     ToolTipService.ToolTip="{x:Bind localization:Resources.Remove, Mode=OneTime}"
                                     IsEnabled="{x:Bind ViewModel.HasSelectedColors, Mode=OneWay}"
                                     Style="{ThemeResource CriticalButtonStyle}"
                                     Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                            <Button Content="{ui:SymbolIcon Symbol=More}" 
+                            <Button Content="{ui:SymbolIcon Symbol=More}"
                                     ToolTipService.ToolTip="{x:Bind localization:PaletteDetailPageStrings.MoreActionsButton_Tooltip,Mode=OneTime}">
                                 <Button.Flyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem
-                                            Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-                                            Command="{x:Bind ViewModel.DeletePaletteCommand, Mode=OneTime}"
-                                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                            Icon="{ui:SymbolIcon Symbol=Delete}"
-                                            Text="{x:Bind localization:PaletteDetailPageStrings.DeletePaletteButton_Text,Mode=OneTime}" />
+                                        <MenuFlyoutItem Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                                                        Command="{x:Bind ViewModel.DeletePaletteCommand, Mode=OneTime}"
+                                                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                                        Icon="{ui:SymbolIcon Symbol=Delete}"
+                                                        Text="{x:Bind localization:PaletteDetailPageStrings.DeletePaletteButton_Text,Mode=OneTime}" />
                                     </MenuFlyout>
                                 </Button.Flyout>
                             </Button>
+                        </controls:WrapPanel>
+                        <StackPanel
+                            Grid.Column="1"
+                            Padding="4"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Spacing="16">
+
                         </StackPanel>
                     </Grid>
                 </Border>
