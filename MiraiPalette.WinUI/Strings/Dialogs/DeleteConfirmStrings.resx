@@ -117,61 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>新建</value>
+  <data name="MultiplePalettes.Title" xml:space="preserve">
+    <value>删除调色板</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>删除</value>
+  <data name="SinglePalette.Title" xml:space="preserve">
+    <value>删除调色板</value>
   </data>
-  <data name="AllPalettes" xml:space="preserve">
-    <value>全部调色板</value>
+  <data name="MultiplePalettes.Message" xml:space="preserve">
+    <value>你确认要删除所选的 {0} 个调色板吗？</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>设置</value>
+  <data name="SinglePalette.Message" xml:space="preserve">
+    <value>你确认要删除调色板“{0}”吗？</value>
   </data>
-  <data name="DefaultColorName" xml:space="preserve">
-    <value>新颜色</value>
+  <data name="MultipleColors.Title" xml:space="preserve">
+    <value>删除颜色</value>
   </data>
-  <data name="Import" xml:space="preserve">
-    <value>导入</value>
+  <data name="SingleColor.Title" xml:space="preserve">
+    <value>删除颜色</value>
   </data>
-  <data name="DefaultPaletteTitle" xml:space="preserve">
-    <value>新建调色板</value>
+  <data name="MultipleColors.Message" xml:space="preserve">
+    <value>你确认要移除所选的 {0} 个颜色吗？</value>
   </data>
-  <data name="Confirm" xml:space="preserve">
-    <value>确认</value>
+  <data name="SingleColor.Message" xml:space="preserve">
+    <value>你确认要移除颜色“{0}”吗？</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+  <data name="AutoColorListClear.Title" xml:space="preserve">
+    <value>清空自动提取</value>
   </data>
-  <data name="Accept" xml:space="preserve">
-    <value>接受</value>
+  <data name="AutoColorListClear.Message" xml:space="preserve">
+    <value>你确认要删除所有自动提取的颜色吗？</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>重置</value>
+  <data name="ManualColorListClear.Title" xml:space="preserve">
+    <value>清空手动提取</value>
   </data>
-  <data name="SaveAs" xml:space="preserve">
-    <value>另存为</value>
-  </data>
-  <data name="Export" xml:space="preserve">
-    <value>导出</value>
-  </data>
-  <data name="Extract" xml:space="preserve">
-    <value>提取</value>
-  </data>
-  <data name="SelectAll" xml:space="preserve">
-    <value>全选</value>
-  </data>
-  <data name="ClearSelection" xml:space="preserve">
-    <value>清除选择</value>
-  </data>
-  <data name="Remove" xml:space="preserve">
-    <value>移除</value>
-  </data>
-  <data name="MultiSelect" xml:space="preserve">
-    <value>多选</value>
-  </data>
-  <data name="Complete" xml:space="preserve">
-    <value>完成</value>
+  <data name="ManualColorListClear.Message" xml:space="preserve">
+    <value>你确认要删除所有手动提取的颜色吗？</value>
   </data>
 </root>

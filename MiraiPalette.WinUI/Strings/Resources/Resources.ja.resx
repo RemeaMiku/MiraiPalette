@@ -139,7 +139,7 @@
     <value>新しいパレット</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>確定</value>
+    <value>確認</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
@@ -166,7 +166,7 @@
     <value>選択をクリア</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>取り除く</value>
+    <value>削除</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>多肢選択</value>

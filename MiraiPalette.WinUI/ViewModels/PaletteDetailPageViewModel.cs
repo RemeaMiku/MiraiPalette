@@ -216,10 +216,20 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         if(currentColor is null || currentColor.IsSelected)
         {
             var selectedColors = Palette.Colors.Where(c => c.IsSelected).ToArray();
-            var message = selectedColors.Length == 1 ?
-                $"确定要删除颜色 \"{selectedColors[0].Name}\"({selectedColors[0].Hex}) 吗？" :
-                $"确定要删除所选的 {selectedColors.Length} 个颜色吗？";
-            var isConfirmed = await Current.ShowConfirmDialogAsync("删除颜色", message);
+            if(selectedColors.Length == 0)
+                return;
+            string title, message;
+            if(selectedColors.Length == 1)
+            {
+                title = DeleteConfirmStrings.SingleColor_Title;
+                message = string.Format(DeleteConfirmStrings.SingleColor_Message, selectedColors[0].Name);
+            }
+            else
+            {
+                title = DeleteConfirmStrings.MultipleColors_Title;
+                message = string.Format(DeleteConfirmStrings.MultipleColors_Message, selectedColors.Length);
+            }
+            var isConfirmed = await Current.ShowConfirmDialogAsync(title, message);
             if(!isConfirmed)
                 return;
             foreach(var color in selectedColors)
@@ -228,7 +238,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         }
         else
         {
-            var isConfirmed = await Current.ShowConfirmDialogAsync("删除颜色", $"确定要删除颜色 \"{currentColor.Name}\"({currentColor.Hex}) 吗？");
+            var isConfirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.SingleColor_Title, string.Format(DeleteConfirmStrings.SingleColor_Message, currentColor.Name));
             if(!isConfirmed)
                 return;
             Palette.Colors.Remove(currentColor);
@@ -239,13 +249,12 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     [RelayCommand]
     async Task DeletePalette()
     {
-        var isConfirmed = await Current.ShowConfirmDialogAsync("删除调色板", $"确定要删除调色板 \"{Palette.Title}\" 吗？");
+        var isConfirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, Palette.Title));
         if(!isConfirmed)
             return;
         IsBusy = true;
         await _miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
         IsBusy = false;
-        // 导航回上一级
         Current.NavigateTo(NavigationTarget.Back);
     }
 }

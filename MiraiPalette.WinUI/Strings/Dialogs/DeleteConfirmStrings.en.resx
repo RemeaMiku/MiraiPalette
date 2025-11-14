@@ -117,61 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>新建</value>
+  <data name="MultiplePalettes.Title" xml:space="preserve">
+    <value>Delete Palettes</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>删除</value>
+  <data name="SinglePalette.Title" xml:space="preserve">
+    <value>Delete Palette</value>
   </data>
-  <data name="AllPalettes" xml:space="preserve">
-    <value>全部调色板</value>
+  <data name="MultiplePalettes.Message" xml:space="preserve">
+    <value>Are you sure you want to delete the selected {0} palettes?</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>设置</value>
+  <data name="SinglePalette.Message" xml:space="preserve">
+    <value>Are you sure you want to delete the palette “{0}”?</value>
   </data>
-  <data name="DefaultColorName" xml:space="preserve">
-    <value>新颜色</value>
+  <data name="MultipleColors.Title" xml:space="preserve">
+    <value>Remove Colors</value>
   </data>
-  <data name="Import" xml:space="preserve">
-    <value>导入</value>
+  <data name="SingleColor.Title" xml:space="preserve">
+    <value>Remove Color</value>
   </data>
-  <data name="DefaultPaletteTitle" xml:space="preserve">
-    <value>新建调色板</value>
+  <data name="MultipleColors.Message" xml:space="preserve">
+    <value>Are you sure you want to remove the selected {0} colors?</value>
   </data>
-  <data name="Confirm" xml:space="preserve">
-    <value>确认</value>
+  <data name="SingleColor.Message" xml:space="preserve">
+    <value>Are you sure you want to remove the color “{0}”?</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+  <data name="AutoColorListClear.Message" xml:space="preserve">
+    <value>Are you sure you want to delete all automatically extracted colors?</value>
   </data>
-  <data name="Accept" xml:space="preserve">
-    <value>接受</value>
+  <data name="AutoColorListClear.Title" xml:space="preserve">
+    <value>Clear Automatically Extracted</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>重置</value>
+  <data name="ManualColorListClear.Message" xml:space="preserve">
+    <value>Are you sure you want to delete all manually extracted colors?</value>
   </data>
-  <data name="SaveAs" xml:space="preserve">
-    <value>另存为</value>
-  </data>
-  <data name="Export" xml:space="preserve">
-    <value>导出</value>
-  </data>
-  <data name="Extract" xml:space="preserve">
-    <value>提取</value>
-  </data>
-  <data name="SelectAll" xml:space="preserve">
-    <value>全选</value>
-  </data>
-  <data name="ClearSelection" xml:space="preserve">
-    <value>清除选择</value>
-  </data>
-  <data name="Remove" xml:space="preserve">
-    <value>移除</value>
-  </data>
-  <data name="MultiSelect" xml:space="preserve">
-    <value>多选</value>
-  </data>
-  <data name="Complete" xml:space="preserve">
-    <value>完成</value>
+  <data name="ManualColorListClear.Title" xml:space="preserve">
+    <value>Clear Manually Extracted</value>
   </data>
 </root>

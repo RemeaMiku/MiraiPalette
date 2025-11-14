@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MiraiPalette.Shared.Formats;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
 
@@ -108,10 +107,18 @@ public partial class MainPageViewModel : PageViewModel
     {
         if(palette is null || palette.IsSelected)
         {
-            var message = SelectedPalettes.Count == 1 ?
-            $"确定要删除调色板 \"{SelectedPalettes[0].Title}\" 吗？" :
-            $"确定要删除所选的 {SelectedPalettes.Count} 个调色板吗？";
-            var confirmed = await Current.ShowConfirmDialogAsync("删除调色板", message);
+            string title, message;
+            if(SelectedPalettes.Count == 1)
+            {
+                title = DeleteConfirmStrings.SinglePalette_Title;
+                message = string.Format(DeleteConfirmStrings.SinglePalette_Message, SelectedPalettes[0].Title);
+            }
+            else
+            {
+                title = DeleteConfirmStrings.MultiplePalettes_Title;
+                message = string.Format(DeleteConfirmStrings.MultiplePalettes_Message, SelectedPalettes.Count);
+            }
+            var confirmed = await Current.ShowConfirmDialogAsync(title, message);
             if(!confirmed)
                 return;
             IsBusy = true;
@@ -120,7 +127,7 @@ public partial class MainPageViewModel : PageViewModel
         }
         else
         {
-            var confirmed = await Current.ShowConfirmDialogAsync("删除调色板", $"确定要删除调色板 \"{palette.Title}\" 吗？");
+            var confirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, palette.Title));
             if(!confirmed)
                 return;
             IsBusy = true;

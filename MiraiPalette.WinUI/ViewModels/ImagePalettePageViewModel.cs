@@ -105,7 +105,7 @@ public partial class ImagePalettePageViewModel : PageViewModel
     [RelayCommand]
     async Task ClearAutoColors()
     {
-        var confirmed = await Current.ShowConfirmDialogAsync("清除颜色", "确定要清除所有自动提取的颜色吗？");
+        var confirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.AutoColorListClear_Title, DeleteConfirmStrings.AutoColorListClear_Message);
         if(!confirmed)
             return;
         AutoColors.Clear();
@@ -114,7 +114,7 @@ public partial class ImagePalettePageViewModel : PageViewModel
     [RelayCommand]
     async Task ClearManualColors()
     {
-        var confirmed = await Current.ShowConfirmDialogAsync("清除颜色", "确定要清除所有手动吸取的颜色吗？");
+        var confirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.ManualColorListClear_Title, DeleteConfirmStrings.ManualColorListClear_Message);
         if(!confirmed)
             return;
         ManualColors.Clear();

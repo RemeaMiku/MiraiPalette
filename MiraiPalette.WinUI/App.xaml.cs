@@ -129,8 +129,8 @@ public partial class App : Application
         {
             Title = title,
             Content = content,
-            PrimaryButtonText = "确定",
-            SecondaryButtonText = "取消",
+            PrimaryButtonText = Strings.Resources.Confirm,
+            SecondaryButtonText = Strings.Resources.Cancel,
             IsSecondaryButtonEnabled = showCancelButton,
             DefaultButton = ContentDialogButton.Primary,
             XamlRoot = MainWindow.Content.XamlRoot

@@ -106,7 +106,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 确定 的本地化字符串。
+        ///   查找类似 确认 的本地化字符串。
         /// </summary>
         internal static string Confirm {
             get {
