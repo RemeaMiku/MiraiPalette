@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,11 @@ namespace MiraiPalette.WinUI.Services.Impl;
 public class PaletteFileService : IPaletteFileService
 {
     const string _acoExtension = ".aco";
+    const string _acoTypeDescription = "Adobe Color Swatch (*.aco)";
+
+    public string[] SupportedImportFileExtensions => [_acoExtension];
+
+    public (string, IList<string>) SupportedExportFileTypes => (_acoTypeDescription, [_acoExtension]);
 
     public async Task Export(PaletteViewModel palette, string path)
     {

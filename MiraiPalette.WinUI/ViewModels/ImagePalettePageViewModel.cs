@@ -105,7 +105,7 @@ public partial class ImagePalettePageViewModel : PageViewModel
     [RelayCommand]
     async Task ClearAutoColors()
     {
-        var confirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.AutoColorListClear_Title, DeleteConfirmStrings.AutoColorListClear_Message);
+        var confirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.AutoColorListClear_Title, DeleteConfirmStrings.AutoColorListClear_Message);
         if(!confirmed)
             return;
         AutoColors.Clear();
@@ -114,7 +114,7 @@ public partial class ImagePalettePageViewModel : PageViewModel
     [RelayCommand]
     async Task ClearManualColors()
     {
-        var confirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.ManualColorListClear_Title, DeleteConfirmStrings.ManualColorListClear_Message);
+        var confirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.ManualColorListClear_Title, DeleteConfirmStrings.ManualColorListClear_Message);
         if(!confirmed)
             return;
         ManualColors.Clear();

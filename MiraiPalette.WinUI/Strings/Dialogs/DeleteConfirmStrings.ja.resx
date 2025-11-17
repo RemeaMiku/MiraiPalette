@@ -141,16 +141,16 @@
   <data name="SingleColor.Message" xml:space="preserve">
     <value>色「{0}」を削除してもよろしいですか？</value>
   </data>
-  <data name="AutoColorListClear.Message" xml:space="preserve">
-    <value>自動抽出されたすべての色を削除してもよろしいですか？</value>
-  </data>
   <data name="AutoColorListClear.Title" xml:space="preserve">
     <value>自動抽出をクリア</value>
   </data>
-  <data name="ManualColorListClear.Message" xml:space="preserve">
-    <value>手動抽出されたすべての色を削除してもよろしいですか？</value>
+  <data name="AutoColorListClear.Message" xml:space="preserve">
+    <value>自動抽出されたすべての色を削除してもよろしいですか？</value>
   </data>
   <data name="ManualColorListClear.Title" xml:space="preserve">
     <value>手動抽出をクリア</value>
+  </data>
+  <data name="ManualColorListClear.Message" xml:space="preserve">
+    <value>手動抽出されたすべての色を削除してもよろしいですか？</value>
   </data>
 </root>

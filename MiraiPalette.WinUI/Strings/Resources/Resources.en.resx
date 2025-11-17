@@ -174,4 +174,7 @@
   <data name="Complete" xml:space="preserve">
     <value>Complete</value>
   </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
 </root>

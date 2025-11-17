@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
+using MiraiPalette.WinUI.Strings.Dialogs;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
@@ -118,7 +119,7 @@ public partial class MainPageViewModel : PageViewModel
                 title = DeleteConfirmStrings.MultiplePalettes_Title;
                 message = string.Format(DeleteConfirmStrings.MultiplePalettes_Message, SelectedPalettes.Count);
             }
-            var confirmed = await Current.ShowConfirmDialogAsync(title, message);
+            var confirmed = await Current.ShowDeleteConfirmDialogAsync(title, message);
             if(!confirmed)
                 return;
             IsBusy = true;
@@ -127,7 +128,7 @@ public partial class MainPageViewModel : PageViewModel
         }
         else
         {
-            var confirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, palette.Title));
+            var confirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, palette.Title));
             if(!confirmed)
                 return;
             IsBusy = true;
@@ -174,12 +175,12 @@ public partial class MainPageViewModel : PageViewModel
     async Task AddPaletteFromFile()
     {
         IsMultiSelectMode = false;
-        var path = await Current.PickFileToOpen(OpenFileStrings.OpenPaletteFile_Commit, ".aco");
+        var path = await Current.PickFileToOpen(OpenFileStrings.PaletteFile_Commit, _paletteFileService.SupportedImportFileExtensions);
         if(path is null)
             return;
         if(!File.Exists(path))
         {
-            await Current.ShowConfirmDialogAsync("导入调色板失败", $"文件路径\"{path}\"不存在。", false);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.ImportPaletteFile_Title, string.Format(ErrorMessages.PathNotExists, path), false);
             return;
         }
         try
@@ -188,16 +189,16 @@ public partial class MainPageViewModel : PageViewModel
             var palette = await _paletteFileService.Import(path);
             if(palette is null)
             {
-                await Current.ShowConfirmDialogAsync("导入调色板失败", "未能导入调色板", false);
+                await Current.ShowConfirmDialogAsync(ErrorMessages.ImportPaletteFile_Title, ErrorMessages.ImportPaletteFile_Failed, false);
                 return;
             }
             await _miraiPaletteStorageService.AddPaletteAsync(palette);
             Palettes.Insert(0, palette);
             NavigateToPalette(palette);
         }
-        catch(Exception e)
+        catch(Exception)
         {
-            await Current.ShowConfirmDialogAsync("导入调色板失败", "导入调色板时发生错误：" + e.Message);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.ImportPaletteFile_Title, ErrorMessages.ImportPaletteFile_Error, false);
         }
         finally
         {
@@ -226,9 +227,10 @@ public partial class MainPageViewModel : PageViewModel
     [RelayCommand]
     async Task NavigateToImagePalette()
     {
-        var path = await Current.PickFileToOpen("打开", ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff");
-        if(path is not null)
-            Current.NavigateTo(NavigationTarget.ImagePalette, path);
+        var path = await Current.PickFileToOpen(OpenFileStrings.ImageFile_Commit, ".png", ".jpg", ".jpeg", ".bmp", ".tiff");
+        if(path is null)
+            return;
+        Current.NavigateTo(NavigationTarget.ImagePalette, path);
         ClearSelection();
     }
 }

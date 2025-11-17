@@ -187,6 +187,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 打开 的本地化字符串。
+        /// </summary>
+        internal static string Open {
+            get {
+                return ResourceManager.GetString("Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 移除 的本地化字符串。
         /// </summary>
         internal static string Remove {

@@ -123,21 +123,24 @@ public partial class App : Application
         }
     }
 
-    public async Task<bool> ShowConfirmDialogAsync(string title, string content, bool showCancelButton = true)
+    public async Task<bool> ShowConfirmDialogAsync(string title, string content, bool showCancelButton = true, string? primaryButtonText = null)
     {
+        primaryButtonText ??= Strings.Resources.Confirm;
         var dialog = new ContentDialog
         {
             Title = title,
             Content = content,
-            PrimaryButtonText = Strings.Resources.Confirm,
-            SecondaryButtonText = Strings.Resources.Cancel,
-            IsSecondaryButtonEnabled = showCancelButton,
+            PrimaryButtonText = primaryButtonText,
+            SecondaryButtonText = showCancelButton ? Strings.Resources.Cancel : default,
             DefaultButton = ContentDialogButton.Primary,
             XamlRoot = MainWindow.Content.XamlRoot
         };
         var result = await dialog.ShowAsync();
         return result == ContentDialogResult.Primary;
     }
+
+    public async Task<bool> ShowDeleteConfirmDialogAsync(string title, string content)
+        => await ShowConfirmDialogAsync(title, content, true, Strings.Resources.Delete);
 
     public async Task<string?> PickFileToOpen(string commitText, params string[] filter)
     {

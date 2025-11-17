@@ -141,16 +141,16 @@
   <data name="SingleColor.Message" xml:space="preserve">
     <value>Are you sure you want to remove the color “{0}”?</value>
   </data>
-  <data name="AutoColorListClear.Message" xml:space="preserve">
-    <value>Are you sure you want to delete all automatically extracted colors?</value>
-  </data>
   <data name="AutoColorListClear.Title" xml:space="preserve">
     <value>Clear Automatically Extracted</value>
   </data>
-  <data name="ManualColorListClear.Message" xml:space="preserve">
-    <value>Are you sure you want to delete all manually extracted colors?</value>
+  <data name="AutoColorListClear.Message" xml:space="preserve">
+    <value>Are you sure you want to delete all automatically extracted colors?</value>
   </data>
   <data name="ManualColorListClear.Title" xml:space="preserve">
     <value>Clear Manually Extracted</value>
+  </data>
+  <data name="ManualColorListClear.Message" xml:space="preserve">
+    <value>Are you sure you want to delete all manually extracted colors?</value>
   </data>
 </root>

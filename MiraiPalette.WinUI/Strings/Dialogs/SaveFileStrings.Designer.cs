@@ -22,14 +22,14 @@ namespace MiraiPalette.WinUI.Strings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class OpenFileStrings {
+    internal class SaveFileStrings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal OpenFileStrings() {
+        internal SaveFileStrings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MiraiPalette.WinUI.Strings {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MiraiPalette.WinUI.Strings.Dialogs.OpenFileStrings", typeof(OpenFileStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MiraiPalette.WinUI.Strings.Dialogs.SaveFileStrings", typeof(SaveFileStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,16 +61,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 打开图片 的本地化字符串。
-        /// </summary>
-        internal static string ImageFile_Commit {
-            get {
-                return ResourceManager.GetString("ImageFile.Commit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 导入调色板文件 的本地化字符串。
+        ///   查找类似 保存至调色板文件 的本地化字符串。
         /// </summary>
         internal static string PaletteFile_Commit {
             get {

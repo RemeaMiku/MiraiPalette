@@ -98,9 +98,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PaletteFile.Commit" xml:space="preserve">
-    <value>导入调色板文件</value>
-  </data>
-  <data name="ImageFile.Commit" xml:space="preserve">
-    <value>打开图片</value>
+    <value>保存至调色板文件</value>
   </data>
 </root>

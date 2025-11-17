@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MiraiPalette.WinUI.Essentials;
 using MiraiPalette.WinUI.ViewModels;
 
 namespace MiraiPalette.WinUI.Services.Impl;
@@ -93,12 +94,14 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
                     {
                         var colorName = parts[0].Trim();
                         var colorHex = parts[1].Trim();
-                        colors.Add(new() { Name = colorName, Hex = colorHex });
+                        if(colorHex.IsValidHexColor())
+                            colors.Add(new() { Name = colorName, Hex = colorHex });
                     }
                     else if(parts.Length == 1)
                     {
                         var colorHex = parts[0].Trim();
-                        colors.Add(new() { Hex = colorHex });
+                        if(colorHex.IsValidHexColor())
+                            colors.Add(new() { Hex = colorHex });
                     }
                 }
                 var palette = new PaletteEntity

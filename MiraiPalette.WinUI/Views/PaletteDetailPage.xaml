@@ -85,8 +85,8 @@
                             Command="{Binding ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime, ElementName=RootPage}"
                             CommandParameter="{x:Bind}"
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            Icon="{ui:SymbolIcon Symbol=Remove}"
-                            Text="{x:Bind localization:Resources.Remove, Mode=OneTime}" />
+                            Icon="{ui:SymbolIcon Symbol=Delete}"
+                            Text="{x:Bind localization:Resources.Delete, Mode=OneTime}" />
                     </MenuFlyout>
                 </ItemContainer.ContextFlyout>
             </ItemContainer>
@@ -174,8 +174,8 @@
                                     ToolTipService.ToolTip="{x:Bind localization:PaletteDetailPageStrings.ExportPaletteButton_Tooltip, Mode=OneTime}"
                                     Command="{x:Bind ViewModel.ExportPaletteCommand,Mode=OneTime}" />
                             <Button Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
-                                    Content="{ui:SymbolIcon Symbol=Remove}"
-                                    ToolTipService.ToolTip="{x:Bind localization:Resources.Remove, Mode=OneTime}"
+                                    Content="{ui:SymbolIcon Symbol=Delete}"
+                                    ToolTipService.ToolTip="{x:Bind localization:Resources.Delete, Mode=OneTime}"
                                     IsEnabled="{x:Bind ViewModel.HasSelectedColors, Mode=OneWay}"
                                     Style="{ThemeResource CriticalButtonStyle}"
                                     Visibility="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />

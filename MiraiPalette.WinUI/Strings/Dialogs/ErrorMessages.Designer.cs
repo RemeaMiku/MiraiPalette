@@ -61,29 +61,146 @@ namespace MiraiPalette.WinUI.Strings.Dialogs {
         }
         
         /// <summary>
-        ///   查找类似 导入调色板时发生错误 的本地化字符串。
+        ///   查找类似 当前有正在进行的操作，请稍后重试。 的本地化字符串。
         /// </summary>
-        internal static string ImportPaletteFile_Exception {
+        internal static string AppIsBusy_Retry {
             get {
-                return ResourceManager.GetString("ImportPaletteFile.Exception", resourceCulture);
+                return ResourceManager.GetString("AppIsBusy.Retry", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 调色板文件格式不支持或文件为空 的本地化字符串。
+        ///   查找类似 请稍后 的本地化字符串。
         /// </summary>
-        internal static string ImportPaletteFile_None {
+        internal static string AppIsBusy_Title {
             get {
-                return ResourceManager.GetString("ImportPaletteFile.None", resourceCulture);
+                return ResourceManager.GetString("AppIsBusy.Title", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 路径&quot;{0}&quot;不存在 的本地化字符串。
+        ///   查找类似 新建调色板时发生错误。 的本地化字符串。
+        /// </summary>
+        internal static string CreatePalette_Error {
+            get {
+                return ResourceManager.GetString("CreatePalette.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建调色板失败 的本地化字符串。
+        /// </summary>
+        internal static string CreatePalette_Title {
+            get {
+                return ResourceManager.GetString("CreatePalette.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除调色板时发生错误。 的本地化字符串。
+        /// </summary>
+        internal static string DeleteMultiplePalettes_Error {
+            get {
+                return ResourceManager.GetString("DeleteMultiplePalettes.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除调色板失败 的本地化字符串。
+        /// </summary>
+        internal static string DeleteMultiplePalettes_Title {
+            get {
+                return ResourceManager.GetString("DeleteMultiplePalettes.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除调色板时发生错误 的本地化字符串。
+        /// </summary>
+        internal static string DeleteSinglePalette_Error {
+            get {
+                return ResourceManager.GetString("DeleteSinglePalette.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除调色板失败 的本地化字符串。
+        /// </summary>
+        internal static string DeleteSinglePalette_Title {
+            get {
+                return ResourceManager.GetString("DeleteSinglePalette.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导出调色板至文件时发生错误。请检查文件路径或权限后重试。 的本地化字符串。
+        /// </summary>
+        internal static string ExportPaletteFile_Error {
+            get {
+                return ResourceManager.GetString("ExportPaletteFile.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导出调色板失败 的本地化字符串。
+        /// </summary>
+        internal static string ExportPaletteFile_Title {
+            get {
+                return ResourceManager.GetString("ExportPaletteFile.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入调色板文件时发生错误。请检查文件路径或权限后重试。 的本地化字符串。
+        /// </summary>
+        internal static string ImportPaletteFile_Error {
+            get {
+                return ResourceManager.GetString("ImportPaletteFile.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 调色板文件格式不支持或文件为空。 的本地化字符串。
+        /// </summary>
+        internal static string ImportPaletteFile_Failed {
+            get {
+                return ResourceManager.GetString("ImportPaletteFile.Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入调色板失败 的本地化字符串。
+        /// </summary>
+        internal static string ImportPaletteFile_Title {
+            get {
+                return ResourceManager.GetString("ImportPaletteFile.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 路径&quot;{0}&quot;不存在。 的本地化字符串。
         /// </summary>
         internal static string PathNotExists {
             get {
                 return ResourceManager.GetString("PathNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更新调色板时发生错误。 的本地化字符串。
+        /// </summary>
+        internal static string UpdatePalette_Error {
+            get {
+                return ResourceManager.GetString("UpdatePalette.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更新调色板失败 的本地化字符串。
+        /// </summary>
+        internal static string UpdatePalette_Title {
+            get {
+                return ResourceManager.GetString("UpdatePalette.Title", resourceCulture);
             }
         }
     }

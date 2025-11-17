@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
+using MiraiPalette.WinUI.Strings.Dialogs;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
 
@@ -37,7 +38,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     {
         if(IsBusy)
         {
-            await Current.ShowConfirmDialogAsync("请稍候", "当前有正在进行的操作，请稍后再试。", false);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.AppIsBusy_Title, ErrorMessages.AppIsBusy_Retry, false);
             return;
         }
         IsBusy = true;
@@ -45,9 +46,9 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         {
             await _miraiPaletteStorageService.UpdatePaletteAsync(Palette);
         }
-        catch(Exception e)
+        catch(Exception)
         {
-            await Current.ShowConfirmDialogAsync("更新调色板失败", "更新调色板时发生错误：" + e.Message);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.UpdatePalette_Title, ErrorMessages.UpdatePalette_Error);
         }
         IsBusy = false;
     }
@@ -141,7 +142,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     [RelayCommand]
     async Task ExportPalette()
     {
-        var path = await Current.PickPathToSave(Palette.Title, "保存", ("Adobe Color 文件", [".aco"]));
+        var path = await Current.PickPathToSave(Palette.Title, SaveFileStrings.PaletteFile_Commit, _paletteFileService.SupportedExportFileTypes);
         if(path is null)
             return;
         try
@@ -149,9 +150,9 @@ public partial class PaletteDetailPageViewModel : PageViewModel
             IsBusy = true;
             await _paletteFileService.Export(Palette, path);
         }
-        catch(Exception e)
+        catch(Exception)
         {
-            await Current.ShowConfirmDialogAsync("导出调色板失败", "导出调色板时发生错误：" + e.Message);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.ExportPaletteFile_Title, ErrorMessages.ExportPaletteFile_Error);
         }
         finally
         {
@@ -229,7 +230,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
                 title = DeleteConfirmStrings.MultipleColors_Title;
                 message = string.Format(DeleteConfirmStrings.MultipleColors_Message, selectedColors.Length);
             }
-            var isConfirmed = await Current.ShowConfirmDialogAsync(title, message);
+            var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(title, message);
             if(!isConfirmed)
                 return;
             foreach(var color in selectedColors)
@@ -238,7 +239,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         }
         else
         {
-            var isConfirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.SingleColor_Title, string.Format(DeleteConfirmStrings.SingleColor_Message, currentColor.Name));
+            var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SingleColor_Title, string.Format(DeleteConfirmStrings.SingleColor_Message, currentColor.Name));
             if(!isConfirmed)
                 return;
             Palette.Colors.Remove(currentColor);
@@ -249,7 +250,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     [RelayCommand]
     async Task DeletePalette()
     {
-        var isConfirmed = await Current.ShowConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, Palette.Title));
+        var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, Palette.Title));
         if(!isConfirmed)
             return;
         IsBusy = true;
