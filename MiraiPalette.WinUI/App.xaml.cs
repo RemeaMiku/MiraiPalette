@@ -7,9 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Windows.Globalization;
 using Microsoft.Windows.Storage.Pickers;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Impl;
+using MiraiPalette.WinUI.Settings;
+using MiraiPalette.WinUI.Strings;
 using MiraiPalette.WinUI.ViewModels;
 using MiraiPalette.WinUI.Views;
 using Windows.UI;
@@ -81,8 +84,9 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         base.OnLaunched(args);
-        MainWindow.Activate();
         ApplyThemeModeSetting();
+        ApplyLanguageSetting();
+        MainWindow.Activate();
     }
 
     public void ApplyThemeModeSetting()
@@ -95,6 +99,14 @@ public partial class App : Application
             return;
         }
         ThemeMode = themeMode;
+    }
+
+    public void ApplyLanguageSetting()
+    {
+        var settingsService = Services.GetRequiredService<ISettingsService>();
+        var language = settingsService.GetValue(nameof(SettingsPageViewModel.Language), Languages.System);
+        StringsManager.SetCulture(language);
+        ApplicationLanguages.PrimaryLanguageOverride = language == Languages.System ? default : language;
     }
 
     public void NavigateTo(NavigationTarget target, object? parameter = null)

@@ -121,4 +121,16 @@
   <data name="AppTheme.Description" xml:space="preserve">
     <value>设置应用的颜色模式</value>
   </data>
+  <data name="Language.Header" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Language.Description" xml:space="preserve">
+    <value>设置应用显示的语言。需要重启应用后生效</value>
+  </data>
+  <data name="LanguageAndRegion" xml:space="preserve">
+    <value>语言和地区</value>
+  </data>
+  <data name="Language.System" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
 </root>

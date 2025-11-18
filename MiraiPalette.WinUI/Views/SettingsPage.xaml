@@ -29,6 +29,18 @@
                         <ComboBoxItem Content="{x:Bind localization:SettingsPageStrings.AppTheme_Dark,Mode=OneTime}" Tag="Dark"/>
                     </ComboBox>
                 </controls:SettingsCard>
+                <TextBlock Text="{x:Bind localization:SettingsPageStrings.LanguageAndRegion,Mode=OneTime}"                          
+                           Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                <controls:SettingsCard Header="{x:Bind localization:SettingsPageStrings.Language_Header,Mode=OneTime}"
+                                       HeaderIcon="{ui:FontIcon Glyph=&#xF2B7;}"
+                                       Description="{x:Bind localization:SettingsPageStrings.Language_Description,Mode=OneTime}">
+                    <ComboBox SelectedValue="{x:Bind ViewModel.Language,Mode=TwoWay}" SelectedValuePath="Tag">
+                        <ComboBoxItem Content="{x:Bind localization:SettingsPageStrings.Language_System,Mode=OneTime}" Tag="System" />
+                        <ComboBoxItem Content="简体中文" Tag="zh-CN"/>
+                        <ComboBoxItem Content="日本語" Tag="ja-JP"/>
+                        <ComboBoxItem Content="English" Tag="en-US"/>
+                    </ComboBox>
+                </controls:SettingsCard>
                 <TextBlock Text="{x:Bind localization:SettingsPageStrings.About,Mode=OneTime}"
                            Style="{ThemeResource BodyStrongTextBlockStyle}" />
                 <controls:SettingsExpander Header="Mirai Palette"

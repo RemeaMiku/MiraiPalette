@@ -127,7 +127,7 @@
     <value>テーマ</value>
   </data>
   <data name="AppTheme.System" xml:space="preserve">
-    <value>システムに従う</value>
+    <value>システムに合わせる</value>
   </data>
   <data name="AppTheme.Light" xml:space="preserve">
     <value>ライトモード</value>
@@ -140,5 +140,17 @@
   </data>
   <data name="AppTheme.Description" xml:space="preserve">
     <value>アプリケーションのカラーモードを設定する</value>
+  </data>
+  <data name="Language.Header" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Language.Description" xml:space="preserve">
+    <value>アプリの表示言語を設定します。再起動後に反映されます</value>
+  </data>
+  <data name="LanguageAndRegion" xml:space="preserve">
+    <value>言語と地域</value>
+  </data>
+  <data name="Language.System" xml:space="preserve">
+    <value>システムに合わせる</value>
   </data>
 </root>

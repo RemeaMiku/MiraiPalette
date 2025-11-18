@@ -87,7 +87,7 @@
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
   </PropertyGroup>
   <ItemGroup>
     <PRIResource Remove="Views\Dialogs\**" />
@@ -106,9 +106,6 @@
     <Page Update="Views\ImagePalettePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Settings\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Strings\Dialogs\DeleteConfirmStrings.Designer.cs">
