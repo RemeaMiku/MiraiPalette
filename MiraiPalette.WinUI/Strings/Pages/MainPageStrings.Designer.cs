@@ -39,7 +39,7 @@ namespace MiraiPalette.WinUI.Strings {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MiraiPalette.WinUI.Strings.MainPage.MainPageStrings", typeof(MainPageStrings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MiraiPalette.WinUI.Strings.Pages.MainPageStrings", typeof(MainPageStrings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

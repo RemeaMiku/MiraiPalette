@@ -109,7 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Settings\" />
-    <Folder Include="Strings\SettingsPage\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Strings\Dialogs\DeleteConfirmStrings.Designer.cs">
@@ -137,17 +136,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SaveFileStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Strings\ImagePalettePage\ImagePalettePageStrings.Designer.cs">
+    <Compile Update="Strings\Pages\ImagePalettePageStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ImagePalettePageStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Strings\MainPage\MainPageStrings.Designer.cs">
+    <Compile Update="Strings\Pages\MainPageStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>MainPageStrings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Strings\PaletteDetailPage\PaletteDetailPageStrings.Designer.cs">
+    <Compile Update="Strings\Pages\PaletteDetailPageStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PaletteDetailPageStrings.resx</DependentUpon>
@@ -183,17 +182,17 @@
       <LastGenOutput>SaveFileStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Update="Strings\ImagePalettePage\ImagePalettePageStrings.resx">
+    <EmbeddedResource Update="Strings\Pages\ImagePalettePageStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImagePalettePageStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Update="Strings\MainPage\MainPageStrings.resx">
+    <EmbeddedResource Update="Strings\Pages\MainPageStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MainPageStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Update="Strings\PaletteDetailPage\PaletteDetailPageStrings.resx">
+    <EmbeddedResource Update="Strings\Pages\PaletteDetailPageStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PaletteDetailPageStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
@@ -203,10 +202,5 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Update="Strings\MainPage\MainPage.resw">
-      <CustomToolNamespace>Mirai</CustomToolNamespace>
-    </PRIResource>
   </ItemGroup>
 </Project>
