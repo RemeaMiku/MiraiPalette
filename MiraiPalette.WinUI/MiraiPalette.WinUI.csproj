@@ -127,6 +127,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>OpenFileStrings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Strings\Dialogs\SaveChangesStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SaveChangesStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Strings\Dialogs\SaveFileStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -166,6 +171,11 @@
     <EmbeddedResource Update="Strings\Dialogs\OpenFileStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>OpenFileStrings.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings\Dialogs\SaveChangesStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SaveChangesStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Strings\Dialogs\SaveFileStrings.resx">

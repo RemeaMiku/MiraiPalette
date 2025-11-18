@@ -202,7 +202,11 @@ public partial class PaletteDetailPageViewModel : PageViewModel
             return;
         if(SelectedColor.Color != _colorBefore)
         {
-            var isConfirmed = await Current.ShowConfirmDialogAsync("保存更改", $"颜色 \"{SelectedColor.Name}\" 已更改，是否保存更改？");
+            var isConfirmed = await Current.ShowConfirmDialogAsync(
+                SaveChangesStrings.ColorValue_Title,
+                string.Format(SaveChangesStrings.ColorValue_Message, SelectedColor.Name),
+                true,
+                SaveChangesStrings.ColorValue_Commit);
             if(isConfirmed)
                 await UpdatePalette();
             else
