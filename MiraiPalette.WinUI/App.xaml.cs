@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -104,9 +105,9 @@ public partial class App : Application
     public void ApplyLanguageSetting()
     {
         var settingsService = Services.GetRequiredService<ISettingsService>();
-        var language = settingsService.GetValue(nameof(SettingsPageViewModel.Language), Languages.System);
+        var language = settingsService.GetValue(nameof(SettingsPageViewModel.Language), LanguageOptions.System);
         StringsManager.SetCulture(language);
-        ApplicationLanguages.PrimaryLanguageOverride = language == Languages.System ? default : language;
+        ApplicationLanguages.PrimaryLanguageOverride = language == LanguageOptions.System ? CultureInfo.InstalledUICulture.Name : language;
     }
 
     public void NavigateTo(NavigationTarget target, object? parameter = null)

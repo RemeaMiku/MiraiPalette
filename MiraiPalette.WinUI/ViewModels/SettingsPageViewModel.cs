@@ -30,7 +30,7 @@ public partial class SettingsPageViewModel : ObservableObject
 
     public string? Language
     {
-        get => _settingsService.GetValue(nameof(Language), Languages.System);
+        get => _settingsService.GetValue(nameof(Language), LanguageOptions.System);
         set
         {
             if(value == Language)

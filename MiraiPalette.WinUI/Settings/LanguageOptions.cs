@@ -1,6 +1,6 @@
 ﻿namespace MiraiPalette.WinUI.Settings;
 
-public static class Languages
+public static class LanguageOptions
 {
     public const string System = nameof(System);
 }
