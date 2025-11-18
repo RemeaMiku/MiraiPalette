@@ -9,7 +9,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
-using MiraiPalette.WinUI.Strings.Dialogs;
 
 namespace MiraiPalette.WinUI.ViewModels;
 

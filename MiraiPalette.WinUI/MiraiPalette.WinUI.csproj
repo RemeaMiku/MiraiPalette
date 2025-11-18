@@ -151,6 +151,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>PaletteDetailPageStrings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Strings\Pages\SettingsPageStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SettingsPageStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Strings\Resources\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -166,6 +171,7 @@
     <EmbeddedResource Update="Strings\Dialogs\ErrorMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Strings\Dialogs\OpenFileStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -195,6 +201,11 @@
     <EmbeddedResource Update="Strings\Pages\PaletteDetailPageStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PaletteDetailPageStrings.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings\Pages\SettingsPageStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SettingsPageStrings.Designer.cs</LastGenOutput>
       <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Strings\Resources\Resources.resx">

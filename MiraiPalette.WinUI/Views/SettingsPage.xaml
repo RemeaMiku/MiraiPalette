@@ -7,25 +7,29 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:CommunityToolkit.WinUI.Controls"
       xmlns:ui="using:CommunityToolkit.WinUI"
+      xmlns:localization="using:MiraiPalette.WinUI.Strings"
       NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Grid Padding="32">
         <Border>
-            <TextBlock Text="设置" Style="{ThemeResource TitleTextBlockStyle}"/>
+            <TextBlock Text="{x:Bind localization:SettingsPageStrings.Title,Mode=OneTime}" Style="{ThemeResource TitleTextBlockStyle}"/>
         </Border>
         <ScrollViewer Padding="8">
             <StackPanel Orientation="Vertical" Spacing="8">
                 <Rectangle Height="36"/>
-                <TextBlock Text="外观和行为"
+                <TextBlock Text="{x:Bind localization:SettingsPageStrings.AppearanceAndBehavior,Mode=OneTime}"
                            Style="{ThemeResource BodyStrongTextBlockStyle}"/>
-                <controls:SettingsCard HeaderIcon="{ui:FontIcon Glyph=&#xE790;}" Header="主题" Description="设置应用的颜色模式">
+                <controls:SettingsCard 
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE790;}" 
+                    Header="{x:Bind localization:SettingsPageStrings.AppTheme_Header,Mode=OneTime}" 
+                    Description="{x:Bind localization:SettingsPageStrings.AppTheme_Description,Mode=OneTime}">
                     <ComboBox SelectedValue="{x:Bind ViewModel.ThemeMode,Mode=TwoWay}" SelectedValuePath="Tag">
-                        <ComboBoxItem Content="跟随系统" Tag="Default"/>
-                        <ComboBoxItem Content="浅色模式" Tag="Light"/>
-                        <ComboBoxItem Content="深色模式" Tag="Dark"/>
+                        <ComboBoxItem Content="{x:Bind localization:SettingsPageStrings.AppTheme_System,Mode=OneTime}" Tag="Default"/>
+                        <ComboBoxItem Content="{x:Bind localization:SettingsPageStrings.AppTheme_Light,Mode=OneTime}" Tag="Light"/>
+                        <ComboBoxItem Content="{x:Bind localization:SettingsPageStrings.AppTheme_Dark,Mode=OneTime}" Tag="Dark"/>
                     </ComboBox>
                 </controls:SettingsCard>
-                <TextBlock Text="关于"
+                <TextBlock Text="{x:Bind localization:SettingsPageStrings.About,Mode=OneTime}"
                            Style="{ThemeResource BodyStrongTextBlockStyle}" />
                 <controls:SettingsExpander Header="Mirai Palette"
                                            Description="© 2025 RemeaMiku. All rights reserved">

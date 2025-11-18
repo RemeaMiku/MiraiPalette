@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MiraiPalette.WinUI.Strings.Dialogs {
+namespace MiraiPalette.WinUI.Strings {
     using System;
     
     

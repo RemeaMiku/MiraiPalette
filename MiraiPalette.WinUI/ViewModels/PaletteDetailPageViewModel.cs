@@ -9,7 +9,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
-using MiraiPalette.WinUI.Strings.Dialogs;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
 
