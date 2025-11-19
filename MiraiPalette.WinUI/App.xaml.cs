@@ -104,7 +104,7 @@ public partial class App : Application
     {
         var settingsService = Services.GetRequiredService<ISettingsService>();
         var languageSetting = settingsService.GetValue(LanguageSettings.SettingKey, LanguageSettings.System);
-        var language = languageSetting == LanguageSettings.System ? CultureInfo.InstalledUICulture.Name : languageSetting;
+        var language = LanguageSettings.ConvertToActualLanguage(languageSetting);
         try
         {
             var culture = new CultureInfo(language);
