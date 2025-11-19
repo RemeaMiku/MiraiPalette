@@ -17,12 +17,9 @@
         <converters:LanguageCodeToNameConverter x:Name="LanguageCodeToNameConverter" /> 
     </Page.Resources>
     <Grid Padding="32">
-        <Border>
-            <TextBlock Text="{x:Bind localization:SettingsPageStrings.Title,Mode=OneTime}" Style="{ThemeResource TitleTextBlockStyle}"/>
-        </Border>
         <ScrollViewer Padding="8">
             <StackPanel Orientation="Vertical" Spacing="8">
-                <Rectangle Height="36"/>
+                <Rectangle Height="64"/>
                 <TextBlock Text="{x:Bind localization:SettingsPageStrings.AppearanceAndBehavior,Mode=OneTime}"
                            Style="{ThemeResource BodyStrongTextBlockStyle}"/>
                 <controls:SettingsCard 
@@ -44,9 +41,28 @@
                            Style="{ThemeResource BodyStrongTextBlockStyle}" />
                 <controls:SettingsExpander Header="Mirai Palette"
                                            Description="© 2025 RemeaMiku. All rights reserved">
-                    <TextBlock IsTextSelectionEnabled="True" Text="0.3.9-winui" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.Version,Mode=OneTime}" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard Header="{x:Bind localization:SettingsPageStrings.DependenciesAndReferences,Mode=OneWay}" HorizontalContentAlignment="Left" ContentAlignment="Vertical">
+                            <StackPanel Orientation="Vertical"
+                                        Spacing="4">
+                                <HyperlinkButton Content="Windows App SDK"
+                                                 NavigateUri="https://aka.ms/windowsappsdk" />
+                                <HyperlinkButton Content="WinUI 3"
+                                                 NavigateUri="https://github.com/microsoft/microsoft-ui-xaml" />
+                                <HyperlinkButton Content=".NET Community Toolkit"
+                                                 NavigateUri="https://github.com/CommunityToolkit/dotnet" />
+                                <HyperlinkButton Content="Windows Community Toolkit"
+                                                 NavigateUri="https://aka.ms/toolkit/windows" />
+                            </StackPanel>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
                 </controls:SettingsExpander>
             </StackPanel>
         </ScrollViewer>
+        <Border CornerRadius="{ThemeResource ControlCornerRadius}" Padding="16" Background="{ThemeResource DefaultAcrylicBrush}" VerticalAlignment="Top">
+            <TextBlock Text="{x:Bind localization:SettingsPageStrings.Title,Mode=OneTime}"
+                       Style="{ThemeResource TitleTextBlockStyle}" />
+        </Border>
     </Grid>
 </Page>

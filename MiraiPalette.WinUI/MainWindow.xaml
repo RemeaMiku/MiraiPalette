@@ -15,15 +15,14 @@
         Title="Mirai Palette"
         mc:Ignorable="d">
     <Window.SystemBackdrop>
-        <DesktopAcrylicBackdrop />
+        <DesktopAcrylicBackdrop/>
     </Window.SystemBackdrop>
-    <Grid Padding="4"
-          RowSpacing="10">
+    <Grid RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TitleBar x:Name="TitleBar" Title="Mirai Palette" IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}" BackRequested="TitleBar_BackRequested" PaneToggleRequested="TitleBar_PaneToggleRequested" />
+        <TitleBar x:Name="TitleBar" Title="Mirai Palette"  IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}" BackRequested="TitleBar_BackRequested" PaneToggleRequested="TitleBar_PaneToggleRequested" />
         <NavigationView SelectionChanged="MainNavigationView_SelectionChanged" CompactModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth,Mode=OneTime}"
                         ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth,Mode=OneTime}" x:Name="MainNavigationView" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" Grid.Row="1">
             <NavigationView.MenuItems>
@@ -35,14 +34,14 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <controls:PropertySizer Background="Transparent"
+                <controls:PropertySizer Background="{ThemeResource SystemControlPageBackgroundChromeMediumLowBrush}"
                                         Opacity="0.2"
                                         Minimum="50"
                                         Maximum="360"
                                         Binding="{x:Bind MainNavigationView.OpenPaneLength,Mode=TwoWay}"
                                         Visibility="{x:Bind MainNavigationView.IsPaneOpen,Mode=OneWay}" />
                 <Frame Grid.Column="1"
-                       x:Name="ContentFrame" />
+                       x:Name="ContentFrame" Background="{ThemeResource SystemControlPageBackgroundChromeMediumLowBrush}"/>
             </Grid>
         </NavigationView>
     </Grid>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
@@ -32,6 +33,14 @@ public partial class App : Application
 
     public ServiceProvider Services { get; } = ConfigureServices();
 
+    // Source - https://stackoverflow.com/a
+    // Posted by georgel2020
+    // Retrieved 2025-11-19, License - CC BY-SA 4.0
+
+    [DllImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool ShouldSystemUseDarkMode();
+
     public ElementTheme ThemeMode
     {
         get
@@ -44,6 +53,7 @@ public partial class App : Application
             if(ThemeMode == value)
                 return;
             var frameworkElement = MainWindow.Content as FrameworkElement;
+            frameworkElement?.RequestedTheme = value;
             // Update title bar button colors
             var titleBar = MainWindow.AppWindow.TitleBar;
             var foregroundColor = value == ElementTheme.Dark ? Colors.White : Colors.Black;
@@ -51,7 +61,6 @@ public partial class App : Application
             titleBar.ButtonHoverForegroundColor = foregroundColor;
             var backgroundHoverColor = value == ElementTheme.Dark ? Color.FromArgb(24, 255, 255, 255) : Color.FromArgb(24, 0, 0, 0);
             titleBar.ButtonHoverBackgroundColor = backgroundHoverColor;
-            frameworkElement?.RequestedTheme = value;
         }
     }
 

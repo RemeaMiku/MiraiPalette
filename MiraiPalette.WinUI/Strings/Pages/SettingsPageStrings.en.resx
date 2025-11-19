@@ -162,4 +162,7 @@
   <data name="Language.enUS" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="DependenciesAndReferences" xml:space="preserve">
+    <value>Dependencies &amp; References</value>
+  </data>
 </root>

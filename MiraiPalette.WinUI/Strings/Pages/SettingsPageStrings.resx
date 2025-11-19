@@ -142,4 +142,7 @@
   <data name="Language.enUS" xml:space="preserve">
     <value>英语</value>
   </data>
+  <data name="DependenciesAndReferences" xml:space="preserve">
+    <value>依赖和参考</value>
+  </data>
 </root>

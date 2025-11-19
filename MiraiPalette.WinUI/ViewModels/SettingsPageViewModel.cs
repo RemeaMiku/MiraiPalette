@@ -2,6 +2,7 @@
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Settings;
 using MiraiPalette.WinUI.Strings;
+using Windows.ApplicationModel;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
@@ -52,6 +53,19 @@ public partial class SettingsPageViewModel : ObservableObject
             _settingsService.SetValue(LanguageSettings.SettingKey, value);
             OnPropertyChanged(nameof(Language));
             Current.ApplyLanguageSetting();
+        }
+    }
+
+    public string Version
+    {
+        get
+        {
+            var version = Package.Current.Id.Version;
+#if DEBUG
+            return $"{version.Major}.{version.Minor}.{version.Build}-winui DEV";
+#else
+            return $"{version.Major}.{version.Minor}.{version.Build}-winui";
+#endif
         }
     }
 }

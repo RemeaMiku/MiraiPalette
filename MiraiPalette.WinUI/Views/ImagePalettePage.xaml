@@ -23,7 +23,7 @@
                 CommandParameter="{Binding}"
                 Foreground="{StaticResource SystemFillColorCriticalBrush}"
                 Icon="{ui:SymbolIcon Symbol=Delete}"
-                Text="{x:Bind localization:Resources.Remove,Mode=OneTime}" />
+                Text="{x:Bind localization:Resources.Delete,Mode=OneTime}" />
         </MenuFlyout>
         <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="vm:ColorViewModel">
             <Grid

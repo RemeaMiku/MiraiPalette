@@ -124,6 +124,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 依赖和参考 的本地化字符串。
+        /// </summary>
+        internal static string DependenciesAndReferences {
+            get {
+                return ResourceManager.GetString("DependenciesAndReferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置应用显示的语言。需要重启应用后生效 的本地化字符串。
         /// </summary>
         internal static string Language_Description {
