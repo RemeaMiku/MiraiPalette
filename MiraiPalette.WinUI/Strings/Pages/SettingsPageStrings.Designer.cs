@@ -133,6 +133,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 英语 的本地化字符串。
+        /// </summary>
+        internal static string Language_enUS {
+            get {
+                return ResourceManager.GetString("Language.enUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 语言 的本地化字符串。
         /// </summary>
         internal static string Language_Header {
@@ -142,11 +151,29 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 日语 的本地化字符串。
+        /// </summary>
+        internal static string Language_jaJP {
+            get {
+                return ResourceManager.GetString("Language.jaJP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 跟随系统 的本地化字符串。
         /// </summary>
         internal static string Language_System {
             get {
                 return ResourceManager.GetString("Language.System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 简体中文 的本地化字符串。
+        /// </summary>
+        internal static string Language_zhCN {
+            get {
+                return ResourceManager.GetString("Language.zhCN", resourceCulture);
             }
         }
         

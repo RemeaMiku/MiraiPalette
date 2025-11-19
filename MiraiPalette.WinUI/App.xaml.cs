@@ -13,7 +13,6 @@ using Microsoft.Windows.Storage.Pickers;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Impl;
 using MiraiPalette.WinUI.Settings;
-using MiraiPalette.WinUI.Strings;
 using MiraiPalette.WinUI.ViewModels;
 using MiraiPalette.WinUI.Views;
 using Windows.UI;
@@ -42,6 +41,8 @@ public partial class App : Application
         }
         private set
         {
+            if(ThemeMode == value)
+                return;
             var frameworkElement = MainWindow.Content as FrameworkElement;
             // Update title bar button colors
             var titleBar = MainWindow.AppWindow.TitleBar;
@@ -93,21 +94,28 @@ public partial class App : Application
     public void ApplyThemeModeSetting()
     {
         var settingsService = Services.GetRequiredService<ISettingsService>();
-        var themeModeStr = settingsService.GetValue(nameof(ThemeMode), nameof(ElementTheme.Default));
+        var themeModeStr = settingsService.GetValue(ThemeSettings.SettingKey, ThemeSettings.System);
         if(!Enum.TryParse<ElementTheme>(themeModeStr, out var themeMode))
-        {
-            settingsService.SetValue(nameof(ThemeMode), nameof(ElementTheme.Default));
-            return;
-        }
+            settingsService.SetValue(ThemeSettings.SettingKey, ThemeSettings.System);
         ThemeMode = themeMode;
     }
 
     public void ApplyLanguageSetting()
     {
         var settingsService = Services.GetRequiredService<ISettingsService>();
-        var language = settingsService.GetValue(nameof(SettingsPageViewModel.Language), LanguageOptions.System);
-        StringsManager.SetCulture(language);
-        ApplicationLanguages.PrimaryLanguageOverride = language == LanguageOptions.System ? CultureInfo.InstalledUICulture.Name : language;
+        var languageSetting = settingsService.GetValue(LanguageSettings.SettingKey, LanguageSettings.System);
+        var language = languageSetting == LanguageSettings.System ? CultureInfo.InstalledUICulture.Name : languageSetting;
+        try
+        {
+            var culture = new CultureInfo(language);
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            ApplicationLanguages.PrimaryLanguageOverride = language;
+        }
+        catch(Exception)
+        {
+            settingsService.SetValue(LanguageSettings.SettingKey, LanguageSettings.System);
+        }
     }
 
     public void NavigateTo(NavigationTarget target, object? parameter = null)

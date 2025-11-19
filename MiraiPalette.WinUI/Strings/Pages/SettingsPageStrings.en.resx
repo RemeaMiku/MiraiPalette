@@ -153,4 +153,13 @@
   <data name="Language.System" xml:space="preserve">
     <value>Follow System</value>
   </data>
+  <data name="Language.zhCN" xml:space="preserve">
+    <value>Simplified Chinese</value>
+  </data>
+  <data name="Language.jaJP" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="Language.enUS" xml:space="preserve">
+    <value>English</value>
+  </data>
 </root>

@@ -8,8 +8,14 @@
       xmlns:controls="using:CommunityToolkit.WinUI.Controls"
       xmlns:ui="using:CommunityToolkit.WinUI"
       xmlns:localization="using:MiraiPalette.WinUI.Strings"
+      xmlns:settings="using:MiraiPalette.WinUI.Settings"
+      xmlns:converters="using:MiraiPalette.WinUI.Converters"
       NavigationCacheMode="Required"
       mc:Ignorable="d">
+    <Page.Resources>
+        <converters:ThemeValueToNameConverter x:Name="ThemeValueToNameConverter" />
+        <converters:LanguageCodeToNameConverter x:Name="LanguageCodeToNameConverter" /> 
+    </Page.Resources>
     <Grid Padding="32">
         <Border>
             <TextBlock Text="{x:Bind localization:SettingsPageStrings.Title,Mode=OneTime}" Style="{ThemeResource TitleTextBlockStyle}"/>
@@ -23,23 +29,16 @@
                     HeaderIcon="{ui:FontIcon Glyph=&#xE790;}" 
                     Header="{x:Bind localization:SettingsPageStrings.AppTheme_Header,Mode=OneTime}" 
                     Description="{x:Bind localization:SettingsPageStrings.AppTheme_Description,Mode=OneTime}">
-                    <ComboBox SelectedValue="{x:Bind ViewModel.ThemeMode,Mode=TwoWay}" SelectedValuePath="Tag">
-                        <ComboBoxItem Content="{x:Bind localization:SettingsPageStrings.AppTheme_System,Mode=OneTime}" Tag="Default"/>
-                        <ComboBoxItem Content="{x:Bind localization:SettingsPageStrings.AppTheme_Light,Mode=OneTime}" Tag="Light"/>
-                        <ComboBoxItem Content="{x:Bind localization:SettingsPageStrings.AppTheme_Dark,Mode=OneTime}" Tag="Dark"/>
-                    </ComboBox>
+                    <ComboBox SelectedItem="{x:Bind ViewModel.ThemeMode,Mode=TwoWay,Converter={StaticResource ThemeValueToNameConverter}}"
+                              ItemsSource="{x:Bind ViewModel.ThemeModeOptions,Mode=OneTime}" />
                 </controls:SettingsCard>
                 <TextBlock Text="{x:Bind localization:SettingsPageStrings.LanguageAndRegion,Mode=OneTime}"                          
                            Style="{ThemeResource BodyStrongTextBlockStyle}" />
                 <controls:SettingsCard Header="{x:Bind localization:SettingsPageStrings.Language_Header,Mode=OneTime}"
                                        HeaderIcon="{ui:FontIcon Glyph=&#xF2B7;}"
                                        Description="{x:Bind localization:SettingsPageStrings.Language_Description,Mode=OneTime}">
-                    <ComboBox SelectedValue="{x:Bind ViewModel.Language,Mode=TwoWay}" SelectedValuePath="Tag">
-                        <ComboBoxItem Content="{x:Bind localization:SettingsPageStrings.Language_System,Mode=OneTime}" Tag="System" />
-                        <ComboBoxItem Content="简体中文" Tag="zh-CN"/>
-                        <ComboBoxItem Content="日本語" Tag="ja-JP"/>
-                        <ComboBoxItem Content="English" Tag="en-US"/>
-                    </ComboBox>
+                    <ComboBox SelectedItem="{x:Bind ViewModel.Language,Mode=TwoWay,Converter={StaticResource LanguageCodeToNameConverter}}"
+                              ItemsSource="{x:Bind ViewModel.LanguageOptions,Mode=OneTime}" />
                 </controls:SettingsCard>
                 <TextBlock Text="{x:Bind localization:SettingsPageStrings.About,Mode=OneTime}"
                            Style="{ThemeResource BodyStrongTextBlockStyle}" />

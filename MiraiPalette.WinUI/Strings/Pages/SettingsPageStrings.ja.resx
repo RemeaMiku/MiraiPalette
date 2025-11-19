@@ -153,4 +153,13 @@
   <data name="Language.System" xml:space="preserve">
     <value>システムに合わせる</value>
   </data>
+  <data name="Language.zhCN" xml:space="preserve">
+    <value>簡体字中国語</value>
+  </data>
+  <data name="Language.jaJP" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="Language.enUS" xml:space="preserve">
+    <value>英語</value>
+  </data>
 </root>

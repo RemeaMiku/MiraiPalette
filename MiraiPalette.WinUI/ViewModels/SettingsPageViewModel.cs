@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Settings;
 using MiraiPalette.WinUI.Strings;
@@ -10,6 +9,21 @@ public partial class SettingsPageViewModel : ObservableObject
 {
     private readonly ISettingsService _settingsService;
 
+    public string[] ThemeModeOptions { get; } =
+        [
+            SettingsPageStrings.AppTheme_System,
+            SettingsPageStrings.AppTheme_Light,
+            SettingsPageStrings.AppTheme_Dark
+        ];
+
+    public string[] LanguageOptions { get; } =
+        [
+            SettingsPageStrings.Language_System,
+            SettingsPageStrings.Language_zhCN,
+            SettingsPageStrings.Language_enUS,
+            SettingsPageStrings.Language_jaJP
+        ];
+
     public SettingsPageViewModel(ISettingsService settingsService)
     {
         _settingsService = settingsService;
@@ -17,12 +31,12 @@ public partial class SettingsPageViewModel : ObservableObject
 
     public string ThemeMode
     {
-        get => _settingsService.GetValue(nameof(ThemeMode), nameof(ElementTheme.Default));
+        get => _settingsService.GetValue(ThemeSettings.SettingKey, ThemeSettings.System);
         set
         {
             if(value == ThemeMode)
                 return;
-            _settingsService.SetValue(nameof(ThemeMode), value);
+            _settingsService.SetValue(ThemeSettings.SettingKey, value);
             OnPropertyChanged(nameof(ThemeMode));
             Current.ApplyThemeModeSetting();
         }
@@ -30,14 +44,14 @@ public partial class SettingsPageViewModel : ObservableObject
 
     public string? Language
     {
-        get => _settingsService.GetValue(nameof(Language), LanguageOptions.System);
+        get => _settingsService.GetValue(LanguageSettings.SettingKey, LanguageSettings.System);
         set
         {
             if(value == Language)
                 return;
-            _settingsService.SetValue(nameof(Language), value);
+            _settingsService.SetValue(LanguageSettings.SettingKey, value);
             OnPropertyChanged(nameof(Language));
-            StringsManager.SetCulture(value);
+            Current.ApplyLanguageSetting();
         }
     }
 }
