@@ -81,6 +81,10 @@
                 </Grid>
                 <ItemContainer.ContextFlyout>
                     <MenuFlyout>
+                        <MenuFlyoutItem Command="{Binding ViewModel.EditColorCommand,Mode=OneTime,ElementName=RootPage}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ui:SymbolIcon Symbol=Edit}"
+                                        Text="{x:Bind localization:Resources.Edit,Mode=OneTime}"/>
                         <MenuFlyoutItem
                             Command="{Binding ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime, ElementName=RootPage}"
                             CommandParameter="{x:Bind}"
@@ -236,8 +240,8 @@
                             Command="{x:Bind ViewModel.SaveEditingColorCommand, Mode=OneTime}"
                             Style="{ThemeResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <SymbolIcon Symbol="Accept" />
-                                <TextBlock Text="{x:Bind localization:Resources.Accept,Mode=OneTime}" />
+                                <SymbolIcon Symbol="Save" />
+                                <TextBlock Text="{x:Bind localization:Resources.Save,Mode=OneTime}" />
                             </StackPanel>
                         </Button>
                         <Button Width="120" Command="{x:Bind ViewModel.ResetEditingColorCommand, Mode=OneTime}">

@@ -177,4 +177,10 @@
   <data name="Open" xml:space="preserve">
     <value>打开</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
 </root>

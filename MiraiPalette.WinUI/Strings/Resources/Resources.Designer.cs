@@ -151,6 +151,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 编辑 的本地化字符串。
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 导出 的本地化字符串。
         /// </summary>
         internal static string Export {
@@ -210,6 +219,15 @@ namespace MiraiPalette.WinUI.Strings {
         internal static string Reset {
             get {
                 return ResourceManager.GetString("Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保存 的本地化字符串。
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
         

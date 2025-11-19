@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Windows.Globalization;
 using Microsoft.Windows.Storage.Pickers;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Impl;
@@ -33,35 +32,22 @@ public partial class App : Application
 
     public ServiceProvider Services { get; } = ConfigureServices();
 
-    // Source - https://stackoverflow.com/a
+    // Source - https://stackoverflow.com/questions/75157237/uwp-winui3-how-to-get-system-theme-in-c
     // Posted by georgel2020
     // Retrieved 2025-11-19, License - CC BY-SA 4.0
 
     [DllImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool ShouldSystemUseDarkMode();
+    private static extern bool ShouldSystemUseDarkMode();
 
-    public ElementTheme ThemeMode
+    private void HandleTitleBarThemeChange(ElementTheme theme)
     {
-        get
-        {
-            var frameworkElement = MainWindow.Content as FrameworkElement;
-            return frameworkElement?.RequestedTheme ?? ElementTheme.Default;
-        }
-        private set
-        {
-            if(ThemeMode == value)
-                return;
-            var frameworkElement = MainWindow.Content as FrameworkElement;
-            frameworkElement?.RequestedTheme = value;
-            // Update title bar button colors
-            var titleBar = MainWindow.AppWindow.TitleBar;
-            var foregroundColor = value == ElementTheme.Dark ? Colors.White : Colors.Black;
-            titleBar.ButtonForegroundColor = foregroundColor;
-            titleBar.ButtonHoverForegroundColor = foregroundColor;
-            var backgroundHoverColor = value == ElementTheme.Dark ? Color.FromArgb(24, 255, 255, 255) : Color.FromArgb(24, 0, 0, 0);
-            titleBar.ButtonHoverBackgroundColor = backgroundHoverColor;
-        }
+        var titleBar = MainWindow.AppWindow.TitleBar;
+        var foregroundColor = theme == ElementTheme.Dark ? Colors.White : Colors.Black;
+        titleBar.ButtonForegroundColor = foregroundColor;
+        titleBar.ButtonHoverForegroundColor = foregroundColor;
+        var backgroundHoverColor = theme == ElementTheme.Dark ? Color.FromArgb(24, 255, 255, 255) : Color.FromArgb(24, 0, 0, 0);
+        titleBar.ButtonHoverBackgroundColor = backgroundHoverColor;
     }
 
     static ServiceProvider ConfigureServices()
@@ -103,10 +89,15 @@ public partial class App : Application
     public void ApplyThemeModeSetting()
     {
         var settingsService = Services.GetRequiredService<ISettingsService>();
-        var themeModeStr = settingsService.GetValue(ThemeSettings.SettingKey, ThemeSettings.System);
-        if(!Enum.TryParse<ElementTheme>(themeModeStr, out var themeMode))
+        var themeSetting = settingsService.GetValue(ThemeSettings.SettingKey, ThemeSettings.System);
+        if(!Enum.TryParse<ElementTheme>(themeSetting, out var requestedTheme))
             settingsService.SetValue(ThemeSettings.SettingKey, ThemeSettings.System);
-        ThemeMode = themeMode;
+        var frameworkElement = MainWindow.Content as FrameworkElement;
+        frameworkElement!.RequestedTheme = requestedTheme;
+        var actualTheme = requestedTheme == ElementTheme.Default
+            ? (ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light)
+            : requestedTheme;
+        HandleTitleBarThemeChange(actualTheme);
     }
 
     public void ApplyLanguageSetting()
@@ -119,7 +110,6 @@ public partial class App : Application
             var culture = new CultureInfo(language);
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
-            ApplicationLanguages.PrimaryLanguageOverride = language;
         }
         catch(Exception)
         {

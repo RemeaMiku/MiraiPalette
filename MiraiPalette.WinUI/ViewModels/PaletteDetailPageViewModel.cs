@@ -108,8 +108,8 @@ public partial class PaletteDetailPageViewModel : PageViewModel
             color.IsSelected = selection.Contains(color);
         if(selection.Count == 1 && !IsMultiSelectionEnabled)
         {
-            IsEditingColor = true;
             EditColor();
+            IsEditingColor = true;
         }
         else
         {
@@ -135,7 +135,6 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         });
         await UpdatePalette();
         SelectedColor = Palette.Colors[0];
-        EditColor();
     }
 
     [RelayCommand]
@@ -159,12 +158,14 @@ public partial class PaletteDetailPageViewModel : PageViewModel
         }
     }
 
-
-    void EditColor()
+    [RelayCommand]
+    void EditColor(ColorViewModel? color = default)
     {
-        if(SelectedColor is null)
-            return;
-        _colorBefore = SelectedColor.Color;
+        if(color is null && SelectedColor is null)
+            throw new ArgumentNullException(nameof(color));
+        if(color is not null)
+            SelectedColor = color;
+        _colorBefore = SelectedColor!.Color;
     }
 
     [RelayCommand]
@@ -189,9 +190,7 @@ public partial class PaletteDetailPageViewModel : PageViewModel
     partial void OnSelectedColorChanging(ColorViewModel? oldValue, ColorViewModel? newValue)
     {
         if(IsEditingColor && oldValue is not null && newValue is not null)
-        {
             oldValue.Color = _colorBefore;
-        }
     }
 
     [RelayCommand]
