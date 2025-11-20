@@ -43,7 +43,7 @@
                                            Description="© 2025 RemeaMiku. All rights reserved">
                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.Version,Mode=OneTime}" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
                     <controls:SettingsExpander.Items>
-                        <controls:SettingsCard Header="{x:Bind localization:SettingsPageStrings.DependenciesAndReferences,Mode=OneWay}" HorizontalContentAlignment="Left" ContentAlignment="Vertical">
+                        <controls:SettingsCard Header="{x:Bind localization:SettingsPageStrings.DependenciesAndReferences,Mode=OneTime}" HorizontalContentAlignment="Left" ContentAlignment="Vertical">
                             <StackPanel Orientation="Vertical"
                                         Spacing="4">
                                 <HyperlinkButton Content="Windows App SDK"
