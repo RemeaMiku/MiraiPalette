@@ -6,6 +6,7 @@
         xmlns:local="using:MiraiPalette.WinUI"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:models="using:MiraiPalette.WinUI.ViewModels"
+        xmlns:ui="using:CommunityToolkit.WinUI"
         xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
         xmlns:views="using:MiraiPalette.WinUI.Views"
         xmlns:controls="using:CommunityToolkit.WinUI.Controls"
@@ -22,7 +23,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TitleBar x:Name="TitleBar" Title="Mirai Palette"  IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}" BackRequested="TitleBar_BackRequested" PaneToggleRequested="TitleBar_PaneToggleRequested" />
+        <TitleBar x:Name="TitleBar"
+                  Title="{x:Bind Window.Title,Mode=OneWay}"
+                  IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}"
+                  BackRequested="TitleBar_BackRequested"
+                  PaneToggleRequested="TitleBar_PaneToggleRequested">
+            <TitleBar.IconSource>
+                <ImageIconSource ImageSource="/Assets/MiraiPaletteLogo.ico" />
+            </TitleBar.IconSource>
+        </TitleBar>
         <NavigationView SelectionChanged="MainNavigationView_SelectionChanged" CompactModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth,Mode=OneTime}"
                         ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth,Mode=OneTime}" x:Name="MainNavigationView" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" Grid.Row="1">
             <NavigationView.MenuItems>

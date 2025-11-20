@@ -124,6 +124,7 @@ public partial class App : Application
                 break;
             case NavigationTarget.Main:
                 frame.Navigate(typeof(MainPage), parameter);
+                frame.BackStack.Clear();
                 break;
             case NavigationTarget.Palette:
                 frame.Navigate(typeof(PaletteDetailPage), parameter);
@@ -133,6 +134,7 @@ public partial class App : Application
                 break;
             case NavigationTarget.Settings:
                 frame.Navigate(typeof(SettingsPage), parameter);
+                frame.BackStack.Clear();
                 break;
             default:
                 break;

@@ -120,6 +120,9 @@
   <data name="CreateNewPalette.Tooltip" xml:space="preserve">
     <value>Create New Blank Palette</value>
   </data>
+  <data name="EmptyPalettesListMessage" xml:space="preserve">
+    <value>You don’t have a palette yet, click the button below to create a new blank palette</value>
+  </data>
   <data name="ExtractPaletteFromImage.Tooltip" xml:space="preserve">
     <value>Extract from Image</value>
   </data>

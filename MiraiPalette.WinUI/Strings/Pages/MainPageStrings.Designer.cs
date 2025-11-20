@@ -70,6 +70,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 你还没有调色板，点击下方按钮新建空白调色板 的本地化字符串。
+        /// </summary>
+        internal static string EmptyPalettesListMessage {
+            get {
+                return ResourceManager.GetString("EmptyPalettesListMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 从图片中提取 的本地化字符串。
         /// </summary>
         internal static string ExtractPaletteFromImage_Tooltip {

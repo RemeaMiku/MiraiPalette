@@ -120,6 +120,9 @@
   <data name="CreateNewPalette.Tooltip" xml:space="preserve">
     <value>新建空白调色板</value>
   </data>
+  <data name="EmptyPalettesListMessage" xml:space="preserve">
+    <value>你还没有调色板，点击下方按钮新建空白调色板</value>
+  </data>
   <data name="ExtractPaletteFromImage.Tooltip" xml:space="preserve">
     <value>从图片中提取</value>
   </data>

@@ -55,7 +55,6 @@ public partial class SettingsPageViewModel : ObservableObject
             _settingsService.SetValue(LanguageSettings.SettingKey, value);
             OnPropertyChanged(nameof(Language));
             _ = LanguageSettings.TryConvertSettingToActual(value, out var language);
-            _settingsService.SetValue(LanguageSettings.SettingKey, language);
             ApplicationLanguages.PrimaryLanguageOverride = language;
             NeedRestartForChanges = CultureInfo.DefaultThreadCurrentUICulture?.Name != language;
         }

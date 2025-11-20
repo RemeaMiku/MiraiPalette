@@ -120,6 +120,9 @@
   <data name="CreateNewPalette.Tooltip" xml:space="preserve">
     <value>新しい空のパレットを作成する</value>
   </data>
+  <data name="EmptyPalettesListMessage" xml:space="preserve">
+    <value>まだパレットがありません。下のボタンから空のパレットを作成してください</value>
+  </data>
   <data name="ExtractPaletteFromImage.Tooltip" xml:space="preserve">
     <value>画像から抽出</value>
   </data>

@@ -29,7 +29,23 @@ public partial class MainPageViewModel : PageViewModel
     }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasPalettes))]
     public partial ObservableCollection<PaletteViewModel> Palettes { get; set; } = [];
+
+    public bool HasPalettes => Palettes.Count > 0;
+
+    partial void OnPalettesChanged(ObservableCollection<PaletteViewModel> oldValue, ObservableCollection<PaletteViewModel> newValue)
+    {
+        if(oldValue is not null)
+            oldValue.CollectionChanged -= OnPalettesChanged;
+        if(newValue is not null)
+            newValue.CollectionChanged += OnPalettesChanged;
+    }
+
+    private void OnPalettesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        OnPropertyChanged(nameof(HasPalettes));
+    }
 
     readonly IMiraiPaletteStorageService _miraiPaletteStorageService;
 

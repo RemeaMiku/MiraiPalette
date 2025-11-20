@@ -106,7 +106,7 @@
             </ItemContainer>
         </DataTemplate>
     </Page.Resources>
-    <Grid Padding="0">
+    <Grid>
         <ScrollViewer x:Name="PalettesScrollViewer"
                           Padding="8">
             <ItemsRepeater
@@ -120,7 +120,11 @@
                     </ItemsRepeater.Layout>
                 </ItemsRepeater>
             </ScrollViewer>
-        <Border CornerRadius="{StaticResource ControlCornerRadius}"
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Visibility="{x:Bind ViewModel.HasPalettes,Mode=OneWay,Converter={StaticResource BoolToVisibilityInverseConverter}}">
+            <TextBlock Text="{x:Bind localization:MainPageStrings.EmptyPalettesListMessage,Mode=OneTime}" Style="{StaticResource BodyLargeTextBlockStyle}"/>
+            <Button HorizontalAlignment="Center" Content="{x:Bind localization:MainPageStrings.CreateNewPalette_Tooltip}" Command="{x:Bind ViewModel.AddPaletteCommand,Mode=OneTime}" Style="{StaticResource AccentButtonStyle}"/>
+        </StackPanel>
+        <Border CornerRadius="{ThemeResource ControlCornerRadius}"
                 HorizontalAlignment="Center"
                 Margin="32"
                 VerticalAlignment="Bottom"

@@ -22,6 +22,7 @@
     <Page Remove="Views\Dialogs\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\MiraiPaletteLogo.ico" />
     <None Remove="Views\ImagePalettePage.xaml" />
     <None Remove="Views\MainPage.xaml" />
     <None Remove="Views\PaletteDetailPage.xaml" />
@@ -34,7 +35,6 @@
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
@@ -99,9 +99,9 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Auto</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateThumbprint>BD823C45068FCAA6983DB1C0C8F4F6223A22F717</PackageCertificateThumbprint>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <AppInstallerUri>C:\Users\tshu6.IXAS\Downloads</AppInstallerUri>
+    <AppInstallerUri>C:\Users\remea\Downloads</AppInstallerUri>
+    <PackageCertificateThumbprint>D24827318CEB687008A153075E48F3BFEC1CADBE</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <IsPublishable>False</IsPublishable>
@@ -123,6 +123,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PRIResource Remove="Views\Dialogs\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Assets\BadgeLogo.scale-100.png" />
+    <Content Remove="Assets\BadgeLogo.scale-125.png" />
+    <Content Remove="Assets\BadgeLogo.scale-150.png" />
+    <Content Remove="Assets\BadgeLogo.scale-200.png" />
+    <Content Remove="Assets\BadgeLogo.scale-400.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\SettingsPage.xaml">

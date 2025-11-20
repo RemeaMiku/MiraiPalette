@@ -42,6 +42,7 @@
                 <TextBlock Text="{x:Bind localization:SettingsPageStrings.About,Mode=OneTime}"
                            Style="{ThemeResource BodyStrongTextBlockStyle}" />
                 <controls:SettingsExpander Header="Mirai Palette"
+                                           HeaderIcon="{ui:BitmapIcon Source=ms-appx:///Assets/MiraiPaletteLogo.ico}"
                                            Description="© 2025 RemeaMiku. All rights reserved">
                     <TextBlock IsTextSelectionEnabled="True" Text="{x:Bind ViewModel.Version,Mode=OneTime}" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
                     <controls:SettingsExpander.Items>
