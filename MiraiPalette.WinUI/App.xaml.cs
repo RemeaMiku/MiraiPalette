@@ -103,18 +103,14 @@ public partial class App : Application
     public void ApplyLanguageSetting()
     {
         var settingsService = Services.GetRequiredService<ISettingsService>();
-        var languageSetting = settingsService.GetValue(LanguageSettings.SettingKey, LanguageSettings.System);
-        var language = LanguageSettings.ConvertToActualLanguage(languageSetting);
-        try
-        {
-            var culture = new CultureInfo(language);
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
-        }
-        catch(Exception)
-        {
-            settingsService.SetValue(LanguageSettings.SettingKey, LanguageSettings.System);
-        }
+        var languageSetting = settingsService.GetValue(LanguageSettings.SettingKey, LanguageSettings.Default);
+        var isSupported = LanguageSettings.TryConvertSettingToActual(languageSetting, out var language);
+        // If the setting is unsupported, we update it to the actual language
+        if(!isSupported)
+            settingsService.SetValue(LanguageSettings.SettingKey, language);
+        var culture = new CultureInfo(language);
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
     }
 
     public void NavigateTo(NavigationTarget target, object? parameter = null)

@@ -10,6 +10,8 @@
       xmlns:localization="using:MiraiPalette.WinUI.Strings"
       xmlns:settings="using:MiraiPalette.WinUI.Settings"
       xmlns:converters="using:MiraiPalette.WinUI.Converters"
+      xmlns:helpers="using:MiraiPalette.WinUI.Helpers"
+      xmlns:globalization="using:System.Globalization"
       NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Page.Resources>
@@ -47,22 +49,30 @@
                             <StackPanel Orientation="Vertical"
                                         Spacing="4">
                                 <HyperlinkButton Content="Windows App SDK"
-                                                 NavigateUri="https://aka.ms/windowsappsdk" />
+                                                 NavigateUri="{x:Bind helpers:BindHelper.ToFormattedUri('https://learn.microsoft.com/{0}/windows/apps/windows-app-sdk', globalization:CultureInfo.CurrentUICulture.Name),Mode=OneTime}" />
                                 <HyperlinkButton Content="WinUI 3"
-                                                 NavigateUri="https://github.com/microsoft/microsoft-ui-xaml" />
+                                                 NavigateUri="{x:Bind helpers:BindHelper.ToFormattedUri('https://learn.microsoft.com/{0}/windows/apps/winui/winui3', globalization:CultureInfo.CurrentUICulture.Name),Mode=OneTime}" />
+                                <HyperlinkButton Content="Microsoft Fluent Design"
+                                                 NavigateUri="https://fluent2.microsoft.design/" />
                                 <HyperlinkButton Content=".NET Community Toolkit"
-                                                 NavigateUri="https://github.com/CommunityToolkit/dotnet" />
+                                                 NavigateUri="{x:Bind helpers:BindHelper.ToFormattedUri('https://learn.microsoft.com/{0}/dotnet/communitytoolkit/introduction', globalization:CultureInfo.CurrentUICulture.Name),Mode=OneTime}" />
                                 <HyperlinkButton Content="Windows Community Toolkit"
-                                                 NavigateUri="https://aka.ms/toolkit/windows" />
+                                                 NavigateUri="{x:Bind helpers:BindHelper.ToFormattedUri('https://learn.microsoft.com/{0}/dotnet/communitytoolkit/windows/', globalization:CultureInfo.CurrentUICulture.Name),Mode=OneTime}" />
                             </StackPanel>
                         </controls:SettingsCard>
                     </controls:SettingsExpander.Items>
                 </controls:SettingsExpander>
+                <Rectangle Height="64"/>
             </StackPanel>
         </ScrollViewer>
         <Border CornerRadius="{ThemeResource ControlCornerRadius}" Padding="16" Background="{ThemeResource DefaultAcrylicBrush}" VerticalAlignment="Top">
             <TextBlock Text="{x:Bind localization:SettingsPageStrings.Title,Mode=OneTime}"
                        Style="{ThemeResource TitleTextBlockStyle}" />
         </Border>
+        <InfoBar VerticalAlignment="Bottom" 
+                 Title="{x:Bind localization:SettingsPageStrings.NeedRestart,Mode=OneTime}"
+                 Severity="Informational"
+                 IsClosable="False"
+                 IsOpen="{x:Bind ViewModel.NeedRestartForChanges,Mode=OneWay}" Background="{ThemeResource DefaultAcrylicBrush}" />
     </Grid>
 </Page>

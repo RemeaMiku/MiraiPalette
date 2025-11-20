@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -164,5 +164,8 @@
   </data>
   <data name="DependenciesAndReferences" xml:space="preserve">
     <value>依存関係と参照</value>
+  </data>
+  <data name="NeedRestart" xml:space="preserve">
+    <value>反映するにはアプリの再起動が必要です</value>
   </data>
 </root>

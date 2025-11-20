@@ -196,6 +196,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 需要重启应用以生效 的本地化字符串。
+        /// </summary>
+        internal static string NeedRestart {
+            get {
+                return ResourceManager.GetString("NeedRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置 的本地化字符串。
         /// </summary>
         internal static string Title {

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Globalization;
+using CommunityToolkit.Mvvm.ComponentModel;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Settings;
 using MiraiPalette.WinUI.Strings;
@@ -53,10 +54,15 @@ public partial class SettingsPageViewModel : ObservableObject
                 return;
             _settingsService.SetValue(LanguageSettings.SettingKey, value);
             OnPropertyChanged(nameof(Language));
-            var language = LanguageSettings.ConvertToActualLanguage(value);
+            _ = LanguageSettings.TryConvertSettingToActual(value, out var language);
+            _settingsService.SetValue(LanguageSettings.SettingKey, language);
             ApplicationLanguages.PrimaryLanguageOverride = language;
+            NeedRestartForChanges = CultureInfo.DefaultThreadCurrentUICulture?.Name != language;
         }
     }
+
+    [ObservableProperty]
+    public partial bool NeedRestartForChanges { get; set; }
 
     public string Version
     {

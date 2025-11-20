@@ -15,7 +15,7 @@
   <mp:PhoneIdentity PhoneProductId="9c7fcf40-56dd-4882-806a-283c7c5bb429" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>MiraiPalette WinUI</DisplayName>
+    <DisplayName>Mirai Palette</DisplayName>
     <PublisherDisplayName>RemeaMiku</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -36,7 +36,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$" uap18:RuntimeBehavior="windowsApp">
       <uap:VisualElements
-        DisplayName="Mirai Palette WinUI Application"
+        DisplayName="Mirai Palette"
         Description="基于 WinUI 3 开发的 Windows 应用程序 Mirai Palette。"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
