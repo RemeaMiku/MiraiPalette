@@ -23,14 +23,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <!--  https://github.com/microsoft/microsoft-ui-xaml/issues/10374 -->
         <TitleBar x:Name="TitleBar"
                   Title="{x:Bind Window.Title,Mode=OneWay}"
+                  VerticalContentAlignment="Center"
                   IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack,Mode=OneWay}"
                   BackRequested="TitleBar_BackRequested"
                   PaneToggleRequested="TitleBar_PaneToggleRequested">
-            <TitleBar.IconSource>
-                <ImageIconSource ImageSource="/Assets/MiraiPaletteLogo.ico" />
-            </TitleBar.IconSource>
+            <TitleBar.LeftHeader>
+                <ImageIcon Source="/Assets/MiraiPaletteLogo.ico"
+                           Height="16"
+                           Margin="16,0,8,0" />
+            </TitleBar.LeftHeader>
         </TitleBar>
         <NavigationView SelectionChanged="MainNavigationView_SelectionChanged" CompactModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth,Mode=OneTime}"
                         ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth,Mode=OneTime}" x:Name="MainNavigationView" IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" Grid.Row="1">

@@ -1,253 +1,270 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <RootNamespace>MiraiPalette.WinUI</RootNamespace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x86;x64;ARM64</Platforms>
-    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-	  <PublishReadyToRun>true</PublishReadyToRun>
-	  <SelfContained>true</SelfContained>
-    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
-    <UseWinUI>true</UseWinUI>
-    <EnableMsixTooling>true</EnableMsixTooling>
-    <Nullable>enable</Nullable>
-	<LangVersion>preview</LangVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Views\Dialogs\**" />
-    <EmbeddedResource Remove="Views\Dialogs\**" />
-    <None Remove="Views\Dialogs\**" />
-    <Page Remove="Views\Dialogs\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Assets\MiraiPaletteLogo.ico" />
-    <None Remove="Views\ImagePalettePage.xaml" />
-    <None Remove="Views\MainPage.xaml" />
-    <None Remove="Views\PaletteDetailPage.xaml" />
-    <None Remove="Views\SettingsPage.xaml" />
-  </ItemGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<RootNamespace>MiraiPalette.WinUI</RootNamespace>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>x86;x64;ARM64</Platforms>
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+		<SelfContained>true</SelfContained>
+		<PublishProfile>win-$(Platform).pubxml</PublishProfile>
 
-  <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-  </ItemGroup>
+		<UseWinUI>true</UseWinUI>
+		<EnableMsixTooling>true</EnableMsixTooling>
 
-  <ItemGroup>
-    <Manifest Include="$(ApplicationManifest)" />
-  </ItemGroup>
+		<Nullable>enable</Nullable>
+		<LangVersion>preview</LangVersion>
+	</PropertyGroup>
 
-  <!--
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
-  -->
-  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <ProjectCapability Include="Msix" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.250402" />
-    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.2.250402" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250907003" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MiraiPalette.Shared\MiraiPalette.Shared.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Views\Dialogs\**" />
+		<EmbeddedResource Remove="Views\Dialogs\**" />
+		<None Remove="Views\Dialogs\**" />
+		<Page Remove="Views\Dialogs\**" />
+	</ItemGroup>
 
-  <!--
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if
-    the Windows App SDK Nuget package has not yet been restored.
-  -->
-  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-  </PropertyGroup>
+	<ItemGroup>
+		<None Remove="Assets\MiraiPaletteLogo.ico" />
+		<None Remove="Views\ImagePalettePage.xaml" />
+		<None Remove="Views\MainPage.xaml" />
+		<None Remove="Views\PaletteDetailPage.xaml" />
+		<None Remove="Views\SettingsPage.xaml" />
+	</ItemGroup>
 
-  <!-- Publish Properties -->
-  <PropertyGroup>
-    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">False</PublishTrimmed>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
-    <PublishAot>False</PublishAot>
-    <Version>0.3.9</Version>
-    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Auto</AppxBundle>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <AppInstallerUri>C:\Users\remea\Downloads</AppInstallerUri>
-    <PackageCertificateThumbprint>D24827318CEB687008A153075E48F3BFEC1CADBE</PackageCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <IsPublishable>False</IsPublishable>
-  </PropertyGroup>
-  <ItemGroup>
-    <PRIResource Remove="Views\Dialogs\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="Assets\BadgeLogo.scale-100.png" />
-    <Content Remove="Assets\BadgeLogo.scale-125.png" />
-    <Content Remove="Assets\BadgeLogo.scale-150.png" />
-    <Content Remove="Assets\BadgeLogo.scale-200.png" />
-    <Content Remove="Assets\BadgeLogo.scale-400.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\SettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\PaletteDetailPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\ImagePalettePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Strings\Dialogs\DeleteConfirmStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DeleteConfirmStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Dialogs\ErrorMessages.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ErrorMessages.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Dialogs\OpenFileStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>OpenFileStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Dialogs\SaveChangesStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SaveChangesStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Dialogs\SaveFileStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SaveFileStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Pages\ImagePalettePageStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ImagePalettePageStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Pages\MainPageStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>MainPageStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Pages\PaletteDetailPageStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PaletteDetailPageStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Pages\SettingsPageStrings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SettingsPageStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Strings\Resources\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Strings\Dialogs\DeleteConfirmStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DeleteConfirmStrings.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Dialogs\ErrorMessages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Dialogs\OpenFileStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>OpenFileStrings.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Dialogs\SaveChangesStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SaveChangesStrings.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Dialogs\SaveFileStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SaveFileStrings.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Pages\ImagePalettePageStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ImagePalettePageStrings.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Pages\MainPageStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MainPageStrings.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Pages\PaletteDetailPageStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PaletteDetailPageStrings.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Pages\SettingsPageStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SettingsPageStrings.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Strings\Resources\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="Assets\SplashScreen.scale-200.png" />
+		<Content Include="Assets\LockScreenLogo.scale-200.png" />
+		<Content Include="Assets\Square150x150Logo.scale-200.png" />
+		<Content Include="Assets\Square44x44Logo.scale-200.png" />
+		<Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+		<Content Include="Assets\Wide310x150Logo.scale-200.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Manifest Include="$(ApplicationManifest)" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<ProjectCapability Include="Msix" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.250402" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.250402" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250402" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
+		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.250402" />
+		<PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.2.250402" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250907003" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\MiraiPalette.Shared\MiraiPalette.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="Views\MainPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+	</PropertyGroup>
+
+	<!-- Publish Properties -->
+	<PropertyGroup>
+
+		<!-- Debug 不优化 -->
+		<PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+		<PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
+
+		<!-- Release 优化 -->
+		<PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
+		<PublishTrimmed Condition="'$(Configuration)' != 'Debug'">False</PublishTrimmed>
+
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<DefaultLanguage>zh-CN</DefaultLanguage>
+		<PublishAot>False</PublishAot>
+		<Version>0.3.9</Version>
+
+		<!-- ★★ 关键：只生成一个 x64 的 msix ★★ -->
+		<AppxBundle>Never</AppxBundle>
+		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+		<GenerateTestArtifacts>False</GenerateTestArtifacts>
+		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+
+		<!-- 平台单一 x64 -->
+		<AppxBundlePlatforms>x64</AppxBundlePlatforms>
+
+		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+
+		<!-- 保留你的证书，但不会生成 .cer 文件 -->
+		<PackageCertificateThumbprint>D24827318CEB687008A153075E48F3BFEC1CADBE</PackageCertificateThumbprint>
+		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+		<AppInstallerUri>C:\Users\remea\Downloads</AppInstallerUri>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
+		<IsPublishable>True</IsPublishable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PRIResource Remove="Views\Dialogs\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Assets\BadgeLogo.scale-100.png" />
+		<Content Remove="Assets\BadgeLogo.scale-125.png" />
+		<Content Remove="Assets\BadgeLogo.scale-150.png" />
+		<Content Remove="Assets\BadgeLogo.scale-200.png" />
+		<Content Remove="Assets\BadgeLogo.scale-400.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="Views\SettingsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="Views\PaletteDetailPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Update="Views\ImagePalettePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<!-- resx 注册（原样保留） -->
+	<ItemGroup>
+		<Compile Update="Strings\Dialogs\DeleteConfirmStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>DeleteConfirmStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Strings\Dialogs\ErrorMessages.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ErrorMessages.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Strings\Dialogs\OpenFileStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>OpenFileStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Strings\Dialogs\SaveChangesStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>SaveChangesStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Strings\Dialogs\SaveFileStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>SaveFileStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Strings\Pages\ImagePalettePageStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ImagePalettePageStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Strings\Pages\MainPageStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>MainPageStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Strings\Pages\PaletteDetailPageStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>PaletteDetailPageStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Strings\Pages\SettingsPageStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>SettingsPageStrings.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Strings\Resources\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Strings\Dialogs\DeleteConfirmStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>DeleteConfirmStrings.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Strings\Dialogs\ErrorMessages.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Strings\Dialogs\OpenFileStrings.resx">
+			<Generator>ResXFileFileCodeGenerator</Generator>
+			<LastGenOutput>OpenFileStrings.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Strings\Dialogs\SaveChangesStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>SaveChangesStrings.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Strings\Dialogs\SaveFileStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>SaveFileStrings.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Strings\Pages\ImagePalettePageStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>ImagePalettePageStrings.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Strings\Pages\MainPageStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>MainPageStrings.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Strings\Pages\PaletteDetailPageStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>PaletteDetailPageStrings.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Strings\Pages\SettingsPageStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>SettingsPageStrings.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Strings\Resources\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
+		</EmbeddedResource>
+	</ItemGroup>
 </Project>
