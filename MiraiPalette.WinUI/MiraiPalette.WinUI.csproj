@@ -106,10 +106,8 @@
 		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 
 		<!-- 保留你的证书，但不会生成 .cer 文件 -->
-		<!--<PackageCertificateThumbprint>D24827318CEB687008A153075E48F3BFEC1CADBE</PackageCertificateThumbprint>-->
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<AppInstallerUri>C:\Users\remea\Downloads</AppInstallerUri>
-		<PackageCertificateThumbprint>BD823C45068FCAA6983DB1C0C8F4F6223A22F717</PackageCertificateThumbprint>
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 	</PropertyGroup>
 

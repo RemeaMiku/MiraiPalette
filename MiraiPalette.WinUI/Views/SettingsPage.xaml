@@ -16,11 +16,6 @@
     x:Name="RootPage"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-    <Page.Resources>
-        <converters:ThemeValueToNameConverter x:Name="ThemeValueToNameConverter" />
-        <converters:LanguageCodeToNameConverter x:Name="LanguageCodeToNameConverter" />
-        <converters:IndexToItemConverter x:Name="IndexToItemConverter" />
-    </Page.Resources>
     <Grid Padding="32">
         <ScrollViewer Padding="8">
             <StackPanel
@@ -53,8 +48,9 @@
                     Header="{x:Bind localization:SettingsPageStrings.Language_Header, Mode=OneTime}"
                     HeaderIcon="{ui:FontIcon Glyph=&#xF2B7;}">
                     <ComboBox
+                        DisplayMemberPath="Value"
                         ItemsSource="{x:Bind ViewModel.LanguageOptions, Mode=OneTime}"
-                        SelectedItem="{x:Bind ViewModel.Language, Mode=TwoWay, Converter={StaticResource LanguageCodeToNameConverter}}" />
+                        SelectedIndex="{x:Bind ViewModel.LanguageIndex, Mode=TwoWay}" />
                 </controls:SettingsCard>
                 <TextBlock
                     Style="{ThemeResource BodyStrongTextBlockStyle}"
@@ -99,7 +95,8 @@
                             Click="DeveloperPageCard_Click"
                             Description="{x:Bind localization:SettingsPageStrings.Developer_Description, Mode=OneTime}"
                             Header="{x:Bind localization:SettingsPageStrings.Developer_Header, Mode=OneTime}"
-                            IsClickEnabled="True">
+                            IsClickEnabled="True"
+                            ToolTipService.ToolTip="{x:Bind localization:SettingsPageStrings.Developer_ActionTooltip}">
                             <controls:SettingsCard.HeaderIcon>
                                 <ImageIcon Source="https://avatars.githubusercontent.com/u/73517033?v=4" />
                             </controls:SettingsCard.HeaderIcon>

@@ -40,10 +40,16 @@
                 Icon="{ui:SymbolIcon Symbol=Delete}"
                 Text="{x:Bind localization:Resources.Delete, Mode=OneTime}" />
         </MenuFlyout>
-        <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="vm:ColorViewModel">
-            <Rectangle Height="28" Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
+        <DataTemplate
+            x:Key="MiraiColorItemTemplate"
+            x:DataType="vm:ColorViewModel">
+            <Rectangle
+                Height="28"
+                Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
         </DataTemplate>
-        <DataTemplate x:Key="MiraiPaletteItemTemplate" x:DataType="vm:PaletteViewModel">
+        <DataTemplate
+            x:Key="MiraiPaletteItemTemplate"
+            x:DataType="vm:PaletteViewModel">
             <ItemContainer
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 ContextFlyout="{StaticResource MiraiPaletteItemContextFlyout}"
@@ -52,7 +58,9 @@
                 ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="RightTapped">
-                        <interactivity:InvokeCommandAction Command="{Binding ViewModel.SetCurrentPaletteCommand, ElementName=RootPage, Mode=OneTime}" CommandParameter="{x:Bind}" />
+                        <interactivity:InvokeCommandAction
+                            Command="{Binding ViewModel.SetCurrentPaletteCommand, ElementName=RootPage, Mode=OneTime}"
+                            CommandParameter="{x:Bind}" />
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <Button
@@ -108,7 +116,9 @@
         </DataTemplate>
     </Page.Resources>
     <Grid>
-        <ScrollViewer x:Name="PalettesScrollViewer" Padding="8">
+        <ScrollViewer
+            x:Name="PalettesScrollViewer"
+            Padding="8">
             <ItemsRepeater
                 Margin="4"
                 ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
@@ -127,7 +137,9 @@
             VerticalAlignment="Center"
             Spacing="8"
             Visibility="{x:Bind ViewModel.HasPalettes, Mode=OneWay, Converter={StaticResource BoolToVisibilityInverseConverter}}">
-            <TextBlock Style="{StaticResource BodyLargeTextBlockStyle}" Text="{x:Bind localization:MainPageStrings.EmptyPalettesListMessage, Mode=OneTime}" />
+            <TextBlock
+                Style="{StaticResource BodyLargeTextBlockStyle}"
+                Text="{x:Bind localization:MainPageStrings.EmptyPalettesListMessage, Mode=OneTime}" />
             <Button
                 HorizontalAlignment="Center"
                 Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"

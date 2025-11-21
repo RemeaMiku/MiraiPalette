@@ -10,28 +10,24 @@ public class LocalSettingsService : ISettingsService
 
     public T? GetValue<T>(string key, T? defaultValue = default)
     {
-        if(defaultValue is Enum)
-            return GetEnum(key, defaultValue);
-        if(!_container.Values.TryGetValue(key, out var value) || value is not T tValue)
+        if(_container.Values.TryGetValue(key, out var value))
         {
-            SetValue(key, defaultValue);
-            return defaultValue;
+            if(value is int intValue && defaultValue is Enum && Enum.IsDefined(typeof(T), intValue))
+                return (T)Enum.ToObject(typeof(T), intValue);
+            if(value is T tValue)
+                return tValue;
         }
-        return tValue;
-    }
-
-    private TEnum GetEnum<TEnum>(string key, TEnum defaultValue) where TEnum : struct, Enum
-    {
-        if(_container.Values.TryGetValue(key, out var raw) && raw is int intValue && Enum.IsDefined(typeof(TEnum), intValue))
-        {
-            return (TEnum)Enum.ToObject(typeof(TEnum), intValue);
-        }
-        SetValue(key, Convert.ToInt32(defaultValue));
+        SetValue(key, defaultValue);
         return defaultValue;
     }
 
     public void SetValue<T>(string key, T value)
     {
+        if(value is Enum enumValue)
+        {
+            _container.Values[key] = Convert.ToInt32(enumValue);
+            return;
+        }
         _container.Values[key] = value;
     }
 }

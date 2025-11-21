@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Settings;
@@ -14,12 +15,12 @@ public partial class SettingsPageViewModel : ObservableObject
 {
     private readonly ISettingsService _settingsService;
 
-    public OrderedDictionary<string, string> ThemeModeOptions { get; } =
+    public OrderedDictionary<ElementTheme, string> ThemeModeOptions { get; } =
         new()
         {
-            { ThemeSettings.System, SettingsPageStrings.AppTheme_System },
-            { ThemeSettings.Light, SettingsPageStrings.AppTheme_Light },
-            { ThemeSettings.Dark, SettingsPageStrings.AppTheme_Dark }
+            { ElementTheme.Default, SettingsPageStrings.AppTheme_System },
+            { ElementTheme.Light, SettingsPageStrings.AppTheme_Light },
+            { ElementTheme.Dark, SettingsPageStrings.AppTheme_Dark }
         };
 
     public OrderedDictionary<NavigationViewPaneDisplayMode, string> NavigationStyleOptions { get; } =
@@ -29,13 +30,14 @@ public partial class SettingsPageViewModel : ObservableObject
             { NavigationViewPaneDisplayMode.Top, SettingsPageStrings.NavigationStyle_Top }
         };
 
-    public string[] LanguageOptions { get; } =
-        [
-            SettingsPageStrings.Language_System,
-            SettingsPageStrings.Language_zhCN,
-            SettingsPageStrings.Language_enUS,
-            SettingsPageStrings.Language_jaJP
-        ];
+    public OrderedDictionary<string, string> LanguageOptions { get; } =
+       new()
+       {
+            { LanguageSettings.System, SettingsPageStrings.Language_System },
+            { LanguageSettings.zhCN, SettingsPageStrings.Language_zhCN },
+            { LanguageSettings.enUS, SettingsPageStrings.Language_enUS },
+            { LanguageSettings.jaJP, SettingsPageStrings.Language_jaJP }
+       };
 
     public SettingsPageViewModel(ISettingsService settingsService)
     {
@@ -44,7 +46,7 @@ public partial class SettingsPageViewModel : ObservableObject
 
     public int ThemeModeIndex
     {
-        get => ThemeModeOptions.IndexOf(_settingsService.GetValue(SettingKeys.Theme, ThemeSettings.System));
+        get => ThemeModeOptions.IndexOf(_settingsService.GetValue(SettingKeys.Theme, ElementTheme.Default));
         set
         {
             if(value == ThemeModeIndex)
@@ -57,29 +59,28 @@ public partial class SettingsPageViewModel : ObservableObject
 
     public int NavigationStyleIndex
     {
-        get => NavigationStyleOptions.IndexOf(
-            (NavigationViewPaneDisplayMode)_settingsService.GetValue(SettingKeys.NavigationStyle, (int)NavigationViewPaneDisplayMode.Left));
+        get => NavigationStyleOptions.IndexOf(_settingsService.GetValue(SettingKeys.NavigationStyle, NavigationViewPaneDisplayMode.Left));
         set
         {
             if(value == NavigationStyleIndex)
                 return;
-            var settingValue = NavigationStyleOptions.GetAt(value).Key;
-            _settingsService.SetValue(SettingKeys.NavigationStyle, settingValue);
+            _settingsService.SetValue(SettingKeys.NavigationStyle, NavigationStyleOptions.GetAt(value).Key);
             OnPropertyChanged(nameof(NavigationStyleIndex));
             Current.ApplyNavigationStyleSetting();
         }
     }
 
-    public string Language
+    public int LanguageIndex
     {
-        get => _settingsService.GetValue(SettingKeys.Language, LanguageSettings.System);
+        get => LanguageOptions.IndexOf(_settingsService.GetValue(SettingKeys.Language, LanguageSettings.System));
         set
         {
-            if(value == Language)
+            if(value == LanguageIndex)
                 return;
-            _settingsService.SetValue(SettingKeys.Language, value);
-            OnPropertyChanged(nameof(Language));
-            _ = LanguageSettings.TryConvertSettingToActual(value, out var language);
+            var setting = LanguageOptions.GetAt(value).Key;
+            _settingsService.SetValue(SettingKeys.Language, setting);
+            OnPropertyChanged(nameof(LanguageIndex));
+            LanguageSettings.TryConvertSettingToActual(setting, out var language);
             ApplicationLanguages.PrimaryLanguageOverride = language;
             NeedRestartForChanges = CultureInfo.DefaultThreadCurrentUICulture?.Name != language;
         }

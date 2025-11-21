@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
@@ -107,14 +106,6 @@ public partial class App : Application
         ApplyLanguageSetting();
     }
 
-    // Source - https://stackoverflow.com/questions/75157237/uwp-winui3-how-to-get-system-theme-in-c
-    // Posted by georgel2020
-    // Retrieved 2025-11-19, License - CC BY-SA 4.0
-
-    [DllImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool ShouldSystemUseDarkMode();
-
     private void HandleTitleBarThemeChange(ElementTheme theme)
     {
         var titleBar = MainWindow.AppWindow.TitleBar;
@@ -127,21 +118,22 @@ public partial class App : Application
 
     public void ApplyThemeModeSetting()
     {
-        var settingsService = Services.GetRequiredService<ISettingsService>();
-        var themeSetting = settingsService.GetValue(SettingKeys.Theme, ThemeSettings.System);
-        if(!Enum.TryParse<ElementTheme>(themeSetting, out var requestedTheme))
-            settingsService.SetValue(SettingKeys.Theme, ThemeSettings.System);
+        var setting = SettingsService.GetValue(SettingKeys.Theme, ElementTheme.Default);
         var frameworkElement = MainWindow.Content as FrameworkElement;
-        frameworkElement!.RequestedTheme = requestedTheme;
-        var actualTheme = requestedTheme == ElementTheme.Default
-            ? (ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light)
-            : requestedTheme;
-        HandleTitleBarThemeChange(actualTheme);
+        frameworkElement!.RequestedTheme = setting;
+        // Apply title bar theme manually
+        HandleTitleBarThemeChange(frameworkElement.ActualTheme);
     }
 
     public void ApplyNavigationStyleSetting()
     {
         var setting = SettingsService.GetValue(SettingKeys.NavigationStyle, NavigationViewPaneDisplayMode.Left);
+        // only Left and Top are supported
+        if(setting is not NavigationViewPaneDisplayMode.Top and not NavigationViewPaneDisplayMode.Left)
+        {
+            setting = NavigationViewPaneDisplayMode.Left;
+            SettingsService.SetValue(SettingKeys.NavigationStyle, setting);
+        }
         MainWindow.MainView.PaneDisplayMode = setting;
     }
 

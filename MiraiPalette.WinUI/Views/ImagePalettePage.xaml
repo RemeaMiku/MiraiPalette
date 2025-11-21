@@ -25,7 +25,9 @@
                 Icon="{ui:SymbolIcon Symbol=Delete}"
                 Text="{x:Bind localization:Resources.Delete, Mode=OneTime}" />
         </MenuFlyout>
-        <DataTemplate x:Key="MiraiColorItemTemplate" x:DataType="vm:ColorViewModel">
+        <DataTemplate
+            x:Key="MiraiColorItemTemplate"
+            x:DataType="vm:ColorViewModel">
             <Grid
                 Height="48"
                 ContextFlyout="{StaticResource MiraiColorItemContextFlyout}"
@@ -49,9 +51,13 @@
     </Page.Resources>
     <Grid Padding="16">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" MinHeight="240" />
+            <RowDefinition
+                Height="*"
+                MinHeight="240" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" MinHeight="240" />
+            <RowDefinition
+                Height="*"
+                MinHeight="240" />
         </Grid.RowDefinitions>
         <Grid
             x:Name="ImagePanel"
@@ -142,7 +148,9 @@
                     Fill="{x:Bind ViewModel.PointerPixel, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
                     RadiusX="4"
                     RadiusY="4" />
-                <TextBlock FontSize="{StaticResource CaptionTextBlockFontSize}" Text="{x:Bind ViewModel.PointerPixelHex, Mode=OneWay}" />
+                <TextBlock
+                    FontSize="{StaticResource CaptionTextBlockFontSize}"
+                    Text="{x:Bind ViewModel.PointerPixelHex, Mode=OneWay}" />
             </StackPanel>
         </Grid>
         <controls:GridSplitter
@@ -158,7 +166,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" MinWidth="192" />
+                <ColumnDefinition
+                    Width="Auto"
+                    MinWidth="192" />
             </Grid.ColumnDefinitions>
             <ListView
                 x:Name="AutoColorListView"
@@ -172,7 +182,9 @@
                 SelectionMode="Extended">
                 <i:Interaction.Behaviors>
                     <i:EventTriggerBehavior EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{x:Bind ViewModel.SelectAutoColorsCommand, Mode=OneTime}" CommandParameter="{x:Bind AutoColorListView.SelectedItems, Mode=OneTime}" />
+                        <i:InvokeCommandAction
+                            Command="{x:Bind ViewModel.SelectAutoColorsCommand, Mode=OneTime}"
+                            CommandParameter="{x:Bind AutoColorListView.SelectedItems, Mode=OneTime}" />
                     </i:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </ListView>
@@ -183,8 +195,12 @@
                 VerticalAlignment="Top"
                 Orientation="Horizontal"
                 Spacing="8">
-                <FontIcon VerticalAlignment="Center" Glyph="&#xE9F5;" />
-                <TextBlock FontSize="{StaticResource SubtitleTextBlockFontSize}" Text="{x:Bind localization:ImagePalettePageStrings.AutoColorsList_Title, Mode=OneTime}" />
+                <FontIcon
+                    VerticalAlignment="Center"
+                    Glyph="&#xE9F5;" />
+                <TextBlock
+                    FontSize="{StaticResource SubtitleTextBlockFontSize}"
+                    Text="{x:Bind localization:ImagePalettePageStrings.AutoColorsList_Title, Mode=OneTime}" />
                 <Button
                     Padding="4"
                     Command="{x:Bind ViewModel.ClearAutoColorsCommand, Mode=OneTime}"
@@ -207,7 +223,9 @@
                 SelectionMode="Extended">
                 <i:Interaction.Behaviors>
                     <i:EventTriggerBehavior EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{x:Bind ViewModel.SelectManualColorsCommand, Mode=OneTime}" CommandParameter="{x:Bind ManualColorListView.SelectedItems, Mode=OneTime}" />
+                        <i:InvokeCommandAction
+                            Command="{x:Bind ViewModel.SelectManualColorsCommand, Mode=OneTime}"
+                            CommandParameter="{x:Bind ManualColorListView.SelectedItems, Mode=OneTime}" />
                     </i:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </ListView>
@@ -218,7 +236,9 @@
                 VerticalAlignment="Top"
                 Orientation="Horizontal"
                 Spacing="8">
-                <FontIcon VerticalAlignment="Center" Glyph="&#xEF3C;" />
+                <FontIcon
+                    VerticalAlignment="Center"
+                    Glyph="&#xEF3C;" />
                 <TextBlock
                     VerticalAlignment="Center"
                     FontSize="{StaticResource SubtitleTextBlockFontSize}"
