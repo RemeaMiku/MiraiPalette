@@ -2,6 +2,7 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using MiraiPalette.WinUI.Essentials;
 using MiraiPalette.WinUI.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -32,6 +33,8 @@ public sealed partial class MainWindow : Window
     public MainWindowViewModel ViewModel { get; } = App.Current.Services.GetRequiredService<MainWindowViewModel>();
 
     public TitleBar TitleBarControl => TitleBar;
+
+    public NavigationView MainView => MainNavigationView;
 
     public Frame NavigationFrame => ContentFrame;
 

@@ -4,7 +4,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.UI;
 
-namespace MiraiPalette.WinUI.Essentials;
+namespace MiraiPalette.WinUI.Essentials.ImagePalette;
 
 public class ImagePixelsExtractor
 {

@@ -1,5 +1,7 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Settings;
 using MiraiPalette.WinUI.Strings;
@@ -12,12 +14,20 @@ public partial class SettingsPageViewModel : ObservableObject
 {
     private readonly ISettingsService _settingsService;
 
-    public string[] ThemeModeOptions { get; } =
-        [
-            SettingsPageStrings.AppTheme_System,
-            SettingsPageStrings.AppTheme_Light,
-            SettingsPageStrings.AppTheme_Dark
-        ];
+    public OrderedDictionary<string, string> ThemeModeOptions { get; } =
+        new()
+        {
+            { ThemeSettings.System, SettingsPageStrings.AppTheme_System },
+            { ThemeSettings.Light, SettingsPageStrings.AppTheme_Light },
+            { ThemeSettings.Dark, SettingsPageStrings.AppTheme_Dark }
+        };
+
+    public OrderedDictionary<NavigationViewPaneDisplayMode, string> NavigationStyleOptions { get; } =
+        new()
+        {
+            { NavigationViewPaneDisplayMode.Left, SettingsPageStrings.NavigationStyle_Left },
+            { NavigationViewPaneDisplayMode.Top, SettingsPageStrings.NavigationStyle_Top }
+        };
 
     public string[] LanguageOptions { get; } =
         [
@@ -32,27 +42,42 @@ public partial class SettingsPageViewModel : ObservableObject
         _settingsService = settingsService;
     }
 
-    public string ThemeMode
+    public int ThemeModeIndex
     {
-        get => _settingsService.GetValue(ThemeSettings.SettingKey, ThemeSettings.System);
+        get => ThemeModeOptions.IndexOf(_settingsService.GetValue(SettingKeys.Theme, ThemeSettings.System));
         set
         {
-            if(value == ThemeMode)
+            if(value == ThemeModeIndex)
                 return;
-            _settingsService.SetValue(ThemeSettings.SettingKey, value);
-            OnPropertyChanged(nameof(ThemeMode));
+            _settingsService.SetValue(SettingKeys.Theme, ThemeModeOptions.GetAt(value).Key);
+            OnPropertyChanged(nameof(ThemeModeIndex));
             Current.ApplyThemeModeSetting();
+        }
+    }
+
+    public int NavigationStyleIndex
+    {
+        get => NavigationStyleOptions.IndexOf(
+            (NavigationViewPaneDisplayMode)_settingsService.GetValue(SettingKeys.NavigationStyle, (int)NavigationViewPaneDisplayMode.Left));
+        set
+        {
+            if(value == NavigationStyleIndex)
+                return;
+            var settingValue = NavigationStyleOptions.GetAt(value).Key;
+            _settingsService.SetValue(SettingKeys.NavigationStyle, settingValue);
+            OnPropertyChanged(nameof(NavigationStyleIndex));
+            Current.ApplyNavigationStyleSetting();
         }
     }
 
     public string Language
     {
-        get => _settingsService.GetValue(LanguageSettings.SettingKey, LanguageSettings.System);
+        get => _settingsService.GetValue(SettingKeys.Language, LanguageSettings.System);
         set
         {
             if(value == Language)
                 return;
-            _settingsService.SetValue(LanguageSettings.SettingKey, value);
+            _settingsService.SetValue(SettingKeys.Language, value);
             OnPropertyChanged(nameof(Language));
             _ = LanguageSettings.TryConvertSettingToActual(value, out var language);
             ApplicationLanguages.PrimaryLanguageOverride = language;
@@ -69,9 +94,9 @@ public partial class SettingsPageViewModel : ObservableObject
         {
             var version = Package.Current.Id.Version;
 #if DEBUG
-            return $"{version.Major}.{version.Minor}.{version.Build}-winui DEV";
+            return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision} Dev";
 #else
-            return $"{version.Major}.{version.Minor}.{version.Build}-winui";
+            return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
 #endif
         }
     }

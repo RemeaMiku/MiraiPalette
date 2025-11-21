@@ -2,7 +2,7 @@
 
 namespace MiraiPalette.WinUI.ViewModels;
 
-public abstract partial class PageViewModel : ObservableObject
+public abstract partial class PageViewModelBase : ObservableObject
 {
     [ObservableProperty]
     public partial string Title { get; set; }

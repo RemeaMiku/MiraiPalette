@@ -2,7 +2,7 @@
 using Microsoft.UI;
 using Windows.UI;
 
-namespace MiraiPalette.WinUI.Essentials;
+namespace MiraiPalette.WinUI.Essentials.ImagePalette;
 
 public class ImagePixels(double scale, int width, int height, Color[] colors)
 {

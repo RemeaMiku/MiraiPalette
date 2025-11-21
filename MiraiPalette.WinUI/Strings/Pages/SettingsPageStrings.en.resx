@@ -117,55 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Title" xml:space="preserve">
-    <value>Settings</value>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
   </data>
   <data name="AppearanceAndBehavior" xml:space="preserve">
     <value>Appearance &amp; Behavior</value>
   </data>
+  <data name="AppTheme.Dark" xml:space="preserve">
+    <value>Dark Mode</value>
+  </data>
+  <data name="AppTheme.Description" xml:space="preserve">
+    <value>Select which app theme to display</value>
+  </data>
   <data name="AppTheme.Header" xml:space="preserve">
     <value>Theme</value>
-  </data>
-  <data name="AppTheme.System" xml:space="preserve">
-    <value>Follow System</value>
   </data>
   <data name="AppTheme.Light" xml:space="preserve">
     <value>Light Mode</value>
   </data>
-  <data name="AppTheme.Dark" xml:space="preserve">
-    <value>Dark Mode</value>
+  <data name="AppTheme.System" xml:space="preserve">
+    <value>Windows Default</value>
   </data>
-  <data name="About" xml:space="preserve">
-    <value>About</value>
+  <data name="DependenciesAndReferences.Description" xml:space="preserve">
+    <value>Thanks to the following open-source projects and libraries for their support and contributions</value>
   </data>
-  <data name="AppTheme.Description" xml:space="preserve">
-    <value>Set the color mode of your application</value>
+  <data name="DependenciesAndReferences.Header" xml:space="preserve">
+    <value>Dependencies &amp; References</value>
   </data>
-  <data name="Language.Header" xml:space="preserve">
-    <value>Language</value>
+  <data name="Developer.ActionTooltip" xml:space="preserve">
+    <value>Go to RemeaMiku’s Profile Page</value>
+  </data>
+  <data name="Developer.Description" xml:space="preserve">
+    <value>The world is my university, and nature and human affairs are my textbooks. A .NET Developer / Illustrator</value>
+  </data>
+  <data name="Developer.Header" xml:space="preserve">
+    <value>RemeaMiku</value>
   </data>
   <data name="Language.Description" xml:space="preserve">
-    <value>Set the app display language. Changes take effect after restart</value>
-  </data>
-  <data name="LanguageAndRegion" xml:space="preserve">
-    <value>Language &amp; Region</value>
-  </data>
-  <data name="Language.System" xml:space="preserve">
-    <value>Follow System</value>
-  </data>
-  <data name="Language.zhCN" xml:space="preserve">
-    <value>Simplified Chinese</value>
-  </data>
-  <data name="Language.jaJP" xml:space="preserve">
-    <value>Japanese</value>
+    <value>If the Windows default language is not supported, the application will use English. Need to restart the application to take effect</value>
   </data>
   <data name="Language.enUS" xml:space="preserve">
     <value>English</value>
   </data>
-  <data name="DependenciesAndReferences" xml:space="preserve">
-    <value>Dependencies &amp; References</value>
+  <data name="Language.Header" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Language.jaJP" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="Language.System" xml:space="preserve">
+    <value>Windows Default</value>
+  </data>
+  <data name="Language.zhCN" xml:space="preserve">
+    <value>Chinese (Simplified)</value>
+  </data>
+  <data name="NavigationStyle.Description" xml:space="preserve">
+    <value>Select the position of the navigation bar</value>
+  </data>
+  <data name="NavigationStyle.Header" xml:space="preserve">
+    <value>Navigation Style</value>
+  </data>
+  <data name="NavigationStyle.Left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="NavigationStyle.Top" xml:space="preserve">
+    <value>Top</value>
   </data>
   <data name="NeedRestart" xml:space="preserve">
     <value>A restart of the app is required for changes to take effect</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Settings</value>
   </data>
 </root>

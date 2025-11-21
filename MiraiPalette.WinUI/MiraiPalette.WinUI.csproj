@@ -92,7 +92,6 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<DefaultLanguage>zh-CN</DefaultLanguage>
 		<PublishAot>False</PublishAot>
-		<Version>0.3.9</Version>
 
 		<!-- ★★ 关键：只生成一个 x64 的 msix ★★ -->
 		<AppxBundle>Never</AppxBundle>
@@ -107,9 +106,11 @@
 		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 
 		<!-- 保留你的证书，但不会生成 .cer 文件 -->
-		<PackageCertificateThumbprint>D24827318CEB687008A153075E48F3BFEC1CADBE</PackageCertificateThumbprint>
+		<!--<PackageCertificateThumbprint>D24827318CEB687008A153075E48F3BFEC1CADBE</PackageCertificateThumbprint>-->
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<AppInstallerUri>C:\Users\remea\Downloads</AppInstallerUri>
+		<PackageCertificateThumbprint>BD823C45068FCAA6983DB1C0C8F4F6223A22F717</PackageCertificateThumbprint>
+		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">

@@ -10,6 +10,7 @@ using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.Storage.Pickers;
+using MiraiPalette.WinUI.Essentials;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Impl;
 using MiraiPalette.WinUI.Settings;
@@ -28,27 +29,11 @@ public partial class App : Application
 {
     public MainWindow MainWindow => Services.GetRequiredService<MainWindow>();
 
+    public ISettingsService SettingsService => Services.GetRequiredService<ISettingsService>();
+
     public new static App Current => (App)Application.Current;
 
     public ServiceProvider Services { get; } = ConfigureServices();
-
-    // Source - https://stackoverflow.com/questions/75157237/uwp-winui3-how-to-get-system-theme-in-c
-    // Posted by georgel2020
-    // Retrieved 2025-11-19, License - CC BY-SA 4.0
-
-    [DllImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool ShouldSystemUseDarkMode();
-
-    private void HandleTitleBarThemeChange(ElementTheme theme)
-    {
-        var titleBar = MainWindow.AppWindow.TitleBar;
-        var foregroundColor = theme == ElementTheme.Dark ? Colors.White : Colors.Black;
-        titleBar.ButtonForegroundColor = foregroundColor;
-        titleBar.ButtonHoverForegroundColor = foregroundColor;
-        var backgroundHoverColor = theme == ElementTheme.Dark ? Color.FromArgb(24, 255, 255, 255) : Color.FromArgb(24, 0, 0, 0);
-        titleBar.ButtonHoverBackgroundColor = backgroundHoverColor;
-    }
 
     static ServiceProvider ConfigureServices()
     {
@@ -81,36 +66,8 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         base.OnLaunched(args);
-        ApplyThemeModeSetting();
-        ApplyLanguageSetting();
+        ApplySettings();
         MainWindow.Activate();
-    }
-
-    public void ApplyThemeModeSetting()
-    {
-        var settingsService = Services.GetRequiredService<ISettingsService>();
-        var themeSetting = settingsService.GetValue(ThemeSettings.SettingKey, ThemeSettings.System);
-        if(!Enum.TryParse<ElementTheme>(themeSetting, out var requestedTheme))
-            settingsService.SetValue(ThemeSettings.SettingKey, ThemeSettings.System);
-        var frameworkElement = MainWindow.Content as FrameworkElement;
-        frameworkElement!.RequestedTheme = requestedTheme;
-        var actualTheme = requestedTheme == ElementTheme.Default
-            ? (ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light)
-            : requestedTheme;
-        HandleTitleBarThemeChange(actualTheme);
-    }
-
-    public void ApplyLanguageSetting()
-    {
-        var settingsService = Services.GetRequiredService<ISettingsService>();
-        var languageSetting = settingsService.GetValue(LanguageSettings.SettingKey, LanguageSettings.Default);
-        var isSupported = LanguageSettings.TryConvertSettingToActual(languageSetting, out var language);
-        // If the setting is unsupported, we update it to the actual language
-        if(!isSupported)
-            settingsService.SetValue(LanguageSettings.SettingKey, language);
-        var culture = new CultureInfo(language);
-        CultureInfo.DefaultThreadCurrentCulture = culture;
-        CultureInfo.DefaultThreadCurrentUICulture = culture;
     }
 
     public void NavigateTo(NavigationTarget target, object? parameter = null)
@@ -141,6 +98,68 @@ public partial class App : Application
         }
     }
 
+    #region Settings
+
+    public void ApplySettings()
+    {
+        ApplyThemeModeSetting();
+        ApplyNavigationStyleSetting();
+        ApplyLanguageSetting();
+    }
+
+    // Source - https://stackoverflow.com/questions/75157237/uwp-winui3-how-to-get-system-theme-in-c
+    // Posted by georgel2020
+    // Retrieved 2025-11-19, License - CC BY-SA 4.0
+
+    [DllImport("UXTheme.dll", EntryPoint = "#138", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool ShouldSystemUseDarkMode();
+
+    private void HandleTitleBarThemeChange(ElementTheme theme)
+    {
+        var titleBar = MainWindow.AppWindow.TitleBar;
+        var foregroundColor = theme == ElementTheme.Dark ? Colors.White : Colors.Black;
+        titleBar.ButtonForegroundColor = foregroundColor;
+        titleBar.ButtonHoverForegroundColor = foregroundColor;
+        var backgroundHoverColor = theme == ElementTheme.Dark ? Color.FromArgb(24, 255, 255, 255) : Color.FromArgb(24, 0, 0, 0);
+        titleBar.ButtonHoverBackgroundColor = backgroundHoverColor;
+    }
+
+    public void ApplyThemeModeSetting()
+    {
+        var settingsService = Services.GetRequiredService<ISettingsService>();
+        var themeSetting = settingsService.GetValue(SettingKeys.Theme, ThemeSettings.System);
+        if(!Enum.TryParse<ElementTheme>(themeSetting, out var requestedTheme))
+            settingsService.SetValue(SettingKeys.Theme, ThemeSettings.System);
+        var frameworkElement = MainWindow.Content as FrameworkElement;
+        frameworkElement!.RequestedTheme = requestedTheme;
+        var actualTheme = requestedTheme == ElementTheme.Default
+            ? (ShouldSystemUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light)
+            : requestedTheme;
+        HandleTitleBarThemeChange(actualTheme);
+    }
+
+    public void ApplyNavigationStyleSetting()
+    {
+        var setting = SettingsService.GetValue(SettingKeys.NavigationStyle, NavigationViewPaneDisplayMode.Left);
+        MainWindow.MainView.PaneDisplayMode = setting;
+    }
+
+    public void ApplyLanguageSetting()
+    {
+        var languageSetting = SettingsService.GetValue(SettingKeys.Language, LanguageSettings.Default);
+        var isSupported = LanguageSettings.TryConvertSettingToActual(languageSetting, out var language);
+        // If the setting is unsupported, we update it to the actual language
+        if(!isSupported)
+            SettingsService.SetValue(SettingKeys.Language, language);
+        var culture = new CultureInfo(language);
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+    }
+
+    #endregion
+
+    #region Dialogs
     public async Task<bool> ShowConfirmDialogAsync(string title, string content, bool showCancelButton = true, string? primaryButtonText = null)
     {
         primaryButtonText ??= Strings.Resources.Confirm;
@@ -161,6 +180,9 @@ public partial class App : Application
     public async Task<bool> ShowDeleteConfirmDialogAsync(string title, string content)
         => await ShowConfirmDialogAsync(title, content, true, Strings.Resources.Delete);
 
+    #endregion
+
+    #region Pickers
     public async Task<string?> PickFileToOpen(string commitText, params string[] filter)
     {
         var picker = CreateFileOpenPicker(commitText, filter);
@@ -203,13 +225,6 @@ public partial class App : Application
             picker.FileTypeFilter.Add(ext);
         return picker;
     }
+    #endregion
 
-    public enum NavigationTarget
-    {
-        Back = -1,
-        Main,
-        Palette,
-        ImagePalette,
-        Settings
-    }
 }

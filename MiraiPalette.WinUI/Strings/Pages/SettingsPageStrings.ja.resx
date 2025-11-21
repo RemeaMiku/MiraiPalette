@@ -117,55 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Title" xml:space="preserve">
-    <value>設定</value>
+  <data name="About" xml:space="preserve">
+    <value>概要</value>
   </data>
   <data name="AppearanceAndBehavior" xml:space="preserve">
     <value>外観と動作</value>
   </data>
+  <data name="AppTheme.Dark" xml:space="preserve">
+    <value>ダークモード</value>
+  </data>
+  <data name="AppTheme.Description" xml:space="preserve">
+    <value>アプリケーションのカラーモードを選択する</value>
+  </data>
   <data name="AppTheme.Header" xml:space="preserve">
     <value>テーマ</value>
-  </data>
-  <data name="AppTheme.System" xml:space="preserve">
-    <value>システムに合わせる</value>
   </data>
   <data name="AppTheme.Light" xml:space="preserve">
     <value>ライトモード</value>
   </data>
-  <data name="AppTheme.Dark" xml:space="preserve">
-    <value>ダークモード</value>
+  <data name="AppTheme.System" xml:space="preserve">
+    <value>Windows の既定値</value>
   </data>
-  <data name="About" xml:space="preserve">
-    <value>概要</value>
+  <data name="DependenciesAndReferences.Description" xml:space="preserve">
+    <value>以下のオープンソースプロジェクトとライブラリの支援と貢献に感謝します</value>
   </data>
-  <data name="AppTheme.Description" xml:space="preserve">
-    <value>アプリケーションのカラーモードを設定する</value>
+  <data name="DependenciesAndReferences.Header" xml:space="preserve">
+    <value>依存関係と参照</value>
   </data>
-  <data name="Language.Header" xml:space="preserve">
-    <value>言語</value>
+  <data name="Developer.ActionTooltip" xml:space="preserve">
+    <value>RemeaMiku の個人ページへ移動</value>
+  </data>
+  <data name="Developer.Description" xml:space="preserve">
+    <value>世界を大学校とし、自然と人事を教科書とする。.NET 開発者/イラストレーター</value>
+  </data>
+  <data name="Developer.Header" xml:space="preserve">
+    <value>RemeaMiku (レムめあミク)</value>
   </data>
   <data name="Language.Description" xml:space="preserve">
-    <value>アプリの表示言語を設定します。再起動後に反映されます</value>
-  </data>
-  <data name="LanguageAndRegion" xml:space="preserve">
-    <value>言語と地域</value>
-  </data>
-  <data name="Language.System" xml:space="preserve">
-    <value>システムに合わせる</value>
-  </data>
-  <data name="Language.zhCN" xml:space="preserve">
-    <value>簡体字中国語</value>
-  </data>
-  <data name="Language.jaJP" xml:space="preserve">
-    <value>日本語</value>
+    <value>Windows のデフォルト言語がサポートされていない場合、アプリケーションは英語を使用します。有効にするにはアプリケーションを再起動する必要があります</value>
   </data>
   <data name="Language.enUS" xml:space="preserve">
     <value>英語</value>
   </data>
-  <data name="DependenciesAndReferences" xml:space="preserve">
-    <value>依存関係と参照</value>
+  <data name="Language.Header" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Language.jaJP" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="Language.System" xml:space="preserve">
+    <value>Windows の既定値</value>
+  </data>
+  <data name="Language.zhCN" xml:space="preserve">
+    <value>中国語 (簡体字)</value>
+  </data>
+  <data name="NavigationStyle.Description" xml:space="preserve">
+    <value>ナビゲーション バーの位置を選択する</value>
+  </data>
+  <data name="NavigationStyle.Header" xml:space="preserve">
+    <value>ナビゲーションスタイル</value>
+  </data>
+  <data name="NavigationStyle.Left" xml:space="preserve">
+    <value>左側</value>
+  </data>
+  <data name="NavigationStyle.Top" xml:space="preserve">
+    <value>トップ</value>
   </data>
   <data name="NeedRestart" xml:space="preserve">
     <value>反映するにはアプリの再起動が必要です</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>設定</value>
   </data>
 </root>

@@ -5,8 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:MiraiPalette.WinUI.Converters"
     xmlns:local="using:MiraiPalette.WinUI"
-             xmlns:media="using:CommunityToolkit.WinUI.Media"
-             xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters">
+    xmlns:media="using:CommunityToolkit.WinUI.Media"
+    xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,9 +14,11 @@
                 <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->
-            <media:AcrylicBrush x:Key="DefaultAcrylicBrush" BlurAmount="15"
-                                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
-                                TintOpacity=".6" />
+            <media:AcrylicBrush
+                x:Key="DefaultAcrylicBrush"
+                BlurAmount="15"
+                TintColor="{ThemeResource SolidBackgroundFillColorTertiary}"
+                TintOpacity=".6" />
             <uiconverters:StringFormatConverter x:Key="StringFormatConverter" />
             <uiconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <uiconverters:BoolNegationConverter x:Key="BoolNegationConverter" />

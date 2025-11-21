@@ -117,55 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Title" xml:space="preserve">
-    <value>设置</value>
+  <data name="About" xml:space="preserve">
+    <value>关于</value>
   </data>
   <data name="AppearanceAndBehavior" xml:space="preserve">
     <value>外观和行为</value>
   </data>
+  <data name="AppTheme.Dark" xml:space="preserve">
+    <value>深色模式</value>
+  </data>
+  <data name="AppTheme.Description" xml:space="preserve">
+    <value>选择应用的颜色模式</value>
+  </data>
   <data name="AppTheme.Header" xml:space="preserve">
     <value>主题</value>
-  </data>
-  <data name="AppTheme.System" xml:space="preserve">
-    <value>跟随系统</value>
   </data>
   <data name="AppTheme.Light" xml:space="preserve">
     <value>浅色模式</value>
   </data>
-  <data name="AppTheme.Dark" xml:space="preserve">
-    <value>深色模式</value>
+  <data name="AppTheme.System" xml:space="preserve">
+    <value>Windows 默认</value>
   </data>
-  <data name="About" xml:space="preserve">
-    <value>关于</value>
+  <data name="DependenciesAndReferences.Description" xml:space="preserve">
+    <value>感谢以下开源项目和库的支持与贡献</value>
   </data>
-  <data name="AppTheme.Description" xml:space="preserve">
-    <value>设置应用的颜色模式</value>
+  <data name="DependenciesAndReferences.Header" xml:space="preserve">
+    <value>依赖和参考</value>
   </data>
-  <data name="Language.Header" xml:space="preserve">
-    <value>语言</value>
+  <data name="Developer.ActionTooltip" xml:space="preserve">
+    <value>跳转至 RemeaMiku 的个人主页</value>
+  </data>
+  <data name="Developer.Description" xml:space="preserve">
+    <value>以世界为大学校，以天然和人事为教科书。.NET 开发者/画手</value>
+  </data>
+  <data name="Developer.Header" xml:space="preserve">
+    <value>RemeaMiku</value>
   </data>
   <data name="Language.Description" xml:space="preserve">
-    <value>设置应用显示的语言。需要重启应用后生效</value>
-  </data>
-  <data name="LanguageAndRegion" xml:space="preserve">
-    <value>语言和地区</value>
-  </data>
-  <data name="Language.System" xml:space="preserve">
-    <value>跟随系统</value>
-  </data>
-  <data name="Language.zhCN" xml:space="preserve">
-    <value>简体中文</value>
-  </data>
-  <data name="Language.jaJP" xml:space="preserve">
-    <value>日语</value>
+    <value>若不支持 Windows 语言，应用将会使用英语。需要重启应用后生效</value>
   </data>
   <data name="Language.enUS" xml:space="preserve">
     <value>英语</value>
   </data>
-  <data name="DependenciesAndReferences" xml:space="preserve">
-    <value>依赖和参考</value>
+  <data name="Language.Header" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Language.jaJP" xml:space="preserve">
+    <value>日语</value>
+  </data>
+  <data name="Language.System" xml:space="preserve">
+    <value>Windows 默认</value>
+  </data>
+  <data name="Language.zhCN" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="NavigationStyle.Description" xml:space="preserve">
+    <value>选择导航栏的位置</value>
+  </data>
+  <data name="NavigationStyle.Header" xml:space="preserve">
+    <value>导航样式</value>
+  </data>
+  <data name="NavigationStyle.Left" xml:space="preserve">
+    <value>左侧</value>
+  </data>
+  <data name="NavigationStyle.Top" xml:space="preserve">
+    <value>顶部</value>
   </data>
   <data name="NeedRestart" xml:space="preserve">
     <value>需要重启应用以生效</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>设置</value>
   </data>
 </root>

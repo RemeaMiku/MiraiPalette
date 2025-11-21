@@ -88,7 +88,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 设置应用的颜色模式 的本地化字符串。
+        ///   查找类似 选择应用的颜色模式 的本地化字符串。
         /// </summary>
         internal static string AppTheme_Description {
             get {
@@ -115,7 +115,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 跟随系统 的本地化字符串。
+        ///   查找类似 Windows 默认 的本地化字符串。
         /// </summary>
         internal static string AppTheme_System {
             get {
@@ -124,16 +124,52 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 依赖和参考 的本地化字符串。
+        ///   查找类似 感谢以下开源项目和库的支持与贡献 的本地化字符串。
         /// </summary>
-        internal static string DependenciesAndReferences {
+        internal static string DependenciesAndReferences_Description {
             get {
-                return ResourceManager.GetString("DependenciesAndReferences", resourceCulture);
+                return ResourceManager.GetString("DependenciesAndReferences.Description", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 设置应用显示的语言。需要重启应用后生效 的本地化字符串。
+        ///   查找类似 依赖和参考 的本地化字符串。
+        /// </summary>
+        internal static string DependenciesAndReferences_Header {
+            get {
+                return ResourceManager.GetString("DependenciesAndReferences.Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 跳转至 RemeaMiku 的个人主页 的本地化字符串。
+        /// </summary>
+        internal static string Developer_ActionTooltip {
+            get {
+                return ResourceManager.GetString("Developer.ActionTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 以世界为大学校，以天然和人事为教科书。.NET 开发者/画手 的本地化字符串。
+        /// </summary>
+        internal static string Developer_Description {
+            get {
+                return ResourceManager.GetString("Developer.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 RemeaMiku 的本地化字符串。
+        /// </summary>
+        internal static string Developer_Header {
+            get {
+                return ResourceManager.GetString("Developer.Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 若不支持 Windows 语言，应用将会使用英语。需要重启应用后生效 的本地化字符串。
         /// </summary>
         internal static string Language_Description {
             get {
@@ -169,7 +205,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 跟随系统 的本地化字符串。
+        ///   查找类似 Windows 默认 的本地化字符串。
         /// </summary>
         internal static string Language_System {
             get {
@@ -187,11 +223,38 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 语言和地区 的本地化字符串。
+        ///   查找类似 选择导航栏的位置 的本地化字符串。
         /// </summary>
-        internal static string LanguageAndRegion {
+        internal static string NavigationStyle_Description {
             get {
-                return ResourceManager.GetString("LanguageAndRegion", resourceCulture);
+                return ResourceManager.GetString("NavigationStyle.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导航样式 的本地化字符串。
+        /// </summary>
+        internal static string NavigationStyle_Header {
+            get {
+                return ResourceManager.GetString("NavigationStyle.Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 左侧 的本地化字符串。
+        /// </summary>
+        internal static string NavigationStyle_Left {
+            get {
+                return ResourceManager.GetString("NavigationStyle.Left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 顶部 的本地化字符串。
+        /// </summary>
+        internal static string NavigationStyle_Top {
+            get {
+                return ResourceManager.GetString("NavigationStyle.Top", resourceCulture);
             }
         }
         

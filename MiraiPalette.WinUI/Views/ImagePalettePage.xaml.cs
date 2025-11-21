@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
-using MiraiPalette.WinUI.Essentials;
+using MiraiPalette.WinUI.Essentials.ImagePalette;
 using MiraiPalette.WinUI.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
