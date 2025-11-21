@@ -151,7 +151,8 @@ public partial class App : Application
             PrimaryButtonText = primaryButtonText,
             SecondaryButtonText = showCancelButton ? Strings.Resources.Cancel : default,
             DefaultButton = ContentDialogButton.Primary,
-            XamlRoot = MainWindow.Content.XamlRoot
+            XamlRoot = MainWindow.Content.XamlRoot,
+            RequestedTheme = (MainWindow.Content as FrameworkElement)!.RequestedTheme
         };
         var result = await dialog.ShowAsync();
         return result == ContentDialogResult.Primary;
