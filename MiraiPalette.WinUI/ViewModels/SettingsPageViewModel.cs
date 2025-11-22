@@ -26,7 +26,7 @@ public partial class SettingsPageViewModel : ObservableObject
     public OrderedDictionary<NavigationViewPaneDisplayMode, string> NavigationStyleOptions { get; } =
         new()
         {
-            { NavigationViewPaneDisplayMode.Left, SettingsPageStrings.NavigationStyle_Left },
+            { NavigationViewPaneDisplayMode.Auto, SettingsPageStrings.NavigationStyle_Left },
             { NavigationViewPaneDisplayMode.Top, SettingsPageStrings.NavigationStyle_Top }
         };
 

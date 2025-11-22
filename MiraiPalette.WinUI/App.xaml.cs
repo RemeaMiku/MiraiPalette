@@ -127,11 +127,11 @@ public partial class App : Application
 
     public void ApplyNavigationStyleSetting()
     {
-        var setting = SettingsService.GetValue(SettingKeys.NavigationStyle, NavigationViewPaneDisplayMode.Left);
+        var setting = SettingsService.GetValue(SettingKeys.NavigationStyle, NavigationViewPaneDisplayMode.Auto);
         // only Left and Top are supported
-        if(setting is not NavigationViewPaneDisplayMode.Top and not NavigationViewPaneDisplayMode.Left)
+        if(setting is not NavigationViewPaneDisplayMode.Top and not NavigationViewPaneDisplayMode.Auto)
         {
-            setting = NavigationViewPaneDisplayMode.Left;
+            setting = NavigationViewPaneDisplayMode.Auto;
             SettingsService.SetValue(SettingKeys.NavigationStyle, setting);
         }
         MainWindow.MainView.PaneDisplayMode = setting;

@@ -13,7 +13,7 @@
     xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
     xmlns:views="using:MiraiPalette.WinUI.Views"
     x:Name="Window"
-    Title="Mirai Palette"
+    Title="{x:Bind ViewModel.Title, Mode=OneWay}"
     SizeChanged="Window_SizeChanged"
     mc:Ignorable="d">
     <Window.SystemBackdrop>
@@ -27,7 +27,7 @@
         <!--  https://github.com/microsoft/microsoft-ui-xaml/issues/10374  -->
         <TitleBar
             x:Name="TitleBar"
-            Title="{x:Bind Window.Title, Mode=OneWay}"
+            Title="{x:Bind ViewModel.Title, Mode=OneWay}"
             VerticalContentAlignment="Center"
             BackRequested="TitleBar_BackRequested"
             IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"

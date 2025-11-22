@@ -50,7 +50,7 @@ public sealed partial class MainWindow : Window
 
     private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs args)
     {
-        TitleBar.IsPaneToggleButtonVisible = Window.Bounds.Width < OverlayThresholdWidth;
+        TitleBar.IsPaneToggleButtonVisible = MainNavigationView.PaneDisplayMode != NavigationViewPaneDisplayMode.Top && Window.Bounds.Width < OverlayThresholdWidth;
     }
 
     private void MainNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
