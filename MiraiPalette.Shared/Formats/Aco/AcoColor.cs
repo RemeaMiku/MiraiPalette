@@ -95,11 +95,86 @@ public class AcoColor
     /// <returns>A hexadecimal color string representing the specified AcoColor</returns>
     public static string ToHex(AcoColor color)
     {
-        if(color.ColorSpace != ColorSpaceRgb)
-            throw new ArgumentException("Color must be in RGB color space to convert to hex.", nameof(color));
-        var r = (byte)(color.Components[0] / 257);
-        var g = (byte)(color.Components[1] / 257);
-        var b = (byte)(color.Components[2] / 257);
+        byte r, g, b;
+
+        switch(color.ColorSpace)
+        {
+            case ColorSpaceRgb:
+                r = (byte)(color.Components[0] / 257);
+                g = (byte)(color.Components[1] / 257);
+                b = (byte)(color.Components[2] / 257);
+                break;
+
+            case ColorSpaceCmyk:
+            {
+                // 还原 0..65535 的存储方式 -> 0..1 范围的CMYK
+                double c = 1 - color.Components[0] / 65535.0;
+                double m = 1 - color.Components[1] / 65535.0;
+                double y = 1 - color.Components[2] / 65535.0;
+                double k = 1 - color.Components[3] / 65535.0;
+
+                // CMYK -> RGB
+                r = (byte)((1 - Math.Min(1, c * (1 - k) + k)) * 255);
+                g = (byte)((1 - Math.Min(1, m * (1 - k) + k)) * 255);
+                b = (byte)((1 - Math.Min(1, y * (1 - k) + k)) * 255);
+                break;
+            }
+
+            case ColorSpaceLab:
+            {
+                // 反向缩放
+                double L = color.Components[0] / 65535.0 * 100.0;
+                double a = color.Components[1] / 65535.0 * 255.0 - 128.0;
+                double bVal = color.Components[2] / 65535.0 * 255.0 - 128.0;
+
+                // Lab -> XYZ
+                double fy = (L + 16) / 116.0;
+                double fx = fy + a / 500.0;
+                double fz = fy - bVal / 200.0;
+
+                static double Cubic(double t)
+                {
+                    double v = t * t * t;
+                    return v > 0.008856 ? v : (t - 16.0 / 116.0) / 7.787;
+                }
+
+                double X = 95.047 * Cubic(fx);
+                double Y = 100.000 * Cubic(fy);
+                double Z = 108.883 * Cubic(fz);
+
+                // XYZ -> RGB (sRGB)
+                double x = X / 100.0;
+                double y = Y / 100.0;
+                double z = Z / 100.0;
+
+                double rLinear = 3.2406 * x - 1.5372 * y - 0.4986 * z;
+                double gLinear = -0.9689 * x + 1.8758 * y + 0.0415 * z;
+                double bLinear = 0.0557 * x - 0.2040 * y + 1.0570 * z;
+
+                static byte ToSrgb(double c)
+                {
+                    c = Math.Max(0, Math.Min(1, c));
+                    c = c <= 0.0031308 ? 12.92 * c : 1.055 * Math.Pow(c, 1.0 / 2.4) - 0.055;
+                    return (byte)(c * 255);
+                }
+
+                r = ToSrgb(rLinear);
+                g = ToSrgb(gLinear);
+                b = ToSrgb(bLinear);
+                break;
+            }
+
+            case ColorSpaceGray:
+            {
+                // 0..65535 → 0..1
+                double gVal = color.Components[0] / 65535.0;
+                byte v = (byte)(gVal * 255);
+                r = g = b = v;
+                break;
+            }
+            default:
+                throw new ArgumentException($"Unsupported color space: {color.ColorSpace}");
+        }
         return $"#{r:X2}{g:X2}{b:X2}";
     }
 

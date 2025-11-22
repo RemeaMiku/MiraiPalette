@@ -109,6 +109,8 @@
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<AppInstallerUri>C:\Users\remea\Downloads</AppInstallerUri>
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+		<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+		<PackageCertificateThumbprint>0AA4BA8B141A77805E72857AB93918EEFDE21DAD</PackageCertificateThumbprint>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
