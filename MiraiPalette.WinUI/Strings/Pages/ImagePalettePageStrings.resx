@@ -106,20 +106,20 @@
   <data name="FitSizeButton.Tooltip" xml:space="preserve">
     <value>适应面板大小</value>
   </data>
-  <data name="ColorPickerToggleButton.Tooltip" xml:space="preserve">
-    <value>开关手动像素颜色提取</value>
+  <data name="ColorPickerToggleButton.Text" xml:space="preserve">
+    <value>拾取像素颜色</value>
   </data>
   <data name="AutoColorsList.Title" xml:space="preserve">
-    <value>自动提取</value>
+    <value>自动</value>
   </data>
   <data name="ManualColorsList.Title" xml:space="preserve">
-    <value>手动提取</value>
+    <value>手动</value>
   </data>
   <data name="ColorsListClearButton.Tooltip" xml:space="preserve">
     <value>清空列表</value>
   </data>
   <data name="AutoColorsCountSetting.Header" xml:space="preserve">
-    <value>设置自动提取颜色数：</value>
+    <value>个数：</value>
   </data>
   <data name="AutoExtractButton.Text" xml:space="preserve">
     <value>自动提取</value>

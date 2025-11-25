@@ -117,34 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AutoColorsCountSetting.Header" xml:space="preserve">
+    <value>数：</value>
+  </data>
+  <data name="AutoColorsList.Title" xml:space="preserve">
+    <value>自動</value>
+  </data>
+  <data name="AutoExtractButton.Text" xml:space="preserve">
+    <value>自動抽出</value>
+  </data>
+  <data name="ColorPickerToggleButton.Text" xml:space="preserve">
+    <value>ピクセルカラーを取得</value>
+  </data>
+  <data name="ColorsListClearButton.Tooltip" xml:space="preserve">
+    <value>リストをクリアする</value>
+  </data>
+  <data name="FitSizeButton.Tooltip" xml:space="preserve">
+    <value>パネルサイズに適応</value>
+  </data>
+  <data name="ImagePaletteDescription" xml:space="preserve">
+    <value>「{0}」から抽出されたパレット</value>
+  </data>
+  <data name="ManualColorsList.Title" xml:space="preserve">
+    <value>手動</value>
+  </data>
   <data name="ZoomInButton.Tooltip" xml:space="preserve">
     <value>ズームイン</value>
   </data>
   <data name="ZoomOutButton.Tooltip" xml:space="preserve">
     <value>ズームアウト</value>
-  </data>
-  <data name="FitSizeButton.Tooltip" xml:space="preserve">
-    <value>パネルサイズに適応</value>
-  </data>
-  <data name="ColorPickerToggleButton.Tooltip" xml:space="preserve">
-    <value>手動ピクセルカラー抽出を切り替える</value>
-  </data>
-  <data name="AutoColorsList.Title" xml:space="preserve">
-    <value>自動抽出</value>
-  </data>
-  <data name="ManualColorsList.Title" xml:space="preserve">
-    <value>手動抽出</value>
-  </data>
-  <data name="ColorsListClearButton.Tooltip" xml:space="preserve">
-    <value>リストをクリアする</value>
-  </data>
-  <data name="AutoColorsCountSetting.Header" xml:space="preserve">
-    <value>自動抽出の色の数を設定：</value>
-  </data>
-  <data name="AutoExtractButton.Text" xml:space="preserve">
-    <value>自動抽出</value>
-  </data>
-  <data name="ImagePaletteDescription" xml:space="preserve">
-    <value>「{0}」から抽出されたパレット</value>
   </data>
 </root>

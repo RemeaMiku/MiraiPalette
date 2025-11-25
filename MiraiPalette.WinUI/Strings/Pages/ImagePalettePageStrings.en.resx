@@ -117,34 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AutoColorsCountSetting.Header" xml:space="preserve">
+    <value>Numbers:</value>
+  </data>
+  <data name="AutoColorsList.Title" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="AutoExtractButton.Text" xml:space="preserve">
+    <value>Auto-extract</value>
+  </data>
+  <data name="ColorPickerToggleButton.Text" xml:space="preserve">
+    <value>Pick Pixel Color</value>
+  </data>
+  <data name="ColorsListClearButton.Tooltip" xml:space="preserve">
+    <value>Clear list</value>
+  </data>
+  <data name="FitSizeButton.Tooltip" xml:space="preserve">
+    <value>Adapt to panel size</value>
+  </data>
+  <data name="ImagePaletteDescription" xml:space="preserve">
+    <value>Palette extracted from "{0}"</value>
+  </data>
+  <data name="ManualColorsList.Title" xml:space="preserve">
+    <value>Manual</value>
+  </data>
   <data name="ZoomInButton.Tooltip" xml:space="preserve">
     <value>Zoom in</value>
   </data>
   <data name="ZoomOutButton.Tooltip" xml:space="preserve">
     <value>Zoom out</value>
-  </data>
-  <data name="FitSizeButton.Tooltip" xml:space="preserve">
-    <value>Adapt to panel size</value>
-  </data>
-  <data name="ColorPickerToggleButton.Tooltip" xml:space="preserve">
-    <value>Toggle color picker</value>
-  </data>
-  <data name="AutoColorsList.Title" xml:space="preserve">
-    <value>Automatic</value>
-  </data>
-  <data name="ManualColorsList.Title" xml:space="preserve">
-    <value>Manual</value>
-  </data>
-  <data name="ColorsListClearButton.Tooltip" xml:space="preserve">
-    <value>Clear list</value>
-  </data>
-  <data name="AutoColorsCountSetting.Header" xml:space="preserve">
-    <value>Set the number of colors to auto-extract:</value>
-  </data>
-  <data name="AutoExtractButton.Text" xml:space="preserve">
-    <value>Auto-extract</value>
-  </data>
-  <data name="ImagePaletteDescription" xml:space="preserve">
-    <value>Palette extracted from "{0}"</value>
   </data>
 </root>
