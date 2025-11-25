@@ -80,6 +80,7 @@
                             CommandParameter="{x:Bind}"
                             Icon="{ui:SymbolIcon Symbol=Edit}"
                             Text="{x:Bind localization:Resources.Edit, Mode=OneTime}" />
+                        <MenuFlyoutSeparator />
                         <MenuFlyoutItem
                             Command="{Binding ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime, ElementName=RootPage}"
                             CommandParameter="{x:Bind}"
