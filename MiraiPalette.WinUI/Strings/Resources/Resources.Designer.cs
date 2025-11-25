@@ -115,6 +115,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 已复制 的本地化字符串。
+        /// </summary>
+        internal static string Copied {
+            get {
+                return ResourceManager.GetString("Copied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 新建 的本地化字符串。
         /// </summary>
         internal static string Create {

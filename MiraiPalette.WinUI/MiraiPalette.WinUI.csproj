@@ -26,6 +26,7 @@
 
 	<ItemGroup>
 		<None Remove="Assets\MiraiPaletteLogo.ico" />
+		<None Remove="Controls\CopyButton.xaml" />
 		<None Remove="Views\ImagePalettePage.xaml" />
 		<None Remove="Views\MainPage.xaml" />
 		<None Remove="Views\PaletteDetailPage.xaml" />
@@ -110,7 +111,6 @@
 		<AppInstallerUri>C:\Users\remea\Downloads</AppInstallerUri>
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 		<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-		<PackageCertificateThumbprint>0AA4BA8B141A77805E72857AB93918EEFDE21DAD</PackageCertificateThumbprint>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
@@ -267,5 +267,11 @@
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 			<CustomToolNamespace>MiraiPalette.WinUI.Strings</CustomToolNamespace>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Controls\CopyButton.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 </Project>

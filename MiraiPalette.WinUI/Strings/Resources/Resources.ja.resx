@@ -117,41 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>新規作成</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>削除</value>
+  <data name="Accept" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="AllPalettes" xml:space="preserve">
     <value>すべてのパレット</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>設定</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
   </data>
-  <data name="DefaultColorName" xml:space="preserve">
-    <value>新しい色</value>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>選択をクリア</value>
   </data>
-  <data name="Import" xml:space="preserve">
-    <value>インポート</value>
-  </data>
-  <data name="DefaultPaletteTitle" xml:space="preserve">
-    <value>新しいパレット</value>
+  <data name="Complete" xml:space="preserve">
+    <value>完成</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>確認</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>キャンセル</value>
+  <data name="Copied" xml:space="preserve">
+    <value>コピーされた</value>
   </data>
-  <data name="Accept" xml:space="preserve">
-    <value>OK</value>
+  <data name="Create" xml:space="preserve">
+    <value>新規作成</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>リセット</value>
+  <data name="DefaultColorName" xml:space="preserve">
+    <value>新しい色</value>
   </data>
-  <data name="SaveAs" xml:space="preserve">
-    <value>名前を付けて保存</value>
+  <data name="DefaultPaletteTitle" xml:space="preserve">
+    <value>新しいパレット</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>編集</value>
   </data>
   <data name="Export" xml:space="preserve">
     <value>エクスポート</value>
@@ -159,28 +159,31 @@
   <data name="Extract" xml:space="preserve">
     <value>抽出</value>
   </data>
-  <data name="SelectAll" xml:space="preserve">
-    <value>すべて選択</value>
-  </data>
-  <data name="ClearSelection" xml:space="preserve">
-    <value>選択をクリア</value>
-  </data>
-  <data name="Remove" xml:space="preserve">
-    <value>削除</value>
+  <data name="Import" xml:space="preserve">
+    <value>インポート</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>多肢選択</value>
   </data>
-  <data name="Complete" xml:space="preserve">
-    <value>完成</value>
-  </data>
   <data name="Open" xml:space="preserve">
     <value>オープン</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>編集</value>
+  <data name="Remove" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>リセット</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>名前を付けて保存</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>設定</value>
   </data>
 </root>
