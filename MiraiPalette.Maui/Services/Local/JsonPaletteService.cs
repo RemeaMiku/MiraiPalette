@@ -10,7 +10,7 @@ public class JsonPaletteService : IPaletteService
 {
     private readonly ILogger _logger;
 
-    private readonly string _filePath = Path.Combine(FileSystem.AppDataDirectory, "palettes.json");
+    private readonly string _filePath = Path.Combine(FileSystem.Current.AppDataDirectory, "palettes.json");
 
     private readonly FileStream _fileStream;
 
@@ -67,9 +67,10 @@ public class JsonPaletteService : IPaletteService
             Description = paletteModel.Description,
             Colors = []
         };
+        var nextColorId = GetNextColorId();
         foreach(var colorModel in paletteModel.Colors)
         {
-            var colorId = GetNextColorId();
+            var colorId = nextColorId;
             var color = new MiraiColorModel
             {
                 Id = colorId,
@@ -77,6 +78,7 @@ public class JsonPaletteService : IPaletteService
                 Color = colorModel.Color
             };
             palette.Colors.Add(color);
+            nextColorId++;
         }
         _palettes.Add(palette);
         await SaveToJsonAsync();

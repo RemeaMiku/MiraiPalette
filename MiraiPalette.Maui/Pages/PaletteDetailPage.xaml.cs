@@ -16,6 +16,8 @@ public partial class PaletteDetailPage : ContentPage
 
     private void Current_RequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
     {
+        if(Shell.Current?.CurrentPage != this)
+            return;
         _model.UnloadCommand.Execute(null);
         _model.LoadCommand.Execute(null);
     }

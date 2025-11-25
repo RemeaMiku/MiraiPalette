@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Window
+    x:Class="MiraiPalette.WinUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:MiraiPalette.WinUI"
+    xmlns:localization="using:MiraiPalette.WinUI.Strings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:MiraiPalette.WinUI.ViewModels"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:views="using:MiraiPalette.WinUI.Views"
+    x:Name="Window"
+    Title="{x:Bind ViewModel.Title, Mode=OneWay}"
+    SizeChanged="Window_SizeChanged"
+    mc:Ignorable="d">
+    <Window.SystemBackdrop>
+        <DesktopAcrylicBackdrop />
+    </Window.SystemBackdrop>
+    <Grid RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--  https://github.com/microsoft/microsoft-ui-xaml/issues/10374  -->
+        <TitleBar
+            x:Name="TitleBar"
+            Title="{x:Bind ViewModel.Title, Mode=OneWay}"
+            VerticalContentAlignment="Center"
+            BackRequested="TitleBar_BackRequested"
+            IsBackButtonVisible="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
+            PaneToggleRequested="TitleBar_PaneToggleRequested">
+            <TitleBar.LeftHeader>
+                <ImageIcon
+                    Height="16"
+                    Margin="16,0,8,0"
+                    Source="/Assets/MiraiPaletteLogo.ico" />
+            </TitleBar.LeftHeader>
+        </TitleBar>
+        <NavigationView
+            x:Name="MainNavigationView"
+            Grid.Row="1"
+            CompactModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
+            ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
+            IsBackButtonVisible="Collapsed"
+            IsPaneToggleButtonVisible="False"
+            SelectionChanged="MainNavigationView_SelectionChanged">
+            <NavigationView.MenuItems>
+                <NavigationViewItem
+                    Content="{x:Bind localization:Resources.AllPalettes, Mode=OneTime}"
+                    Icon="ViewAll"
+                    IsSelected="True" />
+            </NavigationView.MenuItems>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <controls:PropertySizer
+                    Background="{ThemeResource SystemControlPageBackgroundChromeMediumLowBrush}"
+                    Binding="{x:Bind MainNavigationView.OpenPaneLength, Mode=TwoWay}"
+                    Maximum="360"
+                    Minimum="50"
+                    Visibility="{x:Bind MainNavigationView.IsPaneOpen, Mode=OneWay}" />
+                <Frame
+                    x:Name="ContentFrame"
+                    Grid.Column="1"
+                    Background="{ThemeResource SystemControlPageBackgroundChromeMediumLowBrush}" />
+            </Grid>
+        </NavigationView>
+    </Grid>
+</Window>

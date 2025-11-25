@@ -19,7 +19,7 @@ namespace MiraiPalette.Maui.Resources.Globalization {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class StringResource {
@@ -84,6 +84,15 @@ namespace MiraiPalette.Maui.Resources.Globalization {
         internal static string AddNewPalette {
             get {
                 return ResourceManager.GetString("AddNewPalette", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 应用主题 的本地化字符串。
+        /// </summary>
+        internal static string AppTheme {
+            get {
+                return ResourceManager.GetString("AppTheme", resourceCulture);
             }
         }
         
@@ -160,6 +169,15 @@ namespace MiraiPalette.Maui.Resources.Globalization {
         }
         
         /// <summary>
+        ///   查找类似 深色模式 的本地化字符串。
+        /// </summary>
+        internal static string DarkMode {
+            get {
+                return ResourceManager.GetString("DarkMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 删除颜色 的本地化字符串。
         /// </summary>
         internal static string DeleteColor {
@@ -223,6 +241,15 @@ namespace MiraiPalette.Maui.Resources.Globalization {
         }
         
         /// <summary>
+        ///   查找类似 跟随系统 的本地化字符串。
+        /// </summary>
+        internal static string FollowSystem {
+            get {
+                return ResourceManager.GetString("FollowSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 首页 的本地化字符串。
         /// </summary>
         internal static string Home {
@@ -246,6 +273,15 @@ namespace MiraiPalette.Maui.Resources.Globalization {
         internal static string Language {
             get {
                 return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 浅色模式 的本地化字符串。
+        /// </summary>
+        internal static string LightMode {
+            get {
+                return ResourceManager.GetString("LightMode", resourceCulture);
             }
         }
         

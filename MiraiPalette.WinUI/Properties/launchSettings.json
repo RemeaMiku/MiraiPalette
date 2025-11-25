@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MiraiPalette.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MiraiPalette.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

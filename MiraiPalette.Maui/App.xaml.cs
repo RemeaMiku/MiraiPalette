@@ -1,4 +1,5 @@
 ﻿using MiraiPalette.Maui.Essentials;
+using MiraiPalette.Maui.Options;
 using MiraiPalette.Maui.Resources.Globalization;
 using MiraiPalette.Maui.Resources.Styles.Themes;
 
@@ -11,14 +12,19 @@ public partial class App : Application
         InitializeComponent();
     }
 
-    private void OnCurrentRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+    public new static App Current => (App)Application.Current!;
+
+    private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
     {
-        if(e.RequestedTheme == AppTheme.Unspecified)
-            return;
-        var dictionaries = Current!.Resources.MergedDictionaries;
+        ApplyTheme(e.RequestedTheme);
+    }
+
+    public void ApplyTheme(AppTheme theme)
+    {
+        var dictionaries = Resources.MergedDictionaries;
         var currentThemeDictionary = dictionaries.FirstOrDefault(d => d is not null && d.Source?.OriginalString.Contains("Themes") == true);
         dictionaries.Remove(currentThemeDictionary);
-        ResourceDictionary newThemeDictionary = e.RequestedTheme switch
+        ResourceDictionary newThemeDictionary = theme switch
         {
             AppTheme.Light => new LightTheme(),
             AppTheme.Dark => new DarkTheme(),
@@ -43,7 +49,9 @@ public partial class App : Application
     protected override void OnStart()
     {
         base.OnStart();
-        OnCurrentRequestedThemeChanged(this, new AppThemeChangedEventArgs(Current!.RequestedTheme));
-        Current!.RequestedThemeChanged += OnCurrentRequestedThemeChanged;
+        RequestedThemeChanged += OnRequestedThemeChanged;
+        var theme = Preferences.Default.Get(ThemeOptions.Key, ThemeOptions.Default);
+        UserAppTheme = ThemeOptions.ToAppTheme(theme);
+        ApplyTheme(RequestedTheme);
     }
 }

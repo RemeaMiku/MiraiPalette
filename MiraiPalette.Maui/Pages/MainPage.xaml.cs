@@ -14,6 +14,8 @@ public partial class MainPage : ContentPage
 
     private void Current_RequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
     {
+        if(Shell.Current?.CurrentPage != this)
+            return;
         _model.LoadCommand.Execute(null);
     }
 

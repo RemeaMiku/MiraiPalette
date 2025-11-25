@@ -78,26 +78,27 @@
                     <icons:MauiIcon Icon="{icons:Fluent Icon=MultiselectRtl24}"
                                     IconColor="{DynamicResource PrimaryText}" />
                 </Border>
-                <Label Margin="20,0,0,0"
-                       IsVisible="{Binding IsSelectionEnabled}"
-                       Text="{Binding SelectAllText}"
-                       VerticalTextAlignment="Center" />
+                <Label IsVisible="{Binding IsSelectionEnabled}"
+                       VerticalOptions="Center"
+                       Text="{Binding SelectAllText}" />
                 <CheckBox IsChecked="{Binding IsAllSelected}"
                           IsVisible="{Binding IsSelectionEnabled}" />
                 <Border attached:TapGesture.Command="{Binding AddNewPaletteCommand}"
+                        IsVisible="{Binding IsSelectionEnabled, Converter={toolkit:InvertedBoolConverter}}"
                         Style="{StaticResource ToolButtonBorderStyle}"
                         ToolTipProperties.Text="{Binding AddNewPaletteText}">
                     <icons:MauiIcon Icon="{icons:Fluent Icon=Add24}"
                                     IconColor="{DynamicResource PrimaryText}" />
                 </Border>
                 <Border attached:TapGesture.Command="{Binding ExtractPaletteFromImageCommand}"
+                        IsVisible="{Binding IsSelectionEnabled, Converter={toolkit:InvertedBoolConverter}}"
                         Style="{StaticResource ToolButtonBorderStyle}"
                         ToolTipProperties.Text="{Binding AddNewPaletteText}">
                     <icons:MauiIcon Icon="{icons:Fluent Icon=ImageArrowBack24}"
                                     IconColor="{DynamicResource PrimaryText}" />
                 </Border>
                 <Border attached:TapGesture.Command="{Binding DeletePalettesCommand}"
-                        IsVisible="{Binding IsSelectionEnabled}"
+                        IsVisible="{Binding IsSelectionEnabled}"                      
                         Style="{StaticResource ToolButtonBorderStyle}"
                         ToolTipProperties.Text="{Binding DeletePalettesText}">
                     <icons:MauiIcon Icon="{icons:Fluent Icon=Delete24}"

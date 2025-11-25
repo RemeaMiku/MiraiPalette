@@ -44,9 +44,10 @@ public static class MauiProgram
             .AddLocalization(options =>
             options.ResourcesPath = "Resources\\Globalization")
             .AddSingleton<MiraiPaletteDb, LocalSqliteMiraiPaletteDb>()
+            .AddSingleton(Preferences.Default)
             .AddSingleton<IColorRepository, ColorRepository>()
             .AddSingleton<IPaletteRepository, PaletteRepository>()
-            .AddSingleton<IPaletteService, DesignPaletteService>()
+            .AddSingleton<IPaletteService, JsonPaletteService>()
             .AddSingletonWithShellRoute<MainPage, MainPageModel>(ShellRoutes.MainPage)
             .AddTransientWithShellRoute<ImagePalettePage, ImagePalettePageModel>(ShellRoutes.ImagePalettePage)
             .AddSingletonWithShellRoute<OptionsPage, OptionsPageModel>(ShellRoutes.OptionsPage)

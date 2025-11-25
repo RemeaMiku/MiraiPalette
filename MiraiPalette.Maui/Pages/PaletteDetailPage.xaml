@@ -13,7 +13,7 @@
     x:Name="_page"
     Title=""
     x:DataType="pages:PaletteDetailPageModel"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="{OnIdiom Desktop={x:Static x:Boolean.FalseString},Default={x:Static x:Boolean.TrueString}}">
     <ContentPage.Resources>
         <Style x:Key="NameDescriptionEntryStyle" TargetType="Entry">
             <Setter Property="Keyboard" Value="Text" />
@@ -133,6 +133,15 @@
                         Style="{StaticResource SecondaryIconButtonBorderStyle}"
                         ToolTipProperties.Text="{Binding AddNewColorText}">
                     <icons:MauiIcon Icon="{icons:Fluent Icon=Add24}"
+                                    IconColor="{DynamicResource PrimaryText}"
+                                    Style="{StaticResource IconButtonMauiIconStyle}" />
+                </Border>
+                <Picker WidthRequest="100" Margin="5,3" ItemsSource="{Binding PaletteFileFormatOptions}" SelectedItem="{Binding SelectedPaletteFileFormat}"/>
+                <Border Margin="5"
+                        attached:TapGesture.Command="{Binding ExportPaletteCommand}"
+                        Style="{StaticResource SecondaryIconButtonBorderStyle}"
+                        >
+                    <icons:MauiIcon Icon="{icons:Fluent Icon=DocumentSave24}"
                                     IconColor="{DynamicResource PrimaryText}"
                                     Style="{StaticResource IconButtonMauiIconStyle}" />
                 </Border>

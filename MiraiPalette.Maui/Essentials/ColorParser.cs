@@ -2,7 +2,7 @@
 
 namespace MiraiPalette.Maui.Essentials;
 
-public static class ColorUtilities
+public static class ColorParser
 {
     private static bool TryParseInt(ReadOnlySpan<char> span, out int value)
     {

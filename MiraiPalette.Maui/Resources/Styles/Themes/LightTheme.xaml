@@ -8,8 +8,9 @@
     <Color x:Key="PrimaryText">#1A1A1A</Color>
     <Color x:Key="SecondaryText">#393939</Color>
 
+    <Color x:Key="FlyoutBackground">#39c5bb</Color>
     <Color x:Key="HoveredBackground">#55E5E5E5</Color>
-    <Color x:Key="PageBackground">#EEEEEE</Color>
+    <Color x:Key="PageBackground">#EEFFFF</Color>
     <Color x:Key="ToolbarBackground">#55AAAAAA</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush"
