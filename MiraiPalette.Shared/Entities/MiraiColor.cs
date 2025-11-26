@@ -11,4 +11,8 @@ public class MiraiColor
     public int PaletteId { get; set; }
 
     public Palette Palette { get; set; } = null!;
+
+    public DateTimeOffset CreateAt { get; set; }
+
+    public DateTimeOffset UpdateAt { get; set; }
 }

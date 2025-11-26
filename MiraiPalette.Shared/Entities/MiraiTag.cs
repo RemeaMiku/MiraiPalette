@@ -1,18 +1,14 @@
 ﻿namespace MiraiPalette.Shared.Entities;
 
-public class MiraiPalette
+public class MiraiTag
 {
     public int Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
 
-    public string Description { get; set; } = string.Empty;
+    public string ColorHex { get; set; } = string.Empty;
 
-    public List<Color> Colors { get; set; } = [];
-
-    public List<Tag> Tags { get; set; } = [];
-
-    public int FolderId { get; set; }
+    public List<Palette> Palettes { get; set; } = [];
 
     public DateTimeOffset CreateAt { get; set; }
 
