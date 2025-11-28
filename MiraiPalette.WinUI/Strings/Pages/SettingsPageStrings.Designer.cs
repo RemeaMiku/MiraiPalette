@@ -160,7 +160,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 RemeaMiku 的本地化字符串。
+        ///   查找类似 nʞᴉɯɐǝɯǝɹ 的本地化字符串。
         /// </summary>
         internal static string Developer_Header {
             get {
