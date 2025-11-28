@@ -13,7 +13,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:MiraiPalette.WinUI.ViewModels"
-    MinWidth="640"
     NavigationCacheMode="Disabled"
     mc:Ignorable="d">
     <Page.Resources>
@@ -21,7 +20,7 @@
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
                 CommandParameter="{Binding}"
-                Foreground="{StaticResource SystemFillColorCriticalBrush}"
+                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                 Icon="{ui:SymbolIcon Symbol=Delete}"
                 Text="{x:Bind localization:Resources.Delete, Mode=OneTime}" />
         </MenuFlyout>
@@ -49,15 +48,18 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-    <Grid Padding="16">
+    <Grid
+        Padding="8"
+        RowSpacing="4">
         <Grid.RowDefinitions>
             <RowDefinition
                 Height="*"
-                MinHeight="240" />
+                MinHeight="160" />
             <RowDefinition Height="Auto" />
             <RowDefinition
                 Height="*"
-                MinHeight="240" />
+                MinHeight="160" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid
             x:Name="ImagePanel"
@@ -123,14 +125,6 @@
                     Content="{ui:SymbolIcon Symbol=ZoomOut}"
                     Style="{StaticResource ToolButtonStyle}"
                     ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ZoomOutButton_Tooltip, Mode=OneTime}" />
-                <ToggleButton
-                    Padding="8"
-                    HorizontalAlignment="Center"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Content="{ui:FontIcon Glyph=&#xEF3C;}"
-                    IsChecked="{x:Bind ViewModel.IsPickingColor, Mode=TwoWay}"
-                    ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ColorPickerToggleButton_Tooltip, Mode=OneTime}" />
             </StackPanel>
             <StackPanel
                 x:Name="ColorPreviewPanel"
@@ -166,120 +160,147 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition
-                    Width="Auto"
-                    MinWidth="192" />
             </Grid.ColumnDefinitions>
-            <ListView
-                x:Name="AutoColorListView"
-                Margin="0,48,0,0"
-                Padding="8"
-                Background="{ThemeResource ControlFillColorDefaultBrush}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
-                IsItemClickEnabled="True"
-                ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                ItemsSource="{x:Bind ViewModel.AutoColors, Mode=OneWay}"
-                SelectionMode="Extended">
-                <i:Interaction.Behaviors>
-                    <i:EventTriggerBehavior EventName="SelectionChanged">
-                        <i:InvokeCommandAction
-                            Command="{x:Bind ViewModel.SelectAutoColorsCommand, Mode=OneTime}"
-                            CommandParameter="{x:Bind AutoColorListView.SelectedItems, Mode=OneTime}" />
-                    </i:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </ListView>
-            <ProgressRing Visibility="{x:Bind ViewModel.IsBusy, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <StackPanel
-                Padding="8"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
-                Orientation="Horizontal"
-                Spacing="8">
-                <FontIcon
-                    VerticalAlignment="Center"
-                    Glyph="&#xE9F5;" />
-                <TextBlock
-                    FontSize="{StaticResource SubtitleTextBlockFontSize}"
-                    Text="{x:Bind localization:ImagePalettePageStrings.AutoColorsList_Title, Mode=OneTime}" />
-                <Button
+            <Grid RowSpacing="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <controls:WrapPanel
                     Padding="4"
-                    Command="{x:Bind ViewModel.ClearAutoColorsCommand, Mode=OneTime}"
-                    Content="{ui:SymbolIcon Symbol=Clear}"
-                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                    Style="{StaticResource BorderlessTransparentButtonStyle}"
-                    ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ColorsListClearButton_Tooltip, Mode=OneTime}"
-                    Visibility="{x:Bind ViewModel.HasAutoColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-            </StackPanel>
-            <ListView
-                x:Name="ManualColorListView"
+                    HorizontalSpacing="8"
+                    Orientation="Horizontal"
+                    VerticalSpacing="4">
+                    <FontIcon
+                        VerticalAlignment="Center"
+                        Glyph="&#xE950;" />
+                    <TextBlock
+                        FontSize="{StaticResource SubtitleTextBlockFontSize}"
+                        Text="{x:Bind localization:ImagePalettePageStrings.AutoColorsList_Title, Mode=OneTime}" />
+                    <NumberBox
+                        Width="64"
+                        Margin="8,0,0,0"
+                        LargeChange="4"
+                        Maximum="{x:Bind ViewModel.MaximumColorCount, Mode=OneTime}"
+                        Minimum="{x:Bind ViewModel.MinimumColorCount, Mode=OneTime}"
+                        SmallChange="1"
+                        SpinButtonPlacementMode="Compact"
+                        ValueChanged="ColorCountNumberBox_ValueChanged"
+                        Value="{x:Bind ViewModel.ColorCount, Mode=TwoWay}" />
+                    <Button Command="{x:Bind ViewModel.ExtractPaletteCommand, Mode=OneTime}">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <SymbolIcon Symbol="Play" />
+                            <TextBlock
+                                FontSize="16"
+                                Text="{x:Bind localization:ImagePalettePageStrings.AutoExtractButton_Text, Mode=OneTime}" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Command="{x:Bind ViewModel.ClearAutoColorsCommand, Mode=OneTime}"
+                        Content="{ui:SymbolIcon Symbol=Clear}"
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                        ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ColorsListClearButton_Tooltip, Mode=OneTime}"
+                        Visibility="{x:Bind ViewModel.HasAutoColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                </controls:WrapPanel>
+                <ListView
+                    x:Name="AutoColorListView"
+                    Grid.Row="1"
+                    Padding="4,8"
+                    Background="{ThemeResource ControlFillColorDefaultBrush}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    IsItemClickEnabled="True"
+                    ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                    ItemsSource="{x:Bind ViewModel.AutoColors, Mode=OneWay}"
+                    SelectionMode="Extended">
+                    <i:Interaction.Behaviors>
+                        <i:EventTriggerBehavior EventName="SelectionChanged">
+                            <i:InvokeCommandAction
+                                Command="{x:Bind ViewModel.SelectAutoColorsCommand, Mode=OneTime}"
+                                CommandParameter="{x:Bind AutoColorListView.SelectedItems, Mode=OneTime}" />
+                        </i:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ListView>
+            </Grid>
+            <Grid
                 Grid.Column="1"
-                Margin="0,48,0,0"
-                Padding="0,8"
-                Background="{ThemeResource ControlFillColorDefaultBrush}"
-                CornerRadius="{StaticResource ControlCornerRadius}"
-                IsItemClickEnabled="True"
-                ItemTemplate="{StaticResource MiraiColorItemTemplate}"
-                ItemsSource="{x:Bind ViewModel.ManualColors, Mode=OneTime}"
-                SelectionMode="Extended">
-                <i:Interaction.Behaviors>
-                    <i:EventTriggerBehavior EventName="SelectionChanged">
-                        <i:InvokeCommandAction
-                            Command="{x:Bind ViewModel.SelectManualColorsCommand, Mode=OneTime}"
-                            CommandParameter="{x:Bind ManualColorListView.SelectedItems, Mode=OneTime}" />
-                    </i:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
-            </ListView>
-            <StackPanel
-                Grid.Column="1"
-                Padding="8"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Orientation="Horizontal"
-                Spacing="8">
-                <FontIcon
-                    VerticalAlignment="Center"
-                    Glyph="&#xEF3C;" />
-                <TextBlock
-                    VerticalAlignment="Center"
-                    FontSize="{StaticResource SubtitleTextBlockFontSize}"
-                    Text="{x:Bind localization:ImagePalettePageStrings.ManualColorsList_Title, Mode=OneTime}" />
-                <Button
+                RowSpacing="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <controls:WrapPanel
                     Padding="4"
-                    Command="{x:Bind ViewModel.ClearManualColorsCommand, Mode=OneTime}"
-                    Content="{ui:SymbolIcon Symbol=Clear}"
-                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                    Style="{StaticResource BorderlessTransparentButtonStyle}"
-                    ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ColorsListClearButton_Tooltip, Mode=OneTime}"
-                    Visibility="{x:Bind ViewModel.HasManualColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-            </StackPanel>
-            <StackPanel
-                Grid.Column="2"
-                Padding="16"
-                VerticalAlignment="Center"
-                Orientation="Vertical"
-                Spacing="16">
-                <NumberBox
-                    Header="{x:Bind localization:ImagePalettePageStrings.AutoColorsCountSetting_Header, Mode=OneTime}"
-                    LargeChange="10"
-                    Maximum="{x:Bind ViewModel.MaximumColorCount, Mode=OneTime}"
-                    Minimum="{x:Bind ViewModel.MinimumColorCount, Mode=OneTime}"
-                    SmallChange="1"
-                    SpinButtonPlacementMode="Inline"
-                    ValueChanged="ColorCountNumberBox_ValueChanged"
-                    Value="{x:Bind ViewModel.ColorCount, Mode=TwoWay}" />
-                <Button
-                    HorizontalAlignment="Stretch"
-                    Command="{x:Bind ViewModel.ExtractPaletteCommand, Mode=OneTime}"
-                    Content="{x:Bind localization:ImagePalettePageStrings.AutoExtractButton_Text, Mode=OneTime}" />
-                <Button
-                    x:Name="CompleteButton"
-                    Margin="0,32,0,0"
-                    HorizontalAlignment="Stretch"
-                    Command="{x:Bind ViewModel.SavePaletteCommand, Mode=OneTime}"
-                    Content="{x:Bind localization:Resources.Complete, Mode=OneTime}"
-                    IsEnabled="{x:Bind ViewModel.CanSavePalette, Mode=OneWay}"
-                    Style="{StaticResource AccentButtonStyle}" />
-            </StackPanel>
+                    HorizontalSpacing="8"
+                    Orientation="Horizontal"
+                    VerticalSpacing="4">
+                    <FontIcon
+                        VerticalAlignment="Center"
+                        Glyph="&#xE77B;" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="{StaticResource SubtitleTextBlockFontSize}"
+                        Text="{x:Bind localization:ImagePalettePageStrings.ManualColorsList_Title, Mode=OneTime}" />
+                    <ToggleButton IsChecked="{x:Bind ViewModel.IsPickingColor, Mode=TwoWay}">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <FontIcon Glyph="&#xEF3C;" />
+                            <TextBlock
+                                FontSize="16"
+                                Text="{x:Bind localization:ImagePalettePageStrings.ColorPickerToggleButton_Text, Mode=OneTime}" />
+                        </StackPanel>
+                    </ToggleButton>
+                    <Button
+                        Command="{x:Bind ViewModel.ClearManualColorsCommand, Mode=OneTime}"
+                        Content="{ui:SymbolIcon Symbol=Clear}"
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                        ToolTipService.ToolTip="{x:Bind localization:ImagePalettePageStrings.ColorsListClearButton_Tooltip, Mode=OneTime}"
+                        Visibility="{x:Bind ViewModel.HasManualColors, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                </controls:WrapPanel>
+                <ListView
+                    x:Name="ManualColorListView"
+                    Grid.Row="1"
+                    Padding="4,8"
+                    Background="{ThemeResource ControlFillColorDefaultBrush}"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    IsItemClickEnabled="True"
+                    ItemTemplate="{StaticResource MiraiColorItemTemplate}"
+                    ItemsSource="{x:Bind ViewModel.ManualColors, Mode=OneTime}"
+                    SelectionMode="Extended">
+                    <i:Interaction.Behaviors>
+                        <i:EventTriggerBehavior EventName="SelectionChanged">
+                            <i:InvokeCommandAction
+                                Command="{x:Bind ViewModel.SelectManualColorsCommand, Mode=OneTime}"
+                                CommandParameter="{x:Bind ManualColorListView.SelectedItems, Mode=OneTime}" />
+                        </i:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </ListView>
+            </Grid>
         </Grid>
+        <StackPanel
+            Grid.Row="3"
+            Padding="4"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="4">
+            <Button
+                x:Name="CompleteButton"
+                Width="120"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind ViewModel.SavePaletteCommand, Mode=OneTime}"
+                IsEnabled="{x:Bind ViewModel.CanSavePalette, Mode=OneWay}"
+                Style="{StaticResource AccentButtonStyle}">
+                <Button.Content>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="4">
+                        <FontIcon Glyph="&#xE73E;" />
+                        <TextBlock Text="{x:Bind localization:Resources.Complete, Mode=OneTime}" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

@@ -61,7 +61,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 设置自动提取颜色数： 的本地化字符串。
+        ///   查找类似 个数： 的本地化字符串。
         /// </summary>
         internal static string AutoColorsCountSetting_Header {
             get {
@@ -70,7 +70,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 自动提取 的本地化字符串。
+        ///   查找类似 自动 的本地化字符串。
         /// </summary>
         internal static string AutoColorsList_Title {
             get {
@@ -88,11 +88,11 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 开关手动像素颜色提取 的本地化字符串。
+        ///   查找类似 拾取像素颜色 的本地化字符串。
         /// </summary>
-        internal static string ColorPickerToggleButton_Tooltip {
+        internal static string ColorPickerToggleButton_Text {
             get {
-                return ResourceManager.GetString("ColorPickerToggleButton.Tooltip", resourceCulture);
+                return ResourceManager.GetString("ColorPickerToggleButton.Text", resourceCulture);
             }
         }
         
@@ -124,7 +124,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 手动提取 的本地化字符串。
+        ///   查找类似 手动 的本地化字符串。
         /// </summary>
         internal static string ManualColorsList_Title {
             get {

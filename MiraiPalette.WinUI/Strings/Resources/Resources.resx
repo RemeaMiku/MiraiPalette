@@ -117,41 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>新建</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>删除</value>
+  <data name="Accept" xml:space="preserve">
+    <value>接受</value>
   </data>
   <data name="AllPalettes" xml:space="preserve">
     <value>全部调色板</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>设置</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
   </data>
-  <data name="DefaultColorName" xml:space="preserve">
-    <value>新颜色</value>
+  <data name="ClearSelection" xml:space="preserve">
+    <value>清除选择</value>
   </data>
-  <data name="Import" xml:space="preserve">
-    <value>导入</value>
-  </data>
-  <data name="DefaultPaletteTitle" xml:space="preserve">
-    <value>新建调色板</value>
+  <data name="Complete" xml:space="preserve">
+    <value>完成</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>确认</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+  <data name="Copied" xml:space="preserve">
+    <value>已复制</value>
   </data>
-  <data name="Accept" xml:space="preserve">
-    <value>接受</value>
+  <data name="Create" xml:space="preserve">
+    <value>新建</value>
   </data>
-  <data name="Reset" xml:space="preserve">
-    <value>重置</value>
+  <data name="DefaultColorName" xml:space="preserve">
+    <value>新颜色</value>
   </data>
-  <data name="SaveAs" xml:space="preserve">
-    <value>另存为</value>
+  <data name="DefaultPaletteTitle" xml:space="preserve">
+    <value>新建调色板</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
   </data>
   <data name="Export" xml:space="preserve">
     <value>导出</value>
@@ -159,28 +159,31 @@
   <data name="Extract" xml:space="preserve">
     <value>提取</value>
   </data>
-  <data name="SelectAll" xml:space="preserve">
-    <value>全选</value>
-  </data>
-  <data name="ClearSelection" xml:space="preserve">
-    <value>清除选择</value>
-  </data>
-  <data name="Remove" xml:space="preserve">
-    <value>移除</value>
+  <data name="Import" xml:space="preserve">
+    <value>导入</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>多选</value>
   </data>
-  <data name="Complete" xml:space="preserve">
-    <value>完成</value>
-  </data>
   <data name="Open" xml:space="preserve">
     <value>打开</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>编辑</value>
+  <data name="Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>重置</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>另存为</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>设置</value>
   </data>
 </root>
