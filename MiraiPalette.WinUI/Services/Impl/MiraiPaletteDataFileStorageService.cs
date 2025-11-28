@@ -15,9 +15,9 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
 
     private static readonly string _filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Mirai Palette");
 
-    private const string _headerFormat = "MIRAI_PALETTE_DATA_v{0}";
+    private const string _headerPrefix = "MIRAI_PALETTE_DATA_v";
 
-    private const string _version = "1.0";
+    private const int _latestVersion = 2;
 
     private readonly Dictionary<int, PaletteEntity> _palettes = [];
 
@@ -29,7 +29,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
     void SaveFile()
     {
         var builder = new StringBuilder();
-        builder.AppendLine(string.Format(_headerFormat, _version));
+        builder.AppendLine(_headerPrefix + _latestVersion);
         builder.AppendLine();
         foreach((var id, var palette) in _palettes)
         {
@@ -52,6 +52,11 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         File.WriteAllText(fullPath, content);
     }
 
+    void ReadTags()
+    {
+
+    }
+
     void ReadFile()
     {
         if(!Directory.Exists(_filePath))
@@ -68,8 +73,9 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         if(lines.Length == 0)
             return;
         var header = lines[0];
-        if(header != string.Format(_headerFormat, _version))
+        if(!header.StartsWith(_headerPrefix))
             return;
+        var version = (int)double.Parse(new string([.. header.Skip(header.Length - _headerPrefix.Length)]));
         for(int i = 1; i < lines.Length; i++)
         {
             var line = lines[i];
@@ -77,7 +83,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
                 continue;
             if(line.StartsWith("ID:", StringComparison.CurrentCultureIgnoreCase))
             {
-                var idStr = line.Substring(3).Trim();
+                var idStr = line[3..].Trim();
                 if(!int.TryParse(idStr, out int id))
                     continue;
                 var title = lines[++i].Trim();

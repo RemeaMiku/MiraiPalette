@@ -4,9 +4,15 @@ public class MiraiPalette
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; } = null!;
+    public string? Description { get; set; }
 
-    public string Description { get; set; } = string.Empty;
+    public DateTimeOffset CreateAt { get; set; }
+    public DateTimeOffset UpdateAt { get; set; }
 
-    public List<Color> Colors { get; set; } = [];
+    public int? FolderId { get; set; }
+    public MiraiFolder? Folder { get; set; }
+
+    public List<MiraiColor> Colors { get; set; } = [];
+    public List<MiraiTag> Tags { get; set; } = [];
 }
