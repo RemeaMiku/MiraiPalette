@@ -6,9 +6,8 @@ public class MiraiFolder
 
     public string Name { get; set; } = string.Empty;
 
-    public List<Palette> Palettes { get; set; } = [];
-
     public DateTimeOffset CreateAt { get; set; }
-
     public DateTimeOffset UpdateAt { get; set; }
+
+    public List<MiraiPalette> Palettes { get; set; } = [];
 }

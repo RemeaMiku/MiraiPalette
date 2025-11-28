@@ -4,15 +4,9 @@ public class MiraiColor
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = string.Empty;
-
-    public string Hex { get; set; } = string.Empty;
+    public string? Name { get; set; }
+    public string Hex { get; set; } = null!;
 
     public int PaletteId { get; set; }
-
-    public Palette Palette { get; set; } = null!;
-
-    public DateTimeOffset CreateAt { get; set; }
-
-    public DateTimeOffset UpdateAt { get; set; }
+    public MiraiPalette Palette { get; set; } = null!;
 }

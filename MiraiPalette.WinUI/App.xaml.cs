@@ -4,11 +4,13 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.Storage.Pickers;
+using MiraiPalette.WinUI.Data;
 using MiraiPalette.WinUI.Essentials;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Impl;
@@ -37,6 +39,7 @@ public partial class App : Application
     static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection()
+            .AddDbContext<LocalMiraiPaletteDb>(options => options.UseSqlite())
             .AddSingleton<IMiraiPaletteStorageService, MiraiPaletteDataFileStorageService>()
             .AddSingleton<IPaletteFileService, PaletteFileService>()
             .AddSingleton<ISettingsService, LocalSettingsService>()
