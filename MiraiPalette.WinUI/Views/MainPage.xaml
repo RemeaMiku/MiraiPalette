@@ -55,7 +55,7 @@
                 ContextFlyout="{StaticResource MiraiPaletteItemContextFlyout}"
                 IsRightTapEnabled="True"
                 IsSelected="{x:Bind IsSelected, Mode=OneWay}"
-                ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
+                ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="RightTapped">
                         <interactivity:InvokeCommandAction
@@ -78,7 +78,7 @@
                             Margin="8,4,8,0"
                             MaxLines="1"
                             Style="{StaticResource TitleTextBlockStyle}"
-                            Text="{x:Bind Title, Mode=OneWay}"
+                            Text="{x:Bind Name, Mode=OneWay}"
                             TextTrimming="CharacterEllipsis" />
                         <TextBlock
                             Grid.Row="1"

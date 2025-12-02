@@ -17,7 +17,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
 
     private const string _headerPrefix = "MIRAI_PALETTE_DATA_v";
 
-    private const int _latestVersion = 2;
+    private const int _latestVersion = 1;
 
     private readonly Dictionary<int, PaletteEntity> _palettes = [];
 
@@ -50,11 +50,6 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         }
         var fullPath = Path.Combine(_filePath, _fileName);
         File.WriteAllText(fullPath, content);
-    }
-
-    void ReadTags()
-    {
-
     }
 
     void ReadFile()
@@ -132,7 +127,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         var entity = new PaletteEntity
         {
             Id = palette.Id,
-            Name = palette.Title,
+            Name = palette.Name,
             Description = palette.Description,
             Colors = entityColors
         };
@@ -170,7 +165,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
             var entity = new PaletteEntity
             {
                 Id = palette.Id,
-                Name = palette.Title,
+                Name = palette.Name,
                 Description = palette.Description,
                 Colors = entityColors
             };
@@ -189,4 +184,13 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         SaveFile();
         return Task.CompletedTask;
     }
+
+    public Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync() => throw new NotImplementedException();
+    public Task<FolderViewModel?> GetFolderAsync(int id) => throw new NotImplementedException();
+    public Task UpdateFolderAsync(FolderViewModel folder) => throw new NotImplementedException();
+    public Task DeleteFolderAsync(int id) => throw new NotImplementedException();
+    public Task<IEnumerable<TagViewModel>> GetAllTagsAsync() => throw new NotImplementedException();
+    public Task<TagViewModel?> GetTagAsync(int id) => throw new NotImplementedException();
+    public Task UpdateTagAsync(TagViewModel tag) => throw new NotImplementedException();
+    public Task DeleteTagAsync(int id) => throw new NotImplementedException();
 }

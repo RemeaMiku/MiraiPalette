@@ -29,7 +29,7 @@ public partial class ColorViewModel : ObservableObject
     public ColorViewModel(ColorEntity entity)
     {
         Id = entity.Id;
-        Name = entity.Name;
+        Name = entity.Name ?? string.Empty;
         Color = entity.Hex.ToColor();
     }
 }

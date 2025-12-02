@@ -47,13 +47,13 @@ public class AcoColor
     /// <param name="b">Blue component (0..255)</param>
     /// <param name="name">Optional name for the color</param>
     /// <returns>An AcoColor representing the specified RGB color</returns>
-    public static AcoColor FromRgb(byte r, byte g, byte b, string name = "")
+    public static AcoColor FromRgb(byte r, byte g, byte b, string? name = default)
     {
         return new()
         {
             ColorSpace = ColorSpaceRgb,
             Components = [(ushort)(r * 257), (ushort)(g * 257), (ushort)(b * 257), 0],
-            Name = name
+            Name = name ?? string.Empty
         };
     }
 
@@ -77,7 +77,7 @@ public class AcoColor
     /// <param name="hex">Hexadecimal color string (e.g. #RRGGBB)</param>
     /// <param name="name">Optional name for the color</param>
     /// <returns>An AcoColor representing the specified RGB color</returns>
-    public static AcoColor FromHex(string hex, string name = "")
+    public static AcoColor FromHex(string hex, string? name = default)
     {
         hex = hex.TrimStart('#');
         if(hex.Length != 6)

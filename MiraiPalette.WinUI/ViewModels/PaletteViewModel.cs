@@ -9,29 +9,36 @@ public partial class PaletteViewModel : ObservableObject
     public int Id { get; set; }
 
     [ObservableProperty]
-    public partial string Title { get; set; } = string.Empty;
+    public partial string Name { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string Description { get; set; } = string.Empty;
 
-    public ObservableCollection<ColorViewModel> Colors { get; set; } = [];
+    public ObservableCollection<ColorViewModel> Colors { get; init; } = [];
+
+    [ObservableProperty]
+    public partial int? FolderId { get; set; }
+
+    public ObservableCollection<int> TagIds { get; init; } = [];
 
     [ObservableProperty]
     public partial bool IsSelected { get; set; }
 
     public PaletteViewModel()
     {
-        
+
     }
 
     public PaletteViewModel(PaletteEntity entity)
     {
         Id = entity.Id;
-        Title = entity.Name;
-        Description = entity.Description;
-        Colors = new ObservableCollection<ColorViewModel>(entity.Colors.Select(c => new ColorViewModel(c)));
+        Name = entity.Name;
+        Description = entity.Description ?? string.Empty;
+        Colors = new(entity.Colors.Select(c => new ColorViewModel(c)));
+        FolderId = entity.FolderId;
+        TagIds = new(entity.Tags.Select(t => t.Id));
     }
 
     public override string ToString()
-        => Title;
+        => Name;
 }

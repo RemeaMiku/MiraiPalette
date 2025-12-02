@@ -91,13 +91,13 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
 
     private async void Palette_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if(e.PropertyName is nameof(PaletteViewModel.Title) && string.IsNullOrWhiteSpace(Palette.Title))
+        if(e.PropertyName is nameof(PaletteViewModel.Name) && string.IsNullOrWhiteSpace(Palette.Name))
         {
-            var title = (await _miraiPaletteStorageService.GetPaletteAsync(Palette.Id))!.Title;
-            Palette.Title = title;
+            var title = (await _miraiPaletteStorageService.GetPaletteAsync(Palette.Id))!.Name;
+            Palette.Name = title;
             return;
         }
-        if(e.PropertyName is nameof(PaletteViewModel.Title) or nameof(PaletteViewModel.Description))
+        if(e.PropertyName is nameof(PaletteViewModel.Name) or nameof(PaletteViewModel.Description))
             UpdatePaletteCommand.Execute(null);
     }
 
@@ -141,7 +141,7 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
     [RelayCommand]
     async Task ExportPalette()
     {
-        var path = await Current.PickPathToSave(Palette.Title, SaveFileStrings.PaletteFile_Commit, _paletteFileService.SupportedExportFileTypes);
+        var path = await Current.PickPathToSave(Palette.Name, SaveFileStrings.PaletteFile_Commit, _paletteFileService.SupportedExportFileTypes);
         if(path is null)
             return;
         try
@@ -253,7 +253,7 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
     [RelayCommand]
     async Task DeletePalette()
     {
-        var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, Palette.Title));
+        var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, Palette.Name));
         if(!isConfirmed)
             return;
         IsBusy = true;

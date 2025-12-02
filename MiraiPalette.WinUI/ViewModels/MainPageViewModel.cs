@@ -128,7 +128,7 @@ public partial class MainPageViewModel : PageViewModelBase
             if(SelectedPalettes.Count == 1)
             {
                 title = DeleteConfirmStrings.SinglePalette_Title;
-                message = string.Format(DeleteConfirmStrings.SinglePalette_Message, SelectedPalettes[0].Title);
+                message = string.Format(DeleteConfirmStrings.SinglePalette_Message, SelectedPalettes[0].Name);
             }
             else
             {
@@ -144,7 +144,7 @@ public partial class MainPageViewModel : PageViewModelBase
         }
         else
         {
-            var confirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, palette.Title));
+            var confirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, palette.Name));
             if(!confirmed)
                 return;
             IsBusy = true;
@@ -176,7 +176,7 @@ public partial class MainPageViewModel : PageViewModelBase
         IsMultiSelectMode = false;
         var newPalette = new PaletteViewModel()
         {
-            Title = Resources.DefaultPaletteTitle,
+            Name = Resources.DefaultPaletteTitle,
             Description = string.Empty,
             Colors = []
         };

@@ -154,7 +154,7 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     {
         var palette = new PaletteViewModel
         {
-            Title = Path.GetFileNameWithoutExtension(ImagePath),
+            Name = Path.GetFileNameWithoutExtension(ImagePath),
             Description = string.Format(ImagePalettePageStrings.ImagePaletteDescription, ImagePath),
             Colors = [.. AutoColors, .. ManualColors]
         };

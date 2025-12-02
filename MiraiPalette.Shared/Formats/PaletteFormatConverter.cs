@@ -18,7 +18,7 @@ public static class PaletteFormatConverter
             };
     }
 
-    extension(Palette palette)
+    extension(Entities.MiraiPalette palette)
     {
         public AcoFile CreateAcoFile()
         {
@@ -29,7 +29,7 @@ public static class PaletteFormatConverter
             return acoFile;
         }
 
-        public static Palette FromAcoFile(AcoFile acoFile) =>
+        public static Entities.MiraiPalette FromAcoFile(AcoFile acoFile) =>
             new()
             {
                 Colors = [.. acoFile.Colors.Select(FromAcoColor)]

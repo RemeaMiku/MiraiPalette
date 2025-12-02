@@ -156,9 +156,9 @@
                                 IsEnabled="{x:Bind ViewModel.IsNotBusy, Mode=OneWay}"
                                 PlaceholderText="{x:Bind localization:PaletteDetailPageStrings.PaletteTitle_Placeholder}"
                                 Style="{StaticResource TransparentBorderlessTextBox}"
-                                Text="{x:Bind ViewModel.Palette.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                Text="{x:Bind ViewModel.Palette.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                 TextAlignment="Left"
-                                ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.PaletteTitle_Tooltip, ViewModel.Palette.Title), Mode=OneWay}" />
+                                ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.PaletteTitle_Tooltip, ViewModel.Palette.Name), Mode=OneWay}" />
                             <TextBox
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"

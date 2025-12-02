@@ -45,7 +45,7 @@ public class PaletteFileService : IPaletteFileService
                 var palette = PaletteFormatConverter.FromAcoFile(acoFile);
                 return new PaletteViewModel(palette)
                 {
-                    Title = Path.GetFileNameWithoutExtension(path),
+                    Name = Path.GetFileNameWithoutExtension(path),
                 };
             default:
                 return null;

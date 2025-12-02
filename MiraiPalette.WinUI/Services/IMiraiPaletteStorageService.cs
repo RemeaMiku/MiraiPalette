@@ -6,6 +6,9 @@ namespace MiraiPalette.WinUI.Services;
 
 public interface IMiraiPaletteStorageService
 {
+
+    #region Basic MiraiPalette Crud
+
     public Task<IEnumerable<PaletteViewModel>> GetAllPalettesAsync();
 
     public Task<PaletteViewModel?> GetPaletteAsync(int paletteId);
@@ -17,4 +20,22 @@ public interface IMiraiPaletteStorageService
     public Task DeletePaletteAsync(int paletteId);
 
     public Task DeletePalettesAsync(IEnumerable<int> paletteIds);
+
+    #endregion
+
+    public Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync();
+
+    public Task<FolderViewModel?> GetFolderAsync(int id);
+
+    public Task UpdateFolderAsync(FolderViewModel folder);
+
+    public Task DeleteFolderAsync(int id);
+
+    public Task<IEnumerable<TagViewModel>> GetAllTagsAsync();
+
+    public Task<TagViewModel?> GetTagAsync(int id);
+
+    public Task UpdateTagAsync(TagViewModel tag);
+
+    public Task DeleteTagAsync(int id);
 }
