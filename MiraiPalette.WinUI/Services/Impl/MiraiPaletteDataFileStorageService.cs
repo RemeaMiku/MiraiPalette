@@ -11,7 +11,7 @@ namespace MiraiPalette.WinUI.Services.Impl;
 
 public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
 {
-    private const string _fileName = "palettes.mpd";
+    public const string FileName = "palettes.mpd";
 
     private static readonly string _filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Mirai Palette");
 
@@ -48,7 +48,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         {
             Directory.CreateDirectory(_filePath);
         }
-        var fullPath = Path.Combine(_filePath, _fileName);
+        var fullPath = Path.Combine(_filePath, FileName);
         File.WriteAllText(fullPath, content);
     }
 
@@ -58,7 +58,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         {
             Directory.CreateDirectory(_filePath);
         }
-        var fullPath = Path.Combine(_filePath, _fileName);
+        var fullPath = Path.Combine(_filePath, FileName);
         if(!File.Exists(fullPath))
         {
             SaveFile();

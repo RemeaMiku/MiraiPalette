@@ -25,17 +25,21 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
             Directory.CreateDirectory(DbFolderPath);
         _db.Database.Migrate();
 
-        MpdFileToDb();
+        if(File.Exists(Path.Combine(DbFolderPath, MiraiPaletteDataFileStorageService.FileName)))
+            MpdFileToDb();
     }
 
+    //TODO 临时数据迁移
     private void MpdFileToDb()
     {
         var service = new MiraiPaletteDataFileStorageService();
         foreach(var palette in service.GetAllPalettesAsync().Result)
         {
+            service.DeletePaletteAsync(palette.Id);
             palette.Id = 0;
             _ = AddPaletteAsync(palette);
         }
+        File.Delete(Path.Combine(DbFolderPath, MiraiPaletteDataFileStorageService.FileName));
     }
 
     private readonly MiraiPaletteDb _db;
