@@ -1,13 +1,15 @@
-﻿namespace MiraiPalette.Shared.Entities;
+﻿using MiraiPalette.Shared.Entities.Abstract;
 
-public class MiraiFolder
+namespace MiraiPalette.Shared.Entities;
+
+public class MiraiFolder : IHasTimeStamp
 {
     public int Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
 
-    public DateTimeOffset CreateAt { get; set; }
-    public DateTimeOffset UpdateAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     public List<MiraiPalette> Palettes { get; set; } = [];
 }

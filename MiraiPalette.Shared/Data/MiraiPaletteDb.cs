@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiraiPalette.Shared.Entities;
+using MiraiPalette.Shared.Entities.Abstract;
 
 namespace MiraiPalette.Shared.Data;
 
@@ -88,16 +89,16 @@ public abstract class MiraiPaletteDb : DbContext
 
     private void UpdateTimestamps()
     {
-        var now = DateTime.UtcNow;
+        var now = DateTimeOffset.UtcNow;
         foreach(var entry in ChangeTracker.Entries())
         {
-            if(entry.Entity is Entities.MiraiPalette or MiraiTag or MiraiFolder)
+            if(entry.Entity is IHasTimeStamp)
             {
                 if(entry.State == EntityState.Added)
-                    entry.Property("CreatedAt").CurrentValue = now;
+                    entry.Property(nameof(IHasTimeStamp.CreatedAt)).CurrentValue = now;
 
                 if(entry.State is EntityState.Added or EntityState.Modified)
-                    entry.Property("UpdatedAt").CurrentValue = now;
+                    entry.Property(nameof(IHasTimeStamp.UpdatedAt)).CurrentValue = now;
             }
         }
     }

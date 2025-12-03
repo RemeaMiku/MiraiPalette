@@ -18,8 +18,8 @@ namespace MiraiPalette.Shared.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    CreateAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdateAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,8 +34,8 @@ namespace MiraiPalette.Shared.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     ColorHex = table.Column<string>(type: "TEXT", nullable: false),
-                    CreateAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdateAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,8 +50,8 @@ namespace MiraiPalette.Shared.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CreateAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    UpdateAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
                     FolderId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>

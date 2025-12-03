@@ -1,14 +1,16 @@
-﻿namespace MiraiPalette.Shared.Entities;
+﻿using MiraiPalette.Shared.Entities.Abstract;
 
-public class MiraiTag
+namespace MiraiPalette.Shared.Entities;
+
+public class MiraiTag : IHasTimeStamp
 {
     public int Id { get; set; }
 
     public string Name { get; set; } = null!;
     public string ColorHex { get; set; } = null!;
 
-    public DateTimeOffset CreateAt { get; set; }
-    public DateTimeOffset UpdateAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     public List<MiraiPalette> Palettes { get; set; } = [];
 }

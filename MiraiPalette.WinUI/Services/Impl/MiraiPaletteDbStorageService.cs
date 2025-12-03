@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +11,22 @@ using MiraiPalette.WinUI.ViewModels;
 
 namespace MiraiPalette.WinUI.Services.Impl;
 
-public class MiraiPaletteDbStorageService(MiraiPaletteDb db) : IMiraiPaletteStorageService
+public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 {
-    private readonly MiraiPaletteDb _db = db;
+
+    public static string DbName { get; } = "mirai_palette.db";
+
+    public static string DbFolderPath { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Mirai Palette");
+
+    public MiraiPaletteDbStorageService(MiraiPaletteDb db)
+    {
+        _db = db;
+        if(!Directory.Exists(DbFolderPath))
+            Directory.CreateDirectory(DbFolderPath);
+        _db.Database.Migrate();
+    }
+
+    private readonly MiraiPaletteDb _db;
 
     public async Task<IEnumerable<PaletteViewModel>> GetAllPalettesAsync()
     {
@@ -133,7 +147,7 @@ public class MiraiPaletteDbStorageService(MiraiPaletteDb db) : IMiraiPaletteStor
     public async Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync()
     {
         var list = await _db.Folders
-            .OrderBy(f => f.CreateAt)
+            .OrderBy(f => f.CreatedAt)
             .ToListAsync();
 
         return list.Select(MiraiFolderMapper.ToViewModel);
@@ -170,7 +184,7 @@ public class MiraiPaletteDbStorageService(MiraiPaletteDb db) : IMiraiPaletteStor
     public async Task<IEnumerable<TagViewModel>> GetAllTagsAsync()
     {
         var list = await _db.Tags
-            .OrderBy(t => t.CreateAt)
+            .OrderBy(t => t.CreatedAt)
             .ToListAsync();
 
         return list.Select(MiraiTagMapper.ToViewModel);
