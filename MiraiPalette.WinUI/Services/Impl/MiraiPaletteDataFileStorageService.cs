@@ -70,7 +70,6 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         var header = lines[0];
         if(!header.StartsWith(_headerPrefix))
             return;
-        var version = (int)double.Parse(new string([.. header.Skip(header.Length - _headerPrefix.Length)]));
         for(int i = 1; i < lines.Length; i++)
         {
             var line = lines[i];

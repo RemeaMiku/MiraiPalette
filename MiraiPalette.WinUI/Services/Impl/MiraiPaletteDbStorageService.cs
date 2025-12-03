@@ -24,6 +24,18 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
         if(!Directory.Exists(DbFolderPath))
             Directory.CreateDirectory(DbFolderPath);
         _db.Database.Migrate();
+
+        MpdFileToDb();
+    }
+
+    private void MpdFileToDb()
+    {
+        var service = new MiraiPaletteDataFileStorageService();
+        foreach(var palette in service.GetAllPalettesAsync().Result)
+        {
+            palette.Id = 0;
+            _ = AddPaletteAsync(palette);
+        }
     }
 
     private readonly MiraiPaletteDb _db;
@@ -54,13 +66,7 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 
         // Colors
         foreach(var c in model.Colors)
-        {
-            entity.Colors.Add(new MiraiColor
-            {
-                Name = c.Name,
-                Hex = c.Hex
-            });
-        }
+            entity.Colors.Add(new MiraiColor().FromViewModel(c));
 
         // Tags: 多对多
         if(model.TagIds.Count > 0)
@@ -95,13 +101,7 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
         //
         entity.Colors.Clear();
         foreach(var c in model.Colors)
-        {
-            entity.Colors.Add(new MiraiColor
-            {
-                Name = c.Name,
-                Hex = c.Hex
-            });
-        }
+            entity.Colors.Add(new MiraiColor().FromViewModel(c));
 
         //
         // 更新 Tags（多对多：重新绑定）
