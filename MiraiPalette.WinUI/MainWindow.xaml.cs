@@ -60,13 +60,13 @@ public sealed partial class MainWindow : Window
             App.Current.NavigateTo(NavigationTarget.Settings);
             return;
         }
-        var selectedItem = args.SelectedItem as NavigationViewItem;
-        switch(selectedItem?.Tag)
-        {
-            // 临时
-            case null:
-                App.Current.NavigateTo(NavigationTarget.Main);
-                break;
-        }
+        //var selectedItem = args.SelectedItem as NavigationViewItem;
+        //switch(selectedItem?.Tag)
+        //{
+        //    // 临时
+        //    case null:
+        //        App.Current.NavigateTo(NavigationTarget.Main);
+        //        break;
+        //}
     }
 }

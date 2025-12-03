@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:MiraiPalette.WinUI"
     xmlns:localization="using:MiraiPalette.WinUI.Strings"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -46,13 +47,21 @@
             ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="False"
+            MenuItemsSource="{x:Bind ViewModel.Folders, Mode=OneTime}"
+            SelectedItem="{x:Bind ViewModel.SelectedFolder, Mode=TwoWay}"
             SelectionChanged="MainNavigationView_SelectionChanged">
-            <NavigationView.MenuItems>
-                <NavigationViewItem
-                    Content="{x:Bind localization:Resources.AllPalettes, Mode=OneTime}"
-                    Icon="ViewAll"
-                    IsSelected="True" />
-            </NavigationView.MenuItems>
+            <interactivity:Interaction.Behaviors>
+                <interactivity:EventTriggerBehavior EventName="Loaded">
+                    <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand, Mode=OneTime}" />
+                </interactivity:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+            <NavigationView.MenuItemTemplate>
+                <DataTemplate x:DataType="models:FolderViewModel">
+                    <NavigationViewItem
+                        Content="{x:Bind Name}"
+                        Icon="{ui:FontIcon Glyph=&#xE8B7;}" />
+                </DataTemplate>
+            </NavigationView.MenuItemTemplate>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
