@@ -10,12 +10,11 @@ public partial class FolderViewModel : ObservableObject
     [ObservableProperty]
     public partial string Name { get; set; } = string.Empty;
 
-    public static FolderViewModel DefaultFolder { get; } = new()
-    {
-        Id = 0,
-        Name = "默认"
-    };
+    public static FolderViewModel AllPalettes { get; } = new() { Id = -1, Name = "All Palettes" };
 
+    public static FolderViewModel Unassigned { get; } = new() { Id = -2, Name = "Unassigned" };
+
+    public static FolderViewModel Favorites { get; } = new() { Id = -3, Name = "Favorite" };
 
     public FolderViewModel()
     {

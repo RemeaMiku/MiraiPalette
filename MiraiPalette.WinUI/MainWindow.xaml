@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:MiraiPalette.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:MiraiPalette.WinUI"
@@ -43,12 +44,13 @@
         <NavigationView
             x:Name="MainNavigationView"
             Grid.Row="1"
+            AllowDrop="True"
             CompactModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
             ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="False"
             MenuItemsSource="{x:Bind ViewModel.Folders, Mode=OneTime}"
-            SelectedItem="{x:Bind ViewModel.SelectedFolder, Mode=TwoWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedMenuItem, Mode=TwoWay}"
             SelectionChanged="MainNavigationView_SelectionChanged">
             <interactivity:Interaction.Behaviors>
                 <interactivity:EventTriggerBehavior EventName="Loaded">
@@ -58,10 +60,75 @@
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="models:FolderViewModel">
                     <NavigationViewItem
-                        Content="{x:Bind Name}"
-                        Icon="{ui:FontIcon Glyph=&#xE8B7;}" />
+                        Content="{x:Bind Name, Mode=OneWay}"
+                        Icon="Folder" />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
+            <!--<NavigationView.AutoSuggestBox>
+                <AutoSuggestBox QueryIcon="Find" />
+            </NavigationView.AutoSuggestBox>-->
+            <NavigationView.PaneCustomContent>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <ListView
+                        ItemsSource="{x:Bind ViewModel.SpecialFolders, Mode=OneTime}"
+                        SelectedItem="{x:Bind ViewModel.SelectedSpecialFolder, Mode=TwoWay}"
+                        SelectionMode="Single">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:FolderViewModel">
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="16">
+                                    <FontIcon
+                                        FontSize="16"
+                                        Glyph="&#xE80F;" />
+                                    <TextBlock Text="{x:Bind Name, Mode=OneTime}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <NavigationViewItemSeparator Grid.Row="1" />
+                    <!--<ListView
+                        Grid.Row="2"
+                        MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                        ItemsSource="{x:Bind ViewModel.Folders, Mode=OneTime}"
+                        SelectedItem="{x:Bind ViewModel.SelectedFolder, Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:FolderViewModel">
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="16">
+                                    <FontIcon
+                                        FontSize="16"
+                                        Glyph="&#xE8B7;" />
+                                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>-->
+                </Grid>
+            </NavigationView.PaneCustomContent>
+            <NavigationView.PaneFooter>
+                <Button
+                    Margin="4,0"
+                    Padding="12,8"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    Style="{StaticResource BorderlessTransparentButtonStyle}">
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="16">
+                        <FontIcon
+                            FontSize="16"
+                            Glyph="&#xE710;" />
+                        <TextBlock Text="Add New Folder" />
+                    </StackPanel>
+                </Button>
+            </NavigationView.PaneFooter>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

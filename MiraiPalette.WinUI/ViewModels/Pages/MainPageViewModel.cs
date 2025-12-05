@@ -91,12 +91,14 @@ public partial class MainPageViewModel : PageViewModelBase
     }
 
     [RelayCommand]
-    async Task Load()
+    async Task Load(FolderViewModel? folder)
     {
         Palettes.Clear();
         SelectedPalettes.Clear();
         IsBusy = true;
-        Palettes = new(await _miraiPaletteStorageService.GetAllPalettesAsync());
+        Palettes = folder != null
+            ? new(await _miraiPaletteStorageService.GetPalettesByFolderAsync(folder.Id))
+            : new(await _miraiPaletteStorageService.GetAllPalettesAsync());
         IsBusy = false;
     }
 
@@ -151,7 +153,7 @@ public partial class MainPageViewModel : PageViewModelBase
             await _miraiPaletteStorageService.DeletePaletteAsync(palette.Id);
             IsBusy = false;
         }
-        await Load();
+        //await Load();
     }
 
     [RelayCommand]

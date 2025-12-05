@@ -223,4 +223,30 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 
         await _db.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<PaletteViewModel>> GetPalettesByFolderAsync(int folderId)
+    {
+        var query = _db.Palettes
+            .Include(p => p.Colors)
+            .Include(p => p.Tags)
+            .AsQueryable();
+
+        if(folderId < 0)
+        {
+            // 查询没有 FolderId 的 Palette
+            query = query.Where(p => p.FolderId == null);
+        }
+        else
+        {
+            query = query.Where(p => p.FolderId == folderId);
+        }
+
+        // 如果有排序字段 Order，可以这样写：
+        // query = query.OrderBy(p => p.Order);
+
+        var list = await query.ToListAsync();
+
+        return list.Select(p => new PaletteViewModel(p));
+    }
+
 }

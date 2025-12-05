@@ -73,6 +73,8 @@ public partial class App : Application
         MainWindow.Activate();
     }
 
+    public NavigationTarget CurrentNavigationTarget { get; set; } = NavigationTarget.Main;
+
     public void NavigateTo(NavigationTarget target, object? parameter = null)
     {
         var frame = MainWindow.NavigationFrame;

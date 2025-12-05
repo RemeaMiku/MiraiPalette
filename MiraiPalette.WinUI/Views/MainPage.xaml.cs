@@ -19,7 +19,9 @@ public sealed partial class MainPage : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        ViewModel.LoadCommand.Execute(null);
+        base.OnNavigatedTo(e);
+        var folder = e.Parameter as FolderViewModel;
+        ViewModel.LoadCommand.Execute(folder);
     }
 
     public MainPageViewModel ViewModel { get; } = Current.Services.GetRequiredService<MainPageViewModel>();

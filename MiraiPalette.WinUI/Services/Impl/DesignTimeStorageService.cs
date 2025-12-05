@@ -14,9 +14,9 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
     private readonly Dictionary<int, FolderEntity> _folderEntities;
     private readonly Dictionary<int, TagEntity> _tagEntities;
 
-    private const int _folderCount = 10;
-    private const int _tagCount = 10;
-    private const int _paletteCount = 100;
+    private const int _folderCount = 16;
+    private const int _tagCount = 16;
+    private const int _paletteCount = 128;
     private const int _paletteMaxColorCount = 16;
 
     private static IEnumerable<int> RandomSequence(int count, int maxValue)
@@ -66,7 +66,7 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
         var totalColorCount = 0;
         for(int paletteId = 1; paletteId <= _paletteCount; paletteId++)
         {
-            var folderId = Random.Shared.Next(1, _folderCount + 1);
+            int? folderId = Random.Shared.Next(0, _folderCount + 1) == 0 ? null : Random.Shared.Next(1, _folderCount + 1);
 
             var tagCount = Random.Shared.Next(_tagCount);
             var tagIds = RandomSequence(tagCount, _tagCount);
@@ -77,9 +77,15 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
                 Name = $"Palette Name {paletteId}",
                 Description = $"Palette Description {paletteId}",
                 FolderId = folderId,
-                Folder = _folderEntities[folderId],
                 Tags = [.. tagIds.Select(i => _tagEntities[i])]
             };
+
+            if(folderId.HasValue)
+            {
+                palette.Folder = _folderEntities[folderId.Value];
+                _folderEntities[folderId.Value].Palettes.Add(palette);
+            }
+
             var colorCount = Random.Shared.Next(_paletteMaxColorCount);
             var colorHexs = PaletteGenerator.GenerateRandomHexColor(colorCount).ToArray();
             for(int i = 0; i < colorCount; i++)
@@ -96,7 +102,6 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
             }
             _paletteEntities[paletteId] = palette;
 
-            _folderEntities[folderId].Palettes.Add(palette);
 
             foreach(var tagId in tagIds)
                 _tagEntities[tagId].Palettes.Add(palette);
@@ -105,7 +110,21 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
         }
     }
 
-    public Task<int> AddPaletteAsync(PaletteViewModel palette) => throw new System.NotImplementedException();
+    public Task<int> AddPaletteAsync(PaletteViewModel palette)
+    {
+        var entity = new PaletteEntity().FromViewModel(palette);
+        if(entity.FolderId.HasValue)
+        {
+            var folder = _folderEntities[entity.FolderId.Value];
+            folder.Palettes.Add(entity);
+            entity.Folder = folder;
+        }
+        var newId = _paletteEntities.Keys.Max() + 1;
+        entity.Id = newId;
+        _paletteEntities[newId] = entity;
+        return Task.FromResult(newId);
+    }
+
     public Task DeleteFolderAsync(int id) => throw new System.NotImplementedException();
     public Task DeletePaletteAsync(int paletteId) => throw new System.NotImplementedException();
     public Task DeletePalettesAsync(IEnumerable<int> paletteIds) => throw new System.NotImplementedException();
@@ -129,4 +148,17 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
     public Task UpdateFolderAsync(FolderViewModel folder) => throw new System.NotImplementedException();
     public Task UpdatePaletteAsync(PaletteViewModel palette) => throw new System.NotImplementedException();
     public Task UpdateTagAsync(TagViewModel tag) => throw new System.NotImplementedException();
+    public Task<IEnumerable<PaletteViewModel>> GetPalettesByFolderAsync(int folderId)
+    {
+        if(folderId < 0)
+        {
+            if(folderId == FolderViewModel.AllPalettes.Id)
+            {
+                var all = _paletteEntities.Values.Select(MiraiPaletteMapper.ToViewModel);
+                return Task.FromResult(all);
+            }
+        }
+        var models = _folderEntities[folderId].Palettes.Select(MiraiPaletteMapper.ToViewModel);
+        return Task.FromResult(models);
+    }
 }

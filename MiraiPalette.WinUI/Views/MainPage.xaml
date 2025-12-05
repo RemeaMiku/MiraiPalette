@@ -20,11 +20,11 @@
     Padding="32"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-    <interactivity:Interaction.Behaviors>
+    <!--<interactivity:Interaction.Behaviors>
         <interactivity:EventTriggerBehavior EventName="Loaded">
             <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand, Mode=OneTime}" />
         </interactivity:EventTriggerBehavior>
-    </interactivity:Interaction.Behaviors>
+    </interactivity:Interaction.Behaviors>-->
     <Page.Resources>
         <MenuFlyout x:Key="MiraiPaletteItemContextFlyout">
             <MenuFlyoutItem

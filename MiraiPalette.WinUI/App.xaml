@@ -6,6 +6,7 @@
     xmlns:converters="using:MiraiPalette.WinUI.Converters"
     xmlns:local="using:MiraiPalette.WinUI"
     xmlns:media="using:CommunityToolkit.WinUI.Media"
+    xmlns:models="using:MiraiPalette.WinUI.ViewModels"
     xmlns:uiconverters="using:CommunityToolkit.WinUI.Converters">
     <Application.Resources>
         <ResourceDictionary>
@@ -26,6 +27,9 @@
             <converters:BoolToVisibilityInverseConverter x:Key="BoolToVisibilityInverseConverter" />
             <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
             <converters:BoolToListViewSelectionModeConverter x:Key="BoolToListViewSelectionModeConverter" />
+            <converters:SafeTypeConverter
+                x:Key="FolderViewModelSafeConverter"
+                SourceType="models:FolderViewModel" />
             <Style
                 x:Key="BorderlessTransparentButtonStyle"
                 BasedOn="{StaticResource DefaultButtonStyle}"

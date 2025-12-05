@@ -60,6 +60,7 @@ public sealed partial class MainWindow : Window
             App.Current.NavigateTo(NavigationTarget.Settings);
             return;
         }
+        //App.Current.NavigateTo(NavigationTarget.Main);
         //var selectedItem = args.SelectedItem as NavigationViewItem;
         //switch(selectedItem?.Tag)
         //{

@@ -192,4 +192,5 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
     public Task<TagViewModel?> GetTagAsync(int id) => throw new NotImplementedException();
     public Task UpdateTagAsync(TagViewModel tag) => throw new NotImplementedException();
     public Task DeleteTagAsync(int id) => throw new NotImplementedException();
+    public Task<IEnumerable<PaletteViewModel>> GetPalettesByFolderAsync(int folderId) => throw new NotImplementedException();
 }

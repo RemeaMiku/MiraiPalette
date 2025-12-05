@@ -25,13 +25,19 @@ public interface IMiraiPaletteStorageService
 
     public Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync();
 
+    //public Task<int> AddFolderAsync(FolderViewModel folder);
+
     public Task<FolderViewModel?> GetFolderAsync(int id);
+
+    public Task<IEnumerable<PaletteViewModel>> GetPalettesByFolderAsync(int folderId);
 
     public Task UpdateFolderAsync(FolderViewModel folder);
 
     public Task DeleteFolderAsync(int id);
 
     public Task<IEnumerable<TagViewModel>> GetAllTagsAsync();
+
+    //public Task<int> AddTagAsync(TagViewModel tag);
 
     public Task<TagViewModel?> GetTagAsync(int id);
 

@@ -20,12 +20,17 @@ public static class MiraiPaletteMapper
             };
         }
 
+        /// <summary>
+        /// Maps a PaletteViewModel back to a PaletteEntity. (Colors and Tags are not mapped here)
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
         public PaletteEntity FromViewModel(PaletteViewModel viewModel)
         {
             entity.Id = viewModel.Id;
             entity.Name = viewModel.Name;
             entity.Description = viewModel.Description;
-            entity.FolderId = viewModel.FolderId == FolderViewModel.DefaultFolder.Id ? default : viewModel.FolderId;
+            entity.FolderId = viewModel.FolderId == FolderViewModel.AllPalettes.Id ? default : viewModel.FolderId;
             return entity;
         }
     }

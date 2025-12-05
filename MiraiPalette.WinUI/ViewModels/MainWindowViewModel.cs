@@ -1,7 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MiraiPalette.WinUI.Essentials;
 using MiraiPalette.WinUI.Services;
 
 namespace MiraiPalette.WinUI.ViewModels;
@@ -20,21 +22,55 @@ public partial class MainWindowViewModel : ObservableObject
 
     public ObservableCollection<FolderViewModel> Folders { get; } = [];
 
+    public List<FolderViewModel> SpecialFolders { get; } =
+        [
+            FolderViewModel.AllPalettes,
+        ];
+
+    public FolderViewModel? SelectedFolder
+    {
+        get
+        {
+            return SelectedSpecialFolder is not null
+                ? SelectedSpecialFolder
+                : SelectedMenuItem is not null and FolderViewModel folder ? folder : default;
+        }
+    }
+
     [ObservableProperty]
-    public partial FolderViewModel SelectedFolder { get; set; } = FolderViewModel.DefaultFolder;
+    [NotifyPropertyChangedFor(nameof(SelectedFolder))]
+    public partial object? SelectedMenuItem { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SelectedFolder))]
+    public partial FolderViewModel? SelectedSpecialFolder { get; set; }
 
     [RelayCommand]
     async Task Load()
     {
-        if(Folders.Count != 0)
-            Folders.Clear();
+        Folders.Clear();
         foreach(var folder in await _miraiPaletteStorageService.GetAllFoldersAsync())
             Folders.Add(folder);
+        if(SelectedFolder is null && SelectedSpecialFolder is null)
+            SelectedSpecialFolder = FolderViewModel.AllPalettes;
     }
 
-    async partial void OnSelectedFolderChanged(FolderViewModel oldValue, FolderViewModel newValue)
+
+
+    partial void OnSelectedMenuItemChanged(object? value)
     {
-        await Current.ShowConfirmDialogAsync("DEV", newValue.Name);
+        if(value is null)
+            return;
+        if(SelectedFolder is not null)
+            Current.NavigateTo(NavigationTarget.Main, SelectedFolder);
+        SelectedSpecialFolder = default;
     }
 
+    partial void OnSelectedSpecialFolderChanged(FolderViewModel? value)
+    {
+        if(value is null)
+            return;
+        Current.NavigateTo(NavigationTarget.Main, value);
+        SelectedMenuItem = default;
+    }
 }
