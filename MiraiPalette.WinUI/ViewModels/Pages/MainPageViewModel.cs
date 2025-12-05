@@ -30,6 +30,9 @@ public partial class MainPageViewModel : PageViewModelBase
     }
 
     [ObservableProperty]
+    public partial FolderViewModel Folder { get; set; }
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasPalettes))]
     public partial ObservableCollection<PaletteViewModel> Palettes { get; set; } = [];
 
@@ -91,14 +94,13 @@ public partial class MainPageViewModel : PageViewModelBase
     }
 
     [RelayCommand]
-    async Task Load(FolderViewModel? folder)
+    async Task Load(FolderViewModel folder)
     {
         Palettes.Clear();
         SelectedPalettes.Clear();
         IsBusy = true;
-        Palettes = folder != null
-            ? new(await _miraiPaletteStorageService.GetPalettesByFolderAsync(folder.Id))
-            : new(await _miraiPaletteStorageService.GetAllPalettesAsync());
+        Folder = folder;
+        Palettes = new(await _miraiPaletteStorageService.GetPalettesByFolderAsync(folder.Id));
         IsBusy = false;
     }
 

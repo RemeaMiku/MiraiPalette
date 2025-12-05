@@ -10,6 +10,8 @@ public partial class FolderViewModel : ObservableObject
     [ObservableProperty]
     public partial string Name { get; set; } = string.Empty;
 
+    public bool IsVirtual => Id < 0;
+
     public static FolderViewModel AllPalettes { get; } = new() { Id = -1, Name = "All Palettes" };
 
     public static FolderViewModel Unassigned { get; } = new() { Id = -2, Name = "Unassigned" };

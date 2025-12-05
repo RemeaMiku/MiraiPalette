@@ -118,19 +118,22 @@
     <Grid>
         <ScrollViewer
             x:Name="PalettesScrollViewer"
-            Padding="8">
-            <ItemsRepeater
-                Margin="4"
-                ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
-                ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
-                <ItemsRepeater.Layout>
-                    <controls:StaggeredLayout
-                        ColumnSpacing="8"
-                        DesiredColumnWidth="320"
-                        ItemsStretch="None"
-                        RowSpacing="8" />
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
+            Padding="16">
+            <StackPanel Orientation="Vertical">
+                <Rectangle Height="64" />
+                <ItemsRepeater
+                    Margin="4"
+                    ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
+                    ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
+                    <ItemsRepeater.Layout>
+                        <controls:StaggeredLayout
+                            ColumnSpacing="8"
+                            DesiredColumnWidth="320"
+                            ItemsStretch="None"
+                            RowSpacing="8" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+            </StackPanel>
         </ScrollViewer>
         <StackPanel
             HorizontalAlignment="Center"
@@ -197,6 +200,34 @@
                         Visibility="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </CommandBar.SecondaryCommands>
             </CommandBar>
+        </Border>
+        <Border
+            Margin="0,0,8,0"
+            Padding="16,8"
+            VerticalAlignment="Top"
+            Background="{ThemeResource DefaultAcrylicBrush}"
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*"
+                        MinWidth="160" />
+                    <ColumnDefinition
+                        MinWidth="60"
+                        MaxWidth="240" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    FontSize="{StaticResource TitleTextBlockFontSize}"
+                    Style="{ThemeResource TransparentBorderlessTextBox}"
+                    Text="{x:Bind ViewModel.Folder.Name, Mode=TwoWay}"
+                    Visibility="{x:Bind ViewModel.Folder.IsVirtual, Mode=OneWay, Converter={StaticResource BoolToVisibilityInverseConverter}}" />
+                <TextBlock
+                    Margin="12,6"
+                    VerticalAlignment="Center"
+                    FontSize="{StaticResource TitleTextBlockFontSize}"
+                    Text="{x:Bind ViewModel.Folder.Name, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.Folder.IsVirtual, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            </Grid>
         </Border>
     </Grid>
 </Page>

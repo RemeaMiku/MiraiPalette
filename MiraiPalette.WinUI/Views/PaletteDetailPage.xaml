@@ -21,15 +21,6 @@
     SizeChanged="OnRootPageSizeChanged"
     mc:Ignorable="d">
     <Page.Resources>
-        <Style
-            x:Key="TransparentBorderlessTextBox"
-            BasedOn="{StaticResource DefaultTextBoxStyle}"
-            TargetType="TextBox">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-        </Style>
         <DataTemplate
             x:Key="MiraiColorItemDetailTamplate"
             x:DataType="vm:ColorViewModel">
@@ -101,12 +92,10 @@
             OpenPaneLength="360"
             PaneBackground="{ThemeResource DefaultAcrylicBrush}"
             PanePlacement="Right">
-            <Grid
-                Padding="8"
-                RowSpacing="4">
+            <Grid RowSpacing="4">
                 <ScrollViewer
                     x:Name="ColorsScrollViewer"
-                    Padding="4">
+                    Padding="8">
                     <StackPanel Padding="4">
                         <Border Height="120" />
                         <GridView
@@ -132,7 +121,7 @@
                 </ScrollViewer>
                 <Border
                     x:Name="PaletteHeader"
-                    Margin="8"
+                    Margin="8,0,16,0"
                     Padding="16,8"
                     VerticalAlignment="Top"
                     Background="{ThemeResource DefaultAcrylicBrush}"
@@ -152,7 +141,6 @@
                             <TextBox
                                 behaviors:EnterToLoseFocusBehavior.IsEnabled="True"
                                 FontSize="{StaticResource TitleTextBlockFontSize}"
-                                FontWeight="SemiBold"
                                 IsEnabled="{x:Bind ViewModel.IsNotBusy, Mode=OneWay}"
                                 PlaceholderText="{x:Bind localization:PaletteDetailPageStrings.PaletteTitle_Placeholder}"
                                 Style="{StaticResource TransparentBorderlessTextBox}"

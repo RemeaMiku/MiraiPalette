@@ -61,9 +61,9 @@ public partial class MainWindowViewModel : ObservableObject
     {
         if(value is null)
             return;
+        SelectedSpecialFolder = default;
         if(SelectedFolder is not null)
             Current.NavigateTo(NavigationTarget.Main, SelectedFolder);
-        SelectedSpecialFolder = default;
     }
 
     partial void OnSelectedSpecialFolderChanged(FolderViewModel? value)
