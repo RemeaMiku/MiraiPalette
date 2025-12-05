@@ -46,6 +46,7 @@
             Grid.Row="1"
             AllowDrop="True"
             CompactModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
+            DisplayModeChanged="MainNavigationView_DisplayModeChanged"
             ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="False"
@@ -91,7 +92,9 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <NavigationViewItemSeparator Grid.Row="1" />
+                    <NavigationViewItemSeparator
+                        x:Name="MenuSeparator"
+                        Grid.Row="1" />
                     <!--<ListView
                         Grid.Row="2"
                         MaxHeight="{Binding ActualHeight, RelativeSource={RelativeSource Mode=TemplatedParent}}"

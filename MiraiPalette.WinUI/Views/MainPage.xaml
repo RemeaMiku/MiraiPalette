@@ -18,7 +18,7 @@
     x:Name="RootPage"
     MinWidth="320"
     Padding="32"
-    NavigationCacheMode="Required"
+    NavigationCacheMode="Disabled"
     mc:Ignorable="d">
     <!--<interactivity:Interaction.Behaviors>
         <interactivity:EventTriggerBehavior EventName="Loaded">

@@ -70,4 +70,9 @@ public sealed partial class MainWindow : Window
         //        break;
         //}
     }
+
+    private void MainNavigationView_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
+    {
+        MenuSeparator.Visibility = sender.PaneDisplayMode == NavigationViewPaneDisplayMode.Top ? Visibility.Collapsed : Visibility.Visible;
+    }
 }

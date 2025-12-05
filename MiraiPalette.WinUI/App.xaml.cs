@@ -46,7 +46,7 @@ public partial class App : Application
             .AddSingleton<ISettingsService, LocalSettingsService>()
             .AddTransient<PaletteDetailPageViewModel>()
             .AddTransient<ImagePalettePageViewModel>()
-            .AddSingleton<MainPageViewModel>()
+            .AddTransient<MainPageViewModel>()
             .AddSingleton<SettingsPageViewModel>()
             .AddSingleton<MainWindowViewModel>()
             .AddSingleton<MainWindow>();
