@@ -55,7 +55,17 @@ public partial class MainWindowViewModel : ObservableObject
             SelectedSpecialFolder = FolderViewModel.AllPalettes;
     }
 
-
+    [RelayCommand]
+    async Task AddFolder()
+    {
+        var folder = new FolderViewModel
+        {
+            Name = "New Folder",
+        };
+        await _miraiPaletteStorageService.AddFolderAsync(folder);
+        Folders.Add(folder);
+        SelectedMenuItem = folder;
+    }
 
     partial void OnSelectedMenuItemChanged(object? value)
     {

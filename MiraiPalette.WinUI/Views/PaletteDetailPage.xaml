@@ -121,8 +121,8 @@
                 </ScrollViewer>
                 <Border
                     x:Name="PaletteHeader"
-                    Margin="8,0,16,0"
-                    Padding="16,8"
+                    Margin="0,0,16,0"
+                    Padding="16"
                     VerticalAlignment="Top"
                     Background="{ThemeResource DefaultAcrylicBrush}"
                     CornerRadius="{StaticResource ControlCornerRadius}">

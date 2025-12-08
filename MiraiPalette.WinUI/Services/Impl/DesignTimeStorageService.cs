@@ -161,4 +161,14 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
         var models = _folderEntities[folderId].Palettes.Select(MiraiPaletteMapper.ToViewModel);
         return Task.FromResult(models);
     }
+
+    public Task<int> AddFolderAsync(FolderViewModel folder)
+    {
+        var entity = new FolderEntity().FromViewModel(folder);
+        var newId = _folderEntities.Keys.Max() + 1;
+        entity.Id = newId;
+        folder.Id = newId;
+        _folderEntities[newId] = entity;
+        return Task.FromResult(newId);
+    }
 }

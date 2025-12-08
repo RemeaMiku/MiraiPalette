@@ -30,7 +30,7 @@ public partial class MainPageViewModel : PageViewModelBase
     }
 
     [ObservableProperty]
-    public partial FolderViewModel Folder { get; set; }
+    public partial FolderViewModel Folder { get; set; } = null!;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasPalettes))]
@@ -182,7 +182,8 @@ public partial class MainPageViewModel : PageViewModelBase
         {
             Name = Resources.DefaultPaletteTitle,
             Description = string.Empty,
-            Colors = []
+            Colors = [],
+            FolderId = Folder.Id
         };
         IsBusy = true;
         await _miraiPaletteStorageService.AddPaletteAsync(newPalette);
@@ -212,6 +213,7 @@ public partial class MainPageViewModel : PageViewModelBase
                 await Current.ShowConfirmDialogAsync(ErrorMessages.ImportPaletteFile_Title, ErrorMessages.ImportPaletteFile_Failed, false);
                 return;
             }
+            palette.FolderId = Folder.Id;
             await _miraiPaletteStorageService.AddPaletteAsync(palette);
             Palettes.Insert(0, palette);
             NavigateToPalette(palette);

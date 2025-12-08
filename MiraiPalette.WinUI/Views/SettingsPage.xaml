@@ -16,12 +16,13 @@
     x:Name="RootPage"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-    <Grid Padding="32">
-        <ScrollViewer Padding="8">
+    <Grid>
+        <ScrollViewer Padding="16">
             <StackPanel
+                Padding="8"
                 Orientation="Vertical"
                 Spacing="8">
-                <Rectangle Height="64" />
+                <Rectangle Height="80" />
                 <TextBlock
                     Style="{ThemeResource BodyStrongTextBlockStyle}"
                     Text="{x:Bind localization:SettingsPageStrings.AppearanceAndBehavior, Mode=OneTime}" />
@@ -107,12 +108,14 @@
             </StackPanel>
         </ScrollViewer>
         <Border
+            Margin="0,0,16,0"
             Padding="16"
             VerticalAlignment="Top"
             Background="{ThemeResource DefaultAcrylicBrush}"
             CornerRadius="{ThemeResource ControlCornerRadius}">
             <TextBlock
-                Style="{ThemeResource TitleTextBlockStyle}"
+                Padding="8,4"
+                FontSize="{ThemeResource TitleTextBlockFontSize}"
                 Text="{x:Bind localization:SettingsPageStrings.Title, Mode=OneTime}" />
         </Border>
         <InfoBar

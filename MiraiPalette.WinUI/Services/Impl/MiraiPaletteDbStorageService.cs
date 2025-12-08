@@ -231,6 +231,7 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
             .Include(p => p.Tags)
             .AsQueryable();
 
+        // id 小于 0 表示查询虚拟文件夹
         if(folderId < 0)
         {
             // 查询没有 FolderId 的 Palette
@@ -249,4 +250,5 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
         return list.Select(p => new PaletteViewModel(p));
     }
 
+    public Task<int> AddFolderAsync(FolderViewModel folder) => throw new NotImplementedException();
 }

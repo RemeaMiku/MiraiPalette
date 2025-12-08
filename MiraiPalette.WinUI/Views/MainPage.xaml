@@ -128,7 +128,7 @@
                     <ItemsRepeater.Layout>
                         <controls:StaggeredLayout
                             ColumnSpacing="8"
-                            DesiredColumnWidth="320"
+                            DesiredColumnWidth="400"
                             ItemsStretch="None"
                             RowSpacing="8" />
                     </ItemsRepeater.Layout>
@@ -203,7 +203,7 @@
         </Border>
         <Border
             Margin="0,0,8,0"
-            Padding="16,8"
+            Padding="16"
             VerticalAlignment="Top"
             Background="{ThemeResource DefaultAcrylicBrush}"
             CornerRadius="{ThemeResource ControlCornerRadius}">

@@ -25,7 +25,7 @@ public interface IMiraiPaletteStorageService
 
     public Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync();
 
-    //public Task<int> AddFolderAsync(FolderViewModel folder);
+    public Task<int> AddFolderAsync(FolderViewModel folder);
 
     public Task<FolderViewModel?> GetFolderAsync(int id);
 

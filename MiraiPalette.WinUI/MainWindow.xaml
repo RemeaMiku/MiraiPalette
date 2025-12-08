@@ -121,6 +121,7 @@
                     Padding="12,8"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
+                    Command="{x:Bind ViewModel.AddFolderCommand, Mode=OneTime}"
                     Style="{StaticResource BorderlessTransparentButtonStyle}">
                     <StackPanel
                         Orientation="Horizontal"
