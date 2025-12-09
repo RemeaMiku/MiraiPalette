@@ -9,6 +9,7 @@ using MiraiPalette.WinUI.ViewModels;
 
 namespace MiraiPalette.WinUI.Services.Impl;
 
+[Obsolete("Use database storage service instead.")]
 public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
 {
     public const string FileName = "palettes.mpd";

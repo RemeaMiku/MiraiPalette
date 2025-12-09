@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace MiraiPalette.WinUI.Converters;
 
-public class BoolToVisibilityInverseConverter : IValueConverter
+public partial class BoolToVisibilityInverseConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

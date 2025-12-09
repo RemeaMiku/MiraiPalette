@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -17,7 +18,7 @@ public partial class PaletteViewModel : ObservableObject
     public ObservableCollection<ColorViewModel> Colors { get; init; } = [];
 
     [ObservableProperty]
-    public partial int? FolderId { get; set; }
+    public partial int FolderId { get; set; }
 
     public ObservableCollection<int> TagIds { get; init; } = [];
 
@@ -29,13 +30,13 @@ public partial class PaletteViewModel : ObservableObject
 
     }
 
+    [Obsolete("Use the parameterless constructor instead.")]
     public PaletteViewModel(PaletteEntity entity)
     {
         Id = entity.Id;
         Name = entity.Name;
         Description = entity.Description ?? string.Empty;
         Colors = new(entity.Colors.Select(c => new ColorViewModel(c)));
-        FolderId = entity.FolderId;
         TagIds = new(entity.Tags.Select(t => t.Id));
     }
 

@@ -15,14 +15,8 @@ using Windows.UI;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
-public partial class PaletteDetailPageViewModel : PageViewModelBase
+public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService) : PageViewModelBase
 {
-    public PaletteDetailPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService)
-    {
-        _miraiPaletteStorageService = miraiPaletteStorageService;
-        _paletteFileService = paletteFileService;
-    }
-
     partial void OnPaletteChanged(PaletteViewModel value)
     {
         value.Colors.CollectionChanged += PaletteColors_CollectionChanged;
@@ -44,7 +38,7 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
         IsBusy = true;
         try
         {
-            await _miraiPaletteStorageService.UpdatePaletteAsync(Palette);
+            await miraiPaletteStorageService.UpdatePaletteAsync(Palette);
         }
         catch(Exception)
         {
@@ -52,10 +46,6 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
         }
         IsBusy = false;
     }
-
-    private readonly IMiraiPaletteStorageService _miraiPaletteStorageService;
-
-    private readonly IPaletteFileService _paletteFileService;
 
     [ObservableProperty]
     public partial PaletteViewModel Palette { get; private set; } = null!;
@@ -93,7 +83,7 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
     {
         if(e.PropertyName is nameof(PaletteViewModel.Name) && string.IsNullOrWhiteSpace(Palette.Name))
         {
-            var title = (await _miraiPaletteStorageService.GetPaletteAsync(Palette.Id))!.Name;
+            var title = (await miraiPaletteStorageService.GetPaletteAsync(Palette.Id))!.Name;
             Palette.Name = title;
             return;
         }
@@ -141,13 +131,13 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
     [RelayCommand]
     async Task ExportPalette()
     {
-        var path = await Current.PickPathToSave(Palette.Name, SaveFileStrings.PaletteFile_Commit, _paletteFileService.SupportedExportFileTypes);
+        var path = await Current.PickPathToSave(Palette.Name, SaveFileStrings.PaletteFile_Commit, paletteFileService.SupportedExportFileTypes);
         if(path is null)
             return;
         try
         {
             IsBusy = true;
-            await _paletteFileService.Export(Palette, path);
+            await paletteFileService.Export(Palette, path);
         }
         catch(Exception)
         {
@@ -257,7 +247,7 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
         if(!isConfirmed)
             return;
         IsBusy = true;
-        await _miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
+        await miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
         IsBusy = false;
         Current.NavigateTo(NavigationTarget.Back);
     }

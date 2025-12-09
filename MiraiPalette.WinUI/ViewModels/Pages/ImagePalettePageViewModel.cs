@@ -34,6 +34,9 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     }
 
     [ObservableProperty]
+    public partial FolderViewModel TargetFolder { get; set; } = FolderViewModel.AllPalettes;
+
+    [ObservableProperty]
     public required partial string ImagePath { get; set; }
 
     [ObservableProperty]

@@ -14,7 +14,7 @@ public static class MiraiPaletteMapper
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description ?? string.Empty,
-                FolderId = entity.FolderId ?? 0,
+                FolderId = entity.FolderId ?? FolderViewModel.AllPalettes.Id,
                 Colors = new(entity.Colors.Select(c => c.ToViewModel())),
                 TagIds = new(entity.Tags.Select(t => t.Id)),
             };
@@ -30,7 +30,7 @@ public static class MiraiPaletteMapper
             entity.Id = viewModel.Id;
             entity.Name = viewModel.Name;
             entity.Description = viewModel.Description;
-            entity.FolderId = viewModel.FolderId == FolderViewModel.AllPalettes.Id ? default : viewModel.FolderId;
+            entity.FolderId = FolderViewModel.IsVirtualFolder(viewModel.FolderId) ? default : viewModel.FolderId;
             return entity;
         }
     }

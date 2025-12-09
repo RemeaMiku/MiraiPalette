@@ -18,9 +18,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Models\**" />
 		<Compile Remove="Views\Dialogs\**" />
+		<EmbeddedResource Remove="Models\**" />
 		<EmbeddedResource Remove="Views\Dialogs\**" />
+		<None Remove="Models\**" />
 		<None Remove="Views\Dialogs\**" />
+		<Page Remove="Models\**" />
 		<Page Remove="Views\Dialogs\**" />
 	</ItemGroup>
 
@@ -280,6 +284,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Models\" />
+	  <PRIResource Remove="Models\**" />
 	</ItemGroup>
 </Project>

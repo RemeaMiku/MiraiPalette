@@ -8,15 +8,8 @@ using MiraiPalette.WinUI.Services;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
-public partial class MainWindowViewModel : ObservableObject
+public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPaletteStorageService) : ObservableObject
 {
-    readonly IMiraiPaletteStorageService _miraiPaletteStorageService;
-
-    public MainWindowViewModel(IMiraiPaletteStorageService miraiPaletteStorageService)
-    {
-        _miraiPaletteStorageService = miraiPaletteStorageService;
-    }
-
     [ObservableProperty]
     public partial string Title { get; set; } = "Mirai Palette";
 
@@ -49,7 +42,7 @@ public partial class MainWindowViewModel : ObservableObject
     async Task Load()
     {
         Folders.Clear();
-        foreach(var folder in await _miraiPaletteStorageService.GetAllFoldersAsync())
+        foreach(var folder in await miraiPaletteStorageService.GetAllFoldersAsync())
             Folders.Add(folder);
         if(SelectedFolder is null && SelectedSpecialFolder is null)
             SelectedSpecialFolder = FolderViewModel.AllPalettes;
@@ -62,7 +55,7 @@ public partial class MainWindowViewModel : ObservableObject
         {
             Name = "New Folder",
         };
-        await _miraiPaletteStorageService.AddFolderAsync(folder);
+        await miraiPaletteStorageService.AddFolderAsync(folder);
         Folders.Add(folder);
         SelectedMenuItem = folder;
     }

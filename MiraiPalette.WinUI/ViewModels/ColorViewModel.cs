@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.Helpers;
 using MiraiPalette.WinUI.Essentials;
 using Windows.UI;
@@ -26,6 +27,7 @@ public partial class ColorViewModel : ObservableObject
 
     }
 
+    [Obsolete("Use the parameterless constructor instead.")]
     public ColorViewModel(ColorEntity entity)
     {
         Id = entity.Id;
