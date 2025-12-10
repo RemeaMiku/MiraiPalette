@@ -55,11 +55,11 @@ public sealed partial class MainWindow : Window
 
     private void MainNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
-        if(args.IsSettingsSelected)
-        {
-            App.Current.NavigateTo(NavigationTarget.Settings);
-            return;
-        }
+        //if(args.IsSettingsSelected)
+        //{
+        //    App.Current.NavigateTo(NavigationTarget.Settings);
+        //    return;
+        //}
         //App.Current.NavigateTo(NavigationTarget.Main);
         //var selectedItem = args.SelectedItem as NavigationViewItem;
         //switch(selectedItem?.Tag)
