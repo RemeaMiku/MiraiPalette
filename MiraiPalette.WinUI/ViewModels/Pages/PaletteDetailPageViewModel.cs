@@ -6,8 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI;
-using MiraiPalette.WinUI.Essentials;
+using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
 using Windows.ApplicationModel.DataTransfer;
@@ -15,7 +16,7 @@ using Windows.UI;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
-public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService) : PageViewModelBase
+public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService, IMessenger messenger) : PageViewModelBase(messenger)
 {
     partial void OnPaletteChanged(PaletteViewModel value)
     {

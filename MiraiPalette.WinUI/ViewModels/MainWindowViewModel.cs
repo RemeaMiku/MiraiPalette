@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MiraiPalette.WinUI.Essentials;
+using CommunityToolkit.Mvvm.Messaging;
+using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Services;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
-public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPaletteStorageService) : ObservableObject
+public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IMessenger messenger)
+    : ObservableRecipient(messenger),
+    IRecipient<NavigationMessage>
 {
     [ObservableProperty]
     public partial string Title { get; set; } = "Mirai Palette";
@@ -44,7 +48,8 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
         Folders.Clear();
         foreach(var folder in await miraiPaletteStorageService.GetAllFoldersAsync())
             Folders.Add(folder);
-        SelectedMenuItem = FolderViewModel.AllPalettes;
+        if(SelectedFolder is null && SelectedSpecialFolder is null)
+            SelectedSpecialFolder = FolderViewModel.AllPalettes;
     }
 
     [RelayCommand]
@@ -84,5 +89,20 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
         if(value is null)
             return;
         SelectedMenuItem = value;
+    }
+
+    public void Receive(NavigationMessage message)
+    {
+        if(message.Target == NavigationTarget.Main)
+        {
+            if(message.Parameter is not FolderViewModel folder)
+                throw new ArgumentException("Parameter must be of type FolderViewModel", nameof(message));
+            if(SpecialFolders.Contains(folder))
+                SelectedSpecialFolder = folder;
+            else if(Folders.Contains(folder))
+                SelectedMenuItem = folder;
+            else
+                throw new ArgumentException("FolderViewModel not found", nameof(message));
+        }
     }
 }

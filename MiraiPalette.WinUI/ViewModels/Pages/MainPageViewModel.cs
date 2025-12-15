@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MiraiPalette.WinUI.Essentials;
+using CommunityToolkit.Mvvm.Messaging;
+using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
 
@@ -15,7 +16,7 @@ namespace MiraiPalette.WinUI.ViewModels;
 
 public partial class MainPageViewModel : PageViewModelBase
 {
-    public MainPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService)
+    public MainPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService, IMessenger messenger) : base(messenger)
     {
         _miraiPaletteStorageService = miraiPaletteStorageService;
         _paletteFileService = paletteFileService;

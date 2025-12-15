@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
@@ -12,7 +13,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.Storage.Pickers;
 using MiraiPalette.Shared.Data;
 using MiraiPalette.Shared.Data.Impl;
-using MiraiPalette.WinUI.Essentials;
+using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Impl;
 using MiraiPalette.WinUI.Settings;
@@ -44,6 +45,7 @@ public partial class App : Application
             .AddScoped<IMiraiPaletteStorageService, DesignTimeStorageService>()
             .AddSingleton<IPaletteFileService, PaletteFileService>()
             .AddSingleton<ISettingsService, LocalSettingsService>()
+            .AddSingleton<IMessenger, WeakReferenceMessenger>()
             .AddTransient<PaletteDetailPageViewModel>()
             .AddTransient<ImagePalettePageViewModel>()
             .AddTransient<MainPageViewModel>()

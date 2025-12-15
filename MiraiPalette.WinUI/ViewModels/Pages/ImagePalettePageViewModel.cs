@@ -5,10 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI;
 using MiraiPalette.Shared.Essentials;
 using MiraiPalette.WinUI.Essentials;
 using MiraiPalette.WinUI.Essentials.ImagePalette;
+using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
 using Windows.Foundation;
@@ -18,7 +20,7 @@ namespace MiraiPalette.WinUI.ViewModels;
 
 public partial class ImagePalettePageViewModel : PageViewModelBase
 {
-    public ImagePalettePageViewModel(IMiraiPaletteStorageService paletteDataService)
+    public ImagePalettePageViewModel(IMiraiPaletteStorageService paletteDataService, IMessenger messenger) : base(messenger)
     {
         _paletteDataService = paletteDataService;
         AutoColors.CollectionChanged += (_, __) =>
