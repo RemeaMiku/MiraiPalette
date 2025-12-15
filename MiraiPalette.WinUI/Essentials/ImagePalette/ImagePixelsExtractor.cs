@@ -8,6 +8,8 @@ namespace MiraiPalette.WinUI.Essentials.ImagePalette;
 
 public class ImagePixelsExtractor
 {
+    public static ImagePixelsExtractor Default { get; } = new();
+
     public int MaxPixelsCount { get; init; } = int.MaxValue;
 
     public async Task<ImagePixels> ExtractImagePixelsAsync(string path)

@@ -77,7 +77,9 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
                 Name = $"Palette Name {paletteId}",
                 Description = $"Palette Description {paletteId}",
                 FolderId = folderId,
-                Tags = [.. tagIds.Select(i => _tagEntities[i])]
+                Tags = [.. tagIds.Select(i => _tagEntities[i])],
+                CreatedAt = DateTimeOffset.Now,
+                UpdatedAt = DateTimeOffset.Now
             };
 
             if(folderId.HasValue)
@@ -121,6 +123,8 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
         }
         var newId = _paletteEntities.Keys.Max() + 1;
         entity.Id = newId;
+        entity.CreatedAt = DateTimeOffset.Now;
+        entity.UpdatedAt = DateTimeOffset.Now;
         _paletteEntities[newId] = entity;
         return Task.FromResult(newId);
     }
@@ -142,23 +146,53 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
     }
 
     public Task<IEnumerable<TagViewModel>> GetAllTagsAsync() => throw new System.NotImplementedException();
-    public Task<FolderViewModel?> GetFolderAsync(int id) => throw new System.NotImplementedException();
-    public Task<PaletteViewModel?> GetPaletteAsync(int paletteId) => throw new System.NotImplementedException();
+    public Task<FolderViewModel?> GetFolderAsync(int id)
+    {
+        return Task.FromResult(_folderEntities.GetValueOrDefault(id)?.ToViewModel());
+    }
+
+    public Task<PaletteViewModel?> GetPaletteAsync(int paletteId)
+    {
+        return Task.FromResult(_paletteEntities.GetValueOrDefault(paletteId)?.ToViewModel());
+    }
+
     public Task<TagViewModel?> GetTagAsync(int id) => throw new System.NotImplementedException();
-    public Task UpdateFolderAsync(FolderViewModel folder) => throw new System.NotImplementedException();
-    public Task UpdatePaletteAsync(PaletteViewModel palette) => throw new System.NotImplementedException();
-    public Task UpdateTagAsync(TagViewModel tag) => throw new System.NotImplementedException();
+
+    public Task UpdateFolderAsync(FolderViewModel folder)
+    {
+        if(!_folderEntities.TryGetValue(folder.Id, out FolderEntity? entity))
+            throw new KeyNotFoundException($"Folder with Id {folder.Id} not found.");
+        entity.FromViewModel(folder);
+        return Task.CompletedTask;
+    }
+
+    public Task UpdatePaletteAsync(PaletteViewModel palette)
+    {
+        if(!_paletteEntities.TryGetValue(palette.Id, out PaletteEntity? entity))
+            throw new KeyNotFoundException($"Palette with Id {palette.Id} not found.");
+        entity.FromViewModel(palette);
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateTagAsync(TagViewModel tag)
+    {
+        if(!_tagEntities.TryGetValue(tag.Id, out TagEntity? entity))
+            throw new KeyNotFoundException($"Tag with Id {tag.Id} not found.");
+        entity.FromViewModel(tag);
+        return Task.CompletedTask;
+    }
+
     public Task<IEnumerable<PaletteViewModel>> GetPalettesByFolderAsync(int folderId)
     {
-        if(folderId < 0)
+        if(FolderViewModel.IsVirtualFolder(folderId))
         {
             if(folderId == FolderViewModel.AllPalettes.Id)
             {
-                var all = _paletteEntities.Values.Select(MiraiPaletteMapper.ToViewModel);
+                var all = _paletteEntities.Values.OrderByDescending(p => p.UpdatedAt).Select(MiraiPaletteMapper.ToViewModel);
                 return Task.FromResult(all);
             }
         }
-        var models = _folderEntities[folderId].Palettes.Select(MiraiPaletteMapper.ToViewModel);
+        var models = _folderEntities[folderId].Palettes.OrderByDescending(p => p.UpdatedAt).Select(MiraiPaletteMapper.ToViewModel);
         return Task.FromResult(models);
     }
 

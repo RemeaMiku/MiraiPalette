@@ -71,6 +71,15 @@ public partial class MainPageViewModel : PageViewModelBase
     [ObservableProperty]
     public partial ICommand PaletteCommand { get; set; }
 
+    public override async void OnNavigatedTo(object? parameter)
+    {
+        base.OnNavigatedTo(parameter);
+        ArgumentNullException.ThrowIfNull(parameter);
+        if(parameter is not FolderViewModel folderViewModel)
+            throw new ArgumentException("Parameter must be of type FolderViewModel", nameof(parameter));
+        await Load(folderViewModel);
+    }
+
     [RelayCommand]
     private void SelectAllPalettes()
     {
@@ -171,7 +180,7 @@ public partial class MainPageViewModel : PageViewModelBase
     [RelayCommand]
     void NavigateToPalette(PaletteViewModel palette)
     {
-        Current.NavigateTo(NavigationTarget.Palette, palette);
+        Navigate(NavigationTarget.Palette, palette);
         ClearSelection();
     }
 
@@ -253,7 +262,7 @@ public partial class MainPageViewModel : PageViewModelBase
         var path = await Current.PickFileToOpen(OpenFileStrings.ImageFile_Commit, ".png", ".jpg", ".jpeg", ".bmp", ".tiff");
         if(path is null)
             return;
-        Current.NavigateTo(NavigationTarget.ImagePalette, path);
+        Navigate(NavigationTarget.ImagePalette, path);
         ClearSelection();
     }
 }

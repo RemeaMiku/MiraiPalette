@@ -19,12 +19,13 @@ public abstract partial class PageViewModelBase(IMessenger messenger) : Observab
 
     public override string ToString() => Title;
 
-    protected virtual void OnNavigatedTo(object? parameter) { }
+    public virtual void OnNavigatedTo(object? parameter) { }
 
-    protected virtual void OnNavigatedFrom() { }
+    public virtual void OnNavigatedFrom() { }
 
     protected void Navigate(NavigationTarget target, object? parameter = null)
     {
+        OnNavigatedFrom();
         Messenger.Send(new NavigationMessage(target, parameter));
     }
 }

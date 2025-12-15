@@ -7,6 +7,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:e="using:MiraiPalette.WinUI.Essentials"
+    xmlns:helpers="using:MiraiPalette.WinUI.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:MiraiPalette.WinUI.Views"
     xmlns:localization="using:MiraiPalette.WinUI.Strings"
@@ -89,6 +90,7 @@
                     PointerEntered="SourceImage_PointerEntered"
                     PointerExited="SourceImage_PointerExited"
                     PointerMoved="OnImage_PointerMoved"
+                    Source="{x:Bind helpers:BindHelper.ToBitmapImage(ViewModel.ImagePath), Mode=OneWay}"
                     Stretch="None">
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="PointerPressed">

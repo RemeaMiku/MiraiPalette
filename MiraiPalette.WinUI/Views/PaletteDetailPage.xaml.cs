@@ -24,16 +24,15 @@ public sealed partial class PaletteDetailPage : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedTo(e);
-        var palette = e.Parameter as PaletteViewModel;
-        ViewModel.LoadCommand.Execute(palette);
+        //base.OnNavigatedTo(e);
+        //var palette = e.Parameter as PaletteViewModel;
+        //ViewModel.LoadCommand.Execute(palette);
     }
 
     private void OnRootPageSizeChanged(object _, SizeChangedEventArgs e)
     {
         PaletteView.DisplayMode = e.NewSize.Width < PaletteView.OpenPaneLength * 2 ? SplitViewDisplayMode.Overlay : SplitViewDisplayMode.Inline;
         PaletteView.IsPaneOpen = ViewModel.IsEditingColor;
-        //PaletteView.Focus(FocusState.Programmatic);
     }
 
     #region ColorPicker 初始值修复

@@ -11,11 +11,11 @@ public partial class FolderViewModel : ObservableObject
 
     public bool IsVirtual => IsVirtualFolder(Id);
 
-    public static FolderViewModel AllPalettes { get; } = new() { Id = -1, Name = "All Palettes" };
+    public static FolderViewModel AllPalettes { get; } = new() { Id = 0, Name = "All Palettes" };
 
-    public static FolderViewModel Unassigned { get; } = new() { Id = -2, Name = "Unassigned" };
+    public static FolderViewModel Unassigned { get; } = new() { Id = -1, Name = "Unassigned" };
 
-    public static FolderViewModel Favorites { get; } = new() { Id = -3, Name = "Favorite" };
+    public static FolderViewModel Favorites { get; } = new() { Id = -2, Name = "Favorite" };
 
-    public static bool IsVirtualFolder(int folderId) => folderId < 0;
+    public static bool IsVirtualFolder(int folderId) => folderId <= 0;
 }

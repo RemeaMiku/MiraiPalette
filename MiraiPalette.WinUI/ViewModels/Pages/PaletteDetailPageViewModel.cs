@@ -65,9 +65,24 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
 
     public bool HasSelectedColors => SelectedColor is not null;
 
+    public override async void OnNavigatedTo(object? parameter)
+    {
+        base.OnNavigatedTo(parameter);
+        ArgumentNullException.ThrowIfNull(parameter);
+        if(parameter is not PaletteViewModel paletteViewModel)
+            throw new ArgumentException("Parameter must be of type PaletteViewModel", nameof(parameter));
+        await Load(paletteViewModel);
+    }
+
     [RelayCommand]
     public async Task Load(PaletteViewModel palette)
     {
+        if(Palette is not null)
+        {
+            Palette.PropertyChanged -= Palette_PropertyChanged;
+            foreach(var color in Palette.Colors)
+                color.PropertyChanged -= Color_PropertyChanged;
+        }
         Palette = palette;
         palette.PropertyChanged += Palette_PropertyChanged;
         foreach(var color in palette.Colors)
@@ -250,6 +265,6 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
         IsBusy = true;
         await miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
         IsBusy = false;
-        Current.NavigateTo(NavigationTarget.Back);
+        Navigate(NavigationTarget.Back);
     }
 }

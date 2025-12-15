@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -39,7 +40,7 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     public partial FolderViewModel TargetFolder { get; set; } = FolderViewModel.AllPalettes;
 
     [ObservableProperty]
-    public required partial string ImagePath { get; set; }
+    public required partial Uri ImagePath { get; set; }
 
     [ObservableProperty]
     public partial int ColorCount { get; set; } = 4;
@@ -73,6 +74,23 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     public partial bool IsPickingColor { get; set; }
 
     readonly IMiraiPaletteStorageService _paletteDataService;
+
+    public override void OnNavigatedTo(object? parameter)
+    {
+        base.OnNavigatedTo(parameter);
+        ArgumentNullException.ThrowIfNull(parameter);
+        ImagePath = parameter switch
+        {
+            string imagePathString => new Uri(imagePathString),
+            Uri imagePath => imagePath,
+            _ => throw new ArgumentException("Parameter must be a string or Uri representing the image path.", nameof(parameter)),
+        };
+    }
+
+    async partial void OnImagePathChanged(Uri value)
+    {
+        ImagePixels = await ImagePixelsExtractor.Default.ExtractImagePixelsAsync(value.LocalPath);
+    }
 
     [RelayCommand]
     async Task ExtractPalette()
@@ -159,13 +177,13 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     {
         var palette = new PaletteViewModel
         {
-            Name = Path.GetFileNameWithoutExtension(ImagePath),
+            Name = Path.GetFileNameWithoutExtension(ImagePath.LocalPath),
             Description = string.Format(ImagePalettePageStrings.ImagePaletteDescription, ImagePath),
             Colors = [.. AutoColors, .. ManualColors]
         };
         IsBusy = true;
         await _paletteDataService.AddPaletteAsync(palette);
         IsBusy = false;
-        Current.NavigateTo(NavigationTarget.Back);
+        Navigate(NavigationTarget.Back);
     }
 }

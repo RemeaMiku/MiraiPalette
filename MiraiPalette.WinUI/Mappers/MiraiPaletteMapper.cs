@@ -30,7 +30,7 @@ public static class MiraiPaletteMapper
             entity.Id = viewModel.Id;
             entity.Name = viewModel.Name;
             entity.Description = viewModel.Description;
-            entity.FolderId = FolderViewModel.IsVirtualFolder(viewModel.FolderId) ? default : viewModel.FolderId;
+            entity.FolderId = FolderViewModel.IsVirtualFolder(viewModel.FolderId) ? null : viewModel.FolderId;
             return entity;
         }
     }
