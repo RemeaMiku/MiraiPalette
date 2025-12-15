@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MiraiPalette.WinUI.Essentials.Navigation;
+using MiraiPalette.WinUI.Helpers;
 using MiraiPalette.WinUI.ViewModels;
 using MiraiPalette.WinUI.Views;
 
@@ -32,18 +33,13 @@ public sealed partial class MainWindow : Window, IRecipient<NavigationMessage>
         presenter!.PreferredMinimumWidth = MinWindowWidth;
         presenter.PreferredMinimumHeight = MinWindowHeight;
         Messenger.RegisterAll(this);
-        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        ViewModel.NewFolderAdded += ViewModel_NewFolderAdded;
     }
 
-    private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private async void ViewModel_NewFolderAdded(object? sender, FolderViewModel e)
     {
-        if(e.PropertyName == nameof(ViewModel.SelectedMenuItem))
-        {
-            if(ViewModel.SelectedMenuItem is FolderViewModel folder)
-                Navigate(NavigationTarget.Main, folder);
-            else
-                Navigate(NavigationTarget.Settings);
-        }
+        await Task.Delay(100);
+        ScrollHelper.ScrollIntoView(MainNavigationView, e);
     }
 
     public IMessenger Messenger { get; } = App.Current.Services.GetRequiredService<IMessenger>();

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Services;
 
 namespace MiraiPalette.WinUI.ViewModels;
@@ -47,7 +49,10 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
         await miraiPaletteStorageService.AddFolderAsync(folder);
         Folders.Add(folder);
         SelectedMenuItem = folder;
+        NewFolderAdded?.Invoke(this, folder);
     }
+
+    public EventHandler<FolderViewModel>? NewFolderAdded { get; set; }
 
     partial void OnSelectedMenuItemChanged(object? value)
     {
@@ -56,13 +61,13 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
         if(value is not FolderViewModel folder)
         {
             SelectedSpecialFolder = default;
-            //Current.NavigateTo(NavigationTarget.Settings);
+            Messenger.Send(new NavigationMessage(NavigationTarget.Settings));
         }
         else
         {
             if(!SpecialFolders.Contains(folder))
                 SelectedSpecialFolder = default;
-            //Current.NavigateTo(NavigationTarget.Main, folder);
+            Messenger.Send(new NavigationMessage(NavigationTarget.Main, folder));
         }
     }
 
@@ -72,15 +77,4 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
             return;
         SelectedMenuItem = value;
     }
-
-    //public void Receive(NavigationMessage message)
-    //{
-    //    if(message.Target == NavigationTarget.Main)
-    //    {
-    //        if(message.Parameter is not FolderViewModel folder)
-    //            throw new ArgumentException("Parameter must be of type FolderViewModel", nameof(message));
-    //        SelectedMenuItem = SpecialFolders.Contains(folder) || Folders.Contains(folder) ?
-    //            folder : throw new ArgumentException("FolderViewModel not found", nameof(message));
-    //    }
-    //}
 }
