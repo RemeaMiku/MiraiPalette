@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,15 +17,6 @@ namespace MiraiPalette.WinUI.ViewModels;
 
 public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService, IMessenger messenger) : PageViewModelBase(messenger)
 {
-    partial void OnPaletteChanged(PaletteViewModel value)
-    {
-        value.Colors.CollectionChanged += PaletteColors_CollectionChanged;
-    }
-
-    private void PaletteColors_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        UpdatePaletteCommand.Execute(null);
-    }
 
     [RelayCommand]
     async Task UpdatePalette()

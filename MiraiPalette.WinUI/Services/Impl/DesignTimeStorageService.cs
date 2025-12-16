@@ -122,6 +122,7 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
             entity.Folder = folder;
         }
         var newId = _paletteEntities.Keys.Max() + 1;
+        palette.Id = newId;
         entity.Id = newId;
         entity.CreatedAt = DateTimeOffset.Now;
         entity.UpdatedAt = DateTimeOffset.Now;
@@ -129,10 +130,55 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
         return Task.FromResult(newId);
     }
 
-    public Task DeleteFolderAsync(int id) => throw new System.NotImplementedException();
-    public Task DeletePaletteAsync(int paletteId) => throw new System.NotImplementedException();
-    public Task DeletePalettesAsync(IEnumerable<int> paletteIds) => throw new System.NotImplementedException();
-    public Task DeleteTagAsync(int id) => throw new System.NotImplementedException();
+    public Task DeleteFolderAsync(int folderId)
+    {
+        if(!_folderEntities.TryGetValue(folderId, out var folder))
+            throw new KeyNotFoundException($"Folder with Id {folderId} not found.");
+        foreach(var palette in folder.Palettes)
+            _paletteEntities.Remove(palette.Id);
+        _folderEntities.Remove(folderId);
+        return Task.CompletedTask;
+    }
+
+    public Task DeletePaletteAsync(int paletteId)
+    {
+        if(!_paletteEntities.TryGetValue(paletteId, out var palette))
+            throw new KeyNotFoundException($"Palette with Id {paletteId} not found.");
+        if(palette.FolderId.HasValue)
+        {
+            var folder = _folderEntities[palette.FolderId.Value];
+            folder.Palettes.Remove(palette);
+        }
+        _paletteEntities.Remove(paletteId);
+        return Task.FromResult(0);
+    }
+
+    public Task DeletePalettesAsync(IEnumerable<int> paletteIds)
+    {
+        foreach(var paletteId in paletteIds)
+        {
+            if(!_paletteEntities.TryGetValue(paletteId, out var palette))
+                throw new KeyNotFoundException($"Palette with Id {paletteId} not found.");
+            if(palette.FolderId.HasValue)
+            {
+                var folder = _folderEntities[palette.FolderId.Value];
+                folder.Palettes.Remove(palette);
+            }
+            _paletteEntities.Remove(paletteId);
+        }
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteTagAsync(int id)
+    {
+        if(!_tagEntities.TryGetValue(id, out var tag))
+            throw new KeyNotFoundException($"Tag with Id {id} not found.");
+        foreach(var palette in tag.Palettes)
+            palette.Tags.Remove(tag);
+        _tagEntities.Remove(id);
+        return Task.FromResult(tag);
+    }
+
     public Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync()
     {
         var models = _folderEntities.Values.Select(MiraiFolderMapper.ToViewModel);
@@ -145,7 +191,12 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
         return Task.FromResult(models);
     }
 
-    public Task<IEnumerable<TagViewModel>> GetAllTagsAsync() => throw new System.NotImplementedException();
+    public Task<IEnumerable<TagViewModel>> GetAllTagsAsync()
+    {
+        var models = _tagEntities.Values.Select(MiraiTagMapper.ToViewModel);
+        return Task.FromResult(models);
+    }
+
     public Task<FolderViewModel?> GetFolderAsync(int id)
     {
         return Task.FromResult(_folderEntities.GetValueOrDefault(id)?.ToViewModel());

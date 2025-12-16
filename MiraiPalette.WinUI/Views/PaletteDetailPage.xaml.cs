@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using MiraiPalette.WinUI.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -21,13 +20,6 @@ public sealed partial class PaletteDetailPage : Page
     }
 
     public PaletteDetailPageViewModel ViewModel { get; } = Current.Services.GetRequiredService<PaletteDetailPageViewModel>();
-
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        //base.OnNavigatedTo(e);
-        //var palette = e.Parameter as PaletteViewModel;
-        //ViewModel.LoadCommand.Execute(palette);
-    }
 
     private void OnRootPageSizeChanged(object _, SizeChangedEventArgs e)
     {

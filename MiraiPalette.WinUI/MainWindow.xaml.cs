@@ -19,7 +19,7 @@ namespace MiraiPalette.WinUI;
 public sealed partial class MainWindow : Window, IRecipient<NavigationMessage>
 {
 
-    public const int MinWindowWidth = 480;
+    public const int MinWindowWidth = 520;
 
     public const int MinWindowHeight = 640;
 
@@ -93,16 +93,11 @@ public sealed partial class MainWindow : Window, IRecipient<NavigationMessage>
 
     private void Navigate(NavigationTarget target, object? parameter = null)
     {
-        if(target == NavigationTarget.Back)
-        {
-            if(ContentFrame.CanGoBack)
-                ContentFrame.GoBack();
-            return;
-        }
         switch(target)
         {
             case NavigationTarget.Main:
                 ContentFrame.Navigate(typeof(MainPage));
+                ContentFrame.BackStack.Clear();
                 break;
             case NavigationTarget.Palette:
                 ContentFrame.Navigate(typeof(PaletteDetailPage));
@@ -112,6 +107,11 @@ public sealed partial class MainWindow : Window, IRecipient<NavigationMessage>
                 break;
             case NavigationTarget.Settings:
                 ContentFrame.Navigate(typeof(SettingsPage));
+                ContentFrame.BackStack.Clear();
+                break;
+            case NavigationTarget.Back:
+                if(ContentFrame.CanGoBack)
+                    ContentFrame.GoBack();
                 break;
             default:
                 break;

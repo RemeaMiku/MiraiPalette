@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +34,26 @@ public partial class MainPageViewModel : PageViewModelBase
     [ObservableProperty]
     public partial FolderViewModel Folder { get; set; } = null!;
 
+    partial void OnFolderChanged(FolderViewModel oldValue, FolderViewModel newValue)
+    {
+        oldValue?.PropertyChanged -= OnFolderPropertyChanged;
+        newValue?.PropertyChanged += OnFolderPropertyChanged;
+    }
+
+    private async void OnFolderPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if(e.PropertyName == nameof(FolderViewModel.Name))
+        {
+            if(string.IsNullOrWhiteSpace(Folder.Name))
+            {
+                Folder.Name = (await _miraiPaletteStorageService.GetFolderAsync(Folder.Id))!.Name;
+                return;
+            }
+            await _miraiPaletteStorageService.UpdateFolderAsync(Folder);
+        }
+    }
+
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasPalettes))]
     public partial ObservableCollection<PaletteViewModel> Palettes { get; set; } = [];
@@ -42,12 +63,12 @@ public partial class MainPageViewModel : PageViewModelBase
     partial void OnPalettesChanged(ObservableCollection<PaletteViewModel> oldValue, ObservableCollection<PaletteViewModel> newValue)
     {
         if(oldValue is not null)
-            oldValue.CollectionChanged -= OnPalettesChanged;
+            oldValue.CollectionChanged -= OnPalettesCollectionChanged;
         if(newValue is not null)
-            newValue.CollectionChanged += OnPalettesChanged;
+            newValue.CollectionChanged += OnPalettesCollectionChanged;
     }
 
-    private void OnPalettesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void OnPalettesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         OnPropertyChanged(nameof(HasPalettes));
     }
@@ -74,6 +95,11 @@ public partial class MainPageViewModel : PageViewModelBase
     public override async void OnNavigatedTo(object? parameter)
     {
         base.OnNavigatedTo(parameter);
+        if(parameter is null && Folder is not null)
+        {
+            await Load(Folder);
+            return;
+        }
         ArgumentNullException.ThrowIfNull(parameter);
         if(parameter is not FolderViewModel folderViewModel)
             throw new ArgumentException("Parameter must be of type FolderViewModel", nameof(parameter));
@@ -154,6 +180,9 @@ public partial class MainPageViewModel : PageViewModelBase
                 return;
             IsBusy = true;
             await _miraiPaletteStorageService.DeletePalettesAsync(SelectedPalettes.Select(p => p.Id));
+            foreach(var selectedPalette in SelectedPalettes)
+                Palettes.Remove(selectedPalette);
+            ClearSelection();
             IsBusy = false;
         }
         else
@@ -163,9 +192,11 @@ public partial class MainPageViewModel : PageViewModelBase
                 return;
             IsBusy = true;
             await _miraiPaletteStorageService.DeletePaletteAsync(palette.Id);
+            Palettes.Remove(palette);
+            ClearSelection();
             IsBusy = false;
         }
-        //await Load();
+        //await Load(Folder);
     }
 
     [RelayCommand]

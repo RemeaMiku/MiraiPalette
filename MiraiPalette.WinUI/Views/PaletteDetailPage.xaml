@@ -130,10 +130,10 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition
                                 Width="*"
-                                MinWidth="160" />
+                                MinWidth="120" />
                             <ColumnDefinition
-                                MinWidth="60"
-                                MaxWidth="240" />
+                                MinWidth="72"
+                                MaxWidth="256" />
                         </Grid.ColumnDefinitions>
                         <StackPanel
                             Orientation="Vertical"
