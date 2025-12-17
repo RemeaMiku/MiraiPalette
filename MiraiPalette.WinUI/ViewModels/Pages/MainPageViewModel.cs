@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using MiraiPalette.WinUI.Essentials.Navigation;
+using MiraiPalette.WinUI.Messaging;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
 
@@ -306,5 +307,33 @@ public partial class MainPageViewModel : PageViewModelBase
         };
         Navigate(NavigationTarget.ImagePalette, paras);
         ClearSelection();
+    }
+
+    [RelayCommand]
+    async Task DeleteFolder()
+    {
+        if(Folder is null)
+            throw new InvalidOperationException("No folder is selected.");
+        if(Folder.IsVirtual)
+            throw new InvalidOperationException("Cannot delete virtual folder.");
+        if(IsBusy)
+            return;
+        var isConfirmed = await Current.ShowDeleteConfirmDialogAsync("Delete Folder", $"Are you sure you want to delete \"{Folder.Name}\" folder? Be noticed that all of the palettes in the folder will be deleted too.");
+        if(!isConfirmed)
+            return;
+        try
+        {
+            IsBusy = true;
+            await _miraiPaletteStorageService.DeleteFolderAsync(Folder.Id);
+            Messenger.Send(new FolderDeletedMessage(Folder.Id));
+        }
+        catch(Exception ex)
+        {
+            await Current.ShowConfirmDialogAsync("Failed to delete folder.", ex.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 }

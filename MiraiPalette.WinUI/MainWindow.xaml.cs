@@ -34,6 +34,12 @@ public sealed partial class MainWindow : Window, IRecipient<NavigationMessage>
         presenter.PreferredMinimumHeight = MinWindowHeight;
         Messenger.RegisterAll(this);
         ViewModel.NewFolderAdded += ViewModel_NewFolderAdded;
+        Activated += MainWindow_Activated;
+    }
+
+    private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
+    {
+        ViewModel.IsActive = true;
     }
 
     private async void ViewModel_NewFolderAdded(object? sender, FolderViewModel e)

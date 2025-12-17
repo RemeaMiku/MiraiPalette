@@ -264,6 +264,7 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center">
                     <Button
+                        Command="{x:Bind ViewModel.DeleteFolderCommand, Mode=OneTime}"
                         Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                         Visibility="{x:Bind ViewModel.Folder.IsVirtual, Converter={StaticResource BoolToVisibilityInverseConverter}}">
                         <StackPanel

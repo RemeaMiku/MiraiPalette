@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using MiraiPalette.WinUI.Essentials.Navigation;
+using MiraiPalette.WinUI.Messaging;
 using MiraiPalette.WinUI.Services;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
 public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IMessenger messenger)
-    : ObservableRecipient(messenger)
+    : ObservableRecipient(messenger), IRecipient<FolderDeletedMessage>
 {
     [ObservableProperty]
     public partial string Title { get; set; } = "Mirai Palette";
@@ -76,5 +78,14 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
         if(value is null)
             return;
         SelectedMenuItem = value;
+    }
+
+    public void Receive(FolderDeletedMessage message)
+    {
+        var folder = Folders.FirstOrDefault(f => f.Id == message.FolderId) ??
+            throw new InvalidOperationException("Folder not found");
+        if(SelectedMenuItem == folder)
+            SelectedSpecialFolder = FolderViewModel.AllPalettes;
+        Folders.Remove(folder);
     }
 }

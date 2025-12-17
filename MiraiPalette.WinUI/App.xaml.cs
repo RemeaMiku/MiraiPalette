@@ -73,36 +73,6 @@ public partial class App : Application
         MainWindow.Activate();
     }
 
-    //public NavigationTarget CurrentNavigationTarget { get; set; } = NavigationTarget.Main;
-
-    //private void NavigateTo(NavigationTarget target, object? parameter = null)
-    //{
-    //    var frame = MainWindow.NavigationFrame;
-    //    switch(target)
-    //    {
-    //        case NavigationTarget.Back:
-    //            if(frame.CanGoBack)
-    //                frame.GoBack();
-    //            break;
-    //        case NavigationTarget.Main:
-    //            frame.Navigate(typeof(MainPage), parameter);
-    //            frame.BackStack.Clear();
-    //            break;
-    //        case NavigationTarget.Palette:
-    //            frame.Navigate(typeof(PaletteDetailPage), parameter);
-    //            break;
-    //        case NavigationTarget.ImagePalette:
-    //            frame.Navigate(typeof(ImagePalettePage), parameter);
-    //            break;
-    //        case NavigationTarget.Settings:
-    //            frame.Navigate(typeof(SettingsPage), parameter);
-    //            frame.BackStack.Clear();
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //}
-
     #region Settings
 
     public void ApplySettings()
