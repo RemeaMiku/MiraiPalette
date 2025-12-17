@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -211,7 +212,12 @@ public partial class MainPageViewModel : PageViewModelBase
     [RelayCommand]
     void NavigateToPalette(PaletteViewModel palette)
     {
-        Navigate(NavigationTarget.Palette, palette);
+        var paras = new Dictionary<string, object>
+        {
+            { "Palette", palette },
+            { "Folder", Folder }
+        };
+        Navigate(NavigationTarget.Palette, paras);
         ClearSelection();
     }
 

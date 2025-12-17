@@ -20,7 +20,7 @@
     x:Name="RootPage"
     MinWidth="320"
     Padding="32"
-    NavigationCacheMode="Required"
+    NavigationCacheMode="Disabled"
     mc:Ignorable="d">
     <Page.Resources>
         <animations:ImplicitAnimationSet x:Name="ShowTransitions">
@@ -241,18 +241,30 @@
                         MinWidth="60"
                         MaxWidth="240" />
                 </Grid.ColumnDefinitions>
-                <TextBox
-                    behaviors2:EnterToLoseFocusBehavior.IsEnabled="True"
-                    FontSize="{StaticResource TitleTextBlockFontSize}"
-                    Style="{ThemeResource TransparentBorderlessTextBox}"
-                    Text="{x:Bind ViewModel.Folder.Name, Mode=TwoWay}"
-                    Visibility="{x:Bind ViewModel.Folder.IsVirtual, Mode=OneWay, Converter={StaticResource BoolToVisibilityInverseConverter}}" />
-                <TextBlock
-                    Margin="12,6"
-                    VerticalAlignment="Center"
-                    FontSize="{StaticResource TitleTextBlockFontSize}"
-                    Text="{x:Bind ViewModel.Folder.Name, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.Folder.IsVirtual, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <controls:SwitchPresenter
+                    TargetType="x:Boolean"
+                    Value="{x:Bind ViewModel.Folder.IsVirtual, Mode=OneWay}">
+                    <controls:Case Value="True">
+                        <TextBlock
+                            Margin="12,6"
+                            VerticalAlignment="Center"
+                            FontSize="{StaticResource TitleTextBlockFontSize}"
+                            Text="{x:Bind ViewModel.Folder.Name, Mode=OneWay}" />
+                    </controls:Case>
+                    <controls:Case Value="False">
+                        <TextBox
+                            behaviors2:EnterToLoseFocusBehavior.IsEnabled="True"
+                            FontSize="{StaticResource TitleTextBlockFontSize}"
+                            Style="{ThemeResource TransparentBorderlessTextBox}"
+                            Text="{x:Bind ViewModel.Folder.Name, Mode=TwoWay}" />
+                    </controls:Case>
+                </controls:SwitchPresenter>
+                <controls:WrapPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                    <Button Content="{ui:FontIcon Glyph=&#xE74D;}" />
+                </controls:WrapPanel>
             </Grid>
         </Border>
     </Grid>

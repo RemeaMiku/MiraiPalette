@@ -42,6 +42,9 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
     public partial PaletteViewModel Palette { get; private set; } = null!;
 
     [ObservableProperty]
+    public partial FolderViewModel? Folder { get; private set; }
+
+    [ObservableProperty]
     public partial bool IsMultiSelectionEnabled { get; set; } = false;
 
     [ObservableProperty]
@@ -59,9 +62,21 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
     {
         base.OnNavigatedTo(parameter);
         ArgumentNullException.ThrowIfNull(parameter);
-        if(parameter is not PaletteViewModel paletteViewModel)
-            throw new ArgumentException("Parameter must be of type PaletteViewModel", nameof(parameter));
-        await Load(paletteViewModel);
+        switch(parameter)
+        {
+            case PaletteViewModel palettePara:
+                await Load(palettePara);
+                Folder = default;
+                break;
+            case Dictionary<string, object> dict:
+                if(dict.TryGetValue("Palette", out var paletteObj) && paletteObj is PaletteViewModel palette)
+                    await Load(palette);
+                if(dict.TryGetValue("Folder", out var folderObj) && folderObj is FolderViewModel folder)
+                    Folder = folder;
+                break;
+            default:
+                break;
+        }
     }
 
     [RelayCommand]
@@ -255,6 +270,16 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
         IsBusy = true;
         await miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
         IsBusy = false;
-        Navigate(NavigationTarget.Back);
+        ReturnToFolder();
+    }
+
+    [RelayCommand]
+    void ReturnToFolder()
+    {
+        if(IsBusy)
+            return;
+        if(Folder is null)
+            throw new InvalidOperationException("Cannot return to folder because Folder is null.");
+        Navigate(NavigationTarget.Back, Folder);
     }
 }

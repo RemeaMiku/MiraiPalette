@@ -54,8 +54,7 @@ public sealed partial class MainWindow : Window, IRecipient<NavigationMessage>
 
     private void TitleBar_BackRequested(TitleBar sender, object args)
     {
-        if(ContentFrame.CanGoBack)
-            ContentFrame.GoBack();
+        Navigate(NavigationTarget.Back);
     }
 
     private void TitleBar_PaneToggleRequested(TitleBar sender, object args)
