@@ -10,7 +10,7 @@
 
   <Identity
     Publisher="CN=91D59B34-21EA-41C7-AF5F-00C5A6372CA8"
-    Version="0.3.10.0"  Name="RemeaMiku.MiraiPalette"/>
+    Version="0.4.0.0"  Name="RemeaMiku.MiraiPalette"/>
 
   <mp:PhoneIdentity PhoneProductId="36fc4a71-2638-445f-9fe8-dfe6a07b65fa" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

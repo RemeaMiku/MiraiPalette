@@ -40,7 +40,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection()
             .AddDbContext<MiraiPaletteDb, LocalMiraiPaletteDb>(options => options.UseSqlite($"Data Source={Path.Combine(MiraiPaletteDbStorageService.DbFolderPath, MiraiPaletteDbStorageService.DbName)}"))
-            .AddScoped<IMiraiPaletteStorageService, DesignTimeStorageService>()
+            .AddScoped<IMiraiPaletteStorageService, MiraiPaletteDbStorageService>()
             .AddSingleton<IPaletteFileService, PaletteFileService>()
             .AddSingleton<ISettingsService, LocalSettingsService>()
             .AddSingleton<IMessenger, WeakReferenceMessenger>()

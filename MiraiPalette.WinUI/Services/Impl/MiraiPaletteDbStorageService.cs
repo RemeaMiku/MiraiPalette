@@ -84,6 +84,7 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 
         _db.Palettes.Add(entity);
         await _db.SaveChangesAsync();
+        model.Id = entity.Id;
 
         return entity.Id;
     }
@@ -151,7 +152,7 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
     public async Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync()
     {
         var list = await _db.Folders
-            .OrderBy(f => f.CreatedAt)
+            //            .OrderBy(f => f.CreatedAt)
             .ToListAsync();
 
         return list.Select(MiraiFolderMapper.ToViewModel);
@@ -231,11 +232,9 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
             .Include(p => p.Tags)
             .AsQueryable();
 
-        // id 小于 0 表示查询虚拟文件夹
-        if(folderId < 0)
+        if(FolderViewModel.IsVirtualFolder(folderId))
         {
-            // 查询没有 FolderId 的 Palette
-            query = query.Where(p => p.FolderId == null);
+
         }
         else
         {
@@ -247,8 +246,15 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 
         var list = await query.ToListAsync();
 
-        return list.Select(p => new PaletteViewModel(p));
+        return list.Select(p => p.ToViewModel());
     }
 
-    public Task<int> AddFolderAsync(FolderViewModel folder) => throw new NotImplementedException();
+    public async Task<int> AddFolderAsync(FolderViewModel folder)
+    {
+        var entity = new FolderEntity().FromViewModel(folder);
+        _db.Folders.Add(entity);
+        await _db.SaveChangesAsync();
+        folder.Id = entity.Id;
+        return entity.Id;
+    }
 }
