@@ -4,17 +4,12 @@ using MiraiPalette.Shared.Entities.Abstract;
 
 namespace MiraiPalette.Shared.Data;
 
-public abstract class MiraiPaletteDb : DbContext
+public abstract class MiraiPaletteDb(DbContextOptions options) : DbContext(options)
 {
     public DbSet<Entities.MiraiPalette> Palettes { get; set; } = null!;
     public DbSet<MiraiColor> Colors { get; set; } = null!;
     public DbSet<MiraiTag> Tags { get; set; } = null!;
     public DbSet<MiraiFolder> Folders { get; set; } = null!;
-
-    protected MiraiPaletteDb(DbContextOptions options) : base(options)
-    {
-
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

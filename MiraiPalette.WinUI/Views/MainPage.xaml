@@ -263,7 +263,16 @@
                     Grid.Column="1"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center">
-                    <Button Content="{ui:FontIcon Glyph=&#xE74D;}" />
+                    <Button
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                        Visibility="{x:Bind ViewModel.Folder.IsVirtual, Converter={StaticResource BoolToVisibilityInverseConverter}}">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <SymbolIcon Symbol="Delete" />
+                            <TextBlock Text="Delete Folder" />
+                        </StackPanel>
+                    </Button>
                 </controls:WrapPanel>
             </Grid>
         </Border>

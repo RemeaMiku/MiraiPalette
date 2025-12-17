@@ -145,7 +145,9 @@
                                 <StackPanel
                                     Orientation="Horizontal"
                                     Spacing="8">
-                                    <AnimatedIcon Height="24">
+                                    <AnimatedIcon
+                                        Height="20"
+                                        VerticalAlignment="Center">
                                         <animatedvisuals:AnimatedBackVisualSource />
                                         <AnimatedIcon.FallbackIconSource>
                                             <SymbolIconSource Symbol="Back" />
@@ -154,7 +156,6 @@
                                     <TextBlock
                                         MaxWidth="320"
                                         VerticalAlignment="Center"
-                                        FontSize="16"
                                         Text="{x:Bind x:String.Format('Return to {0}', ViewModel.Folder.Name), Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
                                 </StackPanel>

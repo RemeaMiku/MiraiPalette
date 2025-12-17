@@ -8,7 +8,7 @@ public class ImagePaletteExtractor
     private class Cluster
     {
         public (float L, float A, float B) Center;
-        public ConcurrentBag<(float L, float A, float B)> Pixels = new();
+        public ConcurrentBag<(float L, float A, float B)> Pixels = [];
     }
 
     public int MaxPixelCount { get; init; } = 1024 * 1024;
@@ -20,7 +20,7 @@ public class ImagePaletteExtractor
     public IEnumerable<(byte R, byte G, byte B, float Percentage)>
         Extract(IEnumerable<(byte R, byte G, byte B)> pixels, int colorCount)
     {
-        var source = pixels as (byte R, byte G, byte B)[] ?? pixels.ToArray();
+        var source = pixels as (byte R, byte G, byte B)[] ?? [.. pixels];
         if(source.Length == 0)
             yield break;
 
@@ -106,7 +106,7 @@ public class ImagePaletteExtractor
         {
             // 清空旧像素分配
             foreach(var c in clusters)
-                c.Pixels = new();
+                c.Pixels = [];
 
             // 采样一个 batch（MiniBatch KMeans）
             var batch = new (float L, float A, float B)[batchSize];

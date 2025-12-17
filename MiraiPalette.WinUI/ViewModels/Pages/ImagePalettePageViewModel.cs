@@ -37,7 +37,7 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     }
 
     [ObservableProperty]
-    public partial FolderViewModel TargetFolder { get; set; } = FolderViewModel.AllPalettes;
+    public required partial FolderViewModel TargetFolder { get; set; }
 
     [ObservableProperty]
     public required partial Uri ImagePath { get; set; }
@@ -79,12 +79,15 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     {
         base.OnNavigatedTo(parameter);
         ArgumentNullException.ThrowIfNull(parameter);
-        ImagePath = parameter switch
+        if(parameter is Dictionary<string, object> args
+            && args.TryGetValue("ImagePath", out var imagePathObj)
+            && imagePathObj is Uri uri
+            && args.TryGetValue("Folder", out var folderObj)
+            && folderObj is FolderViewModel folder)
         {
-            string imagePathString => new Uri(imagePathString),
-            Uri imagePath => imagePath,
-            _ => throw new ArgumentException("Parameter must be a string or Uri representing the image path.", nameof(parameter)),
-        };
+            ImagePath = uri;
+            TargetFolder = folder;
+        }
     }
 
     async partial void OnImagePathChanged(Uri value)
@@ -173,17 +176,24 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     }
 
     [RelayCommand]
+    void Cancel()
+    {
+        Navigate(NavigationTarget.Back, TargetFolder);
+    }
+
+    [RelayCommand]
     async Task SavePalette()
     {
         var palette = new PaletteViewModel
         {
             Name = Path.GetFileNameWithoutExtension(ImagePath.LocalPath),
             Description = string.Format(ImagePalettePageStrings.ImagePaletteDescription, ImagePath),
-            Colors = [.. AutoColors, .. ManualColors]
+            Colors = [.. AutoColors, .. ManualColors],
+            FolderId = TargetFolder.Id
         };
         IsBusy = true;
         await _paletteDataService.AddPaletteAsync(palette);
         IsBusy = false;
-        Navigate(NavigationTarget.Back);
+        Navigate(NavigationTarget.Main, TargetFolder);
     }
 }

@@ -299,7 +299,12 @@ public partial class MainPageViewModel : PageViewModelBase
         var path = await Current.PickFileToOpen(OpenFileStrings.ImageFile_Commit, ".png", ".jpg", ".jpeg", ".bmp", ".tiff");
         if(path is null)
             return;
-        Navigate(NavigationTarget.ImagePalette, path);
+        var paras = new Dictionary<string, object>
+        {
+            { "ImagePath", new Uri(path) },
+            { "Folder", Folder }
+        };
+        Navigate(NavigationTarget.ImagePalette, paras);
         ClearSelection();
     }
 }

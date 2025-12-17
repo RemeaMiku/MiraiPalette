@@ -121,6 +121,18 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
             folder.Palettes.Add(entity);
             entity.Folder = folder;
         }
+        foreach(var color in palette.Colors)
+        {
+            var colorEntity = new ColorEntity().FromViewModel(color);
+            colorEntity.Palette = entity;
+            entity.Colors.Add(colorEntity);
+        }
+        foreach(var tagId in palette.TagIds)
+        {
+            var tagEntity = _tagEntities[tagId];
+            entity.Tags.Add(tagEntity);
+            tagEntity.Palettes.Add(entity);
+        }
         var newId = _paletteEntities.Keys.Max() + 1;
         palette.Id = newId;
         entity.Id = newId;
@@ -222,6 +234,37 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
         if(!_paletteEntities.TryGetValue(palette.Id, out PaletteEntity? entity))
             throw new KeyNotFoundException($"Palette with Id {palette.Id} not found.");
         entity.FromViewModel(palette);
+        foreach(var color in palette.Colors)
+        {
+            var colorEntity = entity.Colors.FirstOrDefault(c => c.Id == color.Id);
+            if(colorEntity != null)
+            {
+                colorEntity.FromViewModel(color);
+            }
+            else
+            {
+                colorEntity = new ColorEntity().FromViewModel(color);
+                colorEntity.Palette = entity;
+                entity.Colors.Add(colorEntity);
+            }
+        }
+        foreach(var tag in entity.Tags.ToArray())
+        {
+            if(!palette.TagIds.Contains(tag.Id))
+            {
+                entity.Tags.Remove(tag);
+                tag.Palettes.Remove(entity);
+            }
+        }
+        foreach(var tagId in palette.TagIds)
+        {
+            if(!entity.Tags.Any(t => t.Id == tagId))
+            {
+                var tagEntity = _tagEntities[tagId];
+                entity.Tags.Add(tagEntity);
+                tagEntity.Palettes.Add(entity);
+            }
+        }
         return Task.CompletedTask;
     }
 

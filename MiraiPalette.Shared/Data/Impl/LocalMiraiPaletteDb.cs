@@ -3,12 +3,8 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace MiraiPalette.Shared.Data.Impl;
 
-public partial class LocalMiraiPaletteDb : MiraiPaletteDb
+public partial class LocalMiraiPaletteDb(DbContextOptions<LocalMiraiPaletteDb> options) : MiraiPaletteDb(options)
 {
-    public LocalMiraiPaletteDb(DbContextOptions<LocalMiraiPaletteDb> options) : base(options)
-    {
-
-    }
 }
 
 public class LocalMiraiPaletteDbFactory

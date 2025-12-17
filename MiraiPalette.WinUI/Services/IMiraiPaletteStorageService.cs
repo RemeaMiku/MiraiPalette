@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MiraiPalette.WinUI.ViewModels;
 
@@ -9,6 +10,7 @@ public interface IMiraiPaletteStorageService
 
     #region Basic MiraiPalette Crud
 
+    [Obsolete($"Use {nameof(GetPalettesByFolderAsync)} instead.")]
     public Task<IEnumerable<PaletteViewModel>> GetAllPalettesAsync();
 
     public Task<PaletteViewModel?> GetPaletteAsync(int paletteId);

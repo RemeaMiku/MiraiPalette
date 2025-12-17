@@ -281,12 +281,24 @@
                 </ListView>
             </Grid>
         </Grid>
-        <StackPanel
+        <controls:WrapPanel
             Grid.Row="3"
             Padding="4"
             HorizontalAlignment="Center"
+            HorizontalSpacing="8"
             Orientation="Horizontal"
-            Spacing="4">
+            VerticalSpacing="8">
+            <Button
+                Width="120"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind ViewModel.CancelCommand, Mode=OneTime}">
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <SymbolIcon Symbol="Cancel" />
+                    <TextBlock Text="Cancel" />
+                </StackPanel>
+            </Button>
             <Button
                 x:Name="CompleteButton"
                 Width="120"
@@ -294,15 +306,13 @@
                 Command="{x:Bind ViewModel.SavePaletteCommand, Mode=OneTime}"
                 IsEnabled="{x:Bind ViewModel.CanSavePalette, Mode=OneWay}"
                 Style="{StaticResource AccentButtonStyle}">
-                <Button.Content>
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Spacing="4">
-                        <FontIcon Glyph="&#xE73E;" />
-                        <TextBlock Text="{x:Bind localization:Resources.Complete, Mode=OneTime}" />
-                    </StackPanel>
-                </Button.Content>
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <FontIcon Glyph="&#xE73E;" />
+                    <TextBlock Text="{x:Bind localization:Resources.Complete, Mode=OneTime}" />
+                </StackPanel>
             </Button>
-        </StackPanel>
+        </controls:WrapPanel>
     </Grid>
 </Page>
