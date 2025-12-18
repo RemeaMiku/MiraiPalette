@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,10 +20,10 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
 
     public ObservableCollection<FolderViewModel> Folders { get; } = [];
 
-    public List<FolderViewModel> SpecialFolders { get; } =
-        [
-            FolderViewModel.AllPalettes,
-        ];
+    /// <summary>
+    /// 必须在运行时加载，否则会导致本地化文本无法正确显示
+    /// </summary>
+    public ObservableCollection<FolderViewModel> SpecialFolders { get; } = [];
 
     [ObservableProperty]
     public partial object? SelectedMenuItem { get; set; }
@@ -35,9 +34,11 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
     [RelayCommand]
     async Task Load()
     {
+        SpecialFolders.Clear();
         Folders.Clear();
         foreach(var folder in await miraiPaletteStorageService.GetAllFoldersAsync())
             Folders.Add(folder);
+        SpecialFolders.Add(FolderViewModel.AllPalettes);
         SelectedSpecialFolder = FolderViewModel.AllPalettes;
         IsActive = true;
     }
