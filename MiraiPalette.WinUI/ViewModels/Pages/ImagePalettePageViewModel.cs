@@ -191,9 +191,20 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
             Colors = [.. AutoColors, .. ManualColors],
             FolderId = TargetFolder.Id
         };
-        IsBusy = true;
-        await _paletteDataService.AddPaletteAsync(palette);
-        IsBusy = false;
+        try
+        {
+            IsBusy = true;
+            palette.Id = await _paletteDataService.AddPaletteAsync(palette);
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.CreatePalette_Title, ErrorMessages.CreatePalette_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
         Navigate(NavigationTarget.Main, TargetFolder);
     }
 }

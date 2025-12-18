@@ -255,8 +255,10 @@
                         <TextBox
                             behaviors2:EnterToLoseFocusBehavior.IsEnabled="True"
                             FontSize="{StaticResource TitleTextBlockFontSize}"
+                            PlaceholderText="{x:Bind localization:MainPageStrings.FolderName_Placeholder, Mode=OneTime}"
                             Style="{ThemeResource TransparentBorderlessTextBox}"
-                            Text="{x:Bind ViewModel.Folder.Name, Mode=TwoWay}" />
+                            Text="{x:Bind ViewModel.Folder.Name, Mode=TwoWay}"
+                            ToolTipService.ToolTip="{x:Bind x:String.Format(localization:MainPageStrings.FolderName_Tooltip, ViewModel.Folder.Name), Mode=OneWay}" />
                     </controls:Case>
                 </controls:SwitchPresenter>
                 <controls:WrapPanel
@@ -271,7 +273,7 @@
                             Orientation="Horizontal"
                             Spacing="8">
                             <SymbolIcon Symbol="Delete" />
-                            <TextBlock Text="Delete Folder" />
+                            <TextBlock Text="{x:Bind localization:MainPageStrings.DeleteFolder, Mode=OneTime}" />
                         </StackPanel>
                     </Button>
                 </controls:WrapPanel>

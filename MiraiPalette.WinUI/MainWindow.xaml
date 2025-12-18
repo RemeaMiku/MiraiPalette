@@ -111,7 +111,7 @@
                         <FontIcon
                             FontSize="16"
                             Glyph="&#xE710;" />
-                        <TextBlock Text="Add New Folder" />
+                        <TextBlock Text="{x:Bind localization:Resources.AddNewFolder, Mode=OneTime}" />
                     </StackPanel>
                 </Button>
             </NavigationView.PaneFooter>

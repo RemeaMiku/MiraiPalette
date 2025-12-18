@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using MiraiPalette.WinUI.Essentials.Navigation;
+using MiraiPalette.WinUI.Strings;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
@@ -27,5 +29,11 @@ public abstract partial class PageViewModelBase(IMessenger messenger) : Observab
     {
         OnNavigatedFrom();
         Messenger.Send(new NavigationMessage(target, parameter));
+    }
+
+    protected void EnsureNotBusy()
+    {
+        if(IsBusy)
+            throw new InvalidOperationException(ErrorMessages.AppIsBusy_Retry);
     }
 }

@@ -70,6 +70,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 删除文件夹 的本地化字符串。
+        /// </summary>
+        internal static string DeleteFolder {
+            get {
+                return ResourceManager.GetString("DeleteFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 你还没有调色板，点击下方按钮新建空白调色板 的本地化字符串。
         /// </summary>
         internal static string EmptyPalettesListMessage {
@@ -84,6 +93,24 @@ namespace MiraiPalette.WinUI.Strings {
         internal static string ExtractPaletteFromImage_Tooltip {
             get {
                 return ResourceManager.GetString("ExtractPaletteFromImage.Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文件夹名称... 的本地化字符串。
+        /// </summary>
+        internal static string FolderName_Placeholder {
+            get {
+                return ResourceManager.GetString("FolderName.Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0}（点击以编辑文件夹名称） 的本地化字符串。
+        /// </summary>
+        internal static string FolderName_Tooltip {
+            get {
+                return ResourceManager.GetString("FolderName.Tooltip", resourceCulture);
             }
         }
         

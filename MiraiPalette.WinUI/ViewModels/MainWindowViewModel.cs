@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Messaging;
 using MiraiPalette.WinUI.Services;
+using MiraiPalette.WinUI.Strings;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
@@ -46,7 +47,7 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
     {
         var folder = new FolderViewModel
         {
-            Name = "New Folder",
+            Name = $"{Resources.DefaultFolderName} {Folders.Count + 1}",
         };
         await miraiPaletteStorageService.AddFolderAsync(folder);
         Folders.Add(folder);

@@ -117,40 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MultiplePalettes.Title" xml:space="preserve">
-    <value>パレットの削除</value>
-  </data>
-  <data name="SinglePalette.Title" xml:space="preserve">
-    <value>パレットの削除</value>
-  </data>
-  <data name="MultiplePalettes.Message" xml:space="preserve">
-    <value>選択した {0} 個のパレットを削除してもよろしいですか？</value>
-  </data>
-  <data name="SinglePalette.Message" xml:space="preserve">
-    <value>パレット「{0}」を削除してもよろしいですか？</value>
-  </data>
-  <data name="MultipleColors.Title" xml:space="preserve">
-    <value>色の削除</value>
-  </data>
-  <data name="SingleColor.Title" xml:space="preserve">
-    <value>色の削除</value>
-  </data>
-  <data name="MultipleColors.Message" xml:space="preserve">
-    <value>選択した {0} 色を削除してもよろしいですか？</value>
-  </data>
-  <data name="SingleColor.Message" xml:space="preserve">
-    <value>色「{0}」を削除してもよろしいですか？</value>
+  <data name="AutoColorListClear.Message" xml:space="preserve">
+    <value>自動抽出されたすべての色を削除してもよろしいですか？</value>
   </data>
   <data name="AutoColorListClear.Title" xml:space="preserve">
     <value>自動抽出をクリア</value>
   </data>
-  <data name="AutoColorListClear.Message" xml:space="preserve">
-    <value>自動抽出されたすべての色を削除してもよろしいですか？</value>
+  <data name="Folder.Message" xml:space="preserve">
+    <value>フォルダー「{0}」を削除してもよろしいですか？フォルダー内のパレットもすべて削除されます！</value>
+  </data>
+  <data name="Folder.Title" xml:space="preserve">
+    <value>フォルダーの削除</value>
+  </data>
+  <data name="ManualColorListClear.Message" xml:space="preserve">
+    <value>手動抽出されたすべての色を削除してもよろしいですか？</value>
   </data>
   <data name="ManualColorListClear.Title" xml:space="preserve">
     <value>手動抽出をクリア</value>
   </data>
-  <data name="ManualColorListClear.Message" xml:space="preserve">
-    <value>手動抽出されたすべての色を削除してもよろしいですか？</value>
+  <data name="MultipleColors.Message" xml:space="preserve">
+    <value>選択した {0} 色を削除してもよろしいですか？</value>
+  </data>
+  <data name="MultipleColors.Title" xml:space="preserve">
+    <value>色の削除</value>
+  </data>
+  <data name="MultiplePalettes.Message" xml:space="preserve">
+    <value>選択した {0} 個のパレットを削除してもよろしいですか？</value>
+  </data>
+  <data name="MultiplePalettes.Title" xml:space="preserve">
+    <value>パレットの削除</value>
+  </data>
+  <data name="SingleColor.Message" xml:space="preserve">
+    <value>色「{0}」を削除してもよろしいですか？</value>
+  </data>
+  <data name="SingleColor.Title" xml:space="preserve">
+    <value>色の削除</value>
+  </data>
+  <data name="SinglePalette.Message" xml:space="preserve">
+    <value>パレット「{0}」を削除してもよろしいですか？</value>
+  </data>
+  <data name="SinglePalette.Title" xml:space="preserve">
+    <value>パレットの削除</value>
   </data>
 </root>

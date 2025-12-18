@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MiraiPalette.WinUI.Strings;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
@@ -11,7 +12,7 @@ public partial class FolderViewModel : ObservableObject
 
     public bool IsVirtual => IsVirtualFolder(Id);
 
-    public static FolderViewModel AllPalettes { get; } = new() { Id = 0, Name = "All Palettes" };
+    public static FolderViewModel AllPalettes { get; } = new() { Id = 0, Name = Resources.AllPalettes };
 
     public static FolderViewModel Unassigned { get; } = new() { Id = -1, Name = "Unassigned" };
 

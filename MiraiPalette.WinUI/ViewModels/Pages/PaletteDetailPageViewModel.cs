@@ -21,25 +21,29 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
     [RelayCommand]
     async Task UpdatePalette()
     {
-        if(IsBusy)
-        {
-            await Current.ShowConfirmDialogAsync(ErrorMessages.AppIsBusy_Title, ErrorMessages.AppIsBusy_Retry, false);
-            return;
-        }
-        IsBusy = true;
         try
         {
+            IsBusy = true;
             await miraiPaletteStorageService.UpdatePaletteAsync(Palette);
         }
         catch(Exception)
         {
-            await Current.ShowConfirmDialogAsync(ErrorMessages.UpdatePalette_Title, ErrorMessages.UpdatePalette_Error);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.UpdatePalette_Title, ErrorMessages.UpdatePalette_Error, false);
+            return;
         }
-        IsBusy = false;
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [ObservableProperty]
     public partial PaletteViewModel Palette { get; private set; } = null!;
+
+    /// <summary>
+    /// The original name of the palette when loaded.
+    /// </summary>
+    private string _originalPaletteName = string.Empty;
 
     [ObservableProperty]
     public partial FolderViewModel? Folder { get; private set; }
@@ -89,27 +93,32 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
                 color.PropertyChanged -= Color_PropertyChanged;
         }
         Palette = palette;
+        _originalPaletteName = palette.Name;
         palette.PropertyChanged += Palette_PropertyChanged;
         foreach(var color in palette.Colors)
             color.PropertyChanged += Color_PropertyChanged;
     }
 
-    private void Color_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private async void Color_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if(e.PropertyName == nameof(ColorViewModel.Name))
-            UpdatePaletteCommand.Execute(null);
+            await UpdatePalette();
     }
 
     private async void Palette_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if(e.PropertyName is nameof(PaletteViewModel.Name) && string.IsNullOrWhiteSpace(Palette.Name))
+        if(e.PropertyName is nameof(PaletteViewModel.Name))
         {
-            var title = (await miraiPaletteStorageService.GetPaletteAsync(Palette.Id))!.Name;
-            Palette.Name = title;
-            return;
+            if(string.IsNullOrWhiteSpace(Palette.Name))
+            {
+                Palette.Name = _originalPaletteName;
+                return;
+            }
+            await UpdatePalette();
+            _originalPaletteName = Palette.Name;
         }
-        if(e.PropertyName is nameof(PaletteViewModel.Name) or nameof(PaletteViewModel.Description))
-            UpdatePaletteCommand.Execute(null);
+        if(e.PropertyName is nameof(PaletteViewModel.Description))
+            await UpdatePalette();
     }
 
     [RelayCommand]
@@ -124,9 +133,7 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
             IsEditingColor = true;
         }
         else
-        {
             IsEditingColor = false;
-        }
     }
 
     [RelayCommand]
@@ -155,6 +162,7 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
         var path = await Current.PickPathToSave(Palette.Name, SaveFileStrings.PaletteFile_Commit, paletteFileService.SupportedExportFileTypes);
         if(path is null)
             return;
+        EnsureNotBusy();
         try
         {
             IsBusy = true;
@@ -162,7 +170,8 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
         }
         catch(Exception)
         {
-            await Current.ShowConfirmDialogAsync(ErrorMessages.ExportPaletteFile_Title, ErrorMessages.ExportPaletteFile_Error);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.ExportPaletteFile_Title, ErrorMessages.ExportPaletteFile_Error, false);
+            return;
         }
         finally
         {
@@ -264,12 +273,24 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
     [RelayCommand]
     async Task DeletePalette()
     {
+        EnsureNotBusy();
         var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, Palette.Name));
         if(!isConfirmed)
             return;
-        IsBusy = true;
-        await miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
-        IsBusy = false;
+        try
+        {
+            IsBusy = true;
+            await miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.DeleteSinglePalette_Title, ErrorMessages.DeleteSinglePalette_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
         ReturnToFolder();
     }
 

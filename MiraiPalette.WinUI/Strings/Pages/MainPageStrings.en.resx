@@ -120,11 +120,20 @@
   <data name="CreateNewPalette.Tooltip" xml:space="preserve">
     <value>Create New Blank Palette</value>
   </data>
+  <data name="DeleteFolder" xml:space="preserve">
+    <value>Delete Folder</value>
+  </data>
   <data name="EmptyPalettesListMessage" xml:space="preserve">
     <value>You don’t have a palette yet, click the button below to create a new blank palette</value>
   </data>
   <data name="ExtractPaletteFromImage.Tooltip" xml:space="preserve">
     <value>Extract from Image</value>
+  </data>
+  <data name="FolderName.Placeholder" xml:space="preserve">
+    <value>Folder Name...</value>
+  </data>
+  <data name="FolderName.Tooltip" xml:space="preserve">
+    <value>{0} (Click to edit folder name)</value>
   </data>
   <data name="ImportPaletteFile.Tooltip" xml:space="preserve">
     <value>Import from File (ACO files only supported)</value>

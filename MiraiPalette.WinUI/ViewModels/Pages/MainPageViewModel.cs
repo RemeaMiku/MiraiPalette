@@ -36,10 +36,16 @@ public partial class MainPageViewModel : PageViewModelBase
     [ObservableProperty]
     public partial FolderViewModel Folder { get; set; } = null!;
 
+    /// <summary>
+    /// The original name of the folder, used to revert changes if update fails.
+    /// </summary>
+    private string _originalFolderName = string.Empty;
+
     partial void OnFolderChanged(FolderViewModel oldValue, FolderViewModel newValue)
     {
         oldValue?.PropertyChanged -= OnFolderPropertyChanged;
         newValue?.PropertyChanged += OnFolderPropertyChanged;
+        _originalFolderName = newValue?.Name ?? string.Empty;
     }
 
     private async void OnFolderPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -48,10 +54,26 @@ public partial class MainPageViewModel : PageViewModelBase
         {
             if(string.IsNullOrWhiteSpace(Folder.Name))
             {
-                Folder.Name = (await _miraiPaletteStorageService.GetFolderAsync(Folder.Id))!.Name;
+                Folder.Name = _originalFolderName;
                 return;
             }
-            await _miraiPaletteStorageService.UpdateFolderAsync(Folder);
+            EnsureNotBusy();
+            try
+            {
+                IsBusy = true;
+                await _miraiPaletteStorageService.UpdateFolderAsync(Folder);
+                _originalFolderName = Folder.Name;
+            }
+            catch(Exception)
+            {
+                await Current.ShowConfirmDialogAsync(ErrorMessages.UpdateFolder_Title, ErrorMessages.UpdateFolder_Error, false);
+                Folder.Name = _originalFolderName;
+                return;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 
@@ -136,10 +158,22 @@ public partial class MainPageViewModel : PageViewModelBase
     {
         Palettes.Clear();
         SelectedPalettes.Clear();
-        IsBusy = true;
         Folder = folder;
-        Palettes = new(await _miraiPaletteStorageService.GetPalettesByFolderAsync(folder.Id));
-        IsBusy = false;
+        EnsureNotBusy();
+        try
+        {
+            IsBusy = true;
+            Palettes = new(await _miraiPaletteStorageService.GetPalettesByFolderAsync(folder.Id));
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.LoadData_Title, ErrorMessages.LoadData_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     partial void OnIsMultiSelectModeChanged(bool value)
@@ -161,44 +195,74 @@ public partial class MainPageViewModel : PageViewModelBase
         CurrentPalette = palette;
     }
 
+    async Task DeleteSelectedPalettes()
+    {
+        string title, message;
+        if(SelectedPalettes.Count == 1)
+        {
+            title = DeleteConfirmStrings.SinglePalette_Title;
+            message = string.Format(DeleteConfirmStrings.SinglePalette_Message, SelectedPalettes[0].Name);
+        }
+        else
+        {
+            title = DeleteConfirmStrings.MultiplePalettes_Title;
+            message = string.Format(DeleteConfirmStrings.MultiplePalettes_Message, SelectedPalettes.Count);
+        }
+        var confirmed = await Current.ShowDeleteConfirmDialogAsync(title, message);
+        if(!confirmed)
+            return;
+        EnsureNotBusy();
+        try
+        {
+            IsBusy = true;
+            await _miraiPaletteStorageService.DeletePalettesAsync(SelectedPalettes.Select(p => p.Id));
+        }
+        catch(Exception)
+        {
+            var errorTitle = SelectedPalettes.Count == 1 ? ErrorMessages.DeleteSinglePalette_Title : ErrorMessages.DeleteMultiplePalettes_Title;
+            var errorMessage = SelectedPalettes.Count == 1 ? ErrorMessages.DeleteSinglePalette_Error : ErrorMessages.DeleteMultiplePalettes_Error;
+            await Current.ShowConfirmDialogAsync(errorTitle, errorMessage, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+        foreach(var selectedPalette in SelectedPalettes)
+            Palettes.Remove(selectedPalette);
+        ClearSelection();
+    }
+
+    async Task DeletePalette(PaletteViewModel palette)
+    {
+        var confirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, palette.Name));
+        if(!confirmed)
+            return;
+        EnsureNotBusy();
+        try
+        {
+            IsBusy = true;
+            await _miraiPaletteStorageService.DeletePaletteAsync(palette.Id);
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.DeleteSinglePalette_Title, ErrorMessages.DeleteSinglePalette_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+        Palettes.Remove(palette);
+    }
+
     [RelayCommand]
     async Task DeleteCurrentOrSelectedPalettes(PaletteViewModel? palette)
     {
         if(palette is null || palette.IsSelected)
-        {
-            string title, message;
-            if(SelectedPalettes.Count == 1)
-            {
-                title = DeleteConfirmStrings.SinglePalette_Title;
-                message = string.Format(DeleteConfirmStrings.SinglePalette_Message, SelectedPalettes[0].Name);
-            }
-            else
-            {
-                title = DeleteConfirmStrings.MultiplePalettes_Title;
-                message = string.Format(DeleteConfirmStrings.MultiplePalettes_Message, SelectedPalettes.Count);
-            }
-            var confirmed = await Current.ShowDeleteConfirmDialogAsync(title, message);
-            if(!confirmed)
-                return;
-            IsBusy = true;
-            await _miraiPaletteStorageService.DeletePalettesAsync(SelectedPalettes.Select(p => p.Id));
-            foreach(var selectedPalette in SelectedPalettes)
-                Palettes.Remove(selectedPalette);
-            ClearSelection();
-            IsBusy = false;
-        }
+            await DeleteSelectedPalettes();
         else
-        {
-            var confirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, palette.Name));
-            if(!confirmed)
-                return;
-            IsBusy = true;
-            await _miraiPaletteStorageService.DeletePaletteAsync(palette.Id);
-            Palettes.Remove(palette);
-            ClearSelection();
-            IsBusy = false;
-        }
-        //await Load(Folder);
+            await DeletePalette(palette);
     }
 
     [RelayCommand]
@@ -233,10 +297,22 @@ public partial class MainPageViewModel : PageViewModelBase
             Colors = [],
             FolderId = Folder.Id
         };
-        IsBusy = true;
-        await _miraiPaletteStorageService.AddPaletteAsync(newPalette);
+        EnsureNotBusy();
+        try
+        {
+            IsBusy = true;
+            newPalette.Id = await _miraiPaletteStorageService.AddPaletteAsync(newPalette);
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.CreatePalette_Title, ErrorMessages.CreatePalette_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
         Palettes.Insert(0, newPalette);
-        IsBusy = false;
         NavigateToPalette(newPalette);
     }
 
@@ -252,6 +328,7 @@ public partial class MainPageViewModel : PageViewModelBase
             await Current.ShowConfirmDialogAsync(ErrorMessages.ImportPaletteFile_Title, string.Format(ErrorMessages.PathNotExists, path), false);
             return;
         }
+        EnsureNotBusy();
         try
         {
             IsBusy = true;
@@ -262,13 +339,14 @@ public partial class MainPageViewModel : PageViewModelBase
                 return;
             }
             palette.FolderId = Folder.Id;
-            await _miraiPaletteStorageService.AddPaletteAsync(palette);
+            palette.Id = await _miraiPaletteStorageService.AddPaletteAsync(palette);
             Palettes.Insert(0, palette);
             NavigateToPalette(palette);
         }
         catch(Exception)
         {
             await Current.ShowConfirmDialogAsync(ErrorMessages.ImportPaletteFile_Title, ErrorMessages.ImportPaletteFile_Error, false);
+            return;
         }
         finally
         {
@@ -316,20 +394,20 @@ public partial class MainPageViewModel : PageViewModelBase
             throw new InvalidOperationException("No folder is selected.");
         if(Folder.IsVirtual)
             throw new InvalidOperationException("Cannot delete virtual folder.");
-        if(IsBusy)
-            return;
-        var isConfirmed = await Current.ShowDeleteConfirmDialogAsync("Delete Folder", $"Are you sure you want to delete \"{Folder.Name}\" folder? Be noticed that all of the palettes in the folder will be deleted too.");
+        var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.Folder_Title, string.Format(DeleteConfirmStrings.Folder_Message, Folder.Name));
         if(!isConfirmed)
             return;
+        EnsureNotBusy();
         try
         {
             IsBusy = true;
             await _miraiPaletteStorageService.DeleteFolderAsync(Folder.Id);
             Messenger.Send(new FolderDeletedMessage(Folder.Id));
         }
-        catch(Exception ex)
+        catch(Exception)
         {
-            await Current.ShowConfirmDialogAsync("Failed to delete folder.", ex.Message);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.DeleteFolder_Title, ErrorMessages.DeleteFolder_Error, false);
+            return;
         }
         finally
         {

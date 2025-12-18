@@ -120,43 +120,46 @@
   <data name="AddColorButton.Tooltip" xml:space="preserve">
     <value>Add Color</value>
   </data>
-  <data name="PaletteTitle.Placeholder" xml:space="preserve">
-    <value>Palette Title...</value>
-  </data>
-  <data name="PaletteDescription.Placeholder" xml:space="preserve">
-    <value>Description...</value>
-  </data>
-  <data name="ColorName.Placeholder" xml:space="preserve">
-    <value>[Unnamed]</value>
-  </data>
-  <data name="PaletteTitle.Tooltip" xml:space="preserve">
-    <value>{0} (click to edit palette title)</value>
-  </data>
-  <data name="PaletteDescription.Tooltip" xml:space="preserve">
-    <value>{0} (click to edit description)</value>
-  </data>
-  <data name="ExportPaletteButton.Tooltip" xml:space="preserve">
-    <value>Export palette (currently only ACO files supported)</value>
-  </data>
-  <data name="ToggleSelectionModeButton.Tooltip" xml:space="preserve">
-    <value>Switch selection mode</value>
-  </data>
-  <data name="ColorValueButton.Tooltip" xml:space="preserve">
-    <value>{0} (click to copy to clipboard)</value>
-  </data>
-  <data name="ColorItem.Tooltip" xml:space="preserve">
-    <value>{0} (click to edit color)</value>
+  <data name="BackToFolderButton.Text" xml:space="preserve">
+    <value>Back to {0}</value>
   </data>
   <data name="CloseColorEditPaneButton.Tooltip" xml:space="preserve">
     <value>Close sidebar</value>
   </data>
+  <data name="ColorItem.Tooltip" xml:space="preserve">
+    <value>{0} (click to edit color)</value>
+  </data>
+  <data name="ColorName.Placeholder" xml:space="preserve">
+    <value>[Unnamed]</value>
+  </data>
+  <data name="ColorName.Tooltip" xml:space="preserve">
+    <value>{0} (click to edit color name)</value>
+  </data>
+  <data name="ColorValueButton.Tooltip" xml:space="preserve">
+    <value>{0} (click to copy to clipboard)</value>
+  </data>
   <data name="DeletePaletteButton.Text" xml:space="preserve">
     <value>Delete The Palette</value>
+  </data>
+  <data name="ExportPaletteButton.Tooltip" xml:space="preserve">
+    <value>Export palette (currently only ACO files supported)</value>
   </data>
   <data name="MoreActionsButton.Tooltip" xml:space="preserve">
     <value>View more palette actions</value>
   </data>
-  <data name="ColorName.Tooltip" xml:space="preserve">
-    <value>{0} (click to edit color name)</value>
+  <data name="PaletteDescription.Placeholder" xml:space="preserve">
+    <value>Description...</value>
+  </data>
+  <data name="PaletteDescription.Tooltip" xml:space="preserve">
+    <value>{0} (click to edit description)</value>
+  </data>
+  <data name="PaletteTitle.Placeholder" xml:space="preserve">
+    <value>Palette Title...</value>
+  </data>
+  <data name="PaletteTitle.Tooltip" xml:space="preserve">
+    <value>{0} (click to edit palette title)</value>
+  </data>
+  <data name="ToggleSelectionModeButton.Tooltip" xml:space="preserve">
+    <value>Switch selection mode</value>
   </data>
 </root>

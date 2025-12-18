@@ -51,7 +51,9 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
             .Include(p => p.Tags)
             .ToListAsync();
 
-        return list.Select(MiraiPaletteMapper.ToViewModel);
+        return list
+            .OrderByDescending(p => p.CreatedAt)
+            .Select(MiraiPaletteMapper.ToViewModel);
     }
 
     public async Task<PaletteViewModel?> GetPaletteAsync(int paletteId)
@@ -152,10 +154,11 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
     public async Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync()
     {
         var list = await _db.Folders
-            //            .OrderBy(f => f.CreatedAt)
             .ToListAsync();
 
-        return list.Select(MiraiFolderMapper.ToViewModel);
+        return list
+            .OrderByDescending(f => f.CreatedAt)
+            .Select(MiraiFolderMapper.ToViewModel);
     }
 
     public async Task<FolderViewModel?> GetFolderAsync(int id)
@@ -192,7 +195,9 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
             .OrderBy(t => t.CreatedAt)
             .ToListAsync();
 
-        return list.Select(MiraiTagMapper.ToViewModel);
+        return list
+            .OrderByDescending(t => t.CreatedAt)
+            .Select(MiraiTagMapper.ToViewModel);
     }
 
     public async Task<TagViewModel?> GetTagAsync(int id)
@@ -234,19 +239,18 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 
         if(FolderViewModel.IsVirtualFolder(folderId))
         {
-
+            // 虚拟文件夹
         }
         else
         {
             query = query.Where(p => p.FolderId == folderId);
         }
 
-        // 如果有排序字段 Order，可以这样写：
-        // query = query.OrderBy(p => p.Order);
-
         var list = await query.ToListAsync();
 
-        return list.Select(p => p.ToViewModel());
+        return list
+            .OrderByDescending(p => p.CreatedAt)
+            .Select(p => p.ToViewModel());
     }
 
     public async Task<int> AddFolderAsync(FolderViewModel folder)

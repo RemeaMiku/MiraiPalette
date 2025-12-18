@@ -156,7 +156,7 @@
                                     <TextBlock
                                         MaxWidth="320"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind x:String.Format('Return to {0}', ViewModel.Folder.Name), Mode=OneWay}"
+                                        Text="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.BackToFolderButton_Text, ViewModel.Folder.Name), Mode=OneWay}"
                                         TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                             </Button>
