@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI;
 using MiraiPalette.Shared.Essentials;
 using MiraiPalette.WinUI.Essentials;
 using MiraiPalette.WinUI.Essentials.ImagePalette;
+using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
 using Windows.Foundation;
@@ -18,7 +21,7 @@ namespace MiraiPalette.WinUI.ViewModels;
 
 public partial class ImagePalettePageViewModel : PageViewModelBase
 {
-    public ImagePalettePageViewModel(IMiraiPaletteStorageService paletteDataService)
+    public ImagePalettePageViewModel(IMiraiPaletteStorageService paletteDataService, IMessenger messenger) : base(messenger)
     {
         _paletteDataService = paletteDataService;
         AutoColors.CollectionChanged += (_, __) =>
@@ -34,7 +37,10 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     }
 
     [ObservableProperty]
-    public required partial string ImagePath { get; set; }
+    public required partial FolderViewModel TargetFolder { get; set; }
+
+    [ObservableProperty]
+    public required partial Uri ImagePath { get; set; }
 
     [ObservableProperty]
     public partial int ColorCount { get; set; } = 4;
@@ -68,6 +74,26 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     public partial bool IsPickingColor { get; set; }
 
     readonly IMiraiPaletteStorageService _paletteDataService;
+
+    public override void OnNavigatedTo(object? parameter)
+    {
+        base.OnNavigatedTo(parameter);
+        ArgumentNullException.ThrowIfNull(parameter);
+        if(parameter is Dictionary<string, object> args
+            && args.TryGetValue("ImagePath", out var imagePathObj)
+            && imagePathObj is Uri uri
+            && args.TryGetValue("Folder", out var folderObj)
+            && folderObj is FolderViewModel folder)
+        {
+            ImagePath = uri;
+            TargetFolder = folder;
+        }
+    }
+
+    async partial void OnImagePathChanged(Uri value)
+    {
+        ImagePixels = await ImagePixelsExtractor.Default.ExtractImagePixelsAsync(value.LocalPath);
+    }
 
     [RelayCommand]
     async Task ExtractPalette()
@@ -150,17 +176,35 @@ public partial class ImagePalettePageViewModel : PageViewModelBase
     }
 
     [RelayCommand]
+    void Cancel()
+    {
+        Navigate(NavigationTarget.Back, TargetFolder);
+    }
+
+    [RelayCommand]
     async Task SavePalette()
     {
         var palette = new PaletteViewModel
         {
-            Title = Path.GetFileNameWithoutExtension(ImagePath),
+            Name = Path.GetFileNameWithoutExtension(ImagePath.LocalPath),
             Description = string.Format(ImagePalettePageStrings.ImagePaletteDescription, ImagePath),
-            Colors = [.. AutoColors, .. ManualColors]
+            Colors = [.. AutoColors, .. ManualColors],
+            FolderId = TargetFolder.Id
         };
-        IsBusy = true;
-        await _paletteDataService.AddPaletteAsync(palette);
-        IsBusy = false;
-        Current.NavigateTo(NavigationTarget.Back);
+        try
+        {
+            IsBusy = true;
+            palette.Id = await _paletteDataService.AddPaletteAsync(palette);
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.CreatePalette_Title, ErrorMessages.CreatePalette_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+        Navigate(NavigationTarget.Main, TargetFolder);
     }
 }

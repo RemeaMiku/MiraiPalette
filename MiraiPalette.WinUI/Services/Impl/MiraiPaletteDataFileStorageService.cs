@@ -9,15 +9,16 @@ using MiraiPalette.WinUI.ViewModels;
 
 namespace MiraiPalette.WinUI.Services.Impl;
 
+[Obsolete("Use database storage service instead.")]
 public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
 {
-    private const string _fileName = "palettes.mpd";
+    public const string FileName = "palettes.mpd";
 
     private static readonly string _filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Mirai Palette");
 
-    private const string _headerFormat = "MIRAI_PALETTE_DATA_v{0}";
+    private const string _headerPrefix = "MIRAI_PALETTE_DATA_v";
 
-    private const string _version = "1.0";
+    private const int _latestVersion = 1;
 
     private readonly Dictionary<int, PaletteEntity> _palettes = [];
 
@@ -29,7 +30,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
     void SaveFile()
     {
         var builder = new StringBuilder();
-        builder.AppendLine(string.Format(_headerFormat, _version));
+        builder.AppendLine(_headerPrefix + _latestVersion);
         builder.AppendLine();
         foreach((var id, var palette) in _palettes)
         {
@@ -48,7 +49,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         {
             Directory.CreateDirectory(_filePath);
         }
-        var fullPath = Path.Combine(_filePath, _fileName);
+        var fullPath = Path.Combine(_filePath, FileName);
         File.WriteAllText(fullPath, content);
     }
 
@@ -58,7 +59,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         {
             Directory.CreateDirectory(_filePath);
         }
-        var fullPath = Path.Combine(_filePath, _fileName);
+        var fullPath = Path.Combine(_filePath, FileName);
         if(!File.Exists(fullPath))
         {
             SaveFile();
@@ -68,7 +69,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         if(lines.Length == 0)
             return;
         var header = lines[0];
-        if(header != string.Format(_headerFormat, _version))
+        if(!header.StartsWith(_headerPrefix))
             return;
         for(int i = 1; i < lines.Length; i++)
         {
@@ -77,7 +78,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
                 continue;
             if(line.StartsWith("ID:", StringComparison.CurrentCultureIgnoreCase))
             {
-                var idStr = line.Substring(3).Trim();
+                var idStr = line[3..].Trim();
                 if(!int.TryParse(idStr, out int id))
                     continue;
                 var title = lines[++i].Trim();
@@ -126,7 +127,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         var entity = new PaletteEntity
         {
             Id = palette.Id,
-            Name = palette.Title,
+            Name = palette.Name,
             Description = palette.Description,
             Colors = entityColors
         };
@@ -164,7 +165,7 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
             var entity = new PaletteEntity
             {
                 Id = palette.Id,
-                Name = palette.Title,
+                Name = palette.Name,
                 Description = palette.Description,
                 Colors = entityColors
             };
@@ -183,4 +184,15 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         SaveFile();
         return Task.CompletedTask;
     }
+
+    public Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync() => throw new NotImplementedException();
+    public Task<FolderViewModel?> GetFolderAsync(int id) => throw new NotImplementedException();
+    public Task UpdateFolderAsync(FolderViewModel folder) => throw new NotImplementedException();
+    public Task DeleteFolderAsync(int id) => throw new NotImplementedException();
+    public Task<IEnumerable<TagViewModel>> GetAllTagsAsync() => throw new NotImplementedException();
+    public Task<TagViewModel?> GetTagAsync(int id) => throw new NotImplementedException();
+    public Task UpdateTagAsync(TagViewModel tag) => throw new NotImplementedException();
+    public Task DeleteTagAsync(int id) => throw new NotImplementedException();
+    public Task<IEnumerable<PaletteViewModel>> GetPalettesByFolderAsync(int folderId) => throw new NotImplementedException();
+    public Task<int> AddFolderAsync(FolderViewModel folder) => throw new NotImplementedException();
 }

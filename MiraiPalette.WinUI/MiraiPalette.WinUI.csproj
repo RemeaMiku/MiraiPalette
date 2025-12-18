@@ -18,9 +18,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Models\**" />
 		<Compile Remove="Views\Dialogs\**" />
+		<EmbeddedResource Remove="Models\**" />
 		<EmbeddedResource Remove="Views\Dialogs\**" />
+		<None Remove="Models\**" />
 		<None Remove="Views\Dialogs\**" />
+		<Page Remove="Models\**" />
 		<Page Remove="Views\Dialogs\**" />
 	</ItemGroup>
 
@@ -53,6 +57,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.250402" />
 		<PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.250402" />
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.250402" />
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250402" />
@@ -60,9 +65,13 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
 		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.250402" />
 		<PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.2.250402" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.250907003" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -273,5 +282,9 @@
 	  <Page Update="Controls\CopyButton.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </Page>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PRIResource Remove="Models\**" />
 	</ItemGroup>
 </Project>

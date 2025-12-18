@@ -4,17 +4,19 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.Storage.Pickers;
-using MiraiPalette.WinUI.Essentials;
+using MiraiPalette.Shared.Data;
+using MiraiPalette.Shared.Data.Impl;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Services.Impl;
 using MiraiPalette.WinUI.Settings;
 using MiraiPalette.WinUI.ViewModels;
-using MiraiPalette.WinUI.Views;
 using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -37,12 +39,14 @@ public partial class App : Application
     static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection()
-            .AddSingleton<IMiraiPaletteStorageService, MiraiPaletteDataFileStorageService>()
+            .AddDbContext<MiraiPaletteDb, LocalMiraiPaletteDb>(options => options.UseSqlite($"Data Source={Path.Combine(MiraiPaletteDbStorageService.DbFolderPath, MiraiPaletteDbStorageService.DbName)}"))
+            .AddScoped<IMiraiPaletteStorageService, MiraiPaletteDbStorageService>()
             .AddSingleton<IPaletteFileService, PaletteFileService>()
             .AddSingleton<ISettingsService, LocalSettingsService>()
+            .AddSingleton<IMessenger, WeakReferenceMessenger>()
             .AddTransient<PaletteDetailPageViewModel>()
             .AddTransient<ImagePalettePageViewModel>()
-            .AddSingleton<MainPageViewModel>()
+            .AddTransient<MainPageViewModel>()
             .AddSingleton<SettingsPageViewModel>()
             .AddSingleton<MainWindowViewModel>()
             .AddSingleton<MainWindow>();
@@ -67,34 +71,6 @@ public partial class App : Application
         base.OnLaunched(args);
         ApplySettings();
         MainWindow.Activate();
-    }
-
-    public void NavigateTo(NavigationTarget target, object? parameter = null)
-    {
-        var frame = MainWindow.NavigationFrame;
-        switch(target)
-        {
-            case NavigationTarget.Back:
-                if(frame.CanGoBack)
-                    frame.GoBack();
-                break;
-            case NavigationTarget.Main:
-                frame.Navigate(typeof(MainPage), parameter);
-                frame.BackStack.Clear();
-                break;
-            case NavigationTarget.Palette:
-                frame.Navigate(typeof(PaletteDetailPage), parameter);
-                break;
-            case NavigationTarget.ImagePalette:
-                frame.Navigate(typeof(ImagePalettePage), parameter);
-                break;
-            case NavigationTarget.Settings:
-                frame.Navigate(typeof(SettingsPage), parameter);
-                frame.BackStack.Clear();
-                break;
-            default:
-                break;
-        }
     }
 
     #region Settings

@@ -79,6 +79,24 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 你确定要删除文件夹“{0}”吗？文件夹下的调色板也会被一并删除！ 的本地化字符串。
+        /// </summary>
+        internal static string Folder_Message {
+            get {
+                return ResourceManager.GetString("Folder.Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除文件夹 的本地化字符串。
+        /// </summary>
+        internal static string Folder_Title {
+            get {
+                return ResourceManager.GetString("Folder.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 你确认要删除所有手动提取的颜色吗？ 的本地化字符串。
         /// </summary>
         internal static string ManualColorListClear_Message {

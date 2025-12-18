@@ -2,13 +2,13 @@
 
 public interface IPaletteRepository
 {
-    Task<IEnumerable<Palette>> GetAllPalettesAsync();
+    Task<IEnumerable<Entities.MiraiPalette>> GetAllPalettesAsync();
 
-    Task<Palette> GetPaletteByIdAsync(int id);
+    Task<Entities.MiraiPalette> GetPaletteByIdAsync(int id);
 
-    Task<int> AddPaletteAsync(Palette palette);
+    Task<int> AddPaletteAsync(Entities.MiraiPalette palette);
 
-    Task UpdatePaletteAsync(Palette palette);
+    Task UpdatePaletteAsync(Entities.MiraiPalette palette);
 
     Task DeletePaletteAsync(int id);
 

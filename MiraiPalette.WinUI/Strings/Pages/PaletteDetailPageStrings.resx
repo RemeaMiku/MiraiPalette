@@ -117,46 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddColorButton.Tooltip" xml:space="preserve">
+    <value>添加颜色</value>
+  </data>
+  <data name="BackToFolderButton.Text" xml:space="preserve">
+    <value>返回至 {0}</value>
+  </data>
+  <data name="CloseColorEditPaneButton.Tooltip" xml:space="preserve">
+    <value>关闭侧栏</value>
+  </data>
+  <data name="ColorItem.Tooltip" xml:space="preserve">
+    <value>{0}（点击以编辑颜色）</value>
+  </data>
+  <data name="ColorName.Placeholder" xml:space="preserve">
+    <value>[未命名]</value>
+  </data>
+  <data name="ColorName.Tooltip" xml:space="preserve">
+    <value>{0}（点击以编辑颜色名称）</value>
+  </data>
+  <data name="ColorValueButton.Tooltip" xml:space="preserve">
+    <value>{0}（点击以复制到剪切板）</value>
+  </data>
+  <data name="DeletePaletteButton.Text" xml:space="preserve">
+    <value>删除调色板</value>
+  </data>
+  <data name="ExportPaletteButton.Tooltip" xml:space="preserve">
+    <value>导出调色板（目前仅支持 ACO 文件）</value>
+  </data>
+  <data name="MoreActionsButton.Tooltip" xml:space="preserve">
+    <value>查看更多调色板的操作</value>
+  </data>
+  <data name="PaletteDescription.Placeholder" xml:space="preserve">
+    <value>描述...</value>
+  </data>
+  <data name="PaletteDescription.Tooltip" xml:space="preserve">
+    <value>{0}（点击以编辑描述）</value>
+  </data>
   <data name="PaletteTitle.Placeholder" xml:space="preserve">
     <value>调色板标题...</value>
   </data>
   <data name="PaletteTitle.Tooltip" xml:space="preserve">
     <value>{0}（点击以编辑调色板标题）</value>
   </data>
-  <data name="PaletteDescription.Tooltip" xml:space="preserve">
-    <value>{0}（点击以编辑描述）</value>
-  </data>
-  <data name="PaletteDescription.Placeholder" xml:space="preserve">
-    <value>描述...</value>
-  </data>
-  <data name="AddColorButton.Tooltip" xml:space="preserve">
-    <value>添加颜色</value>
-  </data>
-  <data name="ExportPaletteButton.Tooltip" xml:space="preserve">
-    <value>导出调色板（目前仅支持 ACO 文件）</value>
-  </data>
   <data name="ToggleSelectionModeButton.Tooltip" xml:space="preserve">
     <value>切换选择模式</value>
-  </data>
-  <data name="ColorName.Placeholder" xml:space="preserve">
-    <value>[未命名]</value>
-  </data>
-  <data name="ColorValueButton.Tooltip" xml:space="preserve">
-    <value>{0}（点击以复制到剪切板）</value>
-  </data>
-  <data name="ColorItem.Tooltip" xml:space="preserve">
-    <value>{0}（点击以编辑颜色）</value>
-  </data>
-  <data name="CloseColorEditPaneButton.Tooltip" xml:space="preserve">
-    <value>关闭侧栏</value>
-  </data>
-  <data name="DeletePaletteButton.Text" xml:space="preserve">
-    <value>删除调色板</value>
-  </data>
-  <data name="MoreActionsButton.Tooltip" xml:space="preserve">
-    <value>查看更多调色板的操作</value>
-  </data>
-  <data name="ColorName.Tooltip" xml:space="preserve">
-    <value>{0}（点击以编辑颜色名称）</value>
   </data>
 </root>

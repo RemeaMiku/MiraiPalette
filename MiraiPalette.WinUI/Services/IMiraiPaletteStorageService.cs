@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MiraiPalette.WinUI.ViewModels;
 
@@ -6,6 +7,10 @@ namespace MiraiPalette.WinUI.Services;
 
 public interface IMiraiPaletteStorageService
 {
+
+    #region Basic MiraiPalette Crud
+
+    [Obsolete($"Use {nameof(GetPalettesByFolderAsync)} instead.")]
     public Task<IEnumerable<PaletteViewModel>> GetAllPalettesAsync();
 
     public Task<PaletteViewModel?> GetPaletteAsync(int paletteId);
@@ -17,4 +22,28 @@ public interface IMiraiPaletteStorageService
     public Task DeletePaletteAsync(int paletteId);
 
     public Task DeletePalettesAsync(IEnumerable<int> paletteIds);
+
+    #endregion
+
+    public Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync();
+
+    public Task<int> AddFolderAsync(FolderViewModel folder);
+
+    public Task<FolderViewModel?> GetFolderAsync(int id);
+
+    public Task<IEnumerable<PaletteViewModel>> GetPalettesByFolderAsync(int folderId);
+
+    public Task UpdateFolderAsync(FolderViewModel folder);
+
+    public Task DeleteFolderAsync(int id);
+
+    public Task<IEnumerable<TagViewModel>> GetAllTagsAsync();
+
+    //public Task<int> AddTagAsync(TagViewModel tag);
+
+    public Task<TagViewModel?> GetTagAsync(int id);
+
+    public Task UpdateTagAsync(TagViewModel tag);
+
+    public Task DeleteTagAsync(int id);
 }

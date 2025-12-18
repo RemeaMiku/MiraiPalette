@@ -120,6 +120,9 @@
   <data name="Accept" xml:space="preserve">
     <value>Accept</value>
   </data>
+  <data name="AddNewFolder" xml:space="preserve">
+    <value>Add New Folder</value>
+  </data>
   <data name="AllPalettes" xml:space="preserve">
     <value>All Palettes</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="DefaultColorName" xml:space="preserve">
     <value>New Color</value>
+  </data>
+  <data name="DefaultFolderName" xml:space="preserve">
+    <value>New Folder</value>
   </data>
   <data name="DefaultPaletteTitle" xml:space="preserve">
     <value>New Palette</value>

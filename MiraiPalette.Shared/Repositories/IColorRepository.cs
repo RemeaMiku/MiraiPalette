@@ -1,11 +1,14 @@
-﻿namespace MiraiPalette.Shared.Repositories;
+﻿using MiraiPalette.Shared.Entities;
+
+namespace MiraiPalette.Shared.Repositories;
+
 public interface IColorRepository
 {
-    Task<Color> GetColorByIdAsync(int id);
+    Task<MiraiColor> GetColorByIdAsync(int id);
 
-    Task<int> AddColorAsync(Color color);
+    Task<int> AddColorAsync(MiraiColor color);
 
-    Task UpdateColorAsync(Color color);
+    Task UpdateColorAsync(MiraiColor color);
 
     Task DeleteColorAsync(int id);
 }

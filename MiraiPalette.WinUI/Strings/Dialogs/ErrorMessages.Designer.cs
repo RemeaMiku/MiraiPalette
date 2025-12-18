@@ -61,6 +61,24 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 新建文件夹时发生错误 的本地化字符串。
+        /// </summary>
+        internal static string AddFolder_Error {
+            get {
+                return ResourceManager.GetString("AddFolder.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建文件夹失败 的本地化字符串。
+        /// </summary>
+        internal static string AddFolder_Title {
+            get {
+                return ResourceManager.GetString("AddFolder.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 当前有正在进行的操作，请稍后重试。 的本地化字符串。
         /// </summary>
         internal static string AppIsBusy_Retry {
@@ -93,6 +111,24 @@ namespace MiraiPalette.WinUI.Strings {
         internal static string CreatePalette_Title {
             get {
                 return ResourceManager.GetString("CreatePalette.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除文件夹时发生错误。 的本地化字符串。
+        /// </summary>
+        internal static string DeleteFolder_Error {
+            get {
+                return ResourceManager.GetString("DeleteFolder.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除文件夹失败 的本地化字符串。
+        /// </summary>
+        internal static string DeleteFolder_Title {
+            get {
+                return ResourceManager.GetString("DeleteFolder.Title", resourceCulture);
             }
         }
         
@@ -178,11 +214,47 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 加载数据时发生错误。 的本地化字符串。
+        /// </summary>
+        internal static string LoadData_Error {
+            get {
+                return ResourceManager.GetString("LoadData.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据加载失败 的本地化字符串。
+        /// </summary>
+        internal static string LoadData_Title {
+            get {
+                return ResourceManager.GetString("LoadData.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 路径&quot;{0}&quot;不存在。 的本地化字符串。
         /// </summary>
         internal static string PathNotExists {
             get {
                 return ResourceManager.GetString("PathNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更新文件夹时发生错误。 的本地化字符串。
+        /// </summary>
+        internal static string UpdateFolder_Error {
+            get {
+                return ResourceManager.GetString("UpdateFolder.Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更新文件夹失败 的本地化字符串。
+        /// </summary>
+        internal static string UpdateFolder_Title {
+            get {
+                return ResourceManager.GetString("UpdateFolder.Title", resourceCulture);
             }
         }
         

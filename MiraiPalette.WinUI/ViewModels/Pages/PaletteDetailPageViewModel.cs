@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI;
-using MiraiPalette.WinUI.Essentials;
+using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Services;
 using MiraiPalette.WinUI.Strings;
 using Windows.ApplicationModel.DataTransfer;
@@ -15,50 +15,38 @@ using Windows.UI;
 
 namespace MiraiPalette.WinUI.ViewModels;
 
-public partial class PaletteDetailPageViewModel : PageViewModelBase
+public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService, IMessenger messenger) : PageViewModelBase(messenger)
 {
-    public PaletteDetailPageViewModel(IMiraiPaletteStorageService miraiPaletteStorageService, IPaletteFileService paletteFileService)
-    {
-        _miraiPaletteStorageService = miraiPaletteStorageService;
-        _paletteFileService = paletteFileService;
-    }
-
-    partial void OnPaletteChanged(PaletteViewModel value)
-    {
-        value.Colors.CollectionChanged += PaletteColors_CollectionChanged;
-    }
-
-    private void PaletteColors_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        UpdatePaletteCommand.Execute(null);
-    }
 
     [RelayCommand]
     async Task UpdatePalette()
     {
-        if(IsBusy)
-        {
-            await Current.ShowConfirmDialogAsync(ErrorMessages.AppIsBusy_Title, ErrorMessages.AppIsBusy_Retry, false);
-            return;
-        }
-        IsBusy = true;
         try
         {
-            await _miraiPaletteStorageService.UpdatePaletteAsync(Palette);
+            IsBusy = true;
+            await miraiPaletteStorageService.UpdatePaletteAsync(Palette);
         }
         catch(Exception)
         {
-            await Current.ShowConfirmDialogAsync(ErrorMessages.UpdatePalette_Title, ErrorMessages.UpdatePalette_Error);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.UpdatePalette_Title, ErrorMessages.UpdatePalette_Error, false);
+            return;
         }
-        IsBusy = false;
+        finally
+        {
+            IsBusy = false;
+        }
     }
-
-    private readonly IMiraiPaletteStorageService _miraiPaletteStorageService;
-
-    private readonly IPaletteFileService _paletteFileService;
 
     [ObservableProperty]
     public partial PaletteViewModel Palette { get; private set; } = null!;
+
+    /// <summary>
+    /// The original name of the palette when loaded.
+    /// </summary>
+    private string _originalPaletteName = string.Empty;
+
+    [ObservableProperty]
+    public partial FolderViewModel? Folder { get; private set; }
 
     [ObservableProperty]
     public partial bool IsMultiSelectionEnabled { get; set; } = false;
@@ -74,31 +62,63 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
 
     public bool HasSelectedColors => SelectedColor is not null;
 
+    public override async void OnNavigatedTo(object? parameter)
+    {
+        base.OnNavigatedTo(parameter);
+        ArgumentNullException.ThrowIfNull(parameter);
+        switch(parameter)
+        {
+            case PaletteViewModel palettePara:
+                await Load(palettePara);
+                Folder = default;
+                break;
+            case Dictionary<string, object> dict:
+                if(dict.TryGetValue("Palette", out var paletteObj) && paletteObj is PaletteViewModel palette)
+                    await Load(palette);
+                if(dict.TryGetValue("Folder", out var folderObj) && folderObj is FolderViewModel folder)
+                    Folder = folder;
+                break;
+            default:
+                break;
+        }
+    }
+
     [RelayCommand]
     public async Task Load(PaletteViewModel palette)
     {
+        if(Palette is not null)
+        {
+            Palette.PropertyChanged -= Palette_PropertyChanged;
+            foreach(var color in Palette.Colors)
+                color.PropertyChanged -= Color_PropertyChanged;
+        }
         Palette = palette;
+        _originalPaletteName = palette.Name;
         palette.PropertyChanged += Palette_PropertyChanged;
         foreach(var color in palette.Colors)
             color.PropertyChanged += Color_PropertyChanged;
     }
 
-    private void Color_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private async void Color_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if(e.PropertyName == nameof(ColorViewModel.Name))
-            UpdatePaletteCommand.Execute(null);
+            await UpdatePalette();
     }
 
     private async void Palette_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if(e.PropertyName is nameof(PaletteViewModel.Title) && string.IsNullOrWhiteSpace(Palette.Title))
+        if(e.PropertyName is nameof(PaletteViewModel.Name))
         {
-            var title = (await _miraiPaletteStorageService.GetPaletteAsync(Palette.Id))!.Title;
-            Palette.Title = title;
-            return;
+            if(string.IsNullOrWhiteSpace(Palette.Name))
+            {
+                Palette.Name = _originalPaletteName;
+                return;
+            }
+            await UpdatePalette();
+            _originalPaletteName = Palette.Name;
         }
-        if(e.PropertyName is nameof(PaletteViewModel.Title) or nameof(PaletteViewModel.Description))
-            UpdatePaletteCommand.Execute(null);
+        if(e.PropertyName is nameof(PaletteViewModel.Description))
+            await UpdatePalette();
     }
 
     [RelayCommand]
@@ -113,9 +133,7 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
             IsEditingColor = true;
         }
         else
-        {
             IsEditingColor = false;
-        }
     }
 
     [RelayCommand]
@@ -141,17 +159,19 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
     [RelayCommand]
     async Task ExportPalette()
     {
-        var path = await Current.PickPathToSave(Palette.Title, SaveFileStrings.PaletteFile_Commit, _paletteFileService.SupportedExportFileTypes);
+        var path = await Current.PickPathToSave(Palette.Name, SaveFileStrings.PaletteFile_Commit, paletteFileService.SupportedExportFileTypes);
         if(path is null)
             return;
+        EnsureNotBusy();
         try
         {
             IsBusy = true;
-            await _paletteFileService.Export(Palette, path);
+            await paletteFileService.Export(Palette, path);
         }
         catch(Exception)
         {
-            await Current.ShowConfirmDialogAsync(ErrorMessages.ExportPaletteFile_Title, ErrorMessages.ExportPaletteFile_Error);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.ExportPaletteFile_Title, ErrorMessages.ExportPaletteFile_Error, false);
+            return;
         }
         finally
         {
@@ -253,12 +273,34 @@ public partial class PaletteDetailPageViewModel : PageViewModelBase
     [RelayCommand]
     async Task DeletePalette()
     {
-        var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, Palette.Title));
+        EnsureNotBusy();
+        var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.SinglePalette_Title, string.Format(DeleteConfirmStrings.SinglePalette_Message, Palette.Name));
         if(!isConfirmed)
             return;
-        IsBusy = true;
-        await _miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
-        IsBusy = false;
-        Current.NavigateTo(NavigationTarget.Back);
+        try
+        {
+            IsBusy = true;
+            await miraiPaletteStorageService.DeletePaletteAsync(Palette.Id);
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.DeleteSinglePalette_Title, ErrorMessages.DeleteSinglePalette_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+        ReturnToFolder();
+    }
+
+    [RelayCommand]
+    void ReturnToFolder()
+    {
+        if(IsBusy)
+            return;
+        if(Folder is null)
+            throw new InvalidOperationException("Cannot return to folder because Folder is null.");
+        Navigate(NavigationTarget.Back, Folder);
     }
 }

@@ -70,6 +70,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 返回至 {0} 的本地化字符串。
+        /// </summary>
+        internal static string BackToFolderButton_Text {
+            get {
+                return ResourceManager.GetString("BackToFolderButton.Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 关闭侧栏 的本地化字符串。
         /// </summary>
         internal static string CloseColorEditPaneButton_Tooltip {

@@ -117,52 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PathNotExists" xml:space="preserve">
-    <value>パス「{0}」は存在しません。</value>
+  <data name="AddFolder.Error" xml:space="preserve">
+    <value>フォルダーの作成に失敗しました</value>
   </data>
-  <data name="ImportPaletteFile.Failed" xml:space="preserve">
-    <value>パレット ファイル形式がサポートされていないか、ファイルが空です。</value>
-  </data>
-  <data name="ImportPaletteFile.Error" xml:space="preserve">
-    <value>パレット ファイルのインポート中にエラーが発生しました。ファイルパスまたは権限を確認して、もう一度試してください。</value>
-  </data>
-  <data name="ImportPaletteFile.Title" xml:space="preserve">
-    <value>パレットのインポートに失敗しました</value>
-  </data>
-  <data name="ExportPaletteFile.Title" xml:space="preserve">
-    <value>パレットのエクスポートに失敗しました</value>
-  </data>
-  <data name="ExportPaletteFile.Error" xml:space="preserve">
-    <value>パレットをファイルにエクスポート中にエラーが発生しました。ファイル パスまたは権限を確認して、再試行してください。</value>
-  </data>
-  <data name="AppIsBusy.Title" xml:space="preserve">
-    <value>しばらくお待ちください</value>
+  <data name="AddFolder.Title" xml:space="preserve">
+    <value>フォルダーの作成にエラーが発生しました</value>
   </data>
   <data name="AppIsBusy.Retry" xml:space="preserve">
     <value>現在進行中の操作がありますので、しばらくしてからもう一度お試しください。</value>
   </data>
-  <data name="CreatePalette.Title" xml:space="preserve">
-    <value>新しいパレットの作成に失敗しました</value>
+  <data name="AppIsBusy.Title" xml:space="preserve">
+    <value>しばらくお待ちください</value>
   </data>
   <data name="CreatePalette.Error" xml:space="preserve">
     <value>新しいパレットの作成中にエラーが発生しました。</value>
   </data>
-  <data name="UpdatePalette.Title" xml:space="preserve">
-    <value>パレットの更新に失敗しました</value>
+  <data name="CreatePalette.Title" xml:space="preserve">
+    <value>新しいパレットの作成に失敗しました</value>
   </data>
-  <data name="UpdatePalette.Error" xml:space="preserve">
-    <value>パレットの更新中にエラーが発生しました。</value>
+  <data name="DeleteFolder.Error" xml:space="preserve">
+    <value>フォルダーの削除にエラーが発生しました。</value>
   </data>
-  <data name="DeleteSinglePalette.Title" xml:space="preserve">
+  <data name="DeleteFolder.Title" xml:space="preserve">
+    <value>フォルダーの削除中に失敗しました</value>
+  </data>
+  <data name="DeleteMultiplePalettes.Error" xml:space="preserve">
+    <value>パレットの削除中にエラーが発生しました。</value>
+  </data>
+  <data name="DeleteMultiplePalettes.Title" xml:space="preserve">
     <value>パレットの削除に失敗しました</value>
   </data>
   <data name="DeleteSinglePalette.Error" xml:space="preserve">
     <value>パレットの削除中にエラーが発生しました</value>
   </data>
-  <data name="DeleteMultiplePalettes.Title" xml:space="preserve">
+  <data name="DeleteSinglePalette.Title" xml:space="preserve">
     <value>パレットの削除に失敗しました</value>
   </data>
-  <data name="DeleteMultiplePalettes.Error" xml:space="preserve">
-    <value>パレットの削除中にエラーが発生しました。</value>
+  <data name="ExportPaletteFile.Error" xml:space="preserve">
+    <value>パレットをファイルにエクスポート中にエラーが発生しました。ファイル パスまたは権限を確認して、再試行してください。</value>
+  </data>
+  <data name="ExportPaletteFile.Title" xml:space="preserve">
+    <value>パレットのエクスポートに失敗しました</value>
+  </data>
+  <data name="ImportPaletteFile.Error" xml:space="preserve">
+    <value>パレット ファイルのインポート中にエラーが発生しました。ファイルパスまたは権限を確認して、もう一度試してください。</value>
+  </data>
+  <data name="ImportPaletteFile.Failed" xml:space="preserve">
+    <value>パレット ファイル形式がサポートされていないか、ファイルが空です。</value>
+  </data>
+  <data name="ImportPaletteFile.Title" xml:space="preserve">
+    <value>パレットのインポートに失敗しました</value>
+  </data>
+  <data name="LoadData.Error" xml:space="preserve">
+    <value>データの読み込み中にエラーが発生しました。</value>
+  </data>
+  <data name="LoadData.Title" xml:space="preserve">
+    <value>データの読み込みに失敗しました</value>
+  </data>
+  <data name="PathNotExists" xml:space="preserve">
+    <value>パス「{0}」は存在しません。</value>
+  </data>
+  <data name="UpdateFolder.Error" xml:space="preserve">
+    <value>フォルダーの更新中にエラーが発生しました。</value>
+  </data>
+  <data name="UpdateFolder.Title" xml:space="preserve">
+    <value>フォルダーの更新中に失敗しました</value>
+  </data>
+  <data name="UpdatePalette.Error" xml:space="preserve">
+    <value>パレットの更新中にエラーが発生しました。</value>
+  </data>
+  <data name="UpdatePalette.Title" xml:space="preserve">
+    <value>パレットの更新に失敗しました</value>
   </data>
 </root>

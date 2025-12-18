@@ -1,12 +1,20 @@
-﻿namespace MiraiPalette.Shared.Entities;
+﻿using MiraiPalette.Shared.Entities.Abstract;
 
-public class MiraiPalette
+namespace MiraiPalette.Shared.Entities;
+
+public class MiraiPalette : IHasTimeStamp
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; } = null!;
+    public string? Description { get; set; }
 
-    public string Description { get; set; } = string.Empty;
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
-    public List<Color> Colors { get; set; } = [];
+    public int? FolderId { get; set; }
+    public MiraiFolder? Folder { get; set; }
+
+    public List<MiraiColor> Colors { get; set; } = [];
+    public List<MiraiTag> Tags { get; set; } = [];
 }

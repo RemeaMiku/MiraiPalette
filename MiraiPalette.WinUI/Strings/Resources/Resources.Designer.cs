@@ -70,6 +70,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 新建文件夹 的本地化字符串。
+        /// </summary>
+        internal static string AddNewFolder {
+            get {
+                return ResourceManager.GetString("AddNewFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 全部调色板 的本地化字符串。
         /// </summary>
         internal static string AllPalettes {
@@ -138,6 +147,15 @@ namespace MiraiPalette.WinUI.Strings {
         internal static string DefaultColorName {
             get {
                 return ResourceManager.GetString("DefaultColorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建文件夹 的本地化字符串。
+        /// </summary>
+        internal static string DefaultFolderName {
+            get {
+                return ResourceManager.GetString("DefaultFolderName", resourceCulture);
             }
         }
         

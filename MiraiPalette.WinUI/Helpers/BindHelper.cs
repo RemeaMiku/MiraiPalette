@@ -1,4 +1,7 @@
 ﻿using System;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace MiraiPalette.WinUI.Helpers;
 
@@ -8,4 +11,12 @@ public static class BindHelper
 
     public static Uri ToFormattedUri(string uriFormat, object args)
         => new(string.Format(uriFormat, args));
+
+    public static ImageSource ToBitmapImage(Uri uri)
+        => new BitmapImage(uri);
+
+    public static Visibility IsNullToVisibility(object? obj)
+        => obj is null ? Visibility.Collapsed : Visibility.Visible;
+
+
 }

@@ -3,7 +3,9 @@
     x:Class="MiraiPalette.WinUI.Views.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:CommunityToolkit.WinUI.Animations"
     xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
+    xmlns:behaviors2="using:MiraiPalette.WinUI.Behaviors"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:MiraiPalette.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -18,14 +20,23 @@
     x:Name="RootPage"
     MinWidth="320"
     Padding="32"
-    NavigationCacheMode="Required"
+    NavigationCacheMode="Disabled"
     mc:Ignorable="d">
-    <interactivity:Interaction.Behaviors>
-        <interactivity:EventTriggerBehavior EventName="Loaded">
-            <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand, Mode=OneTime}" />
-        </interactivity:EventTriggerBehavior>
-    </interactivity:Interaction.Behaviors>
     <Page.Resources>
+        <animations:ImplicitAnimationSet x:Name="ShowTransitions">
+            <animations:OpacityAnimation
+                EasingMode="EaseOut"
+                From="0"
+                To="1"
+                Duration="0:0:0.5" />
+        </animations:ImplicitAnimationSet>
+        <animations:ImplicitAnimationSet x:Name="HideTransitions">
+            <animations:OpacityAnimation
+                EasingMode="EaseOut"
+                From="1"
+                To="0"
+                Duration="0:0:0.5" />
+        </animations:ImplicitAnimationSet>
         <MenuFlyout x:Key="MiraiPaletteItemContextFlyout">
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.NavigateToPaletteCommand, Mode=OneTime}"
@@ -44,8 +55,9 @@
             x:Key="MiraiColorItemTemplate"
             x:DataType="vm:ColorViewModel">
             <Rectangle
-                Height="28"
-                Fill="{Binding Color, Converter={converters:ColorToBrushConverter}}" />
+                Width="76"
+                Height="48"
+                Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" />
         </DataTemplate>
         <DataTemplate
             x:Key="MiraiPaletteItemTemplate"
@@ -55,7 +67,7 @@
                 ContextFlyout="{StaticResource MiraiPaletteItemContextFlyout}"
                 IsRightTapEnabled="True"
                 IsSelected="{x:Bind IsSelected, Mode=OneWay}"
-                ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}">
+                ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="RightTapped">
                         <interactivity:InvokeCommandAction
@@ -68,7 +80,9 @@
                     HorizontalContentAlignment="Left"
                     Command="{Binding ViewModel.PaletteCommand, ElementName=RootPage, Mode=OneWay}"
                     CommandParameter="{x:Bind}">
-                    <Grid Padding="4">
+                    <Grid
+                        Padding="8"
+                        RowSpacing="4">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -78,7 +92,7 @@
                             Margin="8,4,8,0"
                             MaxLines="1"
                             Style="{StaticResource TitleTextBlockStyle}"
-                            Text="{x:Bind Title, Mode=OneWay}"
+                            Text="{x:Bind Name, Mode=OneWay}"
                             TextTrimming="CharacterEllipsis" />
                         <TextBlock
                             Grid.Row="1"
@@ -103,7 +117,7 @@
                             SelectionMode="None">
                             <GridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem">
-                                    <Setter Property="Margin" Value="0,-8" />
+                                    <Setter Property="Margin" Value="0" />
                                     <Setter Property="Padding" Value="0" />
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -116,36 +130,50 @@
         </DataTemplate>
     </Page.Resources>
     <Grid>
-        <ScrollViewer
-            x:Name="PalettesScrollViewer"
-            Padding="8">
-            <ItemsRepeater
-                Margin="4"
-                ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
-                ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
-                <ItemsRepeater.Layout>
-                    <controls:StaggeredLayout
-                        ColumnSpacing="8"
-                        DesiredColumnWidth="320"
-                        ItemsStretch="None"
-                        RowSpacing="8" />
-                </ItemsRepeater.Layout>
-            </ItemsRepeater>
-        </ScrollViewer>
-        <StackPanel
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Spacing="8"
-            Visibility="{x:Bind ViewModel.HasPalettes, Mode=OneWay, Converter={StaticResource BoolToVisibilityInverseConverter}}">
-            <TextBlock
-                Style="{StaticResource BodyLargeTextBlockStyle}"
-                Text="{x:Bind localization:MainPageStrings.EmptyPalettesListMessage, Mode=OneTime}" />
-            <Button
-                HorizontalAlignment="Center"
-                Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
-                Content="{x:Bind localization:MainPageStrings.CreateNewPalette_Tooltip}"
-                Style="{StaticResource AccentButtonStyle}" />
-        </StackPanel>
+        <controls:SwitchPresenter
+            TargetType="x:Boolean"
+            Value="{x:Bind ViewModel.HasPalettes, Mode=OneWay}">
+            <controls:Case Value="True">
+                <ScrollViewer
+                    x:Name="PalettesScrollViewer"
+                    Padding="16"
+                    animations:Implicit.HideAnimations="{StaticResource HideTransitions}"
+                    animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}">
+                    <StackPanel Orientation="Vertical">
+                        <Rectangle Height="64" />
+                        <ItemsRepeater
+                            Margin="4"
+                            ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
+                            ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <controls:StaggeredLayout
+                                    ColumnSpacing="8"
+                                    DesiredColumnWidth="360"
+                                    ItemsStretch="None"
+                                    RowSpacing="8" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:Case>
+            <controls:Case Value="False">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    animations:Implicit.HideAnimations="{StaticResource HideTransitions}"
+                    animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}"
+                    Spacing="8">
+                    <TextBlock
+                        Style="{StaticResource BodyLargeTextBlockStyle}"
+                        Text="{x:Bind localization:MainPageStrings.EmptyPalettesListMessage, Mode=OneTime}" />
+                    <Button
+                        HorizontalAlignment="Center"
+                        Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
+                        Content="{x:Bind localization:MainPageStrings.CreateNewPalette_Tooltip}"
+                        Style="{StaticResource AccentButtonStyle}" />
+                </StackPanel>
+            </controls:Case>
+        </controls:SwitchPresenter>
         <Border
             Margin="32"
             HorizontalAlignment="Center"
@@ -197,6 +225,59 @@
                         Visibility="{x:Bind ViewModel.HasSelectedPalettes, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </CommandBar.SecondaryCommands>
             </CommandBar>
+        </Border>
+        <Border
+            Margin="0,0,16,0"
+            Padding="16"
+            VerticalAlignment="Top"
+            Background="{ThemeResource DefaultAcrylicBrush}"
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*"
+                        MinWidth="160" />
+                    <ColumnDefinition
+                        MinWidth="60"
+                        MaxWidth="240" />
+                </Grid.ColumnDefinitions>
+                <controls:SwitchPresenter
+                    TargetType="x:Boolean"
+                    Value="{x:Bind ViewModel.Folder.IsVirtual, Mode=OneWay}">
+                    <controls:Case Value="True">
+                        <TextBlock
+                            Margin="12,6"
+                            VerticalAlignment="Center"
+                            FontSize="{StaticResource TitleTextBlockFontSize}"
+                            Text="{x:Bind ViewModel.Folder.Name, Mode=OneWay}" />
+                    </controls:Case>
+                    <controls:Case Value="False">
+                        <TextBox
+                            behaviors2:EnterToLoseFocusBehavior.IsEnabled="True"
+                            FontSize="{StaticResource TitleTextBlockFontSize}"
+                            PlaceholderText="{x:Bind localization:MainPageStrings.FolderName_Placeholder, Mode=OneTime}"
+                            Style="{ThemeResource TransparentBorderlessTextBox}"
+                            Text="{x:Bind ViewModel.Folder.Name, Mode=TwoWay}"
+                            ToolTipService.ToolTip="{x:Bind x:String.Format(localization:MainPageStrings.FolderName_Tooltip, ViewModel.Folder.Name), Mode=OneWay}" />
+                    </controls:Case>
+                </controls:SwitchPresenter>
+                <controls:WrapPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                    <Button
+                        Command="{x:Bind ViewModel.DeleteFolderCommand, Mode=OneTime}"
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                        Visibility="{x:Bind ViewModel.Folder.IsVirtual, Converter={StaticResource BoolToVisibilityInverseConverter}}">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <SymbolIcon Symbol="Delete" />
+                            <TextBlock Text="{x:Bind localization:MainPageStrings.DeleteFolder, Mode=OneTime}" />
+                        </StackPanel>
+                    </Button>
+                </controls:WrapPanel>
+            </Grid>
         </Border>
     </Grid>
 </Page>

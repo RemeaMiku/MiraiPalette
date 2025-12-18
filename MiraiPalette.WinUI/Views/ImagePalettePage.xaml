@@ -7,6 +7,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:e="using:MiraiPalette.WinUI.Essentials"
+    xmlns:helpers="using:MiraiPalette.WinUI.Helpers"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:MiraiPalette.WinUI.Views"
     xmlns:localization="using:MiraiPalette.WinUI.Strings"
@@ -89,6 +90,7 @@
                     PointerEntered="SourceImage_PointerEntered"
                     PointerExited="SourceImage_PointerExited"
                     PointerMoved="OnImage_PointerMoved"
+                    Source="{x:Bind helpers:BindHelper.ToBitmapImage(ViewModel.ImagePath), Mode=OneWay}"
                     Stretch="None">
                     <i:Interaction.Behaviors>
                         <i:EventTriggerBehavior EventName="PointerPressed">
@@ -279,12 +281,24 @@
                 </ListView>
             </Grid>
         </Grid>
-        <StackPanel
+        <controls:WrapPanel
             Grid.Row="3"
             Padding="4"
             HorizontalAlignment="Center"
+            HorizontalSpacing="8"
             Orientation="Horizontal"
-            Spacing="4">
+            VerticalSpacing="8">
+            <Button
+                Width="120"
+                HorizontalAlignment="Stretch"
+                Command="{x:Bind ViewModel.CancelCommand, Mode=OneTime}">
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <SymbolIcon Symbol="Cancel" />
+                    <TextBlock Text="{x:Bind localization:Resources.Cancel, Mode=OneTime}" />
+                </StackPanel>
+            </Button>
             <Button
                 x:Name="CompleteButton"
                 Width="120"
@@ -292,15 +306,13 @@
                 Command="{x:Bind ViewModel.SavePaletteCommand, Mode=OneTime}"
                 IsEnabled="{x:Bind ViewModel.CanSavePalette, Mode=OneWay}"
                 Style="{StaticResource AccentButtonStyle}">
-                <Button.Content>
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Spacing="4">
-                        <FontIcon Glyph="&#xE73E;" />
-                        <TextBlock Text="{x:Bind localization:Resources.Complete, Mode=OneTime}" />
-                    </StackPanel>
-                </Button.Content>
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    <FontIcon Glyph="&#xE73E;" />
+                    <TextBlock Text="{x:Bind localization:Resources.Complete, Mode=OneTime}" />
+                </StackPanel>
             </Button>
-        </StackPanel>
+        </controls:WrapPanel>
     </Grid>
 </Page>

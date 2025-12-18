@@ -120,6 +120,9 @@
   <data name="Accept" xml:space="preserve">
     <value>接受</value>
   </data>
+  <data name="AddNewFolder" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
   <data name="AllPalettes" xml:space="preserve">
     <value>全部调色板</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="DefaultColorName" xml:space="preserve">
     <value>新颜色</value>
+  </data>
+  <data name="DefaultFolderName" xml:space="preserve">
+    <value>新建文件夹</value>
   </data>
   <data name="DefaultPaletteTitle" xml:space="preserve">
     <value>新建调色板</value>

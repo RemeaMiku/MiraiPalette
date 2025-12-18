@@ -117,52 +117,76 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PathNotExists" xml:space="preserve">
-    <value>路径"{0}"不存在。</value>
+  <data name="AddFolder.Error" xml:space="preserve">
+    <value>新建文件夹时发生错误</value>
   </data>
-  <data name="ImportPaletteFile.Failed" xml:space="preserve">
-    <value>调色板文件格式不支持或文件为空。</value>
-  </data>
-  <data name="ImportPaletteFile.Error" xml:space="preserve">
-    <value>导入调色板文件时发生错误。请检查文件路径或权限后重试。</value>
-  </data>
-  <data name="ImportPaletteFile.Title" xml:space="preserve">
-    <value>导入调色板失败</value>
-  </data>
-  <data name="ExportPaletteFile.Title" xml:space="preserve">
-    <value>导出调色板失败</value>
-  </data>
-  <data name="ExportPaletteFile.Error" xml:space="preserve">
-    <value>导出调色板至文件时发生错误。请检查文件路径或权限后重试。</value>
-  </data>
-  <data name="AppIsBusy.Title" xml:space="preserve">
-    <value>请稍后</value>
+  <data name="AddFolder.Title" xml:space="preserve">
+    <value>新建文件夹失败</value>
   </data>
   <data name="AppIsBusy.Retry" xml:space="preserve">
     <value>当前有正在进行的操作，请稍后重试。</value>
   </data>
-  <data name="CreatePalette.Title" xml:space="preserve">
-    <value>新建调色板失败</value>
+  <data name="AppIsBusy.Title" xml:space="preserve">
+    <value>请稍后</value>
   </data>
   <data name="CreatePalette.Error" xml:space="preserve">
     <value>新建调色板时发生错误。</value>
   </data>
-  <data name="UpdatePalette.Title" xml:space="preserve">
-    <value>更新调色板失败</value>
+  <data name="CreatePalette.Title" xml:space="preserve">
+    <value>新建调色板失败</value>
   </data>
-  <data name="UpdatePalette.Error" xml:space="preserve">
-    <value>更新调色板时发生错误。</value>
+  <data name="DeleteFolder.Error" xml:space="preserve">
+    <value>删除文件夹时发生错误。</value>
   </data>
-  <data name="DeleteSinglePalette.Title" xml:space="preserve">
+  <data name="DeleteFolder.Title" xml:space="preserve">
+    <value>删除文件夹失败</value>
+  </data>
+  <data name="DeleteMultiplePalettes.Error" xml:space="preserve">
+    <value>删除调色板时发生错误。</value>
+  </data>
+  <data name="DeleteMultiplePalettes.Title" xml:space="preserve">
     <value>删除调色板失败</value>
   </data>
   <data name="DeleteSinglePalette.Error" xml:space="preserve">
     <value>删除调色板时发生错误</value>
   </data>
-  <data name="DeleteMultiplePalettes.Title" xml:space="preserve">
+  <data name="DeleteSinglePalette.Title" xml:space="preserve">
     <value>删除调色板失败</value>
   </data>
-  <data name="DeleteMultiplePalettes.Error" xml:space="preserve">
-    <value>删除调色板时发生错误。</value>
+  <data name="ExportPaletteFile.Error" xml:space="preserve">
+    <value>导出调色板至文件时发生错误。请检查文件路径或权限后重试。</value>
+  </data>
+  <data name="ExportPaletteFile.Title" xml:space="preserve">
+    <value>导出调色板失败</value>
+  </data>
+  <data name="ImportPaletteFile.Error" xml:space="preserve">
+    <value>导入调色板文件时发生错误。请检查文件路径或权限后重试。</value>
+  </data>
+  <data name="ImportPaletteFile.Failed" xml:space="preserve">
+    <value>调色板文件格式不支持或文件为空。</value>
+  </data>
+  <data name="ImportPaletteFile.Title" xml:space="preserve">
+    <value>导入调色板失败</value>
+  </data>
+  <data name="LoadData.Error" xml:space="preserve">
+    <value>加载数据时发生错误。</value>
+  </data>
+  <data name="LoadData.Title" xml:space="preserve">
+    <value>数据加载失败</value>
+  </data>
+  <data name="PathNotExists" xml:space="preserve">
+    <value>路径"{0}"不存在。</value>
+  </data>
+  <data name="UpdateFolder.Error" xml:space="preserve">
+    <value>更新文件夹时发生错误。</value>
+  </data>
+  <data name="UpdateFolder.Title" xml:space="preserve">
+    <value>更新文件夹失败</value>
+  </data>
+  <data name="UpdatePalette.Error" xml:space="preserve">
+    <value>更新调色板时发生错误。</value>
+  </data>
+  <data name="UpdatePalette.Title" xml:space="preserve">
+    <value>更新调色板失败</value>
   </data>
 </root>

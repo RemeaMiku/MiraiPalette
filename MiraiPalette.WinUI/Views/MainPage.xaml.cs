@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using MiraiPalette.WinUI.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -15,11 +14,6 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         InitializeComponent();
-    }
-
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        ViewModel.LoadCommand.Execute(null);
     }
 
     public MainPageViewModel ViewModel { get; } = Current.Services.GetRequiredService<MainPageViewModel>();

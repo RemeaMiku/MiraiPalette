@@ -120,6 +120,9 @@
   <data name="Accept" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="AddNewFolder" xml:space="preserve">
+    <value>フォルダーを新規作成</value>
+  </data>
   <data name="AllPalettes" xml:space="preserve">
     <value>すべてのパレット</value>
   </data>
@@ -136,13 +139,16 @@
     <value>確認</value>
   </data>
   <data name="Copied" xml:space="preserve">
-    <value>コピーしました</value>
+    <value>コピーされました</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>新規作成</value>
   </data>
   <data name="DefaultColorName" xml:space="preserve">
     <value>新しい色</value>
+  </data>
+  <data name="DefaultFolderName" xml:space="preserve">
+    <value>新しいフォルダー</value>
   </data>
   <data name="DefaultPaletteTitle" xml:space="preserve">
     <value>新しいパレット</value>

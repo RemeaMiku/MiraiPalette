@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Numerics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
-using MiraiPalette.WinUI.Essentials.ImagePalette;
 using MiraiPalette.WinUI.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -25,15 +24,6 @@ public sealed partial class ImagePalettePage : Page
 
     public ImagePalettePageViewModel ViewModel { get; } = Current.Services.GetRequiredService<ImagePalettePageViewModel>();
 
-    protected override async void OnNavigatedTo(NavigationEventArgs e)
-    {
-        base.OnNavigatedTo(e);
-        var path = (string)e.Parameter;
-        SourceImage.Source = new BitmapImage(new(path));
-        ViewModel.ImagePath = path;
-        ViewModel.ImagePixels = await new ImagePixelsExtractor().ExtractImagePixelsAsync(path);
-    }
-
     private float GetMinZoomFactorToFitImage()
     {
         var bitmapImage = (BitmapImage)SourceImage.Source;
@@ -46,14 +36,10 @@ public sealed partial class ImagePalettePage : Page
     {
         ViewModel.PointerPositionOnImage = e.GetCurrentPoint(SourceImage).Position;
         var point = e.GetCurrentPoint(ImagePanel).Position;
-        ColorPreviewPanel.Translation = new System.Numerics.Vector3(
-        (float)(point.X),
-        (float)(point.Y),
-        0
-    );
+        ColorPreviewPanel.Translation = new Vector3((float)point.X, (float)point.Y, 0);
     }
 
-    private void SourceImage_ImageOpened(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void SourceImage_ImageOpened(object sender, RoutedEventArgs e)
     {
         var minZoomFactor = GetMinZoomFactorToFitImage();
         ImageScrollView.ZoomToFactor(minZoomFactor);

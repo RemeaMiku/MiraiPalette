@@ -1,4 +1,4 @@
-﻿namespace MiraiPalette.WinUI.Essentials;
+﻿namespace MiraiPalette.WinUI.Essentials.Navigation;
 
 public enum NavigationTarget
 {
