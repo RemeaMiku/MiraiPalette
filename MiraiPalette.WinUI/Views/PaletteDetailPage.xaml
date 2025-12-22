@@ -29,7 +29,11 @@
                 x:Name="MiraiColorItemDetailItemContainer"
                 Width="240"
                 Height="160"
+                DragLeave="MiraiColorItemDetailItemContainer_DragLeave"
+                Drop="MiraiColorItemDetailItemContainer_Drop"
+                DropCompleted="MiraiColorItemDetailItemContainer_DropCompleted"
                 IsSelected="{x:Bind IsSelected, Mode=OneWay}"
+                PointerReleased="MiraiColorItemDetailItemContainer_PointerReleased"
                 ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.ColorItem_Tooltip, Name), Mode=OneWay}">
                 <Grid>
                     <Rectangle
@@ -108,6 +112,7 @@
                             IsItemClickEnabled="True"
                             ItemTemplate="{StaticResource MiraiColorItemDetailTamplate}"
                             ItemsSource="{x:Bind ViewModel.Palette.Colors, Mode=OneTime}"
+                            ReorderMode="Enabled"
                             SelectedItem="{x:Bind ViewModel.SelectedColor, Mode=TwoWay}"
                             SelectionMode="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolToListViewSelectionModeConverter}, Mode=OneWay}">
                             <interactivity:Interaction.Behaviors>

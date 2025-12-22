@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
     [RelayCommand]
     async Task UpdatePalette()
     {
+        EnsureNotBusy();
         try
         {
             IsBusy = true;
@@ -83,20 +85,37 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
         }
     }
 
+    partial void OnPaletteChanged(PaletteViewModel oldValue, PaletteViewModel newValue)
+    {
+        if(oldValue is not null)
+        {
+            oldValue.PropertyChanged -= Palette_PropertyChanged;
+            oldValue.Colors.CollectionChanged -= Colors_CollectionChanged;
+            foreach(var color in oldValue.Colors)
+                color.PropertyChanged -= Color_PropertyChanged;
+        }
+
+        if(newValue is not null)
+        {
+            newValue.PropertyChanged += Palette_PropertyChanged;
+            newValue.Colors.CollectionChanged += Colors_CollectionChanged;
+            foreach(var color in newValue.Colors)
+                color.PropertyChanged += Color_PropertyChanged;
+
+            _originalPaletteName = newValue.Name;
+        }
+    }
+
+    private async void Colors_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if(e.Action == NotifyCollectionChangedAction.Add)
+            await UpdatePalette();
+    }
+
     [RelayCommand]
     public async Task Load(PaletteViewModel palette)
     {
-        if(Palette is not null)
-        {
-            Palette.PropertyChanged -= Palette_PropertyChanged;
-            foreach(var color in Palette.Colors)
-                color.PropertyChanged -= Color_PropertyChanged;
-        }
         Palette = palette;
-        _originalPaletteName = palette.Name;
-        palette.PropertyChanged += Palette_PropertyChanged;
-        foreach(var color in palette.Colors)
-            color.PropertyChanged += Color_PropertyChanged;
     }
 
     private async void Color_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -152,7 +171,7 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
             Name = $"{Resources.DefaultColorName} {Palette.Colors.Count + 1}",
             Color = Colors.White
         });
-        await UpdatePalette();
+        //await UpdatePalette();
         SelectedColor = Palette.Colors[0];
     }
 

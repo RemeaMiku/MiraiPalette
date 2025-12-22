@@ -2,7 +2,7 @@
 
 namespace MiraiPalette.Shared.Entities;
 
-public class MiraiPalette : IHasTimeStamp
+public class MiraiPalette : IHasTimestamps
 {
     public int Id { get; set; }
 

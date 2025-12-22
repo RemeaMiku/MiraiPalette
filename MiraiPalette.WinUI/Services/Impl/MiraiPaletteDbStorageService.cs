@@ -71,8 +71,13 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
         var entity = new PaletteEntity().FromViewModel(model);
 
         // Colors
-        foreach(var c in model.Colors)
-            entity.Colors.Add(new MiraiColor().FromViewModel(c));
+        for(int i = 0; i < model.Colors.Count; i++)
+        {
+            entity.Colors.Add(new MiraiColor()
+            {
+                Order = i
+            }.FromViewModel(model.Colors[i]));
+        }
 
         // Tags: 多对多
         if(model.TagIds.Count > 0)
@@ -95,38 +100,54 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
     {
         var entity = await _db.Palettes
             .Include(p => p.Colors)
-            .Include(p => p.Tags)
             .FirstOrDefaultAsync(p => p.Id == model.Id);
 
-        if(entity is null)
+        if(entity == null)
             return;
 
+        // 1️⃣ 更新 Palette 自身属性
         entity.FromViewModel(model);
 
-        //
-        // 更新 Colors（最安全做法：整体替换）
-        //
-        entity.Colors.Clear();
-        foreach(var c in model.Colors)
-            entity.Colors.Add(new MiraiColor().FromViewModel(c));
+        // 2️⃣ 处理 Colors（重点）
+        var existingColors = entity.Colors.ToDictionary(c => c.Id);
+        var incomingColors = model.Colors;
 
-        //
-        // 更新 Tags（多对多：重新绑定）
-        //
-        entity.Tags.Clear();
-
-        if(model.TagIds.Count > 0)
+        for(int i = 0; i < incomingColors.Count; i++)
         {
-            var newTags = await _db.Tags
-                .Where(t => model.TagIds.Contains(t.Id))
-                .ToListAsync();
+            var colorModel = incomingColors[i];
 
-            foreach(var t in newTags)
-                entity.Tags.Add(t);
+            if(colorModel.Id > 0 && existingColors.TryGetValue(colorModel.Id, out var colorEntity))
+            {
+                // 已有 Color → 更新属性 + Order
+                colorEntity
+                    .FromViewModel(colorModel)
+                    .Order = i;
+            }
+            else
+            {
+                // 新 Color
+                entity.Colors.Add(new MiraiColor()
+                {
+                    Order = i
+                }.FromViewModel(colorModel));
+            }
         }
+
+        // 3️⃣ 删除被移除的 Color
+        var incomingIds = incomingColors
+            .Where(c => c.Id > 0)
+            .Select(c => c.Id)
+            .ToHashSet();
+
+        var toRemove = entity.Colors
+            .Where(c => c.Id > 0 && !incomingIds.Contains(c.Id))
+            .ToList();
+
+        _db.Colors.RemoveRange(toRemove);
 
         await _db.SaveChangesAsync();
     }
+
 
     public async Task DeletePaletteAsync(int paletteId)
     {
@@ -153,13 +174,15 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 
     public async Task<IEnumerable<FolderViewModel>> GetAllFoldersAsync()
     {
-        var list = await _db.Folders
+        var folders = await _db.Folders
+            .OrderBy(f => f.Order)
             .ToListAsync();
 
-        return list
-            .OrderByDescending(f => f.CreatedAt)
-            .Select(MiraiFolderMapper.ToViewModel);
+        var result = folders.Select(MiraiFolderMapper.ToViewModel);
+
+        return result;
     }
+
 
     public async Task<FolderViewModel?> GetFolderAsync(int id)
     {
@@ -250,7 +273,7 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 
         return list
             .OrderByDescending(p => p.CreatedAt)
-            .Select(p => p.ToViewModel());
+            .Select(MiraiPaletteMapper.ToViewModel);
     }
 
     public async Task<int> AddFolderAsync(FolderViewModel folder)

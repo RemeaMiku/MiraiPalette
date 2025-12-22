@@ -2,7 +2,7 @@
 
 namespace MiraiPalette.Shared.Entities;
 
-public class MiraiTag : IHasTimeStamp
+public class MiraiTag : IHasTimestamps
 {
     public int Id { get; set; }
 
