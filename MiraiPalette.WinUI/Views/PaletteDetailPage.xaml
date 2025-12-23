@@ -29,11 +29,7 @@
                 x:Name="MiraiColorItemDetailItemContainer"
                 Width="240"
                 Height="160"
-                DragLeave="MiraiColorItemDetailItemContainer_DragLeave"
-                Drop="MiraiColorItemDetailItemContainer_Drop"
-                DropCompleted="MiraiColorItemDetailItemContainer_DropCompleted"
                 IsSelected="{x:Bind IsSelected, Mode=OneWay}"
-                PointerReleased="MiraiColorItemDetailItemContainer_PointerReleased"
                 ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.ColorItem_Tooltip, Name), Mode=OneWay}">
                 <Grid>
                     <Rectangle
@@ -76,6 +72,13 @@
                             CommandParameter="{x:Bind}"
                             Icon="{ui:SymbolIcon Symbol=Edit}"
                             Text="{x:Bind localization:Resources.Edit, Mode=OneTime}" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            Icon="{ui:FontIcon Glyph=&#xE70E;}"
+                            Text="前移" />
+                        <MenuFlyoutItem
+                            Icon="{ui:FontIcon Glyph=&#xE70D;}"
+                            Text="后移" />
                         <MenuFlyoutSeparator />
                         <MenuFlyoutItem
                             Command="{Binding ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime, ElementName=RootPage}"

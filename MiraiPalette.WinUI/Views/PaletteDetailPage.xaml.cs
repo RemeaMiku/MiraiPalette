@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using CommunityToolkit.WinUI.Helpers;
+﻿using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -53,23 +52,4 @@ public sealed partial class PaletteDetailPage : Page
         ViewModel.UpdatePaletteCommand.Execute(null);
     }
 
-    private void MiraiColorItemDetailItemContainer_Drop(object sender, DragEventArgs e)
-    {
-        Trace.WriteLine("Drop on detail container");
-    }
-
-    private void MiraiColorItemDetailItemContainer_DropCompleted(UIElement sender, DropCompletedEventArgs args)
-    {
-        Trace.WriteLine("Drop completed on detail container");
-    }
-
-    private void MiraiColorItemDetailItemContainer_DragLeave(object sender, DragEventArgs e)
-    {
-        Trace.WriteLine("Drag leave on detail container");
-    }
-
-    private void MiraiColorItemDetailItemContainer_PointerReleased(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
-    {
-        Trace.WriteLine("Pointer released on detail container");
-    }
 }

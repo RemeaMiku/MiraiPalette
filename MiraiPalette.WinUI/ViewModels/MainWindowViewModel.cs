@@ -82,6 +82,19 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
         SelectedMenuItem = value;
     }
 
+    public bool FolderCanMoveUp(FolderViewModel folder)
+        => Folders.IndexOf(folder) > 0;
+
+    public bool FolderCanMoveDown(FolderViewModel folder)
+        => Folders.IndexOf(folder) < Folders.Count - 1;
+
+    void FolderMoveUp(FolderViewModel folder)
+    {
+        if(!FolderCanMoveUp(folder))
+            throw new InvalidOperationException("Folder cannot be moved up");
+        Folders.Move(Folders.IndexOf(folder), Folders.IndexOf(folder) - 1);
+    }
+
     public void Receive(FolderDeletedMessage message)
     {
         var folder = Folders.FirstOrDefault(f => f.Id == message.FolderId) ??

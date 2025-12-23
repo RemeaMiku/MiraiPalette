@@ -104,7 +104,7 @@ public partial class MainPageViewModel : PageViewModelBase
     public ObservableCollection<PaletteViewModel> SelectedPalettes { get; } = [];
 
     [ObservableProperty]
-    public partial PaletteViewModel CurrentPalette { get; set; } = null!;
+    public partial PaletteViewModel? CurrentPalette { get; set; }
 
     public bool HasSelectedPalettes => SelectedPalettes.Count > 0;
 
@@ -407,6 +407,32 @@ public partial class MainPageViewModel : PageViewModelBase
         catch(Exception)
         {
             await Current.ShowConfirmDialogAsync(ErrorMessages.DeleteFolder_Title, ErrorMessages.DeleteFolder_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
+    async Task MovePaletteToFolder(int folderId)
+    {
+        if(CurrentPalette is null)
+            throw new InvalidOperationException("No palette is selected.");
+        CurrentPalette.FolderId = folderId;
+        EnsureNotBusy();
+        try
+        {
+            IsBusy = true;
+            await _miraiPaletteStorageService.UpdatePaletteAsync(CurrentPalette);
+            Palettes.Remove(CurrentPalette);
+            CurrentPalette = null;
+        }
+        catch(Exception)
+        {
+            // TODO
+            //await Current.ShowConfirmDialogAsync(ErrorMessages.MovePalette_Title, ErrorMessages.MovePalette_Error, false);
             return;
         }
         finally
