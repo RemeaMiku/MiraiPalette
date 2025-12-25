@@ -65,13 +65,13 @@
                         Icon="Folder">
                         <NavigationViewItem.ContextFlyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem
+                                <!--<MenuFlyoutItem
                                     Icon="{ui:FontIcon Glyph=&#xE70E;}"
                                     Text="上移" />
                                 <MenuFlyoutItem
                                     Icon="{ui:FontIcon Glyph=&#xE70D;}"
                                     Text="下移" />
-                                <MenuFlyoutSeparator />
+                                <MenuFlyoutSeparator />-->
                                 <MenuFlyoutItem
                                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                     Icon="{ui:SymbolIcon Symbol=Delete}"

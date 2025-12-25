@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using MiraiPalette.WinUI.Essentials.Navigation;
 using MiraiPalette.WinUI.Helpers;
 using MiraiPalette.WinUI.ViewModels;
@@ -92,7 +93,7 @@ public sealed partial class MainWindow : Window, IRecipient<NavigationMessage>
                 ContentFrame.BackStack.Clear();
                 break;
             case NavigationTarget.Palette:
-                ContentFrame.Navigate(typeof(PaletteDetailPage));
+                ContentFrame.Navigate(typeof(PaletteDetailPage), default, new DrillInNavigationTransitionInfo());
                 break;
             case NavigationTarget.ImagePalette:
                 ContentFrame.Navigate(typeof(ImagePalettePage));

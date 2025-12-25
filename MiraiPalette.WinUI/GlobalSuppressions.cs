@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Performance", "CA1822:将成员标记为 static", Justification = "<挂起>", Scope = "member", Target = "~M:MiraiPalette.WinUI.Views.MainPage.MenuFlyout_Opened(System.Object,System.Object)")]
+[assembly: SuppressMessage("Performance", "CA1822:将成员标记为 static", Justification = "<挂起>", Scope = "member", Target = "~M:MiraiPalette.WinUI.Views.MainPage.MiraiPaletteContextMenu_Opened(System.Object,System.Object)")]

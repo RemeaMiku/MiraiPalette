@@ -60,6 +60,22 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
     [NotifyPropertyChangedFor(nameof(HasSelectedColors))]
     public partial ColorViewModel? SelectedColor { get; set; }
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanCurrentColorMoveForward))]
+    [NotifyPropertyChangedFor(nameof(CanCurrentColorMoveBackward))]
+    public partial ColorViewModel? CurrentColor { get; set; }
+
+    public bool CanCurrentColorMoveForward => CurrentColor is not null && Palette.Colors.IndexOf(CurrentColor) > 0;
+
+    public bool CanCurrentColorMoveBackward => CurrentColor is not null && Palette.Colors.IndexOf(CurrentColor) < Palette.Colors.Count - 1;
+
+    [RelayCommand]
+    void SetCurrentColor(ColorViewModel color) => CurrentColor = color;
+
+    [RelayCommand]
+    void ResetCurrentColor() => CurrentColor = null;
+
+
     Color _colorBefore = Colors.Transparent;
 
     public bool HasSelectedColors => SelectedColor is not null;
@@ -108,7 +124,7 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
 
     private async void Colors_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if(e.Action == NotifyCollectionChangedAction.Add)
+        if(e.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Move)
             await UpdatePalette();
     }
 
@@ -169,7 +185,7 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
         Palette.Colors.Insert(0, new ColorViewModel()
         {
             Name = $"{Resources.DefaultColorName} {Palette.Colors.Count + 1}",
-            Color = Colors.White
+            Color = Colors.White,
         });
         //await UpdatePalette();
         SelectedColor = Palette.Colors[0];
@@ -321,5 +337,25 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
         if(Folder is null)
             throw new InvalidOperationException("Cannot return to folder because Folder is null.");
         Navigate(NavigationTarget.Back, Folder);
+    }
+
+    [RelayCommand]
+    void ColorMoveForward(ColorViewModel color)
+    {
+        var oldIndex = Palette.Colors.IndexOf(color);
+        if(oldIndex <= 0)
+            throw new InvalidOperationException("The color can't be moved forward.");
+        var newIndex = oldIndex--;
+        Palette.Colors.Move(oldIndex, newIndex);
+    }
+
+    [RelayCommand]
+    void ColorMoveBackward(ColorViewModel color)
+    {
+        var oldIndex = Palette.Colors.IndexOf(color);
+        if(oldIndex >= Palette.Colors.Count - 1)
+            throw new InvalidOperationException("The color can't be moved backward.");
+        var newIndex = oldIndex++;
+        Palette.Colors.Move(oldIndex, newIndex);
     }
 }

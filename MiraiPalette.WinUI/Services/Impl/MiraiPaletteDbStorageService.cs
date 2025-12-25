@@ -36,7 +36,6 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
         foreach(var palette in service.GetAllPalettesAsync().Result)
         {
             service.DeletePaletteAsync(palette.Id);
-            palette.Id = 0;
             _ = AddPaletteAsync(palette);
         }
         File.Delete(Path.Combine(DbFolderPath, MiraiPaletteDataFileStorageService.FileName));
@@ -91,7 +90,6 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 
         _db.Palettes.Add(entity);
         await _db.SaveChangesAsync();
-        model.Id = entity.Id;
 
         return entity.Id;
     }

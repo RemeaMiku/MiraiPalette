@@ -415,6 +415,20 @@ public partial class MainPageViewModel : PageViewModelBase
         }
     }
 
+    public async Task<IEnumerable<FolderViewModel>> GetTargetFoldersToMove(PaletteViewModel palette)
+    {
+        try
+        {
+            var allFolders = await _miraiPaletteStorageService.GetAllFoldersAsync();
+            return allFolders.Where(f => f.Id != palette.FolderId);
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.LoadData_Title, ErrorMessages.LoadData_Error, false);
+            return [];
+        }
+    }
+
     [RelayCommand]
     async Task MovePaletteToFolder(int folderId)
     {
@@ -426,7 +440,8 @@ public partial class MainPageViewModel : PageViewModelBase
         {
             IsBusy = true;
             await _miraiPaletteStorageService.UpdatePaletteAsync(CurrentPalette);
-            Palettes.Remove(CurrentPalette);
+            if(!FolderViewModel.IsVirtualFolder(Folder.Id))
+                Palettes.Remove(CurrentPalette);
             CurrentPalette = null;
         }
         catch(Exception)

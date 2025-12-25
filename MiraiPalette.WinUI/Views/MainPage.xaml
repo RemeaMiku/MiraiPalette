@@ -39,18 +39,17 @@
         </animations:ImplicitAnimationSet>
         <MenuFlyout
             x:Key="MiraiPaletteItemContextFlyout"
-            Opened="MenuFlyout_Opened">
+            x:Name="MiraiPaletteContextMenu"
+            Opened="MiraiPaletteContextMenu_Opened">
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.NavigateToPaletteCommand, Mode=OneTime}"
                 CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}"
                 Icon="{ui:SymbolIcon Symbol=Edit}"
                 Text="{x:Bind localization:Resources.Edit, Mode=OneTime}" />
-            <MenuFlyoutSeparator />
             <!--  TODO  -->
             <MenuFlyoutSubItem
                 Icon="{ui:SymbolIcon Symbol=MoveToFolder}"
                 Text="移动至..." />
-            <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.DeleteCurrentOrSelectedPalettesCommand, Mode=OneTime}"
                 CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}"
@@ -149,7 +148,9 @@
                     <StackPanel Orientation="Vertical">
                         <Rectangle Height="64" />
                         <ItemsRepeater
+                            x:Name="PalettesView"
                             Margin="4"
+                            ElementPrepared="PalettesView_ElementPrepared"
                             ItemTemplate="{StaticResource MiraiPaletteItemTemplate}"
                             ItemsSource="{x:Bind ViewModel.Palettes, Mode=OneWay}">
                             <ItemsRepeater.Layout>
