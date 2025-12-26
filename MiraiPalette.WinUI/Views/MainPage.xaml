@@ -51,11 +51,10 @@
                 CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}"
                 Icon="{ui:SymbolIcon Symbol=Edit}"
                 Text="{x:Bind localization:Resources.Edit, Mode=OneTime}" />
-            <!--  TODO  -->
             <MenuFlyoutSubItem
                 Icon="{ui:SymbolIcon Symbol=MoveToFolder}"
                 IsEnabled="{x:Bind helpers:BindHelper.IsNotNullOrEmpty(ViewModel.FoldersForCurrentPaletteToMove), Mode=OneWay}"
-                Text="移动至..." />
+                Text="{x:Bind localization:Resources.MoveTo, Mode=OneTime}" />
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.DeleteCurrentOrSelectedPalettesCommand, Mode=OneTime}"
                 CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}"

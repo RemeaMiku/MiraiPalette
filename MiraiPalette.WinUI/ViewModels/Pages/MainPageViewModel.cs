@@ -456,8 +456,7 @@ public partial class MainPageViewModel : PageViewModelBase
         }
         catch(Exception)
         {
-            // TODO
-            //await Current.ShowConfirmDialogAsync(ErrorMessages.MovePalette_Title, ErrorMessages.MovePalette_Error, false);
+            await Current.ShowConfirmDialogAsync(ErrorMessages.UpdatePalette_Title, ErrorMessages.UpdateFolder_Error, false);
             return;
         }
         finally

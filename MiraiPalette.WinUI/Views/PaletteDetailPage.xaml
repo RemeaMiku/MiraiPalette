@@ -39,13 +39,13 @@
                 CommandParameter="{x:Bind ViewModel.CurrentColor, Mode=OneWay}"
                 Icon="{ui:FontIcon Glyph=&#xE70E;}"
                 IsEnabled="{x:Bind ViewModel.CanCurrentColorMoveForward, Mode=OneWay}"
-                Text="前移" />
+                Text="{x:Bind localization:Resources.MoveForward, Mode=OneTime}" />
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.ColorMoveBackwardCommand, Mode=OneTime}"
                 CommandParameter="{x:Bind ViewModel.CurrentColor, Mode=OneWay}"
                 Icon="{ui:FontIcon Glyph=&#xE70D;}"
                 IsEnabled="{x:Bind ViewModel.CanCurrentColorMoveBackward, Mode=OneWay}"
-                Text="后移" />
+                Text="{x:Bind localization:Resources.MoveBackward, Mode=OneTime}" />
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
