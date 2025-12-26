@@ -9,6 +9,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:MiraiPalette.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:MiraiPalette.WinUI.Helpers"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:MiraiPalette.WinUI.Views"
     xmlns:localization="using:MiraiPalette.WinUI.Strings"
@@ -39,8 +40,12 @@
         </animations:ImplicitAnimationSet>
         <MenuFlyout
             x:Key="MiraiPaletteItemContextFlyout"
-            x:Name="MiraiPaletteContextMenu"
-            Opened="MiraiPaletteContextMenu_Opened">
+            x:Name="MiraiPaletteContextMenu">
+            <interactivity:Interaction.Behaviors>
+                <interactivity:EventTriggerBehavior EventName="Closed">
+                    <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.ResetCurrentPaletteCommand, Mode=OneTime}" />
+                </interactivity:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.NavigateToPaletteCommand, Mode=OneTime}"
                 CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}"
@@ -49,6 +54,7 @@
             <!--  TODO  -->
             <MenuFlyoutSubItem
                 Icon="{ui:SymbolIcon Symbol=MoveToFolder}"
+                IsEnabled="{x:Bind helpers:BindHelper.IsNotNullOrEmpty(ViewModel.FoldersForCurrentPaletteToMove), Mode=OneWay}"
                 Text="移动至..." />
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.DeleteCurrentOrSelectedPalettesCommand, Mode=OneTime}"
@@ -113,10 +119,6 @@
                             Padding="8"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            AllowDrop="True"
-                            CanDragItems="True"
-                            CanReorderItems="True"
-                            IsItemClickEnabled="True"
                             ItemTemplate="{StaticResource MiraiColorItemTemplate}"
                             ItemsSource="{x:Bind Colors, Mode=OneTime}"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"

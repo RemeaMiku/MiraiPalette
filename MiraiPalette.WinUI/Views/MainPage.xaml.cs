@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,20 +19,25 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         InitializeComponent();
+        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
 
     public MainPageViewModel ViewModel { get; } = Current.Services.GetRequiredService<MainPageViewModel>();
 
-    private async void MiraiPaletteContextMenu_Opened(object sender, object e)
+    private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if(sender is not MenuFlyout flyout)
+        if(ViewModel.CurrentPalette is not null && e.PropertyName == nameof(ViewModel.FoldersForCurrentPaletteToMove))
+            UpdateMoveToSubItems();
+    }
+
+    private void UpdateMoveToSubItems()
+    {
+        if(MiraiPaletteContextMenu.Items.FirstOrDefault(m => m is MenuFlyoutSubItem) is not MenuFlyoutSubItem subItem)
             return;
-        if(flyout.Items.FirstOrDefault(m => m is MenuFlyoutSubItem) is not MenuFlyoutSubItem subItem)
-            return;
-        if(ViewModel.CurrentPalette is null)
-            throw new InvalidOperationException("No palette is selected.");
         subItem.Items.Clear();
-        var folders = await ViewModel.GetTargetFoldersToMove(ViewModel.CurrentPalette);
+        var folders = ViewModel.FoldersForCurrentPaletteToMove;
+        if(folders is null)
+            return;
         foreach(var folder in folders)
         {
             subItem.Items.Add(new MenuFlyoutItem

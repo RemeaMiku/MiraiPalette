@@ -63,21 +63,23 @@
                     <NavigationViewItem
                         Content="{x:Bind Name, Mode=OneWay}"
                         Icon="Folder">
-                        <NavigationViewItem.ContextFlyout>
+                        <!--<NavigationViewItem.ContextFlyout>
                             <MenuFlyout>
-                                <!--<MenuFlyoutItem
+                        -->
+                        <!--<MenuFlyoutItem
                                     Icon="{ui:FontIcon Glyph=&#xE70E;}"
                                     Text="上移" />
                                 <MenuFlyoutItem
                                     Icon="{ui:FontIcon Glyph=&#xE70D;}"
                                     Text="下移" />
                                 <MenuFlyoutSeparator />-->
+                        <!--
                                 <MenuFlyoutItem
                                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                     Icon="{ui:SymbolIcon Symbol=Delete}"
                                     Text="删除" />
                             </MenuFlyout>
-                        </NavigationViewItem.ContextFlyout>
+                        </NavigationViewItem.ContextFlyout>-->
                     </NavigationViewItem>
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>

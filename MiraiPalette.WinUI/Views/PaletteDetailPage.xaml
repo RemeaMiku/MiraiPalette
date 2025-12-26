@@ -166,7 +166,7 @@
                             Spacing="4">
                             <Button
                                 Command="{x:Bind ViewModel.ReturnToFolderCommand, Mode=OneTime}"
-                                Visibility="{x:Bind helpers:BindHelper.IsNullToVisibility(ViewModel.Folder), Mode=OneWay}">
+                                Visibility="{x:Bind helpers:BindHelper.NullableToVisibility(ViewModel.Folder), Mode=OneWay}">
                                 <StackPanel
                                     Orientation="Horizontal"
                                     Spacing="8">

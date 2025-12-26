@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -106,6 +107,9 @@ public partial class MainPageViewModel : PageViewModelBase
     [ObservableProperty]
     public partial PaletteViewModel? CurrentPalette { get; set; }
 
+    [ObservableProperty]
+    public partial IEnumerable<FolderViewModel>? FoldersForCurrentPaletteToMove { get; set; }
+
     public bool HasSelectedPalettes => SelectedPalettes.Count > 0;
 
     public bool IsAllPalettesSelected => Palettes.Count > 0 && SelectedPalettes.Count == Palettes.Count;
@@ -190,10 +194,10 @@ public partial class MainPageViewModel : PageViewModelBase
     }
 
     [RelayCommand]
-    void SetCurrentPalette(PaletteViewModel palette)
-    {
-        CurrentPalette = palette;
-    }
+    void SetCurrentPalette(PaletteViewModel palette) => CurrentPalette = palette;
+
+    [RelayCommand]
+    void ResetCurrentPalette() => CurrentPalette = null;
 
     async Task DeleteSelectedPalettes()
     {
@@ -415,11 +419,17 @@ public partial class MainPageViewModel : PageViewModelBase
         }
     }
 
-    public async Task<IEnumerable<FolderViewModel>> GetTargetFoldersToMove(PaletteViewModel palette)
+    async partial void OnCurrentPaletteChanged(PaletteViewModel? value)
+    {
+        FoldersForCurrentPaletteToMove = value is null ? null : await GetTargetFoldersToMove(value);
+    }
+
+    private async Task<IEnumerable<FolderViewModel>> GetTargetFoldersToMove(PaletteViewModel palette)
     {
         try
         {
             var allFolders = await _miraiPaletteStorageService.GetAllFoldersAsync();
+            Trace.WriteLine(allFolders.Where(f => f.Id != palette.FolderId).Count());
             return allFolders.Where(f => f.Id != palette.FolderId);
         }
         catch(Exception)
