@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -429,7 +428,6 @@ public partial class MainPageViewModel : PageViewModelBase
         try
         {
             var allFolders = await _miraiPaletteStorageService.GetAllFoldersAsync();
-            Trace.WriteLine(allFolders.Where(f => f.Id != palette.FolderId).Count());
             return allFolders.Where(f => f.Id != palette.FolderId);
         }
         catch(Exception)
