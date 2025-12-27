@@ -45,6 +45,7 @@
         <NavigationView
             x:Name="MainNavigationView"
             Grid.Row="1"
+            AllowDrop="True"
             CompactModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
             DisplayModeChanged="MainNavigationView_DisplayModeChanged"
             ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
