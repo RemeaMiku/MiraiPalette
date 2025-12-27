@@ -7,6 +7,8 @@ public class MiraiColor
     public string? Name { get; set; }
     public string Hex { get; set; } = null!;
 
+    public int Order { get; set; }
+
     public int PaletteId { get; set; }
     public MiraiPalette Palette { get; set; } = null!;
 }

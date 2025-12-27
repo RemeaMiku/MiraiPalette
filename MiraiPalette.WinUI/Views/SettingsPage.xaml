@@ -35,7 +35,7 @@
                         ItemsSource="{x:Bind ViewModel.ThemeModeOptions, Mode=OneTime}"
                         SelectedIndex="{x:Bind ViewModel.ThemeModeIndex, Mode=TwoWay}" />
                 </controls:SettingsCard>
-                <controls:SettingsCard
+                <!--<controls:SettingsCard
                     Description="{x:Bind localization:SettingsPageStrings.NavigationStyle_Description, Mode=OneTime}"
                     Header="{x:Bind localization:SettingsPageStrings.NavigationStyle_Header, Mode=OneTime}"
                     HeaderIcon="{ui:FontIcon Glyph=&#xF594;}">
@@ -43,7 +43,7 @@
                         DisplayMemberPath="Value"
                         ItemsSource="{x:Bind ViewModel.NavigationStyleOptions, Mode=OneTime}"
                         SelectedIndex="{x:Bind ViewModel.NavigationStyleIndex, Mode=TwoWay}" />
-                </controls:SettingsCard>
+                </controls:SettingsCard>-->
                 <controls:SettingsCard
                     Description="{x:Bind localization:SettingsPageStrings.Language_Description, Mode=OneTime}"
                     Header="{x:Bind localization:SettingsPageStrings.Language_Header, Mode=OneTime}"

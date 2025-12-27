@@ -85,16 +85,19 @@ public abstract class MiraiPaletteDb(DbContextOptions options) : DbContext(optio
     private void UpdateTimestamps()
     {
         var now = DateTimeOffset.UtcNow;
-        foreach(var entry in ChangeTracker.Entries())
-        {
-            if(entry.Entity is IHasTimeStamp)
-            {
-                if(entry.State == EntityState.Added)
-                    entry.Property(nameof(IHasTimeStamp.CreatedAt)).CurrentValue = now;
 
-                if(entry.State is EntityState.Added or EntityState.Modified)
-                    entry.Property(nameof(IHasTimeStamp.UpdatedAt)).CurrentValue = now;
+        foreach(var entry in ChangeTracker.Entries<IHasTimestamps>())
+        {
+            if(entry.State == EntityState.Added)
+            {
+                entry.Entity.CreatedAt = now;
+                entry.Entity.UpdatedAt = now;
+            }
+            else if(entry.State == EntityState.Modified)
+            {
+                entry.Entity.UpdatedAt = now;
             }
         }
     }
+
 }

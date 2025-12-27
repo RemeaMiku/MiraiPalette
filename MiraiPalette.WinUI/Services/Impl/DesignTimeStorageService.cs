@@ -134,7 +134,6 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
             tagEntity.Palettes.Add(entity);
         }
         var newId = _paletteEntities.Keys.Max() + 1;
-        palette.Id = newId;
         entity.Id = newId;
         entity.CreatedAt = DateTimeOffset.Now;
         entity.UpdatedAt = DateTimeOffset.Now;
@@ -295,7 +294,6 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
         var entity = new FolderEntity().FromViewModel(folder);
         var newId = _folderEntities.Keys.Max() + 1;
         entity.Id = newId;
-        folder.Id = newId;
         _folderEntities[newId] = entity;
         return Task.FromResult(newId);
     }

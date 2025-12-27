@@ -3,6 +3,7 @@
     x:Class="MiraiPalette.WinUI.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:MiraiPalette.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -62,7 +63,25 @@
                 <DataTemplate x:DataType="models:FolderViewModel">
                     <NavigationViewItem
                         Content="{x:Bind Name, Mode=OneWay}"
-                        Icon="Folder" />
+                        Icon="Folder">
+                        <!--<NavigationViewItem.ContextFlyout>
+                            <MenuFlyout>
+                        -->
+                        <!--<MenuFlyoutItem
+                                    Icon="{ui:FontIcon Glyph=&#xE70E;}"
+                                    Text="上移" />
+                                <MenuFlyoutItem
+                                    Icon="{ui:FontIcon Glyph=&#xE70D;}"
+                                    Text="下移" />
+                                <MenuFlyoutSeparator />-->
+                        <!--
+                                <MenuFlyoutItem
+                                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                    Icon="{ui:SymbolIcon Symbol=Delete}"
+                                    Text="删除" />
+                            </MenuFlyout>
+                        </NavigationViewItem.ContextFlyout>-->
+                    </NavigationViewItem>
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
             <!--<NavigationView.AutoSuggestBox>

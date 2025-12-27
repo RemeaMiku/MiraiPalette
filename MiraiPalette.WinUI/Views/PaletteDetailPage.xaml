@@ -22,15 +22,55 @@
     SizeChanged="OnRootPageSizeChanged"
     mc:Ignorable="d">
     <Page.Resources>
+        <MenuFlyout x:Key="MiraiColorItemDetailContextFlyout">
+            <interactivity:Interaction.Behaviors>
+                <interactivity:EventTriggerBehavior EventName="Closed">
+                    <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.ResetCurrentColorCommand, Mode=OneTime}" />
+                </interactivity:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+            <MenuFlyoutItem
+                Command="{x:Bind ViewModel.EditColorCommand, Mode=OneTime}"
+                CommandParameter="{x:Bind ViewModel.CurrentColor, Mode=OneWay}"
+                Icon="{ui:SymbolIcon Symbol=Edit}"
+                Text="{x:Bind localization:Resources.Edit, Mode=OneTime}" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                Command="{x:Bind ViewModel.ColorMoveForwardCommand, Mode=OneTime}"
+                CommandParameter="{x:Bind ViewModel.CurrentColor, Mode=OneWay}"
+                Icon="{ui:FontIcon Glyph=&#xE70E;}"
+                IsEnabled="{x:Bind ViewModel.CanCurrentColorMoveForward, Mode=OneWay}"
+                Text="{x:Bind localization:Resources.MoveForward, Mode=OneTime}" />
+            <MenuFlyoutItem
+                Command="{x:Bind ViewModel.ColorMoveBackwardCommand, Mode=OneTime}"
+                CommandParameter="{x:Bind ViewModel.CurrentColor, Mode=OneWay}"
+                Icon="{ui:FontIcon Glyph=&#xE70D;}"
+                IsEnabled="{x:Bind ViewModel.CanCurrentColorMoveBackward, Mode=OneWay}"
+                Text="{x:Bind localization:Resources.MoveBackward, Mode=OneTime}" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                Command="{x:Bind ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime}"
+                CommandParameter="{x:Bind ViewModel.CurrentColor, Mode=OneWay}"
+                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                Icon="{ui:SymbolIcon Symbol=Delete}"
+                Text="{x:Bind localization:Resources.Delete, Mode=OneTime}" />
+        </MenuFlyout>
         <DataTemplate
-            x:Key="MiraiColorItemDetailTamplate"
+            x:Key="MiraiColorItemDetailTemplate"
             x:DataType="vm:ColorViewModel">
             <ItemContainer
                 x:Name="MiraiColorItemDetailItemContainer"
                 Width="240"
                 Height="160"
+                ContextFlyout="{StaticResource MiraiColorItemDetailContextFlyout}"
                 IsSelected="{x:Bind IsSelected, Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind x:String.Format(localization:PaletteDetailPageStrings.ColorItem_Tooltip, Name), Mode=OneWay}">
+                <interactivity:Interaction.Behaviors>
+                    <interactivity:EventTriggerBehavior EventName="RightTapped">
+                        <interactivity:InvokeCommandAction
+                            Command="{Binding ViewModel.SetCurrentColorCommand, ElementName=RootPage, Mode=OneTime}"
+                            CommandParameter="{x:Bind}" />
+                    </interactivity:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
                 <Grid>
                     <Rectangle
                         Height="108"
@@ -65,22 +105,6 @@
                         </StackPanel>
                     </Border>
                 </Grid>
-                <ItemContainer.ContextFlyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem
-                            Command="{Binding ViewModel.EditColorCommand, Mode=OneTime, ElementName=RootPage}"
-                            CommandParameter="{x:Bind}"
-                            Icon="{ui:SymbolIcon Symbol=Edit}"
-                            Text="{x:Bind localization:Resources.Edit, Mode=OneTime}" />
-                        <MenuFlyoutSeparator />
-                        <MenuFlyoutItem
-                            Command="{Binding ViewModel.DeleteCurrentOrSelectedColorsCommand, Mode=OneTime, ElementName=RootPage}"
-                            CommandParameter="{x:Bind}"
-                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            Icon="{ui:SymbolIcon Symbol=Delete}"
-                            Text="{x:Bind localization:Resources.Delete, Mode=OneTime}" />
-                    </MenuFlyout>
-                </ItemContainer.ContextFlyout>
             </ItemContainer>
         </DataTemplate>
     </Page.Resources>
@@ -106,8 +130,9 @@
                             AllowDrop="{x:Bind ViewModel.IsNotBusy, Mode=OneWay}"
                             CanReorderItems="{x:Bind ViewModel.IsNotBusy, Mode=OneWay}"
                             IsItemClickEnabled="True"
-                            ItemTemplate="{StaticResource MiraiColorItemDetailTamplate}"
+                            ItemTemplate="{StaticResource MiraiColorItemDetailTemplate}"
                             ItemsSource="{x:Bind ViewModel.Palette.Colors, Mode=OneTime}"
+                            ReorderMode="Enabled"
                             SelectedItem="{x:Bind ViewModel.SelectedColor, Mode=TwoWay}"
                             SelectionMode="{x:Bind ViewModel.IsMultiSelectionEnabled, Converter={StaticResource BoolToListViewSelectionModeConverter}, Mode=OneWay}">
                             <interactivity:Interaction.Behaviors>
@@ -141,7 +166,7 @@
                             Spacing="4">
                             <Button
                                 Command="{x:Bind ViewModel.ReturnToFolderCommand, Mode=OneTime}"
-                                Visibility="{x:Bind helpers:BindHelper.IsNullToVisibility(ViewModel.Folder), Mode=OneWay}">
+                                Visibility="{x:Bind helpers:BindHelper.NullableToVisibility(ViewModel.Folder), Mode=OneWay}">
                                 <StackPanel
                                     Orientation="Horizontal"
                                     Spacing="8">

@@ -104,7 +104,10 @@ public partial class MainPageViewModel : PageViewModelBase
     public ObservableCollection<PaletteViewModel> SelectedPalettes { get; } = [];
 
     [ObservableProperty]
-    public partial PaletteViewModel CurrentPalette { get; set; } = null!;
+    public partial PaletteViewModel? CurrentPalette { get; set; }
+
+    [ObservableProperty]
+    public partial IEnumerable<FolderViewModel>? FoldersForCurrentPaletteToMove { get; set; }
 
     public bool HasSelectedPalettes => SelectedPalettes.Count > 0;
 
@@ -190,10 +193,10 @@ public partial class MainPageViewModel : PageViewModelBase
     }
 
     [RelayCommand]
-    void SetCurrentPalette(PaletteViewModel palette)
-    {
-        CurrentPalette = palette;
-    }
+    void SetCurrentPalette(PaletteViewModel palette) => CurrentPalette = palette;
+
+    [RelayCommand]
+    void ResetCurrentPalette() => CurrentPalette = null;
 
     async Task DeleteSelectedPalettes()
     {
@@ -407,6 +410,51 @@ public partial class MainPageViewModel : PageViewModelBase
         catch(Exception)
         {
             await Current.ShowConfirmDialogAsync(ErrorMessages.DeleteFolder_Title, ErrorMessages.DeleteFolder_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    async partial void OnCurrentPaletteChanged(PaletteViewModel? value)
+    {
+        FoldersForCurrentPaletteToMove = value is null ? null : await GetTargetFoldersToMove(value);
+    }
+
+    private async Task<IEnumerable<FolderViewModel>> GetTargetFoldersToMove(PaletteViewModel palette)
+    {
+        try
+        {
+            var allFolders = await _miraiPaletteStorageService.GetAllFoldersAsync();
+            return allFolders.Where(f => f.Id != palette.FolderId);
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.LoadData_Title, ErrorMessages.LoadData_Error, false);
+            return [];
+        }
+    }
+
+    [RelayCommand]
+    async Task MovePaletteToFolder(int folderId)
+    {
+        if(CurrentPalette is null)
+            throw new InvalidOperationException("No palette is selected.");
+        CurrentPalette.FolderId = folderId;
+        EnsureNotBusy();
+        try
+        {
+            IsBusy = true;
+            await _miraiPaletteStorageService.UpdatePaletteAsync(CurrentPalette);
+            if(!FolderViewModel.IsVirtualFolder(Folder.Id))
+                Palettes.Remove(CurrentPalette);
+            CurrentPalette = null;
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.UpdatePalette_Title, ErrorMessages.UpdateFolder_Error, false);
             return;
         }
         finally

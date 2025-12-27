@@ -60,6 +60,21 @@
                 TargetType="Button">
                 <Setter Property="Foreground" Value="{ThemeResource SystemFillColorCriticalBrush}" />
             </Style>
+            <Style
+                BasedOn="{StaticResource DefaultMenuFlyoutItemStyle}"
+                TargetType="MenuFlyoutItem">
+                <Setter Property="Height" Value="48" />
+            </Style>
+            <Style
+                BasedOn="{StaticResource DefaultMenuFlyoutSubItemStyle}"
+                TargetType="MenuFlyoutSubItem">
+                <Setter Property="Height" Value="48" />
+            </Style>
+            <Style
+                BasedOn="{StaticResource DefaultMenuFlyoutPresenterStyle}"
+                TargetType="MenuFlyoutPresenter">
+                <Setter Property="MinWidth" Value="240" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

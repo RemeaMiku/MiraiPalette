@@ -46,4 +46,10 @@ public sealed partial class PaletteDetailPage : Page
         }
     }
     #endregion
+
+    private void ColorsView_Drop(object sender, DragEventArgs e)
+    {
+        ViewModel.UpdatePaletteCommand.Execute(null);
+    }
+
 }

@@ -82,6 +82,43 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
         SelectedMenuItem = value;
     }
 
+    //public bool FolderCanMoveUp(FolderViewModel folder)
+    //    => Folders.IndexOf(folder) > 0;
+
+    //public bool FolderCanMoveDown(FolderViewModel folder)
+    //    => Folders.IndexOf(folder) < Folders.Count - 1;
+
+    //void FolderMoveUp(FolderViewModel folder)
+    //{
+    //    if(!FolderCanMoveUp(folder))
+    //        throw new InvalidOperationException("Folder cannot be moved up");
+    //    Folders.Move(Folders.IndexOf(folder), Folders.IndexOf(folder) - 1);
+    //}
+
+    //[RelayCommand]
+    //async Task DeleteFolder(int folderId)
+    //{
+    //    var isConfirmed = await Current.ShowDeleteConfirmDialogAsync(DeleteConfirmStrings.Folder_Title, string.Format(DeleteConfirmStrings.Folder_Message, Folder.Name));
+    //    if(!isConfirmed)
+    //        return;
+    //    EnsureNotBusy();
+    //    try
+    //    {
+    //        IsBusy = true;
+    //        await _miraiPaletteStorageService.DeleteFolderAsync(Folder.Id);
+    //        Messenger.Send(new FolderDeletedMessage(Folder.Id));
+    //    }
+    //    catch(Exception)
+    //    {
+    //        await Current.ShowConfirmDialogAsync(ErrorMessages.DeleteFolder_Title, ErrorMessages.DeleteFolder_Error, false);
+    //        return;
+    //    }
+    //    finally
+    //    {
+    //        IsBusy = false;
+    //    }
+    //}
+
     public void Receive(FolderDeletedMessage message)
     {
         var folder = Folders.FirstOrDefault(f => f.Id == message.FolderId) ??

@@ -168,6 +168,15 @@
   <data name="Import" xml:space="preserve">
     <value>导入</value>
   </data>
+  <data name="MoveBackward" xml:space="preserve">
+    <value>向后移动</value>
+  </data>
+  <data name="MoveForward" xml:space="preserve">
+    <value>向前移动</value>
+  </data>
+  <data name="MoveTo" xml:space="preserve">
+    <value>移动至...</value>
+  </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>多选</value>
   </data>

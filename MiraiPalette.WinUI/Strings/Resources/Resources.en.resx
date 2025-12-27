@@ -168,6 +168,15 @@
   <data name="Import" xml:space="preserve">
     <value>Import</value>
   </data>
+  <data name="MoveBackward" xml:space="preserve">
+    <value>Move Backward</value>
+  </data>
+  <data name="MoveForward" xml:space="preserve">
+    <value>Move Forward</value>
+  </data>
+  <data name="MoveTo" xml:space="preserve">
+    <value>Move to...</value>
+  </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Multi-Select</value>
   </data>

@@ -214,6 +214,33 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 向后移动 的本地化字符串。
+        /// </summary>
+        internal static string MoveBackward {
+            get {
+                return ResourceManager.GetString("MoveBackward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 向前移动 的本地化字符串。
+        /// </summary>
+        internal static string MoveForward {
+            get {
+                return ResourceManager.GetString("MoveForward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 移动至... 的本地化字符串。
+        /// </summary>
+        internal static string MoveTo {
+            get {
+                return ResourceManager.GetString("MoveTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 多选 的本地化字符串。
         /// </summary>
         internal static string MultiSelect {

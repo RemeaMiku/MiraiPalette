@@ -122,7 +122,6 @@ public class MiraiPaletteDataFileStorageService : IMiraiPaletteStorageService
         var nextId = 1;
         if(_palettes.Count > 0)
             nextId = _palettes.Keys.Max() + 1;
-        palette.Id = nextId;
         var entityColors = palette.Colors.Select(c => new ColorEntity { Name = c.Name, Hex = c.Hex }).ToList();
         var entity = new PaletteEntity
         {
