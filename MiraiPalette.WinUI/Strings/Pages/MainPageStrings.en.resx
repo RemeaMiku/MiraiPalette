@@ -124,7 +124,10 @@
     <value>Delete Folder</value>
   </data>
   <data name="EmptyPalettesListMessage" xml:space="preserve">
-    <value>You don’t have a palette yet, click the button below to create a new blank palette</value>
+    <value>No Palettes</value>
+  </data>
+  <data name="EmptyUnassignedPalettesMessage" xml:space="preserve">
+    <value>Palettes not assigned to any folder will be shown here</value>
   </data>
   <data name="ExtractPaletteFromImage.Tooltip" xml:space="preserve">
     <value>Extract from Image</value>
@@ -136,7 +139,7 @@
     <value>{0} (Click to edit folder name)</value>
   </data>
   <data name="ImportPaletteFile.Tooltip" xml:space="preserve">
-    <value>Import from File (ACO files only supported)</value>
+    <value>Import from ACO File</value>
   </data>
   <data name="ToggleSelectionMode.Tooltip" xml:space="preserve">
     <value>Switch selection mode</value>

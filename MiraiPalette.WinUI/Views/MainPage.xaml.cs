@@ -38,6 +38,17 @@ public sealed partial class MainPage : Page
         var folders = ViewModel.FoldersForCurrentPaletteToMove;
         if(folders is null)
             return;
+        if(ViewModel.Folder.Id != FolderViewModel.Unassigned.Id)
+        {
+            subItem.Items.Add(new MenuFlyoutItem
+            {
+                Icon = new FontIcon { Glyph = "\uE790" },
+                Text = FolderViewModel.Unassigned.Name,
+                Command = ViewModel.MovePaletteToFolderCommand,
+                CommandParameter = FolderViewModel.Unassigned.Id
+            });
+            subItem.Items.Add(new MenuFlyoutSeparator());
+        }
         foreach(var folder in folders)
         {
             subItem.Items.Add(new MenuFlyoutItem
