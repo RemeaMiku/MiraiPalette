@@ -260,12 +260,11 @@ public class MiraiPaletteDbStorageService : IMiraiPaletteStorageService
 
         if(FolderViewModel.IsVirtualFolder(folderId))
         {
-            // 虚拟文件夹
+            if(folderId == FolderViewModel.Unassigned.Id)
+                query = query.Where(p => p.FolderId == null);
         }
         else
-        {
             query = query.Where(p => p.FolderId == folderId);
-        }
 
         var list = await query.ToListAsync();
 

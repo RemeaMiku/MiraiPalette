@@ -104,7 +104,7 @@
                                     Spacing="16">
                                     <FontIcon
                                         FontSize="16"
-                                        Glyph="&#xE80F;" />
+                                        Glyph="&#xE790;" />
                                     <TextBlock Text="{x:Bind Name, Mode=OneTime}" />
                                 </StackPanel>
                             </DataTemplate>

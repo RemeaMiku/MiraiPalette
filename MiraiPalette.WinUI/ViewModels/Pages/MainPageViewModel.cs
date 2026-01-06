@@ -36,6 +36,9 @@ public partial class MainPageViewModel : PageViewModelBase
     [ObservableProperty]
     public partial FolderViewModel Folder { get; set; } = null!;
 
+    public static string GetNoPalettesMessage(FolderViewModel folder)
+        => folder.Id == FolderViewModel.Unassigned.Id ? MainPageStrings.EmptyUnassignedPalettesMessage : MainPageStrings.EmptyPalettesListMessage;
+
     /// <summary>
     /// The original name of the folder, used to revert changes if update fails.
     /// </summary>
@@ -438,18 +441,17 @@ public partial class MainPageViewModel : PageViewModelBase
     }
 
     [RelayCommand]
-    async Task MovePaletteToFolder(int folderId)
+    async Task MovePaletteToFolder(int targetFolderId)
     {
         if(CurrentPalette is null)
             throw new InvalidOperationException("No palette is selected.");
-        CurrentPalette.FolderId = folderId;
         EnsureNotBusy();
+        CurrentPalette.FolderId = targetFolderId;
         try
         {
             IsBusy = true;
             await _miraiPaletteStorageService.UpdatePaletteAsync(CurrentPalette);
-            if(!FolderViewModel.IsVirtualFolder(Folder.Id))
-                Palettes.Remove(CurrentPalette);
+            Palettes.Remove(CurrentPalette);
             CurrentPalette = null;
         }
         catch(Exception)
@@ -461,5 +463,39 @@ public partial class MainPageViewModel : PageViewModelBase
         {
             IsBusy = false;
         }
+    }
+
+    [RelayCommand]
+    async Task RemovePaletteFromFolder()
+    {
+        if(FolderViewModel.IsVirtualFolder(Folder.Id))
+            throw new InvalidOperationException("Cannot remove palette from a virtual folder.");
+        if(CurrentPalette is null)
+            throw new InvalidOperationException("No palette is selected.");
+        EnsureNotBusy();
+        CurrentPalette.FolderId = FolderViewModel.Unassigned.Id;
+        try
+        {
+            IsBusy = true;
+            await _miraiPaletteStorageService.UpdatePaletteAsync(CurrentPalette);
+            Palettes.Remove(CurrentPalette);
+            CurrentPalette = null;
+        }
+        catch(Exception)
+        {
+            await Current.ShowConfirmDialogAsync(ErrorMessages.UpdatePalette_Title, ErrorMessages.UpdateFolder_Error, false);
+            return;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    async Task MoveSelectedPalettesToFolder(int targetFolderId)
+    {
+        if(SelectedPalettes.Count == 0)
+            throw new InvalidOperationException("No palettes are selected.");
+
     }
 }

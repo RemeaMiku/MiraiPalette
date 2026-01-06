@@ -12,9 +12,12 @@ public partial class FolderViewModel : ObservableObject
 
     public bool IsVirtual => IsVirtualFolder(Id);
 
-    public static FolderViewModel AllPalettes { get; } = new() { Id = 0, Name = Resources.AllPalettes };
+    /// <summary>
+    /// 不在导航栏中显示的虚拟文件夹：所有调色板
+    /// </summary>
+    //public static FolderViewModel AllPalettes { get; } = new() { Id = 0, Name = Resources.AllPalettes };
 
-    public static FolderViewModel Unassigned { get; } = new() { Id = -1, Name = "Unassigned" };
+    public static FolderViewModel Unassigned { get; } = new() { Id = -1, Name = Resources.Palettes };
 
     public static FolderViewModel Favorites { get; } = new() { Id = -2, Name = "Favorite" };
 

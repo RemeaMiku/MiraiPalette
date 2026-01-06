@@ -279,11 +279,11 @@ public class DesignTimeStorageService : IMiraiPaletteStorageService
     {
         if(FolderViewModel.IsVirtualFolder(folderId))
         {
-            if(folderId == FolderViewModel.AllPalettes.Id)
-            {
-                var all = _paletteEntities.Values.OrderByDescending(p => p.UpdatedAt).Select(MiraiPaletteMapper.ToViewModel);
-                return Task.FromResult(all);
-            }
+            //if(folderId == FolderViewModel.AllPalettes.Id)
+            //{
+            //    var all = _paletteEntities.Values.OrderByDescending(p => p.UpdatedAt).Select(MiraiPaletteMapper.ToViewModel);
+            //    return Task.FromResult(all);
+            //}
         }
         var models = _folderEntities[folderId].Palettes.OrderByDescending(p => p.UpdatedAt).Select(MiraiPaletteMapper.ToViewModel);
         return Task.FromResult(models);
