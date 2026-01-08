@@ -123,6 +123,9 @@
   <data name="DeleteFolder" xml:space="preserve">
     <value>フォルダーの削除</value>
   </data>
+  <data name="DeleteFolder" xml:space="preserve">
+    <value>フォルダーの削除</value>
+  </data>
   <data name="EmptyPalettesListMessage" xml:space="preserve">
     <value>パレットがありません</value>
   </data>
