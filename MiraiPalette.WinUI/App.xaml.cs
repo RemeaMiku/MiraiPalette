@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
@@ -68,6 +71,7 @@ public partial class App : Application
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        ExitIfAnotherInstanceRunning();
         base.OnLaunched(args);
         ApplySettings();
         MainWindow.Activate();
@@ -206,4 +210,74 @@ public partial class App : Application
     }
     #endregion
 
+    #region Single Instance
+
+    private static Mutex? _mutex;
+    private const string _mutexName = "MiraiPalette_SingleInstance";
+
+    private static void ExitIfAnotherInstanceRunning()
+    {
+        _mutex = new Mutex(true, _mutexName, out var createdNew);
+        if(!createdNew)
+        {
+            ActivateExistingInstance();
+            Environment.Exit(0);
+        }
+    }
+
+    private static void ActivateExistingInstance()
+    {
+        var current = Process.GetCurrentProcess();
+
+        var existing = Process.GetProcessesByName(current.ProcessName)
+                              .FirstOrDefault(p => p.Id != current.Id);
+
+        if(existing == null)
+            return;
+
+        ActivateMainWindow(existing.Id);
+    }
+
+
+    private static void ActivateMainWindow(int processId)
+    {
+        EnumWindows((hWnd, lParam) =>
+        {
+            GetWindowThreadProcessId(hWnd, out int pid);
+            if(pid != processId)
+                return true;
+
+            if(!IsWindowVisible(hWnd))
+                return true;
+
+            ShowWindow(hWnd, SW_RESTORE);
+            SetForegroundWindow(hWnd);
+            return false; // 找到就停
+        }, IntPtr.Zero);
+    }
+
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool IsWindowVisible(IntPtr hWnd);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetForegroundWindow(IntPtr hWnd);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    [LibraryImport("user32.dll")]
+    private static partial uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+
+    private const int SW_RESTORE = 9;
+
+    #endregion
 }
