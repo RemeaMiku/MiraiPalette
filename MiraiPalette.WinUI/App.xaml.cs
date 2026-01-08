@@ -182,6 +182,17 @@ public partial class App : Application
         return result?.Path;
     }
 
+    public async Task<string?> PickFolder(string commitText)
+    {
+        var picker = new FolderPicker(MainWindow.Content.XamlRoot.ContentIslandEnvironment.AppWindowId)
+        {
+            CommitButtonText = commitText,
+            SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+        };
+        var result = await picker.PickSingleFolderAsync();
+        return result?.Path;
+    }
+
     FileOpenPicker CreateFileOpenPicker(string commitText, params string[] filter)
     {
         var picker = new FileOpenPicker(MainWindow.Content.XamlRoot.ContentIslandEnvironment.AppWindowId)

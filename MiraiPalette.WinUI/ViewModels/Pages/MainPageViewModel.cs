@@ -446,12 +446,27 @@ public partial class MainPageViewModel : PageViewModelBase
         if(CurrentPalette is null)
             throw new InvalidOperationException("No palette is selected.");
         EnsureNotBusy();
-        CurrentPalette.FolderId = targetFolderId;
+        if(CurrentPalette.IsSelected)
+            foreach(var palette in SelectedPalettes)
+                palette.FolderId = targetFolderId;
+        else
+            CurrentPalette.FolderId = targetFolderId;
         try
         {
             IsBusy = true;
-            await _miraiPaletteStorageService.UpdatePaletteAsync(CurrentPalette);
-            Palettes.Remove(CurrentPalette);
+            if(CurrentPalette.IsSelected)
+            {
+                foreach(var palette in SelectedPalettes)
+                {
+                    await _miraiPaletteStorageService.UpdatePaletteAsync(palette);
+                    Palettes.Remove(palette);
+                }
+            }
+            else
+            {
+                await _miraiPaletteStorageService.UpdatePaletteAsync(CurrentPalette);
+                Palettes.Remove(CurrentPalette);
+            }
             CurrentPalette = null;
         }
         catch(Exception)
@@ -492,10 +507,25 @@ public partial class MainPageViewModel : PageViewModelBase
         }
     }
 
-    async Task MoveSelectedPalettesToFolder(int targetFolderId)
-    {
-        if(SelectedPalettes.Count == 0)
-            throw new InvalidOperationException("No palettes are selected.");
+    //[RelayCommand]
+    //async Task ExportCurrentOrSelectedPalettes()
+    //{
+    //    var folderPath = await Current.PickFolder(Resources.Export);
+    //    if(folderPath == null)
+    //        return;
+    //    IEnumerable<PaletteViewModel> palettesToExport = CurrentPalette is null || CurrentPalette.IsSelected ? SelectedPalettes : new[] { CurrentPalette };
+    //    try
+    //    {
+    //        foreach(var palette in palettesToExport)
+    //        {
+    //            var exportPath = Path.Combine(folderPath, $"{palette.Name}{_paletteFileService.SupportedImportFileExtensions[0]}");
+    //            await _paletteFileService.Export(palette, exportPath);
+    //        }
+    //    }
+    //    catch(Exception)
+    //    {
 
-    }
+    //        throw;
+    //    }
+    //}
 }

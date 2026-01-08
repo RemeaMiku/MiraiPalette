@@ -197,20 +197,14 @@ public partial class PaletteDetailPageViewModel(IMiraiPaletteStorageService mira
         var path = await Current.PickPathToSave(Palette.Name, SaveFileStrings.PaletteFile_Commit, paletteFileService.SupportedExportFileTypes);
         if(path is null)
             return;
-        EnsureNotBusy();
         try
         {
-            IsBusy = true;
             await paletteFileService.Export(Palette, path);
         }
         catch(Exception)
         {
             await Current.ShowConfirmDialogAsync(ErrorMessages.ExportPaletteFile_Title, ErrorMessages.ExportPaletteFile_Error, false);
             return;
-        }
-        finally
-        {
-            IsBusy = false;
         }
     }
 
