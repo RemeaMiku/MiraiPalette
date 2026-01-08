@@ -38,8 +38,8 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
         Folders.Clear();
         foreach(var folder in await miraiPaletteStorageService.GetAllFoldersAsync())
             Folders.Add(folder);
-        SpecialFolders.Add(FolderViewModel.AllPalettes);
-        SelectedSpecialFolder = FolderViewModel.AllPalettes;
+        SpecialFolders.Add(FolderViewModel.Unassigned);
+        SelectedSpecialFolder = FolderViewModel.Unassigned;
         IsActive = true;
     }
 
@@ -124,7 +124,7 @@ public partial class MainWindowViewModel(IMiraiPaletteStorageService miraiPalett
         var folder = Folders.FirstOrDefault(f => f.Id == message.FolderId) ??
             throw new InvalidOperationException("Folder not found");
         if(SelectedMenuItem == folder)
-            SelectedSpecialFolder = FolderViewModel.AllPalettes;
+            SelectedSpecialFolder = SpecialFolders[0];
         Folders.Remove(folder);
     }
 }

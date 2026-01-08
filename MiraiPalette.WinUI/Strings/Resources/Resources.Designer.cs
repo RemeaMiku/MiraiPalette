@@ -259,6 +259,15 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
+        ///   查找类似 调色板 的本地化字符串。
+        /// </summary>
+        internal static string Palettes {
+            get {
+                return ResourceManager.GetString("Palettes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 移除 的本地化字符串。
         /// </summary>
         internal static string Remove {

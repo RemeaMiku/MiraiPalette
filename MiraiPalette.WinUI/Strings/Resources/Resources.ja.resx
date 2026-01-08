@@ -183,6 +183,9 @@
   <data name="Open" xml:space="preserve">
     <value>オープン</value>
   </data>
+  <data name="Palettes" xml:space="preserve">
+    <value>パレット</value>
+  </data>
   <data name="Remove" xml:space="preserve">
     <value>削除</value>
   </data>

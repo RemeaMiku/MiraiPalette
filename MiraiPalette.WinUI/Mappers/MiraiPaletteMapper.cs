@@ -14,7 +14,7 @@ public static class MiraiPaletteMapper
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description ?? string.Empty,
-                FolderId = entity.FolderId ?? FolderViewModel.AllPalettes.Id,
+                FolderId = entity.FolderId ?? FolderViewModel.Unassigned.Id,
                 Colors = new(entity.Colors.OrderBy(c => c.Order).Select(c => c.ToViewModel())),
                 TagIds = new(entity.Tags.Select(t => t.Id)),
             };

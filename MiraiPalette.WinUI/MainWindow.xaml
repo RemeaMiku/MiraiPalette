@@ -45,7 +45,6 @@
         <NavigationView
             x:Name="MainNavigationView"
             Grid.Row="1"
-            AllowDrop="True"
             CompactModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
             DisplayModeChanged="MainNavigationView_DisplayModeChanged"
             ExpandedModeThresholdWidth="{x:Bind local:MainWindow.OverlayThresholdWidth, Mode=OneTime}"
@@ -105,7 +104,7 @@
                                     Spacing="16">
                                     <FontIcon
                                         FontSize="16"
-                                        Glyph="&#xE80F;" />
+                                        Glyph="&#xE790;" />
                                     <TextBlock Text="{x:Bind Name, Mode=OneTime}" />
                                 </StackPanel>
                             </DataTemplate>

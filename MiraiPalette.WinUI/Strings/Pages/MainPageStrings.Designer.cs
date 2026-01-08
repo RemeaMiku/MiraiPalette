@@ -79,11 +79,20 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 你还没有调色板，点击下方按钮新建空白调色板 的本地化字符串。
+        ///   查找类似 无调色板 的本地化字符串。
         /// </summary>
         internal static string EmptyPalettesListMessage {
             get {
                 return ResourceManager.GetString("EmptyPalettesListMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未分配到文件夹的调色板将此处显示 的本地化字符串。
+        /// </summary>
+        internal static string EmptyUnassignedPalettesMessage {
+            get {
+                return ResourceManager.GetString("EmptyUnassignedPalettesMessage", resourceCulture);
             }
         }
         
@@ -115,7 +124,7 @@ namespace MiraiPalette.WinUI.Strings {
         }
         
         /// <summary>
-        ///   查找类似 从文件导入（目前只支持ACO文件） 的本地化字符串。
+        ///   查找类似 从 ACO 文件导入 的本地化字符串。
         /// </summary>
         internal static string ImportPaletteFile_Tooltip {
             get {

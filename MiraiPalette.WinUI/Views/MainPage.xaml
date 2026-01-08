@@ -51,10 +51,17 @@
                 CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}"
                 Icon="{ui:SymbolIcon Symbol=Edit}"
                 Text="{x:Bind localization:Resources.Edit, Mode=OneTime}" />
+            <!--<MenuFlyoutSeparator />-->
             <MenuFlyoutSubItem
                 Icon="{ui:SymbolIcon Symbol=MoveToFolder}"
                 IsEnabled="{x:Bind helpers:BindHelper.IsNotNullOrEmpty(ViewModel.FoldersForCurrentPaletteToMove), Mode=OneWay}"
                 Text="{x:Bind localization:Resources.MoveTo, Mode=OneTime}" />
+            <!--<MenuFlyoutItem
+                Command="{x:Bind ViewModel.RemovePaletteFromFolderCommand, Mode=OneTime}"
+                Icon="{ui:FontIcon Glyph=&#xECC9;}"
+                Text="Remove from Folder"
+                Visibility="{x:Bind ViewModel.Folder.IsVirtual, Mode=OneWay, Converter={StaticResource BoolToVisibilityInverseConverter}}" />-->
+            <!--<MenuFlyoutSeparator />-->
             <MenuFlyoutItem
                 Command="{x:Bind ViewModel.DeleteCurrentOrSelectedPalettesCommand, Mode=OneTime}"
                 CommandParameter="{x:Bind ViewModel.CurrentPalette, Mode=OneWay}"
@@ -171,15 +178,31 @@
                     VerticalAlignment="Center"
                     animations:Implicit.HideAnimations="{StaticResource HideTransitions}"
                     animations:Implicit.ShowAnimations="{StaticResource ShowTransitions}"
-                    Spacing="8">
+                    Spacing="16">
                     <TextBlock
-                        Style="{StaticResource BodyLargeTextBlockStyle}"
-                        Text="{x:Bind localization:MainPageStrings.EmptyPalettesListMessage, Mode=OneTime}" />
-                    <Button
                         HorizontalAlignment="Center"
-                        Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
-                        Content="{x:Bind localization:MainPageStrings.CreateNewPalette_Tooltip}"
-                        Style="{StaticResource AccentButtonStyle}" />
+                        Style="{StaticResource BodyLargeTextBlockStyle}"
+                        Text="{x:Bind vm:MainPageViewModel.GetNoPalettesMessage(ViewModel.Folder), Mode=OneWay}" />
+                    <!--<DropDownButton
+                        HorizontalAlignment="Center"
+                        Content="{x:Bind localization:Resources.Create, Mode=OneTime}">
+                        <DropDownButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    Command="{x:Bind ViewModel.AddPaletteCommand, Mode=OneTime}"
+                                    Icon="Add"
+                                    Text="{x:Bind localization:MainPageStrings.CreateNewPalette_Tooltip, Mode=OneTime}" />
+                                <MenuFlyoutItem
+                                    Command="{x:Bind ViewModel.NavigateToImagePaletteCommand, Mode=OneTime}"
+                                    Icon="{ui:FontIcon Glyph=&#xE91B;}"
+                                    Text="{x:Bind localization:MainPageStrings.ExtractPaletteFromImage_Tooltip, Mode=OneTime}" />
+                                <MenuFlyoutItem
+                                    Command="{x:Bind ViewModel.AddPaletteFromFileCommand, Mode=OneTime}"
+                                    Icon="{ui:SymbolIcon Symbol=OpenFile}"
+                                    Text="{x:Bind localization:MainPageStrings.ImportPaletteFile_Tooltip, Mode=OneTime}" />
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>-->
                 </StackPanel>
             </controls:Case>
         </controls:SwitchPresenter>

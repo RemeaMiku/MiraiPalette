@@ -118,13 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CreateNewPalette.Tooltip" xml:space="preserve">
-    <value>新しい空のパレットを作成する</value>
+    <value>空のパレットを新規作成</value>
+  </data>
+  <data name="DeleteFolder" xml:space="preserve">
+    <value>フォルダーの削除</value>
   </data>
   <data name="DeleteFolder" xml:space="preserve">
     <value>フォルダーの削除</value>
   </data>
   <data name="EmptyPalettesListMessage" xml:space="preserve">
-    <value>まだパレットがありません。下のボタンから空のパレットを作成してください</value>
+    <value>パレットがありません</value>
+  </data>
+  <data name="EmptyUnassignedPalettesMessage" xml:space="preserve">
+    <value>フォルダーに割り当てられていないパレットはここに表示されます</value>
   </data>
   <data name="ExtractPaletteFromImage.Tooltip" xml:space="preserve">
     <value>画像から抽出</value>
@@ -136,7 +142,7 @@
     <value>{0}（クリックしてフォルダー名を編集）</value>
   </data>
   <data name="ImportPaletteFile.Tooltip" xml:space="preserve">
-    <value>ファイルからインポート（現在はACOファイルのみ対応）</value>
+    <value>ACO ファイルからインポート</value>
   </data>
   <data name="ToggleSelectionMode.Tooltip" xml:space="preserve">
     <value>選択モードを切り替える</value>
